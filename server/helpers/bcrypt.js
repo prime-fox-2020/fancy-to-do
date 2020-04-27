@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 
 const hashPwd = password => {
     try {
-        const salt = bcrypt.genSaltSync(process.env.salt_round)
+        const salt = bcrypt.genSaltSync(parseInt(process.env.salt_round))
         const hashed = bcrypt.hashSync(password, salt)
         return hashed
     } catch (err) {

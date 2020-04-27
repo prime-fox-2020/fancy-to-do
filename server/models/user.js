@@ -4,18 +4,6 @@ const { hashPwd } = require('../helpers/bcrypt')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate:{
-        notNull: {
-          msg: 'title is null'
-        },
-        notEmpty: {
-          msg: 'title cannot be empty'
-        }
-      }
-    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,

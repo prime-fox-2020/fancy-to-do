@@ -46,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         notNull: {
           msg: 'due date is null'
+        },
+        isDate: {
+          msg: 'date type invalid'
         }
       }
     },

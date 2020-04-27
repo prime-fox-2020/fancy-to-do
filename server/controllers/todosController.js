@@ -8,14 +8,22 @@ class TodosController {
             res.status(200).json(todos)
         }).catch(err=>{
             console.log(err)
+            res.json({error: err})
         })
     }
     static getTodo(req, res) {
         const { id } = req.params
         Todo.findByPk(id)
         .then(response => {
-            const todo = response.dataValues
-            res.status(200).json(todo)
+            if(response){
+                const todo = response.dataValues
+                res.status(200).json(todo)
+            } else {
+                res.status(400).json({message: 'todo not found'})
+            }
+        }).catch(err=>{
+            console.log(err)
+            res.json({error: err})
         })
     }
     static createTodo(req, res) {
@@ -28,8 +36,17 @@ class TodosController {
             UserId: 1
         }).then(todo => {
             res.status(201).json(todo)
-        }).catch(err => {
+        }).catch(err=>{
             console.log(err)
+            if(err.name === 'SequelizeValidationError'){
+                let errMsg = []
+                err.errors.forEach(error => {
+                    errMsg.push(error.message)
+                })
+                res.status(400).json(errMsg)
+            } else {
+                res.status(500).json({message: 'internal server error'})
+            }
         })
     }
     static editTodo(req, res) {
@@ -48,8 +65,17 @@ class TodosController {
             } else {
                 res.status(404).json({message: "Todo not found"})
             }
-        }).catch(err => {
+        }).catch(err=>{
             console.log(err)
+            if(err.name === 'SequelizeValidationError'){
+                let errMsg = []
+                err.errors.forEach(error => {
+                    errMsg.push(error.message)
+                })
+                res.status(400).json(errMsg)
+            } else {
+                res.status(500).json({message: 'internal server error'})
+            }
         })
     }
     static deleteTodo(req, res) {
@@ -62,8 +88,9 @@ class TodosController {
             } else {
                 res.status(404).json({message: "Todo not found"})
             }
-        }).catch(err => {
+        }).catch(err=>{
             console.log(err)
+            res.json({error: err})
         })
     }
 }
