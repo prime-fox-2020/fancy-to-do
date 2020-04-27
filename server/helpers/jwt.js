@@ -1,5 +1,6 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const secretKey = 'h8'
+const secretKey = process.env.SECRET_KEY
 
 const generateToken = (user) => {
     return jwt.sign({
