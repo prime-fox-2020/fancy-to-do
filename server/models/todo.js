@@ -1,0 +1,57 @@
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  const Model = sequelize.Sequelize.Model
+
+  class Todo extends Model {}
+
+  Todo.init({
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        notEmpty:{
+          msg: 'Title cannot be empty'
+        }
+      }
+    },
+    description: DataTypes.STRING,
+    status: {
+      type: DataTypes.ENUM,
+      values: ['active', 'completed', 'pastdue'],
+      validate: {
+        isIn: {
+          args: [['active', 'completed', 'pastdue']],
+          msg: "Status must be active, completed or pastdue"
+        },
+        pastDueOrCompleted(value) {
+          let dueDate = new Date(this.due_date)
+
+          if (dueDate > new Date() && value === 'pastdue') {
+            throw new Error('Change your due date or todo status')
+          }
+          if (dueDate < new Date() && value === 'active') {
+            throw new Error('Change your due date or todo status')
+          }
+        }
+      }
+    },
+    due_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      validate:{
+        notEmpty:{
+          msg: 'Due date cannot be empty'
+        }
+      }
+    },
+  }, {
+    sequelize,
+    paranoid: true,
+  });
+
+  Todo.associate = function(models) {
+    // associations can be defined here
+  };
+  
+  return Todo;
+};

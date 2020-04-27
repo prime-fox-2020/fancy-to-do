@@ -1,12 +1,12 @@
 const express = require('express')
-// const routes = require('./routes')
+const routers = require('./routers')
 
 const app = express()
 const PORT = 3000
 
-app.get('/', (req, res) => {
-  res.json({message: "hello"})
-})
+app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+app.use(routers)
 
 app.listen(PORT, () => {
   console.log(`Server on port ${PORT}`)
