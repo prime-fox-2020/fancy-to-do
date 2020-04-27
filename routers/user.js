@@ -1,8 +1,13 @@
 const router = require('express').Router()
-// const TodoController = require('../controllers/todoController')
+const UserController = require('../controllers/userController')
 
-router.post('/register', )
-router.post('/login', )
+router.get('/', (req, res) => {
+    res.json({
+        msg : `this is user page`
+    })
+})
+router.post('/register', UserController.register)
+router.post('/login', UserController.login)
 
 
 module.exports = router

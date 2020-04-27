@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
+  const { generatePassword } = require('../helper/bcrypt')
   class User extends Model {}
   User.init ({
     email: {
@@ -20,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     if(!instance.password){
       throw new Error(`Password Section is Empty`)
     } else {
-
+      const hash = generatePassword(instance.password)
+      instance.password = hash
     }
   })
   User.associate = function(models) {

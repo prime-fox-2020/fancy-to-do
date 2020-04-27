@@ -27,7 +27,7 @@ class TodoController {
             for (let i = 0; i<err.errors.length;i++){
                 error.push(err.errors[i].message)
             }
-            res.status(500).json(error)
+            res.status(400).json(error)
         })
     }
 
@@ -78,7 +78,11 @@ class TodoController {
             where : {id : id}
         })
         .then(data => {
-            res.status(200).json(data)
+            if(data>0){
+                res.status(200).json({msg : `Data has been deleted`})
+            } else {
+                res.status(404).json({msg : `Data not found`})
+            }
         })
         .catch(err => {
             res.status(500).json(err)
