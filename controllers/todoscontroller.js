@@ -4,7 +4,13 @@ class TodosController {
     static show (req, res) {
         Todo.findAll()
         .then(data => {res.status(200).json(data)})
-        .catch(err => {res.status(404).json({message: 'data not found'})})
+        .catch(err => {res.status(500).json(err)})
+    }
+
+    static showId (req, res) {
+        Todo.findAll({where: {id: req.params.id}})
+        .then(data => {res.status(200).json(data)})
+        .catch(err => {res.status(404).json(err)})
     }
 
     static add (req, res) {
@@ -42,7 +48,7 @@ class TodosController {
         let id = req.params.id
         Todo.destroy({where: {id: id}})
         .then(data => {res.status(200).json(data)})
-        .catch(err => {console.log(err)})
+        .catch(err => {res.status(500).json(err)})
     }
 }
 
