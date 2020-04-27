@@ -9,7 +9,6 @@ app.use(indexRouter)
 
 app.listen(port, ()=> {
     console.log('Berjalan di port ' + port);
-    
 })
 
 module.exports = app

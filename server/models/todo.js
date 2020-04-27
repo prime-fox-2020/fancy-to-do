@@ -37,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: "due date gak boleh kosong"
-        }
+        },
+        isDate: true
       }
     },
   }, {sequelize});

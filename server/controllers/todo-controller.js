@@ -7,7 +7,7 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.send(404).json(err)
+            res.send(500).json(err)
         })
     }
 
@@ -27,7 +27,7 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.send(404).json(err)
+            res.send(500).json(err)
         })
     }
     
@@ -43,11 +43,13 @@ class TodoController {
         Todo.update(todoObj, {where: {id: id}})
         .then(data => {
             if (data == 1) {
-                res.status(200).json(data)
+                res.status(201).json({message: "data sukses di update"})
+            } else {
+                res.status(404).json({message: "data tidak ada"})
             }
         })
         .catch(err => {
-            res.send(404).json(err)
+            res.send(500).json(err)
         })
     }
 
@@ -55,10 +57,14 @@ class TodoController {
         let id = req.params.id
         Todo.destroy({where: {id : id}})
         .then(data => {
-            res.status(200).json(data)
+            if (data == 1) {
+                res.status(200).json({message: "data sukses di delete"})
+            } else {
+                res.status(404).json({message: "data tidak ada"})
+            }
         })
         .catch(err => {
-            res.send(404).json(err)
+            res.send(500).json(err)
         })
     }
 }
