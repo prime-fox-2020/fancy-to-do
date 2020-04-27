@@ -43,7 +43,7 @@ class TodosController{
       if(data){
         res.status(200).json(data)
       } else {
-        res.status(404).json({message: `error not found`})
+        res.status(404).json({message: `Todo doesn't exist`})
       }
     })
     .catch(err=>{
@@ -64,7 +64,7 @@ class TodosController{
       if (data[0] === 1){
         res.status(200).json(temp)
       } else {
-        res.status(404).json({message: `error not found`})
+        res.status(404).json({message: `Todo doesn't exist`})
       }
     })
     .catch(err=>{
@@ -81,7 +81,7 @@ class TodosController{
         temp = data
         return Todo.destroy({where: {id:req.params.id}})
       } else {
-        res.status(404).json({message: `error not found`})
+        res.status(404).json({message: `Todo doesn't exist`})
       }
     })
     .then(()=>{
