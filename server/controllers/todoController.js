@@ -1,21 +1,27 @@
 const {Todo} = require('../models');
 
 class TodoController{
-    static create(req, res){
-        console.log(req.body);
-        let createTodo = {
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status,
-            due_date: req.body.due_date
-        };
 
-        Todo.create(createTodo)
+    static create(req, res){
+        let { title, description, status, due_date } = req.body;
+
+        Todo.create({
+            title, description, status, due_date 
+        })
         .then(data => {
             res.status(201).json(data);
         })
         .catch(err => {
-            res.status(400).json(err);
+            console.log(err);
+            if(err.name === 'SequelizeValidationError'){
+                res.status(400).json({
+                    message: err.message.split(',\n').join(' ')
+                })
+            } else {
+                res.status(500).json({
+                    message: err.message || 'Internal Server Error'
+                });
+            }
         })
     }
 
@@ -27,7 +33,10 @@ class TodoController{
             res.status(200).json(data);
         })
         .catch(err => {
-            res.status(500).json(err);
+            console.log(err);
+            res.status(500).json({
+                message: err.message || 'Internal Server Error'
+            });
         })
     }
 
@@ -36,10 +45,19 @@ class TodoController{
 
         Todo.findByPk(id, {})
         .then(data => {
-            res.status(200).json(data);
+            if(!data){
+                res.status(404).json({
+                    message: 'ID is not found!'
+                })
+            } else {
+                res.status(200).json(data);
+            }
         })
         .catch(err => {
-            res.status(404).json(err);
+            console.log(err);
+            res.status(500).json({
+                message: err.message || 'Internal Server Error'
+            });
         })
     }
 
@@ -52,10 +70,25 @@ class TodoController{
             where: { id }
         })
         .then(data => {
-            res.status(200).json(data);
+            if(!data[0]){
+                res.status(404).json({
+                    message: 'ID is not found!'
+                })
+            } else {
+                res.status(200).json(data);
+            }
         })
         .catch(err => {
-            res.status(404).json(err)
+            console.log(err);
+            if(err.name === 'SequelizeValidationError'){
+                res.status(400).json({
+                    message: err.message.split(',\n').join(' ')
+                })
+            } else {
+                res.status(500).json({
+                    message: err.message || 'Internal Server Error'
+                });
+            }
         })
     }
 
@@ -66,12 +99,20 @@ class TodoController{
         .then(data => {
             if(data === 1){
                 res.status(200).json(data);
+            } else {
+                res.status(404).json({
+                    message: 'ID is not found!'
+                })
             }
         })
         .catch(err => {
-            res.status(404).json(err);
+            console.log(err);
+            res.status(500).json({
+                message: err.message || 'Internal Server Error'
+            });
         })
     }
+
 }
 
 module.exports = TodoController;
