@@ -42,7 +42,7 @@ class TodoController {
         let id = req.params.id
         Todo.update(todoObj, {where: {id: id}})
         .then(data => {
-            if (data == id) {
+            if (data == 1) {
                 res.status(200).json(data)
             }
         })
