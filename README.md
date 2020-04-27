@@ -85,7 +85,7 @@ _Response (400 - Bad Request)_
 ---
 ### GET /todos/:id
 
-> Find Todos with specific ID
+> Find todos with specific ID
 
 _Request Header_
 ```
@@ -160,7 +160,7 @@ _Response (404 - Not Found)_
 ---
 ### DELETE /todos/:id
 
-> Find Todos with specific ID
+> Delete todos with specific ID
 
 _Request Header_
 ```
