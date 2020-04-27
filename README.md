@@ -14,9 +14,7 @@ My fancy to do App is an application to manage your task. This app has :
 
 _Request Header_
 ```
-{
-  "access_token": "<your access token>"
-}
+not needed
 ```
 
 _Request Body_
@@ -55,15 +53,49 @@ _Response (500 - Internal Server Error)_
 }
 ```
 ---
+### GET /todos/:id
+
+> Get todos with specific id
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+[
+  {
+    "id": <todos id by request>,
+    "name": "<todos name>",
+    "description": "<todos description>",
+    "status": "<todos status>",
+    "due_date": "<todos due_date>"
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  }
+]
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+---
 ### POST /todos
 
 > Create new todos
 
 _Request Header_
 ```
-{
-  "access_token": "<your access token>"
-}
+not needed
 ```
 
 _Request Body_
@@ -98,3 +130,67 @@ _Response (500 - Internal Server Error)_
   "message": "<returned error message>"
 }
 ```
+### PUT /todos/:id
+
+> Update todos with specific id
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+[
+  {
+    "id": 1,
+    "name": "<todos updated name>",
+    "description": "<todos updated description>",
+    "status": "<todos updated status>",
+    "due_date": "<todos updated due_date>"
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  }
+]
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+---
+### DELETE /todos/:id
+
+> Delete todos with specific id
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+{
+  "message": "<returned successfully  message>"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+---

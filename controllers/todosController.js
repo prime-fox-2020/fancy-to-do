@@ -76,10 +76,7 @@ class TodosController{
     var id = req.params.id
     Todo.destroy({where:{id:id}})
     .then(todo=>{
-      res.status(200).json({
-        todo : todo,
-        message : 'successfully deleted'
-      })
+      res.status(200).json({message : 'successfully deleted'})
     })
     .catch(err=>{
       res.status(500).json(err)
