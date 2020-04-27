@@ -23,17 +23,19 @@ class TodoController {
             res.status(201).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            let error = []
+            for (let i = 0; i<err.errors.length;i++){
+                error.push(err.errors[i].message)
+            }
+            res.status(500).json(error)
         })
     }
 
     static showIndividual(req,res){
-        let id = req.params.id
-        Todo.findByPk({
-            where : {id : id}
-        })
+        let id = Number(req.params.id)
+        Todo.findByPk(id)
         .then(data => {
-            if (data>0){
+            if (data){
                 res.status(200).json(data)
             } else {
                 res.status(404).json({ msg : `Data Not Found`})
@@ -62,7 +64,11 @@ class TodoController {
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            let error = []
+            for (let i = 0; i<err.errors.length;i++){
+                error.push(err.errors[i].message)
+            }
+            res.status(500).json(error)
         })
     }
 

@@ -5,10 +5,35 @@ module.exports = (sequelize, DataTypes) => {
   class Todo extends Model{}
   
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : `Your Task is Empty`
+        }
+      }
+    },
+    description: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : `Your Task Description is Empty`
+        }
+      }
+    },
     status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATEONLY
+    due_date: {
+      type : DataTypes.DATEONLY,
+      validate : {
+        notEmpty : {
+          msg : `Date Is Empty`
+        }
+        // , isAfter :{
+        //   args : [new Date()],
+        //   msg : `Your Due Date cannot before today`
+        // }
+      }
+    }
   }, { sequelize });
   Todo.associate = function(models) {
     // associations can be defined here
