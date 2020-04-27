@@ -9,9 +9,27 @@ module.exports = (sequelize, DataTypes) => {
 
 
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    status: DataTypes.STRING,
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Title is required' }
+      }
+    },
+    description:{
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Description is required' }
+      }
+    },
+    status: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Status is required' }
+      }
+    },
     due_date: DataTypes.DATEONLY
   }, {sequelize});
   Todo.associate = function(models) {

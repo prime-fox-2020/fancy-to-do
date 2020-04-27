@@ -15,7 +15,15 @@ class TodosController{
       res.status(201).json(data)
     })
     .catch(err=>{
-      res.status(500).json(err)
+      if(err.errors){
+        let temp = []
+        err.errors.forEach(error=>{
+          temp.push(error.message)
+        })
+        res.status(400).json({'validation errors' : temp.join(', ')})
+      } else {
+        res.status(500).json(err)
+      }
     })
   }
 
@@ -32,7 +40,11 @@ class TodosController{
   static findOne(req,res){
     Todo.findOne({where: {id: req.params.id}})
     .then(data=>{
-      res.status(200).json(data)
+      if(data){
+        res.status(200).json(data)
+      } else {
+        res.status(404).json({message: `error not found`})
+      }
     })
     .catch(err=>{
       res.status(500).json(err)
@@ -49,7 +61,11 @@ class TodosController{
 
     Todo.update(temp,{where: {id: req.params.id}})
     .then(data=>{
-      res.status(200).json(temp)
+      if (data[0] === 1){
+        res.status(200).json(temp)
+      } else {
+        res.status(404).json({message: `error not found`})
+      }
     })
     .catch(err=>{
       res.status(500).json(err)
@@ -57,9 +73,19 @@ class TodosController{
   }
 
   static destroy(req,res){
-    Todo.destroy({where: {id: req.params.id}})
+    let temp;
+
+    Todo.findOne({where: {id: req.params.id}})
     .then(data=>{
-      res.send(200).json(data)
+      if(data){
+        temp = data
+        return Todo.destroy({where: {id:req.params.id}})
+      } else {
+        res.status(404).json({message: `error not found`})
+      }
+    })
+    .then(()=>{
+      res.status(200).json(temp)
     })
     .catch(err=>{
       res.status(500).json(err)
