@@ -35,7 +35,7 @@ class toDoController{
         }
         todo.create(objTodo)
         .then(data =>{
-            res.status(201).json(data)
+            res.status(201).json({message: "date telah dibuat"})
         }).catch(err =>{
             res.status(500).json(err)
         })
@@ -50,6 +50,13 @@ class toDoController{
             status: req.body.status,
             due_date: req.body.due_date
         }
+
+        for(let key in objTodo){
+            if(!objTodo[key]){
+                 throw res.status(400).json({message: `data ${key} belum diisi`})
+            }
+        }
+
         todo.update(objTodo, {
             where: {
                 id: Number(req.params.id)
