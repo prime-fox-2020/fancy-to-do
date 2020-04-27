@@ -1,10 +1,9 @@
 const router = require('express').Router()
-const toDoController = require('../controllers/toDoController')
+const toDoRoutes = require('../routes/todosRoutes')
 
-router.get('/', toDoController.readTodo)
-router.get('/:id', toDoController.readTodoById)
-router.post('/', toDoController.createTodo)
-router.put('/:id', toDoController.updateTodo)
-router.delete('/:id', toDoController.deleteTodo)
+router.get('/', (req,res)=>{
+    res.send('this is home')
+})
+router.use('/todos', toDoRoutes)
 
 module.exports = router

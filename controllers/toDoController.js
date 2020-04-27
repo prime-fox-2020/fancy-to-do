@@ -12,6 +12,7 @@ class ToDoController{
     }
 
     static readTodoById(req,res){
+        console.log(req.params);
         ToDo.findOne({
             where : { id: req.params.id }
         })
@@ -38,8 +39,11 @@ class ToDoController{
             res.status(201).json(data)
         })
         .catch(err => {
+            let message = []
             if(err.name == 'SequelizeValidationError'){
-                let message = err.errors[0].message
+                for (let i = 0; i < err.errors.length; i++) {
+                    message.push(err.errors[i].message)
+                }
                 res.status(400).json({ message })
             }else{
                 res.status(500).json(err)
@@ -65,7 +69,10 @@ class ToDoController{
         .catch(err => {
             // console.log(err);
             if(err.name == 'SequelizeValidationError'){
-                let message = err.errors[0].message
+                let message = []
+                for (let i = 0; i < err.errors.length; i++) {
+                    message.push(err.errors[i].message)
+                }
                 res.status(400).json({ message })
             }else{
                 res.status(500).json(err)
