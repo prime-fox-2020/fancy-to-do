@@ -30,27 +30,18 @@ _Response (200)_
         "title": "<todos title>",
         "description": "<todos description>",
         "status": "<todos status>",
-        "due_date": "<date when this data/object is updated/created>",
+        "due_date": "<todos date>",
         "createdAt": "2020-04-27T07:20:33.949Z",
         "updatedAt": "2020-04-27T07:20:33.949Z"
     },
     {
-        "id": 3,
+        "id": 2,
         "title": "<todos title>",
         "description": "<todos description>",
-        "status": "<todos status after create or update>",
-        "due_date": "<date when this data/object is updated/created>",
+        "status": "<todos status>",
+        "due_date": "<todos date>",
         "createdAt": "2020-04-27T07:21:47.000Z",
         "updatedAt": "2020-04-27T08:12:59.330Z"
-    },
-    {
-        "id": 8,
-        "title": "<todos title>",
-        "description": "<todos description>",
-        "status": "<todos status after create or update>",
-        "due_date": "<date when this data/object is updated/created>",
-        "createdAt": "2020-04-27T11:04:43.556Z",
-        "updatedAt": "2020-04-27T11:05:23.575Z"
     }
 ]
 
