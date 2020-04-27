@@ -50,7 +50,7 @@ class TodoController{
                     message: 'ID is not found!'
                 })
             } else {
-                res.status(200).json(data);
+                // res.status(200).json(data);
             }
         })
         .catch(err => {
@@ -65,7 +65,6 @@ class TodoController{
         let id = req.params.id;
         let updateTodo = req.body;
 
-        console.log(updateTodo)
         Todo.update(updateTodo, {
             where: { id }
         })
@@ -75,9 +74,10 @@ class TodoController{
                     message: 'ID is not found!'
                 })
             } else {
-                res.status(200).json(data);
+                return Todo.findByPk(id, {})
             }
         })
+        .then(data => res.status(200).json(data))
         .catch(err => {
             console.log(err);
             if(err.name === 'SequelizeValidationError'){
@@ -98,13 +98,14 @@ class TodoController{
         Todo.destroy({ where: { id } })
         .then(data => {
             if(data === 1){
-                res.status(200).json(data);
+                return Todo.findByPk(id, {})
             } else {
                 res.status(404).json({
                     message: 'ID is not found!'
                 })
             }
         })
+        .then(data => res.status(200).json(data))
         .catch(err => {
             console.log(err);
             res.status(500).json({
