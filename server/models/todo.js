@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
-  class Todo extends Model{}
+  class Todo extends Model{  }
 
   Todo.init({
     title: {
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
   Todo.beforeCreate( (instance, option) => {
-    if(instance.status === null){
+    if(instance.status == null){
       instance.status = false
     }
   })
