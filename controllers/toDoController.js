@@ -16,7 +16,11 @@ class ToDoController{
             where : { id: req.params.id }
         })
         .then(data=> {
-            res.status(200).json(data)
+            if(data == null){
+                res.status(404).json({message : 'error, data not found'})
+            }else{
+                res.status(200).json(data)
+            }
         })
         .catch(err => {
             res.status(500).json(err)
@@ -34,7 +38,12 @@ class ToDoController{
             res.status(201).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            if(err.name == 'SequelizeValidationError'){
+                let message = err.errors[0].message
+                res.status(400).json({ message })
+            }else{
+                res.status(500).json(err)
+            }
         })
     }
 
@@ -46,22 +55,38 @@ class ToDoController{
             due_date: new Date()
         }, { where : { id : req.params.id }})
         .then(data => {
-            res.status(200).json({message: 'data succesfully updated'})
+            // console.log(data);
+            if(data[0] == 1){
+                res.status(200).json({message: 'data succesfully updated'})
+            }else{
+                res.status(404).json({message: 'error, data not found'})
+            }
         })
-        .catch( err => {
-            res.status(404).json({message: 'data not found'})
+        .catch(err => {
+            // console.log(err);
+            if(err.name == 'SequelizeValidationError'){
+                let message = err.errors[0].message
+                res.status(400).json({ message })
+            }else{
+                res.status(500).json(err)
+            }
         })
     }
 
     static deleteTodo(req,res){
         ToDo.destroy({
-            where: { id:req.params.id }
+            where: { id : req.params.id }
         })
         .then(data => {
-            res.status(200).json({message: 'data succesfully deleted'})
+            // console.log(data);
+            if(data == 1){
+                res.status(200).json({message: 'data succesfully deleted'})
+            }else{
+                res.status(404).json({message: 'error, data not found'})
+            }
         })
         .catch(err => {
-            console.log(err);
+            res.status(500).json(err)
         })
     }
  }

@@ -6,8 +6,30 @@ module.exports = (sequelize, DataTypes) => {
   class FancyToDo extends Model {}
 
   FancyToDo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'kolom title tidak boleh kosong'
+        },
+        notEmpty: {
+          msg: 'kolom title tidak boleh kosong'
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'kolom description tidak boleh kosong'
+        },
+        notEmpty: {
+          msg: 'kolom description tidak boleh kosong'
+        }
+      }
+    },
     status: DataTypes.STRING,
     due_date: DataTypes.DATE
   }, { sequelize });
