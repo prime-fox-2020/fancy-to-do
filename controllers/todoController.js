@@ -5,7 +5,7 @@ class TodoControllers{
   static findAll(req, res){
     Todo.findAll()
       .then(todos => res.status(200).json(todos))
-      .catch(err => res.status(500))
+      .catch(err => res.status(500).json({message: 'ada kesalahan pada server', detail: err}))
   }
 
   static create(req, res){
@@ -45,10 +45,11 @@ class TodoControllers{
       description : req.body.description,
       status      : req.body.status,
       due_date    : Date.now()
-    }, {where: {id : req.params.id}})
+    }, { where: {id : req.params.id }})
       .then(data => {
-        if(data) res.status(200).json({message :'sucessfully update data'})
-        else res.status(404).json({error: 'error not found'})
+        console.log(data)
+        if(data === 1) res.status(200).json({message :`sucessfully update data`})
+        else res.status(404).json({error: '404 not found'})
       })
       .catch(err => {
         if(err.errors){
@@ -68,7 +69,7 @@ class TodoControllers{
         if(data) res.send(200).json({message: 'successfully delete todos'})
         else res.status(404).json({error: 'error not found'})
       })
-      .catch(err => res.status(500).json(err))
+      .catch(err => res.status(500).json({message: 'ada kesalahan pada server', detail: err}))
   }
 }
 
