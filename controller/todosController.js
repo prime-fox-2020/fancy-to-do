@@ -8,7 +8,7 @@ class TodosController {
             res.status(200).json(data)
         })
         .catch(err=>{
-            res.status(400).json(err)
+            res.status(500).json({errors:err.message})
         })
     }
     
@@ -23,10 +23,14 @@ class TodosController {
             res.status(201).json(data)
         })
         .catch(err=>{
-            if(err.name="SequelizeValidationError"){
-                res.status(404).json(err)
+            if(err.name=="SequelizeValidationError"){
+                const error = []
+                for(let i = 0; i < err.errors.length; i++){
+                    error.push(err.errors[i].message)
+                }
+                res.status(404).json({errors:error.join(', ')})
             }else{
-                res.status(500).json(err)
+                res.status(500).json({errors:err.message})
             }
         })
     }
@@ -50,24 +54,32 @@ class TodosController {
             })
             .then(result=>{
                 if(result==null){
-                    res.status(404).json({error:"Not Found"})
+                    res.status(404).json({error:"Error Not Found"})
                 }else{
-                    res.status(200).json(data)
+                    res.status(200).json(result)
                 }
             })
             .catch(err=>{
-                if(err.name="SequelizeValidationError"){
-                    res.status(404).json(err)
+                if(err.name=="SequelizeValidationError"){
+                    const error = []
+                    for(let i = 0; i < err.errors.length; i++){
+                        error.push(err.errors[i].message)
+                    }
+                    res.status(404).json({errors:error.join(', ')})
                 }else{
-                    res.status(500).json(err)
+                    res.status(500).json({errors:err.message})
                 }
             })
         })
         .catch(err=>{
-            if(err.name="SequelizeValidationError"){
-                res.status(404).json(err)
+            if(err.name=="SequelizeValidationError"){
+                const error = []
+                for(let i = 0; i < err.errors.length; i++){
+                    error.push(err.errors[i].message)
+                }
+                res.status(404).json({errors:error.join(', ')})
             }else{
-                res.status(500).json(err)
+                res.status(500).json({errors:err.message})
             }
         })
     }
@@ -80,13 +92,13 @@ class TodosController {
         })
         .then(data=>{
             if(data==null){
-                res.status(404).json({error:"Not Found"})
+                res.status(404).json({error:"Error Not Found"})
             }else{
                 res.status(200).json(data)
             }
         })
         .catch(err=>{
-            res.status(500).json(err)
+            res.status(500).json({errors:err.message})
         })
     }
 
@@ -99,7 +111,7 @@ class TodosController {
         .then(data=>{
             const target=data
             if(data==null){
-                res.status(404).json({error:"Not Found"})
+                res.status(404).json({error:"Error Not Found"})
             }else{
                 Project.destroy({
                     where:{
@@ -110,12 +122,12 @@ class TodosController {
                     res.status(200).json(target)
                 })
                 .catch(err=>{
-                    res.status(400).json(err)
+                    res.status(500).json({errors:err.message})
                 })
             }     
         })
         .catch(err=>{
-            res.status(500).json(err)
+            res.status(500).json({errors:err.message})
         })
     }
 }

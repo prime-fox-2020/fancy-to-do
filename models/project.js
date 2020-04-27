@@ -32,8 +32,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     due_date: {
       type:DataTypes.DATEONLY,
+      // allowNull:false,
       validate:{
-        notEmpty:{
+        isDate:{
           msg:'Date is required'
         }
       }
