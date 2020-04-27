@@ -50,15 +50,23 @@ class TodoController {
 		const { id } = req.params;
 		Todo.findByPk(id)
 			.then((data) => {
-				res.status(200).json({
-					todo: data
-				});
+				if(data){
+
+					res.status(200).json({
+						todo: data
+					});
+				}else{
+					res.status(404).json({
+						error: 'not found'
+					})
+				}
 			})
 			.catch((err) => {
 				res.status(500).json({
 					error: err
 				});
 			});
+		
 	}
 
 	static update(req, res) {
@@ -78,9 +86,16 @@ class TodoController {
 			}
 		)
 			.then((data) => {
-				res.status(200).json({
-					todo: data
-				});
+				if(data == 1){
+
+					res.status(200).json({
+						todo: data
+					});
+				}else{
+					res.status(404).json({
+						error: 'not found'
+					})
+				}
 			})
 			.catch((err) => {
 				let arr = [];
@@ -102,9 +117,17 @@ class TodoController {
 		const { id } = req.params;
 		Todo.destroy({ where: { id } })
 			.then((data) => {
-				res.status(200).json({
-					todo: data
-				});
+				if(data !== 0){
+					res.status(200).json({
+						todo: data
+					});
+
+				}else{
+					res.status(404).json({
+						error: 'not found'
+					})
+				}
+				
 			})
 			.catch((err) => {
 				res.status(500).json({
