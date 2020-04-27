@@ -7,15 +7,24 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: {
       type: Sequelize.STRING,
+      allowNull: false,
       validate: {
         notEmpty: {
           msg: 'Title todos is required'
-        }
+        },
+        notNull: {
+          msg: 'Title todos is required'
+        },
       }
     },
     description: DataTypes.STRING,
     status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATE
+    due_date: {
+      type: Sequelize.DATE,
+      notNull: {
+        msg: 'Due date is required'
+      }
+    }
   }, { sequelize });
   Todo.associate = function(models) {
     // associations can be defined here

@@ -77,12 +77,21 @@ class TodosController{
     }
 
     static delete(req, res){
-        Todo.destroy({
-            where: { id: req.params.id }
+        let dataObj
+        Todo.findOne({where: {id: req.params.id}})
+        .then(data => {
+            if(data){
+                dataObj = data
+                return Todo.destroy({
+                    where: { id: req.params.id }
+                })
+            } else {
+                res.status(404).json({ message : 'error not found'})  
+            } 
         })
         .then(data => {
             if(data === 1){
-                res.status(200).json(arguments['0'].body)
+                res.status(200).json(dataObj)
             } else if(data === 0) {
                 res.status(404).json({message : 'error not found'})
             }
