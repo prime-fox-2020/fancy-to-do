@@ -68,13 +68,20 @@ class TodosController{
       }
     })
     .catch(err=>{
-      res.status(500).json(err)
+      if(err.errors){
+        let temp = []
+        err.errors.forEach(error=>{
+          temp.push(error.message)
+        })
+        res.status(400).json({'validation errors' : temp.join(', ')})
+      } else {
+        res.status(500).json(err)
+      }
     })
   }
 
   static destroy(req,res){
     let temp;
-
     Todo.findOne({where: {id: req.params.id}})
     .then(data=>{
       if(data){
