@@ -5,11 +5,33 @@ module.exports = (sequelize, DataTypes) => {
   
   class Todo extends Model {}
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATE
-  },{sequelize, modelName : 'Todo'})
+    title: {
+      type : DataTypes.STRING,
+      validate : {notEmpty :{
+        msg : 'Fill in Title!'
+      }}
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {notEmpty :{
+        msg:'Fill in Description'
+      }}
+    },
+    status:{
+      type: DataTypes.BOOLEAN,
+      validate:{notEmpty:{
+        msg:'Fill in Status!'
+      }}
+    },
+    due_date:{
+      type:DataTypes.DATE,      
+      validate: {notEmpty : {
+        msg: 'Fill in Date!'
+      },isDate:{
+        msg: 'Follow Date Format!'
+      }}
+    }
+  },{sequelize})
 
 
   // const Todo = sequelize.define('Todo', {
