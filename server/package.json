@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/susilo-hartomo/fancy-to-do#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.0.3",
