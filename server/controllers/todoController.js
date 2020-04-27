@@ -6,7 +6,7 @@ class TodoController{
         .then((data) => {
             res.status(200).json(data)
         }).catch((err) => {
-            res.status(404).json(err)
+            res.status(404).json({message: "Not Found"})
         });
     }
 
@@ -17,12 +17,11 @@ class TodoController{
             status: req.body.status,
             due_date: req.body.due_date
         }
-        console.log(newData);
         Todo.create(newData)
         .then((data) => {
             res.status(201).json(data)
         }).catch((err) => {
-            res.status(404).json(err)
+            res.status(404).json({message: err})
         });
     }
 
@@ -62,7 +61,11 @@ class TodoController{
                 where : { id: req.params.id }
         })
         .then((data) => {
-            res.status(200).json(data)
+            if (data == 1) {
+                res.status(200).json({message: "data deleted"})
+            } else {
+                res.status(404).json({message: "data not found"})
+            }
         }).catch((err) => {
             res.status(404).json(err)
         });
