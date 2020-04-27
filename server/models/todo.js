@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
-  class Todo extends Model{  }
+  class Todo extends Model{}
 
   Todo.init({
     title: {
@@ -10,29 +10,55 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'Title todos is required'
+          msg: 'Title is required'
         },
         notNull: {
-          msg: 'Title todos is required'
+          msg: 'Title is required'
         },
       }
     },
-    description: DataTypes.STRING,
+    description: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Description is required'
+        },
+        notNull: {
+          msg: 'Description is required'
+        },
+      }
+    },
     status: DataTypes.BOOLEAN,
     due_date: {
       type: Sequelize.DATE,
-      notNull: {
-        msg: 'Due date is required'
+      allowNull: true,
+      validate: {
+        customNull(value){
+          if(value == null || value.length === 0){
+            throw new Error('Due date is required')
+          }
+        }
       }
     }
   }, { sequelize });
   Todo.associate = function(models) {
     // associations can be defined here
   };
-  Todo.beforeCreate( (instance, option) => {
+  Todo.beforeCreate( (instance, options) => {
     if(instance.status == null){
       instance.status = false
     }
+  })
+  Todo.beforeDestroy( (instance, options) => {
+    options.individualHooks = true;
+    instance.obj = {
+      title : instance.title,
+      description : instance.description,
+      status : instance.status,
+      due_date : instance.due_date
+    }
+    console.log(instance.obj)
   })
   return Todo;
 };

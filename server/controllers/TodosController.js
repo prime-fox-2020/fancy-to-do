@@ -1,4 +1,5 @@
 const {Todo} = require('../models')
+const {validationError} = require('../helpers/validationError')
 
 class TodosController{
     static add(req, res){
@@ -13,12 +14,9 @@ class TodosController{
             res.status(201).json(data)
         })
         .catch(err => {
-            if(err.errors && err.errors.length > 0){
-                const validationError = []
-                for(let i = 0; i < err.errors.length; i++){
-                    validationError.push(err.errors[i].message)
-                }
-                res.status(400).json({'validation errors' : validationError.join(', ')})
+            if(err.errors){
+                const msg = validationError(err)
+                res.status(400).json({'validation errors' : msg})
             } else {
                 res.status(500)
             }
@@ -64,12 +62,9 @@ class TodosController{
             }
         })
         .catch(err => {
-            if(err.errors && err.errors.length > 0){
-                const validationError = []
-                for(let i = 0; i < err.errors.length; i++){
-                    validationError.push(err.errors[i].message)
-                }
-                res.status(400).json({'validation errors' : validationError.join(', ')})
+            if(err.errors){
+                const msg = validationError(err)
+                res.status(400).json({'validation errors' : msg})
             } else {
                 res.status(500)
             }
@@ -89,12 +84,8 @@ class TodosController{
                 res.status(404).json({ message : 'error not found'})  
             } 
         })
-        .then(data => {
-            if(data === 1){
-                res.status(200).json(dataObj)
-            } else if(data === 0) {
-                res.status(404).json({message : 'error not found'})
-            }
+        .then( () => {
+            res.status(200).json(dataObj)
         })
         .catch(err => {
             res.status(500)
