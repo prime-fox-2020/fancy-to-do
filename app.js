@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express()
-const router = require('./router')
+const routes = require('./routes')
 const PORT = 3000
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
-app.use('/', router)
+app.use(routes)
 
 
 app.listen(PORT, () => {
@@ -15,3 +15,4 @@ app.listen(PORT, () => {
     console.log('====================')
 })
 
+module.exports = app
