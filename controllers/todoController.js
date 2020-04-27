@@ -17,7 +17,7 @@ class TodoController {
       if (err.errors) {
         res.status(400).json(err.errors);
       } else {
-        res.status(500).json(err)
+        res.status(500).json(err);
       }
     })
   }
@@ -58,24 +58,39 @@ class TodoController {
       where: {id: req.params.id}
     })
     .then(data => {
-      res.status(200).json(data);
+      if (data == 0) {
+        res.status(404).json({error: 'Not Found'});
+      } else {
+        // res.send(data == 0);
+        res.status(200).json({ title, description, status, due_date });
+      }
     })
     .catch(err => {
-      res.status(500);
+      if (err.errors) {
+        res.status(400).json(err.errors);
+      } else {
+        res.status(500).json(err);
+      }
     })
   }
 
   static delete(req, res) {
-    Todolist.destroy({where: {id: Number(req.params.id)}})
+    Todolist.findOne({where: {id: req.params.id}})
     .then(data => {
-      if (!data) {
-        res.status(404).json({error: 'Not found'});
-      } else {
-        res.status(200).json(data);
-      }
+      Todolist.destroy({where: {id: req.params.id}})
+      .then(result => {
+        if (!data) {
+          res.status(404).json({error: 'Not found'});
+        } else {
+          res.status(200).json(data);
+        }
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      })
     })
     .catch(err => {
-      res.status(500);
+      res.status(500).json(err);
     })
   }
 }
