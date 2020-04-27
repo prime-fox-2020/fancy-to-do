@@ -3,13 +3,13 @@ const generateToken = require('../helpers/jwt')
 const { checkPwd } = require('../helpers/bcrypt')
 
 class UserController {
-    static register (req, res) {
+    static register (req, res, next) {
         const { email, password } = req.body
         User.findOne({
             where: { email }
         }).then(user => {
             if(user) {
-                res.status(400).json({message: "email already being used"})
+                throw { message: "email already being used", status: 400 }
             } else {
                 return User.create({
                     email,
@@ -18,30 +18,25 @@ class UserController {
             }
         }).then(user => {
             res.status(201).json({id: user.id, email: user.email, password: user.password})
-        }).catch(err => {
-            console.log(err)
-        })
+        }).catch(next)
     }
-    static login (req, res) {
+    static login (req, res, next) {
         const { email, password } = req.body
         User.findOne({
             where: { email }
-        }).then(response => {
-            console.log(user)
+        }).then(user => {
             if(user){
                 const isValid = checkPwd(password, user.password)
                 if(isValid) {
                     const access_token = generateToken(user)
                     res.status(200).json({access_token})
                 } else {
-                    res.status(400).json({message: "email or password is wrong"})
+                    throw { message: "email or password is wrong", status: 400 }
                 }
             } else {
-                res.status(400).json({message: "email or password is wrong"})
+                throw { message: "email or password is wrong", status: 400 }
             }
-        }).catch(err=> {
-            console.log(err)
-        })
+        }).catch(next)
     }
 }
 

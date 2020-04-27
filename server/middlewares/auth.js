@@ -8,7 +8,7 @@ const authentication = (req, res, next) => {
         req.userId = decoded.userId
         next()
     } else {
-        res.status(401).json({message: "authentication problem"})
+        throw { message: "authentication problem", status: 401 }
     }
 }
 
@@ -20,14 +20,12 @@ const authorization = (req, res, next) => {
             if(todo.UserId === req.userId){
                 next()
             } else {
-                res.status(403).json({message: "cannot be access"})
+                throw { message: "cannot be access", status: 403 }
             }
         } else {
-            res.status(404).json({message: "Todo not Found"})
+            throw { message: 'todo not found', status: 404 }
         }
-    }).catch(err=> {
-        console.log(err)
-    })
+    }).catch(next)
 }
 
 module.exports = {
