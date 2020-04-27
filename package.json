@@ -1,0 +1,26 @@
+{
+  "name": "fancy-to-do",
+  "version": "1.0.0",
+  "description": "Create fancy to do app, using express, jquery, ajax",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rozaan3309/fancy-to-do.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rozaan3309/fancy-to-do/issues"
+  },
+  "homepage": "https://github.com/Rozaan3309/fancy-to-do#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.3",
+    "pg": "^8.0.3",
+    "sequelize": "^5.21.7"
+  }
+}
