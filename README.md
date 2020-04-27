@@ -83,7 +83,7 @@ _Response (200 - Ok)_
         "id": 1 <if req.params.id is '1'>,
         "title": "<todos title>",
         "description": "<todos description>",
-        "status": "<todos status after create or update>",
+        "status": "<todos status>",
         "due_date": "<todos date>",
         "createdAt": "2020-04-27T07:20:33.949Z",
         "updatedAt": "2020-04-27T07:20:33.949Z"
@@ -167,8 +167,8 @@ _Request Body_
 {
   "title": "<updated title of toDo-list>",
   "description": "<updated description of toDo-list>",
-  "status": "<update status>",
-  "due_date": "<update date of toDo-list>"
+  "status": "<todos status>",
+  "due_date": "<todos date>",
 }
 ```
 
