@@ -90,7 +90,11 @@ class TodosController{
             } 
         })
         .then(data => {
-            res.status(200).json(dataObj)
+            if(data === 1){
+                res.status(200).json(dataObj)
+            } else if(data === 0) {
+                res.status(404).json({message : 'error not found'})
+            }
         })
         .catch(err => {
             res.status(500)
