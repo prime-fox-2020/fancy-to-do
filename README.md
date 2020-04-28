@@ -2,18 +2,101 @@
 Create fancy to do app, using express, jquery, ajax
 
 ## REST endpoint
-- [GET/ todos](#get-todos)
-- [GET/ todos/:id](#get-todosid)
-- [POST/ todos](#post-todos)
-- [PUT/ todos/:id](#put-todosid)
-- [PATCH/ todos/:id](#patch-todosid)
-- [DELETE/ todos/:id](#delete-todosid)
+- [POST/ register](#postregister)
+- [GET/ todos](#gettodos)
+- [GET/ todos/:id](#gettodosid)
+- [POST/ todos](#posttodos)
+- [PUT/ todos/:id](#puttodosid)
+- [PATCH/ todos/:id](#patchtodosid)
+- [DELETE/ todos/:id](#deletetodosid)
+
+
+## POST/register
+
+### Request Body
+```json
+{
+	"email": "user@email.com",
+	"password": "12345"
+}
+```
+
+### Response
+
+#### 200
+```json
+{
+    "id": 4,
+    "email": "user@email.com",
+    "password": "$2b$08$L4edrrKbJYZACAD8Ub05BuhyM6I/1c7l8Ya13vSAch/nyGDnWtD16"
+}
+```
+
+#### 400
+```json
+[
+    {
+        "message": "email already being used" "||" "email cannot be empty"
+    },
+    {
+        "message": "password is null" "||" "password cannot be empty"
+    }
+]
+```
+
+#### 500
+```json
+[
+    {
+        "message": "internal server error"
+    }
+]
+```
+
+
+## POST/login
+
+### Request Body
+```json
+{
+	"email": "user@email.com",
+	"password": "12345"
+}
+```
+
+### Response
+
+#### 200
+```json
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU4Nzk5ODg0OX0.gbv3on6pLM7r9-yxX4E4A4nu1riGImmaCNAQvhxNFIY"
+}
+```
+
+#### 400
+```json
+[
+    {
+        "message": "email or password is wrong"
+    }
+]
+```
+
+#### 500
+```json
+[
+    {
+        "message": "internal server error"
+    }
+]
+```
+
 
 ## GET/todos
 get list of all todos
 
 ### Request Headers
-```
+```json
 {
 	"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU4Nzk5ODg0OX0.gbv3on6pLM7r9-yxX4E4A4nu1riGImmaCNAQvhxNFIY"
 }
@@ -47,7 +130,7 @@ get list of all todos
 ```json
 [
     {
-        message: "authentication problem"
+        "message": "authentication problem"
     }
 ]
 ```
@@ -56,7 +139,7 @@ get list of all todos
 ```json
 [
     {
-        message: "user not found" || "token not found"
+        "message": "user not found" "||" "token not found"
     }
 ]
 ```
@@ -65,10 +148,11 @@ get list of all todos
 ```json
 [
     {
-        message: "internal server error"
+        "message": "internal server error"
     }
 ]
 ```
+
 
 ## GET/todos/:id
 
@@ -106,7 +190,7 @@ get specific todo item
 ```json
 [
     {
-        message: "authentication problem"
+        "message": "authentication problem"
     }
 ]
 ```
@@ -115,7 +199,7 @@ get specific todo item
 ```json
 [
     {
-        message: "cannot be accessed"
+        "message": "cannot be accessed"
     }
 ]
 ```
@@ -124,7 +208,7 @@ get specific todo item
 ```json
 [
     {
-        message: "user not found" || "token not found" || "todo not found"
+        "message": "user not found" "||" "token not found" "||" "todo not found"
     }
 ]
 ```
@@ -133,10 +217,11 @@ get specific todo item
 ```json
 [
     {
-        message: "internal server error"
+        "message": "internal server error"
     }
 ]
 ```
+
 
 ## POST/todos
 
@@ -178,13 +263,13 @@ create new todo
 ```json
 [
     {
-        message: " title cannot be empty"
+        "message": " title cannot be empty"
     },
     {
-        message: "description is null"
+        "message": "description is null"
     },
     {
-        message: "data type invalid"
+        "message": "data type invalid"
     }
 ]
 ```
@@ -193,7 +278,7 @@ create new todo
 ```json
 [
     {
-        message: "authentication problem"
+        "message": "authentication problem"
     }
 ]
 ```
@@ -201,7 +286,7 @@ create new todo
 ```json
 [
     {
-        message: "cannot be accessed"
+        "message": "cannot be accessed"
     }
 ]
 ```
@@ -210,7 +295,7 @@ create new todo
 ```json
 [
     {
-        message: "user not found" || "token not found"
+        "message": "user not found" "||" "token not found"
     }
 ]
 ```
@@ -219,10 +304,11 @@ create new todo
 ```json
 [
     {
-        message: "internal server error"
+        "message": "internal server error"
     }
 ]
 ```
+
 
 ## PUT/todos/:id
 
@@ -256,7 +342,7 @@ edit todo item
 #### 200
 ```json
 {
-    message: "Todo successfully updated"
+    "message": "Todo successfully updated"
 }
 ```
 
@@ -264,13 +350,13 @@ edit todo item
 ```json
 [
     {
-        message: " title cannot be empty"
+        "message": " title cannot be empty"
     },
     {
-        message: "description is null"
+        "message": "description is null"
     },
     {
-        message: "data type invalid"
+        "message": "data type invalid"
     }
 ]
 ```
@@ -279,7 +365,7 @@ edit todo item
 ```json
 [
     {
-        message: "authentication problem"
+        "message": "authentication problem"
     }
 ]
 ```
@@ -288,7 +374,7 @@ edit todo item
 ```json
 [
     {
-        message: "cannot be accessed"
+        "message": "cannot be accessed"
     }
 ]
 ```
@@ -297,7 +383,7 @@ edit todo item
 ```json
 [
     {
-        message: "user not found" || "token not found" || "todo not found"
+        "message": "user not found" "||" "token not found" "||" "todo not found"
     }
 ]
 ```
@@ -306,7 +392,7 @@ edit todo item
 ```json
 [
     {
-        message: "internal server error"
+        "message": "internal server error"
     }
 ]
 ```
@@ -342,7 +428,7 @@ edit specific attribute of todo item
 #### 200
 ```json
 {
-    message: "Todo successfully updated"
+    "message": "Todo successfully updated"
 }
 ```
 
@@ -350,10 +436,10 @@ edit specific attribute of todo item
 ```json
 [
     {
-        message: " status cannot be empty"
+        "message": " status cannot be empty"
     },
     {
-        message: "status is null"
+        "message": "status is null"
     }
 ]
 ```
@@ -362,7 +448,7 @@ edit specific attribute of todo item
 ```json
 [
     {
-        message: "authentication problem"
+        "message": "authentication problem"
     }
 ]
 ```
@@ -371,7 +457,7 @@ edit specific attribute of todo item
 ```json
 [
     {
-        message: "cannot be accessed"
+        "message": "cannot be accessed"
     }
 ]
 ```
@@ -380,7 +466,7 @@ edit specific attribute of todo item
 ```json
 [
     {
-        message: "user not found" || "token not found" || "todo not found"
+        "message": "user not found" "||" "token not found" "||" "todo not found"
     }
 ]
 ```
@@ -389,7 +475,7 @@ edit specific attribute of todo item
 ```json
 [
     {
-        message: "internal server error"
+        "message": "internal server error"
     }
 ]
 ```
@@ -418,7 +504,7 @@ delete todo item
 #### 200
 ```json
 {
-    message: "Todo successfully deleted"
+    "message": "Todo successfully deleted"
 }
 ```
 
@@ -426,7 +512,7 @@ delete todo item
 ```json
 [
     {
-        message: "authentication problem"
+        "message": "authentication problem"
     }
 ]
 ```
@@ -435,7 +521,7 @@ delete todo item
 ```json
 [
     {
-        message: "cannot be accessed"
+        "message": "cannot be accessed"
     }
 ]
 ```
@@ -444,7 +530,7 @@ delete todo item
 ```json
 [
     {
-        message: "user not found" || "token not found" || "todo not found"
+        "message": "user not found" "||" "token not found" "||" "todo not found"
     }
 ]
 ```
@@ -453,7 +539,7 @@ delete todo item
 ```json
 [
     {
-        message: "internal server error"
+        "message": "internal server error"
     }
 ]
 ```
