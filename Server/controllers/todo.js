@@ -1,7 +1,8 @@
 const { Todo } = require('../models')
+const axios = require('axios')
 
 class TodoController{
-    static findAll(req, res){
+    static findAll(req, res, next){
         let UserId = req.currentUserId
         Todo.findAll({
             where: {UserId}
@@ -10,11 +11,11 @@ class TodoController{
             res.status(200).json(datas)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static add(req, res){
+    static add(req, res, next){
         let UserId = req.currentUserId
         let newTodo = {
             title: req.body.title,
@@ -25,33 +26,25 @@ class TodoController{
         }
         Todo.create(newTodo)
         .then(data => {
-            if (!data) {
-                res.status(400).json({message: 'Invalid input!'})
-            } else {
-                res.status(201).json(data)
-            }
+            res.status(201).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static findByPk(req, res){
+    static findByPk(req, res, next){
         let id = req.params.id
         Todo.findByPk(id)
         .then(data => {
-            if (!data) {
-                res.status(404).json({message: `Todos with ID ${id}, not found`})
-            } else {
-                res.status(200).json(data)
-            }
+            res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static update(req, res){
+    static update(req, res, next){
         let id = req.params.id
         let newTodo = {
             title: req.body.title,
@@ -61,18 +54,14 @@ class TodoController{
         }
         Todo.update(newTodo, {where: {id : id}})
         .then(data => {
-            if (data == 1) {
-                res.status(200).json({message: 'data updated'})
-            } else{
-                res.status(404).json({message: `Todos with ID ${id}, not found`})
-            }
+            res.status(200).json({message: `data with ${id} updated`})
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static delete(req, res){
+    static delete(req, res, next){
         let id = req.params.id
         Todo.destroy({
             where : {id: id}
@@ -81,9 +70,10 @@ class TodoController{
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(404).json(err)
+            next(err)
         })
     }
+
 }
 
 module.exports = TodoController

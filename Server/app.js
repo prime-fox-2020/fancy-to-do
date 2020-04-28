@@ -1,5 +1,6 @@
 const express = require('express')
 const routes = require('./routes')
+const errHandler = require('./middlewares/errHandler')
 const app = express()
 const port = 3000
 
@@ -7,6 +8,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended : true }))
 
 app.use(routes)
+app.use(errHandler)
 
 app.listen(port, () => {
     console.log('Listening app on port :', port);
