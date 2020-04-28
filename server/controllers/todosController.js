@@ -3,6 +3,9 @@ const { Todo } =  require('../models')
 class TodosController {
     static getTodos(req, res, next) {
         Todo.findAll({
+            where: {
+                UserId: req.userId
+            },
             order:[['id', 'asc']]
         }).then(todos => {
             res.status(200).json(todos)
