@@ -6,7 +6,7 @@ const authentication = (req, res, next) => {
     const { access_token } = req.headers
 
     if(!access_token){
-        res.status(404).json({ message: 'Invalid token' })
+        res.status(404).json({ errorCode: 'ACCESS_DENIED', message: 'Invalid token' })
     }
     try{
         const decoded = jwt.verify(access_token, secretKey)
@@ -14,7 +14,7 @@ const authentication = (req, res, next) => {
         next()
     }
     catch(err){
-        res.status(401).json( { message : err.message || 'User not authenticated'})
+        res.status(401).json( { errorCode: 'AUTHENTICATION_FAILED', message : err.message || 'User not authenticated'})
     }
 }
 

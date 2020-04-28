@@ -40,10 +40,12 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
         validateDate(value){
-          const date = new Date().getTime()
-          const inputDate = value.getTime()
-          if(inputDate < date){
-            throw new Error('Invalid due date')
+          if(value != null){
+            const date = new Date().getTime()
+            const inputDate = value.getTime()
+            if(inputDate < date){
+              throw new Error('Invalid due date')
+            }
           }
         }
       }

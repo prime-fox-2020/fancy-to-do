@@ -1,8 +1,7 @@
 const {Todo} = require('../models')
-const {validationError} = require('../helpers/validationError')
 
 class TodosController{
-    static add(req, res){
+    static add(req, res, next){
         const { title, description, status, due_date } = req.body
         const  UserId  = req.userData.id
         Todo.create( {title, description, status, due_date, UserId} )
@@ -10,12 +9,7 @@ class TodosController{
             res.status(201).json(data)
         })
         .catch(err => {
-            if(err.errors){
-                const msg = validationError(err)
-                res.status(400).json({'validation errors' : msg})
-            } else {
-                res.status(500).json({ message: err.message || 'Internal Server Error'})
-            }
+            next(err)
         })
     }
 
@@ -25,41 +19,37 @@ class TodosController{
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500)
+            next(err)
         })
     }
 
-    static findOne(req, res){
+    static findOne(req, res, next){
         Todo.findOne({where: {id: req.params.id}})
         .then(data => {
-            if(data) res.status(200).json(data)
-            else res.status(404).json({ message : 'error not found'})
+            if(data){
+                res.status(200).json(data)
+            } else {
+                next({name: "DATA_NOT_FOUND"})
+            }
         })
         .catch(err => {
-            res.send({message: '404 Error - Not Found'})
+            next(err)
         })
     }
 
-    static update(req, res){
+    static update(req, res, next){
         const { title, description, status, due_date } = req.body
 
         Todo.update({ title, description, status, due_date }, {
             where: { id: req.params.id }
         })
         .then(data => {
-            if(data[0] === 1){
+            if(data){
                 res.status(200).json({ title, description, status, due_date })
-            } else if(data[0] === 0){
-                res.status(404).json({message : 'error not found'})
             }
         })
         .catch(err => {
-            if(err.errors){
-                const msg = validationError(err)
-                res.status(400).json({'validation errors' : msg})
-            } else {
-                res.status(500)
-            }
+            next(err)
         })
     }
 
@@ -72,15 +62,13 @@ class TodosController{
                 return Todo.destroy({
                     where: { id: req.params.id }
                 })
-            } else {
-                res.status(404).json({ message : 'error not found'})  
-            } 
+            }
         })
         .then( () => {
             res.status(200).json(dataObj)
         })
         .catch(err => {
-            res.status(500)
+            next(err)
         })
     }
 }

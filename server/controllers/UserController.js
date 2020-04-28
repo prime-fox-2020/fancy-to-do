@@ -1,16 +1,15 @@
 const bcrypt = require('bcrypt')
 const { User } = require('../models')
 const { generateToken } = require('../helpers/generateToken')
-const { validationError } = require('../helpers/validationError')
 
 class UserController{
-    static register(req, res){
+    static register(req, res, next){
         const { email, password } = req.body
 
         User.findOne({where : {email}})
         .then(data => {
             if(data){
-                res.status(400).json({message: 'Email has been already used'})
+                next({name: 'EMAIL_ALREADY_USED'})
             } else {
                 return User.create( { email, password  })
             }
@@ -19,25 +18,19 @@ class UserController{
             res.status(201).json({id : user.id, email : user.email, password: user.password})
         })
         .catch( err => {
-            if(err.errors){
-                const msg = validationError(err)
-                res.status(400).json({'validation errors' : msg})
-            } else {
-                res.status(500).json({ message : 'Internal Server Error'})
-            }
+            next(err)
         })
     }
 
-    static login(req, res){
+    static login(req, res, next){
         const { email, password } = req.body
-        const errorMessage = { status: 400, message: 'Invalid Email / Password'}
 
         User.findOne({
             where: { email }
         })
         .then( user => {
             if(!user || !bcrypt.compareSync(password, user.password)){
-                throw errorMessage
+                next({name: 'INVALID_EMAIL_PASSWORD'})
             }
             return user
         })
@@ -46,10 +39,7 @@ class UserController{
             res.status(200).json( { access_token })
         })
         .catch( err => {
-            if(err.status){
-                res.status(err.status).json({message : err.message})
-            }
-            res.status(500).json({message: err.message || 'Internal Server Error'})
+            next(err)
         })
     }
 }
