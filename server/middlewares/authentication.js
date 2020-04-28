@@ -6,7 +6,7 @@ const authentication = (req, res, next) => {
     const { access_token } = req.headers
 
     if(!access_token){
-        res.status(404).json({ message: 'invalid token' })
+        res.status(404).json({ message: 'Invalid token' })
     }
     try{
         const decoded = jwt.verify(access_token, secretKey)

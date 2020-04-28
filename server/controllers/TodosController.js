@@ -14,7 +14,7 @@ class TodosController{
                 const msg = validationError(err)
                 res.status(400).json({'validation errors' : msg})
             } else {
-                res.status(500)
+                res.status(500).json({ message: err.message || 'Internal Server Error'})
             }
         })
     }
@@ -50,7 +50,7 @@ class TodosController{
             if(data[0] === 1){
                 res.status(200).json({ title, description, status, due_date })
             } else if(data[0] === 0){
-                res.status(200).json({message : 'error not found'})
+                res.status(404).json({message : 'error not found'})
             }
         })
         .catch(err => {
