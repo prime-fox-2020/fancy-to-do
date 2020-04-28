@@ -10,11 +10,12 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next()
+            // res.status(500).json(err)
         })
     }
 
-    static addTodo(req,res){
+    static addTodo(req, res, next){
         const userDataId = req.userData.id
         let newData = {
             title : req.body.title,
@@ -28,22 +29,18 @@ class TodoController {
             res.status(201).json(data)
         })
         .catch(err => {
-            let error = []
-            for (let i = 0; i<err.errors.length;i++){
-                error.push(err.errors[i].message)
-            }
-            res.status(400).json(error)
+            next(err)
         })
     }
 
-    static showIndividual(req,res){
+    static showIndividual(req, res, next){
         let id = Number(req.params.id)
         Todo.findByPk(id)
         .then(data => {
             if (data){
                 res.status(200).json(data)
             } else {
-                res.status(404).json({ msg : `Data Not Found`})
+                next({ name:`Data Not Found` })
             }
         })
         .catch(err => {
@@ -65,15 +62,11 @@ class TodoController {
             if (data == 1){
                 res.status(200).json({msg : `Data successfully updated`})
             } else {
-                res.status(404).json({msg: `Data Not Found`})
+                next({ name : `Data Not Found` })
             }
         })
         .catch(err => {
-            let error = []
-            for (let i = 0; i<err.errors.length;i++){
-                error.push(err.errors[i].message)
-            }
-            res.status(500).json(error)
+            next(err)
         })
     }
 
@@ -86,11 +79,12 @@ class TodoController {
             if(data == 1){
                 res.status(200).json({msg : `Data has been deleted`})
             } else {
-                res.status(404).json({msg : `Data not found`})
+                next({ name : `Data Not Found` })
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            next()
+            // res.status(500).json(err)
         })
     }
 }
