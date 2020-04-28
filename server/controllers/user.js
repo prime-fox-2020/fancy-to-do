@@ -14,13 +14,14 @@ class UserControllers{
 
   static login(req, res, next){
     const { email, password } = req.body
-    
+    const error = { name : 'InvalidEmailOrPassword', message: "Invalid Email / Password" }
+
     User.findOne({
       where: { email }
     })
       .then(user => {
         if(!user || !cryptCompare(password, user)){
-          next({ name : 'InvalidEmailOrPassword' })
+          throw error
         }
         return user
       })
@@ -28,7 +29,9 @@ class UserControllers{
         const access_token = requestToken(user)
         res.status(200).json({ access_token })
       })
-      .catch(err => next(err))
+      .catch(err => {
+        next(err)
+      })
   }
 }
 

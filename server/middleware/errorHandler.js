@@ -4,6 +4,7 @@ module.exports = (err, req, res, next) => {
   let statusCode  = 500
   let errorCode   = "UNKNOWN_ERROR"
   let message     = err.message || 'Interval Server Error'
+  console.log(err.name)
 
   if(err.name === "SequelizeValidationError") {
     statusCode  = 400
@@ -13,7 +14,7 @@ module.exports = (err, req, res, next) => {
     statusCode  = 400
     errorCode   = "UNIQUE_CONSTRAINT_ERROR"
     message     = err.message || "Email sudah teregistrasi"
-  }else if(err.name === "'InvalidEmailOrPassword'") {
+  }else if(err.name === "InvalidEmailOrPassword") {
     statusCode  = 400
     errorCode   = "INVALID_EMAIL_PASSWORD"
     message     = "Invalid Email / Password"
