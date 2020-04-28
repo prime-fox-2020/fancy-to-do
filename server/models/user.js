@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate(body){
         console.log(body.password)
         const hash = bcrypt.hashSync(body.password,saltRounds)
-        console.log(hash)
         body.password = hash
       }
     },

@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   
   
   Todo.init({
+    username:DataTypes.STRING,
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     status: DataTypes.STRING,

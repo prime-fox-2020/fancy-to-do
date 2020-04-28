@@ -57,13 +57,12 @@ class Controller{
             if(!data){
                 res.status(400).json('user tidak ada / password salah')
             }
-            if(bcrypt.compareSync(password,data.password)){
+            if(!bcrypt.compareSync(password,data.password)){
                 res.status(400).json('user tidak ada / password salah')
             }
             return data
         })
         .then(data=>{
-            console.log(data)
             const secretKey= "KeyBoardWarrior"
             const access_token = jwt.sign({
                 id : data.id, 
