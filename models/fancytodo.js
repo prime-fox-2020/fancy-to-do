@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
 
   FancyToDo.associate = function(models) {
     // associations can be defined here
+    FancyToDo.belongsTo(models.User)
   };
   return FancyToDo;
 };

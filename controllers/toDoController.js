@@ -2,7 +2,11 @@ const ToDo = require('../models').FancyToDo
 
 class ToDoController{
     static readTodo(req,res){
-        ToDo.findAll()
+        // console.log(req.userData);
+        const userDataId = req.userData.id
+        ToDo.findAll({
+            where: { UserId: userDataId }
+        })
         .then(data => {
             res.status(200).json(data)
         })
@@ -12,9 +16,11 @@ class ToDoController{
     }
 
     static readTodoById(req,res){
-        console.log(req.params);
+        // console.log(req.params);
+        const userDataId = req.userData.id
         ToDo.findOne({
-            where : { id: req.params.id }
+            where : { id: req.params.id , 
+                      UserId: userDataId}
         })
         .then(data=> {
             if(data == null){
@@ -29,11 +35,13 @@ class ToDoController{
     }
 
     static createTodo(req,res){
+        const userDataId = req.userData.id
         ToDo.create({
             title:req.body.title,
             description: req.body.description,
             status: 'berhasil di-create',
-            due_date: new Date()
+            due_date: new Date(),
+            UserId: userDataId
         })
         .then(data => {
             res.status(201).json(data)
@@ -52,12 +60,15 @@ class ToDoController{
     }
 
     static updateTodo(req,res){
+        const userDataId = req.userData.id
         ToDo.update({
             title:req.body.title,
             description: req.body.description,
             status: 'berhasil di-update',
-            due_date: new Date()
-        }, { where : { id : req.params.id }})
+            due_date: new Date(),
+            UserId: userDataId
+        }, { where : { id : req.params.id, 
+                        UserId: userDataId }})
         .then(data => {
             // console.log(data);
             if(data[0] == 1){
