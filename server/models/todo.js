@@ -30,10 +30,12 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: { msg: 'Status is required' }
       }
     },
-    due_date: DataTypes.DATEONLY
+    due_date: DataTypes.DATEONLY,
+    UserId : DataTypes.INTEGER
   }, {sequelize});
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User)
   };
   return Todo;
 };

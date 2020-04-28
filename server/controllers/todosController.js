@@ -2,100 +2,89 @@ const { Todo } = require('../models')
 
 class TodosController{
   
-  static create(req,res){
+  static create(req, res, next){
     const {title, description, status, due_date} = req.body
+    const id = req.userData.id
 
     Todo.create({
       title,
       description,
       status,
-      due_date
+      due_date,
+      UserId: id
     })
     .then(data=>{
       res.status(201).json(data)
     })
     .catch(err=>{
-      if(err.errors){
-        let temp = []
-        err.errors.forEach(error=>{
-          temp.push(error.message)
-        })
-        res.status(400).json({'validation errors' : temp.join(', ')})
-      } else {
-        res.status(500).json(err)
-      }
+      next(err)
     })
   }
 
-  static findAll(req, res){
-    Todo.findAll()
+  static findAll(req, res, next){
+    const id = req.userData.id
+    Todo.findAll({
+      where: {UserId: id}
+    })
     .then(data=>{
       res.status(200).json(data)
     })
     .catch(err=>{
-      res.status(500).json(err)
+      next(err)
     })
   }
   
-  static findOne(req,res){
+  static findOne(req, res, next){
     Todo.findOne({where: {id: req.params.id}})
     .then(data=>{
       if(data){
         res.status(200).json(data)
       } else {
-        res.status(404).json({message: `Todo doesn't exist`})
+        next({name: 'DATA_NOT_FOUND'})
       }
     })
     .catch(err=>{
-      res.status(500).json(err)
+      next(err)
     })
   }
 
-  static update(req,res){
-    const temp = {
+  static update(req, res, next){
+    const dataTodo = {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
       due_date: req.body.due_date
     }
 
-    Todo.update(temp,{where: {id: req.params.id}})
+    Todo.update(dataTodo,{where: {id: req.params.id}})
     .then(data=>{
       if (data[0] === 1){
-        res.status(200).json(temp)
+        res.status(200).json(dataTodo)
       } else {
-        res.status(404).json({message: `Todo doesn't exist`})
+        next({name: 'DATA_NOT_FOUND'})
       }
     })
     .catch(err=>{
-      if(err.errors){
-        let temp = []
-        err.errors.forEach(error=>{
-          temp.push(error.message)
-        })
-        res.status(400).json({'validation errors' : temp.join(', ')})
-      } else {
-        res.status(500).json(err)
-      }
+      next(err)
     })
   }
 
-  static destroy(req,res){
-    let temp;
+  static destroy(req, res, next){
+    let dataTodo;
     Todo.findOne({where: {id: req.params.id}})
     .then(data=>{
       if(data){
-        temp = data
+        dataTodo = data
         return Todo.destroy({where: {id:req.params.id}})
       } else {
-        res.status(404).json({message: `Todo doesn't exist`})
+        next({name: 'DATA_NOT_FOUND'})
       }
     })
     .then(()=>{
-      res.status(200).json(temp)
+      res.status(200).json(dataTodo)
     })
     .catch(err=>{
-      res.status(500).json(err)
+      next(err)
     })
   }
 
