@@ -30,6 +30,17 @@ class TodoController {
             res.send(500).json(err)
         })
     }
+
+    static findById(req, res) {
+        let id = req.params.id
+        Todo.findByPk(id)
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            res.send(400).json(err)
+        })
+    }
     
     static update(req, res) {
         let queryBody = req.body
