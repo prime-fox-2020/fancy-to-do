@@ -1,4 +1,6 @@
 const {User} = require('../models/index')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 class Controller{
 
@@ -45,7 +47,37 @@ class Controller{
         })
     }
 
-    static login(req,res){}
+    static login(req,res){
+        const body = req.body
+        const username = body.username
+        const password = body.password
+
+        User.findOne({where:{username : username}})
+        .then(data=>{
+            if(!data){
+                res.status(400).json('user tidak ada / password salah')
+            }
+            if(bcrypt.compareSync(password,data.password)){
+                res.status(400).json('user tidak ada / password salah')
+            }
+            return data
+        })
+        .then(data=>{
+            console.log(data)
+            const secretKey= "KeyBoardWarrior"
+            const access_token = jwt.sign({
+                id : data.id, 
+                first_name : data.first_name, 
+                last_name : data.last_name,
+                email : data.email,
+                username : data.username
+            },secretKey)
+            res.status(200).json({access_token})
+        })
+        .catch(err=>{
+            res.status(500).json('internal server error')
+        })
+    }
 
     static delete(req,res){
         const id = req.params.id

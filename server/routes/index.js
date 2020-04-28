@@ -8,7 +8,7 @@ routes.get('/',(req,res)=>{
 })
 routes.use('/todos',todos)
 
-routes.use('/user',user)
+routes.use('/users',user)
 
 
 
