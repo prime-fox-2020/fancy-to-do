@@ -6,13 +6,42 @@ module.exports = (sequelize, DataTypes) => {
   class Todo extends Model{}
 
   Todo.init({
-    title: DataTypes.STRING,
-    desc: DataTypes.STRING,
-    status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATE
+    title: {
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg: 'title cannot be empty'
+        }       
+      }
+    },
+    desc: {
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg: 'description cannot be empty'
+        }       
+      }
+    },
+    status: {
+      type: DataTypes.BOOLEAN,
+      validate:{
+        notEmpty:{
+          msg: 'status cannot be empty'
+        }       
+      }
+    },
+    due_date: {
+      type: DataTypes.DATE,
+      validate:{
+        notEmpty:{
+          msg: 'due date cannot be empty'
+        }       
+      }
+    },
+    UserId: DataTypes.INTEGER
   }, {sequelize});
   Todo.associate = function(models) {
-    // associations can be defined here
+    Todo.belongsTo(models.User)
   };
   return Todo;
 };
