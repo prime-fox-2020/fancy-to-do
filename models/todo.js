@@ -37,12 +37,16 @@ module.exports = (sequelize, DataTypes) => {
     validate:{
       notEmpty:{
         msg:'due date Required'
+        },
+        isDate: {
+          msg: 'due_date Format is YYYY-MM-DD'
         }
       }
     }
   }, { sequelize });
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User)
   };
   return Todo;
 };
