@@ -35,11 +35,8 @@ class TodosController {
         }
         Todo.update(obj, {where: {id: id}})
         .then(data => {
-            if(data == 1){
-                res.status(200).json({message: 'data successfully updated'})
-            } else {
-                res.status(404).json({message: 'data not found'})
-            }
+            if(data == 1){res.status(200).json({message: 'data successfully updated'})} 
+            else {res.status(404).json({message: 'data not found'})}
         })
         .catch(err => {console.log(err)})
     }
