@@ -1,9 +1,11 @@
 const ToDo = require('../models').FancyToDo
+const axios = require('axios')
 
 class ToDoController{
-    static readTodo(req,res){
+    static readTodo(req, res, next){
         // console.log(req.userData);
         const userDataId = req.userData.id
+
         ToDo.findAll({
             where: { UserId: userDataId }
         })
@@ -11,30 +13,29 @@ class ToDoController{
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static readTodoById(req,res){
+    static readTodoById(req, res, next){
         // console.log(req.params);
-        const userDataId = req.userData.id
+        // const userDataId = req.userData.id
         ToDo.findOne({
-            where : { id: req.params.id , 
-                      UserId: userDataId}
+            where : { id: req.params.id}
         })
         .then(data=> {
             if(data == null){
-                res.status(404).json({message : 'error, data not found'})
+                next({name: 'DATA_NOT_FOUND'})
             }else{
                 res.status(200).json(data)
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static createTodo(req,res){
+    static createTodo(req,res,next){
         const userDataId = req.userData.id
         ToDo.create({
             title:req.body.title,
@@ -47,19 +48,20 @@ class ToDoController{
             res.status(201).json(data)
         })
         .catch(err => {
-            let message = []
-            if(err.name == 'SequelizeValidationError'){
-                for (let i = 0; i < err.errors.length; i++) {
-                    message.push(err.errors[i].message)
-                }
-                res.status(400).json({ message })
-            }else{
-                res.status(500).json(err)
-            }
+            // let message = []
+            // if(err.name == 'SequelizeValidationError'){
+            //     for (let i = 0; i < err.errors.length; i++) {
+            //         message.push(err.errors[i].message)
+            //     }
+            //     res.status(400).json({ message })
+            // }else{
+            //     res.status(500).json(err)
+            // }
+            next(err)
         })
     }
 
-    static updateTodo(req,res){
+    static updateTodo(req, res, next){
         const userDataId = req.userData.id
         ToDo.update({
             title:req.body.title,
@@ -67,31 +69,31 @@ class ToDoController{
             status: 'berhasil di-update',
             due_date: new Date(),
             UserId: userDataId
-        }, { where : { id : req.params.id, 
-                        UserId: userDataId }})
+        }, { where : { id : req.params.id}})
         .then(data => {
             // console.log(data);
             if(data[0] == 1){
                 res.status(200).json({message: 'data succesfully updated'})
             }else{
-                res.status(404).json({message: 'error, data not found'})
+                next({name: 'DATA_NOT_FOUND'})
             }
         })
         .catch(err => {
             // console.log(err);
-            if(err.name == 'SequelizeValidationError'){
-                let message = []
-                for (let i = 0; i < err.errors.length; i++) {
-                    message.push(err.errors[i].message)
-                }
-                res.status(400).json({ message })
-            }else{
-                res.status(500).json(err)
-            }
+            // if(err.name == 'SequelizeValidationError'){
+            //     let message = []
+            //     for (let i = 0; i < err.errors.length; i++) {
+            //         message.push(err.errors[i].message)
+            //     }
+            //     res.status(400).json({ message })
+            // }else{
+            //     res.status(500).json(err)
+            // }
+            next(err)
         })
     }
 
-    static deleteTodo(req,res){
+    static deleteTodo(req,res,next){
         ToDo.destroy({
             where: { id : req.params.id }
         })
@@ -100,11 +102,11 @@ class ToDoController{
             if(data == 1){
                 res.status(200).json({message: 'data succesfully deleted'})
             }else{
-                res.status(404).json({message: 'error, data not found'})
+                next({name: 'DATA_NOT_FOUND'})
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
  }

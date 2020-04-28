@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       validate: {
         notNull: {
-          msg: 'kolom email tidak boleh kosong'
+          msg: 'kolom email tidak terisi'
         },
         notEmpty: {
           msg: 'kolom email tidak boleh kosong'
@@ -30,10 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       validate: {
         notNull: {
-          msg: 'kolom email tidak boleh kosong'
+          msg: 'kolom password tidak terisi'
         },
         notEmpty: {
-          msg: 'kolom email tidak boleh kosong'
+          msg: 'kolom password tidak boleh kosong'
         }
       }
     }

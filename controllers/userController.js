@@ -7,21 +7,26 @@ class UserController{
         const { email, password } = req.body
 
         User.create({
-            email , password
+            email , password 
         })
         .then( user => {
-            console.log(user);
+            // console.log(user);
             res.status(201).json(user)
         })
         .catch( err => {
-            console.log(err);
-            res.status(400).json({
-                message: err.message || 'Internal Server Error'
-            })
+            // console.log(err.message);
+            if(err.name == 'SequelizeUniqueConstraintError'){
+                next(err.name)
+            }else{
+                next(err)
+            }
+            // res.status(400).json({
+            //     message: err.message || 'Internal Server Error'
+            // })
         })
     }
 
-    static login(req,res){
+    static login(req,res,next){
         const { email, password } = req.body
         const error = { status: 400, message: 'Invalid username / password'}
 
@@ -29,6 +34,7 @@ class UserController{
             where : { email }
         })
         .then(user => {
+            // console.log(user);
             if(!user || !bcrypt.compareSync(password, user.password)){
                 throw error
             }
@@ -41,11 +47,16 @@ class UserController{
             res.status(201).json({ access_token })
         })
         .catch(err => {
-            if(err.status){
-                res.status(err.status).json({message : err.message})
-            }else{
-                res.status(500).json({message: err.message || 'Internal Server Error'})
-            }
+            // console.log(err);
+            // if(err.status){
+            //     next({name : err.message})
+            //     // res.status(err.status).json({message : err.message})
+            // }else{
+            //     next({name : err.message })
+            //     // res.status(500).json({message: err.message || 'Internal Server Error'})
+            // }
+
+            next({name : err.message })
 
         })
     }
