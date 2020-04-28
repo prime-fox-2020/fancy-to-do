@@ -10,6 +10,7 @@ Create fancy to do app, using express, jquery, ajax
 - [PUT/ todos/:id](#puttodosid)
 - [PATCH/ todos/:id](#patchtodosid)
 - [DELETE/ todos/:id](#deletetodosid)
+- [POST/ todos/holidays](#posttodosholidays)
 
 
 ## POST/register
@@ -520,6 +521,173 @@ delete todo item
 [
     {
         "message": "cannot be accessed"
+    }
+]
+```
+
+#### 404
+```json
+[
+    {
+        "message": "user not found" "||" "token not found" "||" "todo not found"
+    }
+]
+```
+
+#### 500
+```json
+[
+    {
+        "message": "internal server error"
+    }
+]
+```
+
+## POST/todos/holidays
+
+
+### Request Headers
+```
+{
+	"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTU4Nzk5ODg0OX0.gbv3on6pLM7r9-yxX4E4A4nu1riGImmaCNAQvhxNFIY"
+}
+```
+### Request Body
+```json
+{
+    "country": "id"
+}
+```
+
+### Responses
+
+#### 200
+```json
+[
+    {
+        "name": "International Labor Day",
+        "date": "2020-05-01"
+    },
+    {
+        "name": "Waisak Day (Buddha's Anniversary)",
+        "date": "2020-05-07"
+    },
+    {
+        "name": "Ascension Day of Jesus Christ",
+        "date": "2020-05-21"
+    },
+    {
+        "name": "Cuti Bersama",
+        "date": "2020-05-22"
+    },
+    {
+        "name": "Idul Fitri Day 1",
+        "date": "2020-05-24"
+    },
+    {
+        "name": "Idul Fitri Holiday",
+        "date": "2020-05-25"
+    },
+    {
+        "name": "Cuti Bersama",
+        "date": "2020-05-26"
+    },
+    {
+        "name": "Cuti Bersama",
+        "date": "2020-05-27"
+    },
+    {
+        "name": "Eid Al Fitr Holiday",
+        "date": "2020-05-28"
+    },
+    {
+        "name": "Eid Al Fitr Holiday",
+        "date": "2020-05-29"
+    },
+    {
+        "name": "Pancasila Day",
+        "date": "2020-06-01"
+    },
+    {
+        "name": "June Solstice",
+        "date": "2020-06-21T04:43:40+07:00"
+    },
+    {
+        "name": "Eid al-Adha",
+        "date": "2020-07-31"
+    },
+    {
+        "name": "Raksha Bandhan",
+        "date": "2020-08-03"
+    },
+    {
+        "name": "Janmashtami",
+        "date": "2020-08-11"
+    },
+    {
+        "name": "Indonesian Independence Day",
+        "date": "2020-08-17"
+    },
+    {
+        "name": "Muharram / Islamic New Year",
+        "date": "2020-08-20"
+    },
+    {
+        "name": "Muharram / Islamic New Year Holiday",
+        "date": "2020-08-21"
+    },
+    {
+        "name": "Ganesh Chaturthi",
+        "date": "2020-08-22"
+    },
+    {
+        "name": "September Equinox",
+        "date": "2020-09-22T20:30:39+07:00"
+    },
+    {
+        "name": "Navaratri",
+        "date": "2020-10-17"
+    },
+    {
+        "name": "Dussehra",
+        "date": "2020-10-25"
+    },
+    {
+        "name": "The Prophet Muhammad's Birthday",
+        "date": "2020-10-29"
+    },
+    {
+        "name": "The Prophet Muhammad's Birthday Holiday",
+        "date": "2020-10-30"
+    },
+    {
+        "name": "Diwali/Deepavali",
+        "date": "2020-11-14"
+    },
+    {
+        "name": "December Solstice",
+        "date": "2020-12-21T17:02:19+07:00"
+    },
+    {
+        "name": "Cuti Bersama (Christmas Eve)",
+        "date": "2020-12-24"
+    },
+    {
+        "name": "Christmas Day",
+        "date": "2020-12-25"
+    },
+    {
+        "name": "New Year's Eve",
+        "date": "2020-12-31"
+    }
+]
+```
+
+#### 401
+```json
+[
+    {
+        "message": "authentication problem"
     }
 ]
 ```
