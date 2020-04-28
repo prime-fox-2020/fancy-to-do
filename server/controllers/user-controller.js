@@ -3,17 +3,18 @@ const {checkPassword} = require('../helpers/bcrypt.js')
 const {generateToken} = require('../helpers/jwt.js')
 
 class UserController {
-    static showUsers(req, res) {
+    static showUsers(req, res, next) {
         User.findAll()
         .then(data => {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
+            // res.status(500).json(err)
         })
     }
 
-    static register(req, res) {
+    static register(req, res, next) {
         let queryBody = req.body
         let userObj = {
             "name": queryBody.name,
@@ -26,13 +27,14 @@ class UserController {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json({
-                errors : err.message
-            })
+            next(err)
+            // res.status(500).json({
+            //     errors : err
+            // })
         })
     }
 
-    static login(req, res) {
+    static login(req, res, next) {
         let email = req.body.email
         let password = req.body.password
         User.findOne({where : {email : email}})
@@ -49,20 +51,20 @@ class UserController {
                         user_token: token
                     })
                 } else {
-                    res.status(401).json({
-                        message: 'Tolong login dulu'
-                    })
+                    throw {
+                        msg: "Username, email atau password tidak valid!!",
+                        code: 401
+                    }
                 }
             } else {
-                res.status(401).json({
-                    message: 'Tolong login dulu'
-                })
+                throw {
+                    msg: "Username, email atau password tidak valid!!",
+                    code: 401
+                }
             }
         })
         .catch(err => {
-            res.status(500).json({
-                errors: err
-            })   
+            next(err)
         })
     }
 

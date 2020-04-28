@@ -9,21 +9,20 @@ function authorization(req, res, next) {
             if (data.UserId == req.userDataId) {
                 next()
             } else {
-                res.status(401).json({
-                    msg: "unauthorized!"
-                })
+                throw {
+                    msg: "Unauthorized",
+                    code: 401
+                }
             }
         } else {
-            res.status(400).json({
-                msg: "not found"
-            })
+            throw {
+                msg: "Not Found",
+                code: 404
+            }
         }
     })
     .catch(err => {
-        res.status(500).json({
-            message: "internal server error",
-            errors: err.message
-        })
+        next(err)
     })
 }
 

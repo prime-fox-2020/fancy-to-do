@@ -1,27 +1,32 @@
 const {Todo} = require('../models')
 
 class TodoController {
-    static findAll(req, res) {
+    static findAll(req, res, next) {
         let userId = req.userDataId        
         Todo.findAll({where: {"UserId": userId}})
         .then(data => {
             if (userId) {
                 res.status(200).json(data)
             } else {
-                res.status(401).json({
-                    message: "Tolong login dulu",
-                    errors: err.message
-                })
+                throw {
+                    msg: "Tolong login dulu",
+                    code: 401
+                }
+                // res.status(401).json({
+                //     message: "Tolong login dulu",
+                //     errors: err.message
+                // })
             }
         })
         .catch(err => {
-            res.send(500).json({
-                errors: err.message
-            })
+            next(err)
+            // res.send(500).json({
+            //     errors: err.message
+            // })
         })
     }
 
-    static create(req, res) {
+    static create(req, res, next) {
         let userId = req.userDataId        
         let todoObj = {
             title: req.body.title,
@@ -35,9 +40,10 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.status(500).json({
-                message: 'internal server error'
-            })
+            next(err)
+            // res.status(500).json({
+            //     err: err
+            // })
         })
     }
 

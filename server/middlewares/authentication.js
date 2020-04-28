@@ -13,23 +13,17 @@ function authentication(req, res, next) {
                 req.userDataId = id
                 next()
             } else {
-                res.status(401).json({
-                    message: "Tolong login dulu",
-                    errors: err.message
-                })
+                throw {
+                    msg: "Tolong login dulu",
+                    code: 401
+                }
             }
         })
         .catch(err => {
-            res.status(500).json({
-                message: "internal server error",
-                errors: err.message
-            })
+            throw err
         })
     } catch (err) {
-        res.status(500).json({
-            message: "internal server error",
-            errors: err.message
-        })
+        next(err)
     }
 }
 

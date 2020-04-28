@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: "title gak boleh kosong"
+          msg: "Title tidak boleh kosong"
         }
       }
     },
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: "description gak boleh kosong"
+          msg: "Description tidak boleh kosong"
         }
       }
     },
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: "status gak boleh kosong"
+          msg: "Status tidak boleh kosong"
         }
       }
     },
@@ -36,9 +36,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       validate: {
         notEmpty: {
-          msg: "due date gak boleh kosong"
+          msg: "Due date tidak boleh kosong"
         },
-        isDate: true
+        isDate: {
+          args: true,
+          msg: "Tanggal tidak valid!!! contoh yang benar (1999-01-01)"
+        }
       }
     },
     UserId: DataTypes.INTEGER
