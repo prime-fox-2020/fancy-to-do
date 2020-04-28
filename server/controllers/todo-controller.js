@@ -2,9 +2,17 @@ const {Todo} = require('../models')
 
 class TodoController {
     static findAll(req, res) {
-        Todo.findAll()
+        let userId = req.userDataId        
+        Todo.findAll({where: {"UserId": userId}})
         .then(data => {
-            res.status(200).json(data)
+            if (userId) {
+                res.status(200).json(data)
+            } else {
+                res.status(401).json({
+                    message: "Tolong login dulu",
+                    errors: err.message
+                })
+            }
         })
         .catch(err => {
             res.send(500).json({
@@ -21,9 +29,7 @@ class TodoController {
             status: req.body.status,
             due_date: req.body.due_date,
             UserId: userId
-        }
-        console.log(todoObj);
-        
+        }        
         Todo.create(todoObj)
         .then(data => {
             res.status(200).json(data)
@@ -36,6 +42,7 @@ class TodoController {
     }
 
     static findById(req, res) {
+        let userId = req.userDataId        
         let id = req.params.id
         Todo.findByPk(id)
         .then(data => {
@@ -47,27 +54,30 @@ class TodoController {
     }
     
     static update(req, res) {
-        let userId = req.userDataId        
+        let id = req.params.id      
         let queryBody = req.body
-        let todoObj = {
+        let updatedTodo = {
             title: queryBody.title,
             description: queryBody.description,
             status: queryBody.status,
-            due_date: queryBody.due_date,
-            UserId: userId
-
+            due_date: queryBody.due_date
         }
-        let id = req.params.id
-        Todo.update(todoObj, {where: {id: id}})
+        Todo.update(updatedTodo, {where: {id: id}})
         .then(data => {
             if (data == 1) {
-                res.status(201).json({message: "data sukses di update"})
+                res.status(201).json({
+                    message: "data sukses di update",
+                    todo: updatedTodo
+                })
             } else {
                 res.status(404).json({message: "data tidak ada"})
             }
         })
         .catch(err => {
-            res.send(500).json(err)
+            res.send(500).json({
+                err: "Internal server error",
+                err: err
+            })
         })
     }
 
