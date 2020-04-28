@@ -1,5 +1,7 @@
 const { Todo } = require('../models');
 
+
+
 class TodoController {
 	static create(req, res) {
 		const { title, description, due_date, status } = req.body;
@@ -17,7 +19,7 @@ class TodoController {
 			})
 			.catch((err) => {
 				let arr = [];
-				for (var i = 0; i < err.errors.length; i++) {
+				for (let i = 0; i < err.errors.length; i++) {
 					arr.push(err.errors[i].message);
 				}
 				if (arr.length > 0) {
@@ -87,7 +89,7 @@ class TodoController {
 		)
 			.then((data) => {
 				if(data == 1){
-
+             
 					res.status(200).json({
 						todo: data
 					});
@@ -99,7 +101,7 @@ class TodoController {
 			})
 			.catch((err) => {
 				let arr = [];
-				for (var i = 0; i < err.errors.length; i++) {
+				for (let i = 0; i < err.errors.length; i++) {
 					arr.push(err.errors[i].message);
 				}
 				if (arr.length > 0) {
