@@ -4,8 +4,7 @@
     "password": "admin",
     "database": "db_sqlz_fancy_to_do",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",

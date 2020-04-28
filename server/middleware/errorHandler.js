@@ -18,6 +18,11 @@ module.exports = function (err, req, res, next) {
             errCode = 'EROR_VALIDATION'
             errMessage = 'error validasi data'
             break;
+        case 'JsonWebTokenError':
+            errStatus = 401
+            errCode = 'LOGIN_ERROR'
+            errMessage = 'error validasi data'
+            break;
         default:
             break;
     }

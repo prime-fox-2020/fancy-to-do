@@ -10,13 +10,16 @@ function authorization(req, res, next) {
             if (data.UserId == req.userId) {
                 next()
             } else {
-                res.status(404).json({msg: 'Forbidden access'})
+                next({name: 'DATA_NOT_FOUND'})
+                // res.status(404).json({msg: 'Forbidden access'})
             }       
         } else {
-            res.status(400).json({msg: 'Data not found'})
+            next({name: 'DATA_NOT_FOUND'})
+            // res.status(400).json({msg: 'Data not found'})
         }
     }).catch((err) => {
-        res.status(500).json({msg: 'Internal error server '})
+        next({name: 'EROR_SERVER'})
+        // res.status(500).json({msg: 'Internal error server '})
     });
 }
 

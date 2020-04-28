@@ -14,13 +14,13 @@ function authentication(req, res, next) {
                     req.userId = id
                     next()
                 } else {
-                    res.status(401).json({ err: err.message || 'Invalid Email/Password' })
+                    next(err)
                 }
             }).catch((err) => {
-                res.status(500).json({ err: err.message || 'Internal error server' })
+                next(err)
             });
-    } catch (err) {
-        res.status(500).json({ err: err.message || 'Internal error server' })
+        } catch (err) {
+            next(err)
     }
 
 }
