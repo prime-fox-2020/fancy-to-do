@@ -37,10 +37,12 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Wrong Date Format'
           }
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {sequelize});
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User)
   };
   return Todo;
 };
