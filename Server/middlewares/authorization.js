@@ -6,9 +6,9 @@ function authorization(req, res, next) {
   Todolist.findOne({where: {id: req.params.id}})
   .then(data => {
     if (!data) {
-      res.status(404).json({message: 'Not Found'});
+      next({name: 'NotFound'});
     } else if (data.UserId != id) {
-      res.status(403).json({message: 'Forbidden'});
+      next({name: 'Forbidden'});
     } else {
       next();
     }

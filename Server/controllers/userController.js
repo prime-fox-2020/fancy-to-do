@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -15,28 +16,37 @@ class UserController {
       res.status(201).json({ id, email, password});
     })
     .catch(err => {
-      res.status(400).json(err);
+      if (err.errors) {
+        res.status(400).json(err);
+      }
+      res.status(500).json({message: err.message || 'Internal Server Error'});
     })
   }
 
   static login(req, res) {
     const { email, password } = req.body;
-    const secretKey = 'apaya';
+    const errorMessage = {status: 400, message: 'invalid email / password'};
 
     User.findOne({
       where: {email}
     })
-    .then(data => {
-      const { id, email } = data;
-      if (bcrypt.compareSync(password, data.password)) {
-        const access_token = jwt.sign({id, email}, secretKey);
-        res.status(201).json({ access_token });
-      } else {
-        res.status(400).json({message: 'Wrong Email / Password'});
+    .then(user => {
+      if (!user || !bcrypt.compareSync(password, user.password)) {
+        throw errorMessage;
       }
+      
+      return user;
+    })
+    .then(user => {
+      const { id, email } = user;
+      const access_token = jwt.sign({id, email}, process.env.secretKey);
+      res.status(201).json({ access_token });
     })
     .catch(err => {
-      res.status(400).json({message: 'Wrong Email / Password'});
+      if (err.status) {
+        res.status(400).json({message: 'Wrong Email / Password'});
+      }
+      res.status(500).json({message: err.message || 'Internal Server Error'})
     })
   }
 }
