@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, { sequelize });
   User.associate = function(models) {
-    // associations can be defined here
+    User.hasMany(models.Todo)
   };
   User.beforeCreate( (instance, options) => {
     const hash = hashPassword(instance.password)
