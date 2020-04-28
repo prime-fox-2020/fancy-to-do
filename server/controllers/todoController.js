@@ -1,33 +1,33 @@
 const { Todo } = require('../models');
 
 class TodoController{
- static findAll(req, res) {
+ static findAll(req, res, next) {
         Todo.findAll()
-        .then((data) => {
+        .then(data => {
             res.status(200).json(data)
-        }).catch((err) => {
+        }).catch(err => {
             res.status(404).json({message: "Not Found"})
         });
     }
 
-    static create(req, res) {
+    static create(req, res, next) {
         let newData = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
         }
         Todo.create(newData)
-        .then((data) => {
+        .then(data => {
             res.status(201).json(data)
-        }).catch((err) => {
-            res.status(404).json({message: err})
+        }).catch(err => {
+            next(err);
         });
     }
 
     static findByPk(req, res) {
         Todo.findByPk(req.params.id)
-        .then((data) => {
+        .then(data => {
             res.status(200).json(data)
         }).catch((err) => {
             res.status(404).json(err)
@@ -44,13 +44,13 @@ class TodoController{
         Todo.update(newData, {
             where: { id: req.params.id }
         })
-        .then((data) => {
+        .then(data => {
             if (data == 1) {
                 res.status(200).json({message: "data updated"})
             } else {
                 res.status(404).json({message: "data not found"})
             }
-        }).catch((err) => {
+        }).catch(err => {
             res.status(404).json(err)
         });
     }
@@ -60,13 +60,13 @@ class TodoController{
             { 
                 where : { id: req.params.id }
         })
-        .then((data) => {
+        .then(data => {
             if (data == 1) {
                 res.status(200).json({message: "data deleted"})
             } else {
                 res.status(404).json({message: "data not found"})
             }
-        }).catch((err) => {
+        }).catch(err => {
             res.status(404).json(err)
         });
     }
