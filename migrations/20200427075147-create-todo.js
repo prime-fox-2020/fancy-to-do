@@ -20,6 +20,9 @@ module.exports = {
       due_date: {
         type: Sequelize.DATE
       },
+      UserId : {
+        type: Sequelize.INTEGER
+      }
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

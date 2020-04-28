@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const { generateToken } = require('../helpers/jwt')
 
 class UserController {
     static registrasi (req, res) {
@@ -34,11 +34,7 @@ class UserController {
             return user
         })
         .then( user => {
-            const secretKey = "kunci rahasia"
-            const access_token = jwt.sign({
-                id : user.id,
-                email : user.email,
-            }, secretKey)
+            const access_token = generateToken(user)
             res.status(200).json({access_token})
         })
         .catch( err => {

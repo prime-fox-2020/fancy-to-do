@@ -1,27 +1,30 @@
 const { Todo } = require('../models')
 
 class TodoController {
-    static findAll(req, res) {
+    static findAll(req, res, next) {
+
+        const dataUserId = req.userData.id
+
         Todo.findAll({
-            order : [
-                ['id', 'asc']
-            ]
+            where : {dataUserId}
         })
         .then(data => {
             res.status(200).json(data)
         })
         .catch( err => {
-            res.status(500).json(err)
+            //res.status(500).json(err)
+            next(err)
         })
     }
 
-    static addTodo(req, res) {
+    static addTodo(req, res, next) {
         let data = req.body
         let newTodo = {
             title : data.title,
             description : data.description,
             status : data.status,
-            due_date : data.due_date
+            due_date : data.due_date,
+            UserId : req.userData.id
         }
         Todo.create(newTodo)
         .then( data => {
@@ -32,26 +35,28 @@ class TodoController {
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            //res.status(500).json(err)
+            next(err)
         })
     }
 
-    static findByPk(req, res) {
+    static findByPk(req, res, next) {
         let id = req.params.id
         Todo.findByPk(id)
         .then(data => {
             if(!data) {
-                res.status(404).json({message: `id ${id} not found`})
+                next({name: `data not found`})
             } else {
                 res.status(201).json(data)
             }
         })
         .catch(err => {
-            res.send(500).json(err)
+            //res.send(500).json(err)
+            next(err)
         })
     }
 
-    static updateTodo(req, res) {
+    static updateTodo(req, res, next) {
         let data = req.body
         let id = req.params.id
 
@@ -69,30 +74,36 @@ class TodoController {
         })
         .then(data => {
             if(!data) {
-                res.status(404).json({message: `id ${id} not found`})
+                next({name: `data not found`})
             } else {
                 res.status(200).json(data)
             }
         })
         .catch( err => {
-            res.status(500).json(err)
+            //res.status(500).json(err)
+            next(err)
         })
     }
 
-    static deleteTodo(req, res) {
+    static deleteTodo(req, res, next) {
         let id = req.params.id
         Todo.destroy({
-            where : {id : id}
+            where : {
+                id : id, 
+                UserId : req.userData.id
+            }
         })
         .then( data => {
             if(!data) {
-                res.status(404).json({message: `id ${id} not found`})
+                //res.status(404).json({message: `data not found`})
+                next({name: `data not found`})
             } else {
                 res.status(200).json(data)
             }
         })
         .catch( err => {
-            res.status(500).json(err)
+            //res.status(500).json(err)
+            next(err)
         })
     }
 }
