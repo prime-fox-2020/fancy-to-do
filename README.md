@@ -420,7 +420,7 @@ edit specific attribute of todo item
 ### Request Body
 ```json
 {
-    status: "completed"
+    "status": "completed"
 }
 ```
 
@@ -437,10 +437,7 @@ edit specific attribute of todo item
 ```json
 [
     {
-        "message": " status cannot be empty"
-    },
-    {
-        "message": "status is null"
+        "message": " status cannot be empty" "||" "status is null"
     }
 ]
 ```
