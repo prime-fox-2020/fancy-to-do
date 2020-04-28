@@ -2,9 +2,12 @@ const { Todo } = require('../models')
 
 class TodoController{
     static findAll(req, res){
-        Todo.findAll()
-        .then(data => {
-            res.status(200).json(data)
+        let UserId = req.currentUserId
+        Todo.findAll({
+            where: {UserId}
+        })
+        .then(datas => {
+            res.status(200).json(datas)
         })
         .catch(err => {
             res.status(500).json(err)
@@ -12,11 +15,13 @@ class TodoController{
     }
 
     static add(req, res){
+        let UserId = req.currentUserId
         let newTodo = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: UserId
         }
         Todo.create(newTodo)
         .then(data => {
@@ -57,8 +62,8 @@ class TodoController{
         Todo.update(newTodo, {where: {id : id}})
         .then(data => {
             if (data == 1) {
-                res.status(200).json(data)
-            } else if(data == 0) {
+                res.status(200).json({message: 'data updated'})
+            } else{
                 res.status(404).json({message: `Todos with ID ${id}, not found`})
             }
         })

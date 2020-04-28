@@ -1,4 +1,4 @@
-const express = require('./node_modules/express')
+const express = require('express')
 const routes = require('./routes')
 const app = express()
 const port = 3000

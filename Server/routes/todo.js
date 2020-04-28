@@ -1,10 +1,13 @@
-const router = require('../node_modules/express').Router()
+const router = require('express').Router()
 const todosController = require('../controllers/todo')
+const authentication = require('../middlewares/authentication')
+const authorization = require('../middlewares/authorization')
 
-router.get('/', todosController.findAll)
+router.use(authentication)
+router.get('/', todosController.findAll) 
 router.post('/', todosController.add)
-router.get('/:id', todosController.findByPk)
-router.put('/:id', todosController.update)
-router.delete('/:id', todosController.delete)
+router.get('/:id', authorization, todosController.findByPk)
+router.put('/:id', authorization, todosController.update)
+router.delete('/:id', authorization, todosController.delete)
 
 module.exports = router

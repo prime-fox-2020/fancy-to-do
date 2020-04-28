@@ -138,7 +138,7 @@ _Request Body_
 }
 ```
 
-_Response (200 - Created)_
+_Response (200)_
 ```
 {
   "id": <given id by request>,
