@@ -14,7 +14,6 @@ class UserController{
                 res.status(201).json(data)
             })
             .catch(err=>{
-                console.log(err)
                 res.status(400).json({errors:err.message})
             })
         })
@@ -35,7 +34,7 @@ class UserController{
             if(!user || !bcrypt.compareSync(password,user.password)){
                 res.status(400).json({message:"Invalid Email/Password"})
             }
-            
+
             return user
         })
         .then(user=>{

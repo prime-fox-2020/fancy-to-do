@@ -6,15 +6,15 @@ const authorization=(req,res,next)=>{
     Project.findByPk(id)
     .then(project=>{
         if(!project){
-            res.status(404).json({message:"Project Not Found"})
+            next({name:"DATA_NOT_FOUND"})
         }else if (project.UserId!=userId){
-            res.status(403).json({message:"Forbidden Access"})
+            next({name:"FORBIDDEN_ACCESS"})
         }else{
             next()
         }
     })
     .catch(err=>{
-        res.status(500).json({message:err.message})
+        next(err)
     })
 }
 

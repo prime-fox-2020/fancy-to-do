@@ -6,7 +6,7 @@ const authentication =(req,res,next)=>{
     const {access_token}=req.headers
 
     if(!access_token){
-        res.status(404).json({message:"token not found"})
+        next({name:"TOKEN_NOT_FOUND"})
     }
 
     try{
@@ -15,7 +15,7 @@ const authentication =(req,res,next)=>{
         next()
     }
     catch(err){
-        res.status(401).json({message:err.message})
+        next({name:"JsonWebTokenError"})
     }
 }
 
