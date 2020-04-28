@@ -1,4 +1,5 @@
 'use strict'
+const env           = require('dotenv').config()
 const express       = require('express')
 const routes        = require('./routes')
 const errorHandler  = require('./middleware/errorHandler')

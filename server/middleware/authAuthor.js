@@ -2,7 +2,6 @@
 
 const { Todo }    = require('../models')
 const jwt         = require('jsonwebtoken')
-const privateKey  = 'hanyaSaja'
 
 const authentication = (req, res, next) => {
 
@@ -13,7 +12,7 @@ const authentication = (req, res, next) => {
   }
 
   try {
-    req.userData = jwt.verify(access_token, privateKey)
+    req.userData = jwt.verify(access_token, process.env.PRIVATE_KEY)
     next()
 
   } catch(err) {

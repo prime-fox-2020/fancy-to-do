@@ -9,6 +9,14 @@ module.exports = (err, req, res, next) => {
     statusCode  = 400
     errorCode   = "VALIDATION_ERROR"
     message     = err.message || "Data harus sesuai dan lengkap"
+  }else if(err.name === "SequelizeUniqueConstraintError") {
+    statusCode  = 400
+    errorCode   = "UNIQUE_CONSTRAINT_ERROR"
+    message     = err.message || "Email sudah teregistrasi"
+  }else if(err.name === "'InvalidEmailOrPassword'") {
+    statusCode  = 400
+    errorCode   = "INVALID_EMAIL_PASSWORD"
+    message     = "Invalid Email / Password"
   }else if(err.name === "JsonWebTokenError"){
     statusCode  = 401
     errorCode   = "TOKEN_INVALID"
