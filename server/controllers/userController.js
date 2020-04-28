@@ -45,7 +45,7 @@ class UserController {
             id: result.id,
             email: result.email
           })
-          res.status(200).json({token})
+          res.status(201).json({token})
         } else {
           next({name: 'INVALID_PASSWORD'})
         }
