@@ -3,13 +3,8 @@ const {validationError} = require('../helpers/validationError')
 
 class TodosController{
     static add(req, res){
-        const obj = {
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status,
-            due_date: req.body.due_date
-        }
-        Todo.create(obj)
+        const { title, description, status, due_date } = req.body
+        Todo.create( {title, description, status, due_date} )
         .then(data => {
             res.status(201).json(data)
         })
@@ -45,18 +40,14 @@ class TodosController{
     }
 
     static update(req, res){
-        const obj = {
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status,
-            due_date: req.body.due_date 
-        }
-        Todo.update(obj, {
+        const { title, description, status, due_date } = req.body
+
+        Todo.update({ title, description, status, due_date }, {
             where: { id: req.params.id }
         })
         .then(data => {
             if(data[0] === 1){
-                res.status(200).json(obj)
+                res.status(200).json({ title, description, status, due_date })
             } else if(data[0] === 0){
                 res.status(200).json({message : 'error not found'})
             }

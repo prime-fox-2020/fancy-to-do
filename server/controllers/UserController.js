@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const { User } = require('../models')
 const { generateToken } = require('../helpers/generateToken')
+const { validationError } = require('../helpers/validationError')
 
 class UserController{
     static register(req, res){
@@ -19,11 +20,8 @@ class UserController{
         })
         .catch( err => {
             if(err.errors){
-                const validationError = []
-                for(let i = 0; i < err.errors.length; i++){
-                    validationError.push(err.errors[i].message)
-                }
-                res.status(400).json({'validation errors' : validationError.join(', ')})
+                const msg = validationError(err)
+                res.status(400).json({'validation errors' : msg})
             } else {
                 res.status(500).json({ message : 'Internal Server Error'})
             }

@@ -38,6 +38,13 @@ module.exports = (sequelize, DataTypes) => {
           if(value == null || value.length === 0){
             throw new Error('Due date is required')
           }
+        },
+        validateDate(value){
+          const date = new Date().getTime()
+          const inputDate = value.getTime()
+          if(inputDate < date){
+            throw new Error('Invalid due date')
+          }
         }
       }
     }

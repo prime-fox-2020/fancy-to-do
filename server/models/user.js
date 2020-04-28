@@ -1,6 +1,5 @@
 'use strict';
-const bcrypt = require('bcrypt')
-const saltRounds = 2
+const {hashPassword} = require('../helpers/hashPassword')
 
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
@@ -33,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
   };
   User.beforeCreate( (instance, options) => {
-    const hash = bcrypt.hashSync(instance.password, saltRounds)
+    const hash = hashPassword(instance.password)
     instance.password = hash
   })
   return User;
