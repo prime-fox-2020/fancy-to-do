@@ -37,10 +37,12 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Please fill due date'
         }
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {sequelize});
   Todolist.associate = function(models) {
     // associations can be defined here
+    Todolist.belongsTo(models.User);
   };
   return Todolist;
 };

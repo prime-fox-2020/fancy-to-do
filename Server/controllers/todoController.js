@@ -3,12 +3,14 @@ const {Todolist} = require('../models');
 class TodoController {
   static addData(req, res) {
     const {title, description, status, due_date} = req.body;
+    const UserId = req.userData.id;
 
     Todolist.create({
       title,
       description,
       status,
-      due_date
+      due_date,
+      UserId
     })
     .then(data => {
       res.status(201).json(data);
@@ -23,7 +25,7 @@ class TodoController {
   }
 
   static getData(req, res) {
-    Todolist.findAll()
+    Todolist.findAll({where: {UserId: req.userData.id}})
     .then(data => {
       res.status(200).json(data);
     })
