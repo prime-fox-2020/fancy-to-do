@@ -8,24 +8,28 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type : DataTypes.STRING,
       validate : {notEmpty :{
+        args : true,
         msg : 'Fill in Title!'
       }}
     },
     description: {
       type: DataTypes.STRING,
       validate: {notEmpty :{
+        args : true,
         msg:'Fill in Description'
       }}
     },
     status:{
       type: DataTypes.BOOLEAN,
       validate:{notEmpty:{
+        args : true,
         msg:'Fill in Status!'
       }}
     },
     due_date:{
       type:DataTypes.DATE,      
       validate: {notEmpty : {
+        args : true,
         msg: 'Fill in Date!'
       },isDate:{
         msg: 'Follow Date Format!'
@@ -37,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   // const Todo = sequelize.define('Todo', {
   // }, {});
   Todo.associate = function(models) {
+    Todo.belongsTo(models.User)
     // associations can be defined here
   };
   return Todo;
