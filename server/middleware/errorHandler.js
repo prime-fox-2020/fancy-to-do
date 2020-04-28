@@ -4,7 +4,7 @@ module.exports = (err, req, res, next) => {
   let statusCode  = 500
   let errorCode   = "UNKNOWN_ERROR"
   let message     = err.message || 'Interval Server Error'
-  console.log(err.name)
+  console.log(err)
 
   if(err.name === "SequelizeValidationError") {
     statusCode  = 400
@@ -18,6 +18,10 @@ module.exports = (err, req, res, next) => {
     statusCode  = 400
     errorCode   = "INVALID_EMAIL_PASSWORD"
     message     = "Invalid Email / Password"
+  }else if(err.name === "InvalidParams") {
+    statusCode  = 400
+    errorCode   = "INVALID_PARAMS"
+    message     = "Invalid Params"
   }else if(err.name === "JsonWebTokenError"){
     statusCode  = 401
     errorCode   = "TOKEN_INVALID"
@@ -38,6 +42,10 @@ module.exports = (err, req, res, next) => {
     statusCode  = 404
     errorCode   = "TO_DO_NOT_FOUND"
     message     = "To do is not founded in this user"
+  }else if(err.name === "LocationNotFound"){
+    statusCode  = 404
+    errorCode   = "LOCATION_NOT_FOUND"
+    message     = "Location not founded"
   }
 
   res.status(statusCode).json({ errorCode, message })

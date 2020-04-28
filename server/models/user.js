@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     hooks:{
       beforeCreate(user){
-        console.log('hello hooks')
         user.password = crypting(user)
       }
     }
