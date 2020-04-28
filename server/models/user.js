@@ -1,8 +1,13 @@
 'use strict';
-const generatePassword = require('../helpers/bcrypt')
+const {generatePassword} = require('../helpers/bcrypt')
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const Sequelize = sequelize.Sequelize
+  const Model = Sequelize.Model
+
+  class User extends Model {}
+
+  User.init({
     name: DataTypes.STRING,
     username: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -15,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Todo)
   };
   return User;
 };

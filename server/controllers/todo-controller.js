@@ -3,22 +3,24 @@ const {Todo} = require('../models')
 class TodoController {
     static findAll(req, res) {
         Todo.findAll()
-        .then(data => {            
+        .then(data => {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.send(500).json(err)
+            res.send(500).json({
+                errors: err.message
+            })
         })
     }
 
     static create(req, res) {
-        console.log(req.body);
-        
+        let userId = req.userDataId        
         let todoObj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date  
+            due_date: req.body.due_date,
+            UserId: userId
         }
         console.log(todoObj);
         
@@ -27,7 +29,9 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.send(500).json(err)
+            res.status(500).json({
+                message: 'internal server error'
+            })
         })
     }
 
@@ -43,12 +47,15 @@ class TodoController {
     }
     
     static update(req, res) {
+        let userId = req.userDataId        
         let queryBody = req.body
         let todoObj = {
             title: queryBody.title,
             description: queryBody.description,
             status: queryBody.status,
-            due_date: queryBody.due_date  
+            due_date: queryBody.due_date,
+            UserId: userId
+
         }
         let id = req.params.id
         Todo.update(todoObj, {where: {id: id}})

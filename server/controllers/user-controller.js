@@ -1,32 +1,33 @@
 const {User} = require('../models')
 const {checkPassword} = require('../helpers/bcrypt.js')
 const {generateToken} = require('../helpers/jwt.js')
+
 class UserController {
-    // static showUsers(req, res) {
-    //     User.findAll()
-    //     .then(data => {
-    //         res.status(200).json(data)
-    //     })
-    //     .catch(err => {
-    //         res.status(500).json(err)
-    //     })
-    // }
+    static showUsers(req, res) {
+        User.findAll()
+        .then(data => {
+            res.status(200).json(data)
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+    }
 
     static register(req, res) {
         let queryBody = req.body
         let userObj = {
-            name: queryBody.name,
-            username: queryBody.username,
-            email: queryBody.email,
-            password: queryBody.password
+            "name": queryBody.name,
+            "username": queryBody.username,
+            "email": queryBody.email,
+            "password": queryBody.password
         }
         User.create(userObj)
         .then(data => {
             res.status(200).json(data)
         })
         .catch(err => {
-            res.send(500).json({
-                errors: err
+            res.status(500).json({
+                errors : err.message
             })
         })
     }

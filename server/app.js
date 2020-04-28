@@ -1,10 +1,17 @@
+if (process.env.NODE_ENV == 'development') {
+    require('dotenv').config()
+}
+console.log(process.env.NODE_ENV);    
+
+
 const express = require("express")
 const app = express()
 const port = 3000
 const indexRouter = require('./routes')
 
-app.use(express.urlencoded({extended: true}))
+
 app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 app.use(indexRouter)
 
 app.listen(port, ()=> {
@@ -12,3 +19,4 @@ app.listen(port, ()=> {
 })
 
 module.exports = app
+
