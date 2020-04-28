@@ -1,5 +1,5 @@
 # Ryz Todo App
-Ryz Todo App is an application to list your activity. This app has : 
+Ryz Todo App is an application to list and check your activity. This app has : 
 * RESTful endpoint for asset's CRUD operation
 * JSON formatted response
 * Using Express, jQuery, and Ajax
@@ -7,7 +7,7 @@ Ryz Todo App is an application to list your activity. This app has :
 &nbsp;
 
 ## RESTful endpoints
-### GET /assets
+### POST /users/register
 
 > Get all assets
 
@@ -50,7 +50,7 @@ _Response (400 - Bad Request)_
 }
 ```
 ---
-### POST /assets
+### POST /users/login
 
 > Create new asset
 
@@ -86,3 +86,9 @@ _Response (400 - Bad Request)_
   "message": "<returned error message>"
 }
 ```
+
+### POST /todos/
+### GET /todos/
+### GET /todos/:id
+### PUT /todos/:id
+### DELETE /todos/:id
