@@ -3,11 +3,16 @@ const { Todo } = require('../models')
 class TodoController {
 
     static addTodo(req, res){
+        console.log('masuk addTodo')
+        const idTokenVeryfied = req.userData.id
+        console.log(idTokenVeryfied)
+
         Todo.create({
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: idTokenVeryfied                 // linked wit author
         })
         .then(data => {
             res.status(201).json({ Todo: data})
@@ -30,7 +35,15 @@ class TodoController {
     }
 
     static showTodo(req, res){
-        Todo.findAll()
+        console.log('masuk showTodo')
+        const idTokenVeryfied = req.userData.id
+        console.log(idTokenVeryfied)
+
+        Todo.findAll({
+            where: { 
+                UserId: idTokenVeryfied
+            }
+        })
         .then(data => {
             res.status(200).json({ Todo: data})
         })
@@ -39,7 +52,7 @@ class TodoController {
         })
     }
 
-    static getTodo(req, res){
+    static getTodo(req, res){                        // not yet link atoken
         Todo.findByPk(Number(req.params.id))
         .then(data => {
             if(data){
@@ -58,12 +71,17 @@ class TodoController {
         })
     }
 
-    static updateTodo(req, res){
+    static updateTodo(req, res){                    // not yet link atoken
+        console.log('masuk updateTodo')
+        const idTokenVeryfied = req.userData.id
+        console.log(idTokenVeryfied)
+
         let todoObj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: idTokenVeryfied                 // linked wit author
         }
         Todo.update(todoObj, {
             where: {
@@ -101,8 +119,8 @@ class TodoController {
             }
         })
         .then( data => {
-            if (data > 0) {
-                res.status(200).json({ Todo: data })
+            if (data > 0) { // data = 1
+                res.status(200).json({ Todo: 'successfully delete selected todo' })
             } else {
                 res.status(404).json({
                     error: 'data todo not found'
