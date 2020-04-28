@@ -3,6 +3,7 @@ Create fancy to do app, using express, jquery, ajax
 
 ## REST endpoint
 - [POST/ register](#postregister)
+- [POST/ login](#postlogin)
 - [GET/ todos](#gettodos)
 - [GET/ todos/:id](#gettodosid)
 - [POST/ todos](#posttodos)
