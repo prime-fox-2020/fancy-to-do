@@ -37,7 +37,7 @@ class TodoController {
             if (!data) {
                 res.status(404).json({ error: `Todos id ${id} is not found` })
             } else {
-                res.status(200).json({ message: `Todos id ${id} is deleted` })
+                res.status(200).json({ message: `Todos id ${id} has been deleted` })
             }
         })
         .catch(err => {
