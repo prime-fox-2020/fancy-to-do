@@ -3,7 +3,7 @@ const generateToken = require('../helpers/generateToken')
 const matchPassword = require('../helpers/matchPassword')
 
 class UserController {
-    static register(req, res){
+    static register(req, res, next){
         let email = req.body.email
         User.findOne(
             {where : { email: email}}
@@ -24,11 +24,11 @@ class UserController {
             res.status(201).json(userRegistered)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
-    static login(req, res){
+    static login(req, res, next){
         let email = req.body.email
         let password = req.body.password
         User.findOne({
@@ -45,7 +45,7 @@ class UserController {
             res.status(200).json({ acces_token })
         })
         .catch(err => {
-            res.status(500).json(err.message)
+            next(err)
         })
     }
 }

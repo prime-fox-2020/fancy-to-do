@@ -74,6 +74,52 @@ class TodoController{
         })
     }
 
+    static checkHoliday(req, res, next) {
+        const country = req.body.country
+        const day = new Date().getDate()
+        const month = new Date().getMonth() + 1
+        const year = new Date().getFullYear()
+        // console.log(month)
+        axios({
+            method:"GET",
+            url:`https://calendarific.com/api/v2/holidays?&api_key=${process.env.api_key}&country=${country}&year=${year}`
+        }).then(result => {
+            const datas = result.data.response.holidays
+            console.log(datas)
+            let holidays = []
+            datas.forEach(el => {
+                let datetime = el.date.datetime
+                // console.log(datetime)
+                if(datetime.month == month && datetime.day > day){
+                    holidays.push({
+                        name: el.name,
+                        description: el.description,
+                        date: el.date.iso,
+                        country: el.country.name,
+                        type: el.type[0]
+                    })
+                    // console.log('>>>>>>>>>>>>.')
+                }
+
+                if(datetime.month >= month){
+                    if(datetime.month > month){
+                        holidays.push({
+                            name: el.name,
+                            description: el.description,
+                            date: el.date.iso,
+                            country: el.country.name,
+                            type: el.type[0]
+                        })
+                    }
+                    // console.log('.........')
+                }
+            })
+            // console.log(holidays)
+            res.status(200).json(holidays)
+        }).catch(err => {
+            next(err)
+        })
+    }
 }
 
 module.exports = TodoController

@@ -6,9 +6,9 @@ Fancy To Do is an simple application to manage all that you have to do. This app
 &nbsp;
 
 ## RESTful endpoints
-### GET /todos
+### POST /users/register
 
-> Get all todos
+> Create new user
 
 _Request Header_
 ```
@@ -17,10 +17,80 @@ not needed
 
 _Request Body_
 ```
+{
+  "username": "<username to get insert into>",
+  "email": "<email to get insert into>",
+  "password": "<password to get insert into>"
+}
+```
+
+_Response (201 - Created)_
+```
+{
+  "id": <given id by system>,
+  "username": "<posted username>",
+  "email": "<posted email>",
+  "password": "<posted hash password>"
+  "updatedAt": "2020-04-27T08:15:43.281Z",
+  "createdAt": "2020-04-27T08:15:43.281Z"
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "message": "email already registered"
+}
+```
+---
+### POST /users/login
+
+> Login user
+
+_Request Header_
+```
 not needed
 ```
 
-_Response (200)_
+_Request Body_
+```
+{
+  "email": "<email to get insert into>",
+  "password": "<password to get insert into>"
+}
+```
+
+_Response (200 - OK)_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "message": "Invalid email/ password"
+}
+```
+---
+### GET /todos
+
+> Get all todos
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200 - OK)_
 ```
 [
   {
@@ -50,7 +120,9 @@ _Response (200)_
 
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<your access token>"
+}
 ```
 
 _Request Body_
@@ -71,6 +143,7 @@ _Response (201 - Created)_
   "description": "<posted description>",
   "status": "<posted status>",
   "due_date": "<posted due_date>",
+  "UserId": "<posted UserId>",
   "updatedAt": "2020-04-27T08:15:43.281Z",
   "createdAt": "2020-04-27T08:15:43.281Z"
 }
@@ -89,7 +162,9 @@ _Response (400 - Bad Request)_
 
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<your access token>"
+}
 ```
 
 _Request Body_
@@ -97,7 +172,7 @@ _Request Body_
 not needed
 ```
 
-_Response (200)_
+_Response (200 - OK)_
 ```
 [
   {
@@ -125,7 +200,9 @@ _Response (404 - Not Found)_
 
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<your access token>"
+}
 ```
 
 _Request Body_
@@ -138,7 +215,7 @@ _Request Body_
 }
 ```
 
-_Response (200)_
+_Response (200 - OK)_
 ```
 {
   "id": <given id by request>,
@@ -164,7 +241,9 @@ _Response (404 - Not Found)_
 
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<your access token>"
+}
 ```
 
 _Request Body_
@@ -172,7 +251,7 @@ _Request Body_
 not needed
 ```
 
-_Response (200)_
+_Response (200 - OK)_
 ```
 [
   {
@@ -193,6 +272,35 @@ _Response (404 - Not Found)_
   "message": "<returned error message>"
 }
 ```
+---
+### GET /todos/holidays
+
+> Get list holidays
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+{
+  "country": "<country to get insert into>"
+}
+```
+
+_Response (200 - OK)_
+```
+[
+  {
+    "name": "<name holiday>",
+    "date": "<date holiday>"
+  }
+]
+```
+
 ---
 ### SERVER FAILED
 

@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken')
-const secretKey = 'saya pengen punya kucing'
 
 const verifyToken = (token) => {
-    return jwt.verify(token, secretKey)
+    return jwt.verify(token, process.env.secretKey)
 }
 
 module.exports = verifyToken
