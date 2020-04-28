@@ -14,6 +14,14 @@ const helpers = {
       id: user.id, 
       email: user.email 
     }, secretKey)
+  },
+  verifyToken: (token) => {
+    return new Promise((resolve, reject) => {
+      jwt.verify(token, secretKey, (err, payload) => {
+        if (err) return reject(err)
+        resolve(payload)
+      })
+    })
   }
 }
 
