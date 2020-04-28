@@ -1,4 +1,5 @@
 const { Todo } =  require('../models')
+const axios = require('axios')
 
 class TodosController {
     static getTodos(req, res, next) {
@@ -63,6 +64,34 @@ class TodosController {
             } else {
                 throw { message: 'todo not found', status: 404 }
             }
+        }).catch(next)
+    }
+    static holidayCheck(req, res, next) {
+        const country = req.body.country
+        const date = new Date()
+        const day = date.getDate()
+        const month = date.getMonth()+1
+        const year = date.getFullYear()
+        axios({
+            method:"get",
+            url:`https://calendarific.com/api/v2/holidays?&api_key=${process.env.calendar_api}&country=${country}&year=${year}`
+        }).then(result=>{
+            const datas = result.data.response.holidays
+            let holidays = []
+            datas.forEach(holiday=>{
+                let datetime = holiday.date.datetime
+                if(datetime.month >= month){
+                    if(datetime.month == month && datetime.day > day){
+                        holidays.push([holiday.name, holiday.date.iso])
+                    } else if(datetime.month > month){
+                        holidays.push({
+                            name: holiday.name,
+                            date: holiday.date.iso
+                        })
+                    }
+                }
+            })
+            res.status(200).json(holidays)
         }).catch(next)
     }
 }
