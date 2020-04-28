@@ -4,7 +4,7 @@ const {validationError} = require('../helpers/validationError')
 class TodosController{
     static add(req, res){
         const { title, description, status, due_date } = req.body
-        const { UserId } = req.userData.id
+        const  UserId  = req.userData.id
         Todo.create( {title, description, status, due_date, UserId} )
         .then(data => {
             res.status(201).json(data)
@@ -20,7 +20,7 @@ class TodosController{
     }
 
     static read(req, res){
-        Todo.findAll({ where: { id: req.userData.id }})
+        Todo.findAll()
         .then(data => {
             res.status(200).json(data)
         })

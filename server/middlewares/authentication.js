@@ -3,7 +3,7 @@ const secretKey = 'todos-app'
 
 
 const authentication = (req, res, next) => {
-    const { access_token } = req.header
+    const { access_token } = req.headers
 
     if(!access_token){
         res.status(404).json({ message: 'invalid token' })
