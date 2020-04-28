@@ -3,10 +3,9 @@ const { Todo } = require('../models')
 
 class TodoControllers{
   
-  static findAll(req, res){
+  static findAll(req, res, next){
 
     const userId = req.userData.id
-    console.log(userId)
 
     Todo.findAll({
 
@@ -17,20 +16,21 @@ class TodoControllers{
         res.status(200).json(todos)
       })
       .catch(err => {
-        res.status(500).json({ message: 'ada kesalahan pada server', detail: err })
+        next(err)
       })
 
   }
 
 
-  static create(req, res){
+  static create(req, res, next){
 
     const userId = req.userData.id
+    const { title, description, status } = req.body
     
     Todo.create({
-      title       : req.body.title,
-      description : req.body.description,
-      status      : req.body.status,
+      title       : title,
+      description : description,
+      status      : status,
       due_date    : Date.now(),
       UserId      : userId
     })
@@ -44,44 +44,45 @@ class TodoControllers{
           for(let dt of err.errors){
             obj[dt.path] = dt.message
           }
-          res.status(400).json({error: 'validation error', detail : obj})
-        } else res.status(500).json({ message: 'ada kesalahan pada server', detail: err })
+          next({name: "SequelizeValidationError", message : obj})
+        } else next(err)
       })
 
   }
 
-  static findId(req, res){
+  static findId(req, res, next){
     
     const id = req.params.id
-    console.log(id)
+
     Todo.findByPk(id)
       .then(data => {
         if(data) res.status(200).json(data)
-        else res.status(404).json({error : '404 not found'})
+        else next({ name : "ToDoNotFound" })
       })
       .catch(err => {
-        res.status(500).json(err)
+        next(err)
       })
 
   }
 
-  static update(req, res){
+  static update(req, res, next){
 
     const id      = req.params.id
     const userId  = req.userData.id
-    console.log(userId)
+    const { title, description, status } = req.body
 
     Todo.update({
-      title       : req.body.title,
-      description : req.body.description,
-      status      : req.body.status,
+      title       : title,
+      description : description,
+      status      : status,
       due_date    : Date.now(),
       UserId      : userId
     }, { where: { id } })
       .then(data => {
-        console.log(data)
-        if(data[0] === 1) res.status(200).json({message :`sucessfully update data`})
-        else res.status(404).json({error: '404 not found'})
+        if(data[0] === 1) {
+          res.status(200).json({message :`sucessfully update data`})
+        }
+        else next({ name : "ToDoNotFound" })
       })
       .catch(err => {
         if(err.errors){
@@ -89,13 +90,13 @@ class TodoControllers{
           for(let dt of err.errors){
             obj[dt.path] = dt.message
           }
-          res.status(400).json({ error: 'validation error', detail : obj })
-        }else res.status(500).json({ message: 'ada kesalahan pada server', detail: err })
+          next({ name: 'SequelizeValidationError', message : obj })
+        }else next(err)
       })
 
   }
 
-  static delete(req, res){
+  static delete(req, res, next){
 
     const id = req.params.id
 
@@ -103,9 +104,9 @@ class TodoControllers{
       .then(data => data.destroy())
       .then(data => {
         if(data) res.send(200).json({ message: 'successfully delete todos' })
-        else res.status(404).json({error: 'error not found'})
+        else next({ name : "ToDoNotFound" })
       })
-      .catch(err => res.status(500).json({message: 'ada kesalahan pada server', detail: err}))
+      .catch(err => next(err))
   }
 }
 

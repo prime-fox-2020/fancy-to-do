@@ -9,7 +9,7 @@ const authentication = (req, res, next) => {
   const { access_token } = req.headers
   
   if(!access_token){
-    res.status(404).json({ message : 'token not found' })
+    next({ name: 'TokenNotFound' })
   }
 
   try {
@@ -17,7 +17,7 @@ const authentication = (req, res, next) => {
     next()
 
   } catch(err) {
-    res.status(401).json({ message: err.message || 'user not authenticated' })
+    next(err)
   }
 
 }
@@ -30,15 +30,15 @@ const authorization = (req, res, next) => {
   Todo.findByPk(id)
     .then(todo => {
       if(!todo) {
-        res.status(404).json({message : "Todo not found"})
+        next({ name : 'ToDoNotFound' })
       }else if(todo.UserId !== userId){
-        res.status(403).json({message : "Unathorized User"})
+        next({ name : 'Unauthorized' })
       }else{
         next()
       }
     })
     .catch(err => {
-      res.status(500).json({ message : err.message || 'Interval Server Error' })
+      next(err)
     })
 
 }
