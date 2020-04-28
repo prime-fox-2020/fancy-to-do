@@ -8,6 +8,11 @@ let generateToken = (user) => {
     }, secretKey)
 }
 
+let verifyToken = (token) => {
+    return jwt.verify(token, secretKey)
+}
+
 module.exports = {
-    generateToken
+    generateToken,
+    verifyToken
 }

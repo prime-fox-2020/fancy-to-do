@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
         //   msg : `Your Due Date cannot before today`
         // }
       }
-    }
+    },
+    UserId : DataTypes.INTEGER
   }, { sequelize });
   Todo.associate = function(models) {
     // associations can be defined here

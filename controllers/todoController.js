@@ -2,7 +2,10 @@ const {Todo} = require('../models')
 
 class TodoController {
     static show(req,res){
-        Todo.findAll()
+        const userDataId = req.userData.id
+        Todo.findAll({
+            where : {UserId : userDataId}
+        })
         .then(data => {
             res.status(200).json(data)
         })
@@ -12,11 +15,13 @@ class TodoController {
     }
 
     static addTodo(req,res){
+        const userDataId = req.userData.id
         let newData = {
             title : req.body.title,
             description : req.body.description,
             status : false,
-            due_date : req.body.due_date
+            due_date : req.body.due_date,
+            UserId : userDataId
         }
         Todo.create(newData)
         .then(data => {
@@ -57,7 +62,7 @@ class TodoController {
             where : {id: req.params.id}
         })
         .then(data => {
-            if (data > 0){
+            if (data == 1){
                 res.status(200).json({msg : `Data successfully updated`})
             } else {
                 res.status(404).json({msg: `Data Not Found`})
@@ -78,7 +83,7 @@ class TodoController {
             where : {id : id}
         })
         .then(data => {
-            if(data>0){
+            if(data == 1){
                 res.status(200).json({msg : `Data has been deleted`})
             } else {
                 res.status(404).json({msg : `Data not found`})
