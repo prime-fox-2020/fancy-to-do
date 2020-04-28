@@ -8,9 +8,14 @@ function generateToken(user) {
             email: user.email
         },
         secretKey
-    )    
+    )
+}
+
+function verifyToken(token) {
+    return jwt.verify(token, secretKey)
 }
 
 module.exports = {
-    generateToken
+    generateToken,
+    verifyToken
 };

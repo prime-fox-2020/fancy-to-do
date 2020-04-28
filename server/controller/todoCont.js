@@ -2,36 +2,39 @@ const { ToDo } = require('../models');
 
 class FancyToDo {
     static findAll(req, res) {
-        ToDo.findAll()
+        ToDo.findAll({
+            order: [['id', 'ASC']],
+            where: {
+                UserId: req.userId
+            }
+        })
             .then((data) => {
-                res.status(200).json(data)
+                if (data) {
+                    res.status(200).json(data)
+                } else {
+                    next({ name: 'DATA_NOT_FOUND' })
+                }
             }).catch((err) => {
-                res.status(404).json(err)
+                next({ name: 'EROR_SERVER' })
             });
     }
 
-    static create(req, res) {
+    static create(req, res, next) {
         let newData = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.userId
         }
-        // console.log('newData: ', newData);
         ToDo.create(newData)
             .then((data) => {
                 res.status(201).json(data)
             }).catch((err) => {
-                let error = []
                 if (err.name === "SequelizeValidationError") {
-                    //Error dari validasi model
-                    err.errors.forEach(el => {
-                        error.push(el.message)
-                    });
-                    res.status(400).json(error)
+                    next({ name: 'EROR_VALIDATION' })
                 } else {
-                    //Error server tidak bisa create
-                    res.status(500).json({ msg: 'Internal server error' })
+                    next({ name: 'EROR_SERVER' })
                 }
             });
     }
@@ -40,12 +43,12 @@ class FancyToDo {
         ToDo.findByPk(req.params.id)
             .then((data) => {
                 if (data) {
-                    res.status(200).json(data)
+                    res.status(200).json({msg: `Todo ${data.title} successfully crated`})
                 } else {
-                    res.status(404).json({ msg: 'todo tidak ditemukan' })
+                    next({ name: 'DATA_NOT_FOUND' })
                 }
             }).catch((err) => {
-                res.status(500).json({ msg: 'internal server error' })
+                next({ name: 'EROR_SERVER' })
             });
     }
 
@@ -54,7 +57,8 @@ class FancyToDo {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.userId
         }
         ToDo.update(newData, {
             where: {
@@ -65,20 +69,14 @@ class FancyToDo {
                 if (data == 1) {
                     res.status(200).json({ msg: 'Data successfully updated' })
                 } else {
-                    res.status(404).json({ msg: 'Data not found' })
+                    next({ name: 'DATA_NOT_FOUND' })
                 }
 
             }).catch((err) => {
-                let error = []
                 if (err.name === "SequelizeValidationError") {
-                    //Error dari validasi model
-                    err.errors.forEach(el => {
-                        error.push(el.message)
-                    });
-                    res.status(400).json(error)
+                    next({ name: 'EROR_VALIDATION' })
                 } else {
-                    //Error server tidak bisa create
-                    res.status(500).json({ msg: 'Internal server error' })
+                    next({ name: 'EROR_SERVER' })
                 }
             });
     }
@@ -91,12 +89,12 @@ class FancyToDo {
         })
             .then((data) => {
                 if (data == 1) {
-                    res.status(200).json({msg: 'Data successfully deleted'})
+                    res.status(200).json({ msg: 'Data successfully deleted' })
                 } else {
-                    res.status(404).json({msg: 'Data yang ingin di delete tidak di temukan'})
+                    next({ name: 'DATA_NOT_FOUND' })
                 }
             }).catch((err) => {
-                res.status(500).json({msg: 'internal server error'})
+                next({ name: 'EROR_SERVER' })
             });
     }
 }

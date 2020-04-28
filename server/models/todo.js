@@ -28,11 +28,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: DataTypes.STRING,
-    due_date: DataTypes.DATEONLY
+    due_date: DataTypes.DATEONLY,
+    UserId: DataTypes.INTEGER
   }, { sequelize });
 
   ToDo.associate = function (models) {
     // associations can be defined here
+    ToDo.belongsTo(models.User)
   };
   return ToDo;
 };

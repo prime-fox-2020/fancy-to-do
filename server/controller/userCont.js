@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { generateToken } = require('../helpers/getToken');
+const { generateToken } = require('../helpers/jwt');
 const bcrypt = require('bcryptjs')
 
 class UserCont {
