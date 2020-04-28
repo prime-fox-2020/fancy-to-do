@@ -12,8 +12,8 @@ class TodosController {
   }
   
   static createOne(req, res) {
-    const {title, description, status, due_date} = req.body
-    const newObj = {title, description, status, due_date}
+    const {title, description, status, due_date, UserId} = req.body
+    const newObj = {title, description, status, due_date, UserId}
 
     Todo.create(newObj).then(data => {
       res.status(201).json(data)
@@ -45,8 +45,8 @@ class TodosController {
 
   static updateOne(req, res) {
     const {id} = req.params
-    const {title, description, due_date, status} = req.body
-    const newObj = {title, description,due_date, status}
+    const {title, description, due_date, status, UserId} = req.body
+    const newObj = {title, description,due_date, status, UserId}
 
     Todo.findByPk(id).then(result => {
       if (result) {

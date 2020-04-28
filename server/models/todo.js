@@ -1,6 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Model = sequelize.Sequelize.Model
+  const Sequelize = sequelize.Sequelize
+  const Model = Sequelize.Model
 
   class Todo extends Model {}
 
@@ -41,6 +42,18 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:{
           msg: 'Due date cannot be empty'
+        },
+        isDate: {
+          msg: 'Correct date format is YYYY-MM-DD'
+        }
+      }
+    },
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate:{
+        notEmpty:{
+          msg: 'UserId cannot be empty'
         }
       }
     },
