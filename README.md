@@ -4,6 +4,84 @@
 &nbsp;
 
 ## RESTful endpoints
+&nbsp;
+### POST  /todos
+
+> Create a todo
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+{
+  "title": "<todo title>",
+  "description": "<todo description>",
+  "status": "<todo status>",
+  "due_date": "<todo due_date>",
+}
+```
+
+_Response (200 - OK)_
+```
+{
+  "message": "A todo has been created"
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "error": "Invalid input"
+}
+```
+---
+### PUT  /todos/:id
+
+> Edit a todo by its id
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+{
+  "title": "<todo title>",
+  "description": "<todo description>",
+  "status": "<todo status>",
+  "due_date": "<todo due_date>",
+}
+```
+
+_Response (200 - OK)_
+```
+{
+  "message": "Todo ${id} has been updated"
+}
+```
+
+_Response (404 - Not Found)_
+```
+{
+  "error": "Todos id ${id} is not found"
+}
+```
+
+_Response (400 - Bad Request)_
+```
+{
+  "error": "Invalid input"
+}
+```
+---
 ### GET  /todos
 
 > Get all todos
@@ -116,82 +194,5 @@ _Response (404 - Not Found)_
 ```
 {
   "error": "Todos id ${id} is not found"
-}
-```
----
-### POST  /todos
-
-> Create a todo
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
-}
-```
-
-_Request Body_
-```
-{
-  "title": "<todo title>",
-  "description": "<todo description>",
-  "status": "<todo status>",
-  "due_date": "<todo due_date>",
-}
-```
-
-_Response (200 - OK)_
-```
-{
-  "message": "A todo has been created"
-}
-```
-
-_Response (400 - Bad Request)_
-```
-{
-  "error": "Invalid input"
-}
-```
----
-### PUT  /todos/:id
-
-> Edit a todo by its id
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
-}
-```
-
-_Request Body_
-```
-{
-  "title": "<todo title>",
-  "description": "<todo description>",
-  "status": "<todo status>",
-  "due_date": "<todo due_date>",
-}
-```
-
-_Response (200 - OK)_
-```
-{
-  "message": "Todo ${id} has been updated"
-}
-```
-
-_Response (404 - Not Found)_
-```
-{
-  "error": "Todos id ${id} is not found"
-}
-```
-
-_Response (400 - Bad Request)_
-```
-{
-  "error": "Invalid input"
 }
 ```
