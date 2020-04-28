@@ -15,8 +15,10 @@ class UserController{
             }
         })
         .then( user => {
-            res.status(201).json({id : user.id, email : user.email, password: user.password})
-        })
+            if(user){
+                res.status(201).json({id : user.id, email : user.email, password: user.password})
+            }
+        }) 
         .catch( err => {
             next(err)
         })
@@ -31,12 +33,10 @@ class UserController{
         .then( user => {
             if(!user || !bcrypt.compareSync(password, user.password)){
                 next({name: 'INVALID_EMAIL_PASSWORD'})
+            } else {
+                const access_token = generateToken(user)
+                res.status(200).json( { access_token })
             }
-            return user
-        })
-        .then( user => {
-            const access_token = generateToken(user)
-            res.status(200).json( { access_token })
         })
         .catch( err => {
             next(err)
