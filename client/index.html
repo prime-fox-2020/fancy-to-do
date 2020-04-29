@@ -9,63 +9,101 @@
 </head>
 <body>
 
-  <h1 style="text-align: center">Todo App</h1>
+  <h1 style="text-align: center;border-bottom: 1px solid black;">Todo App</h1>
 
   <!-- LOGIN -->
-  <form>
-    <div class="form-row align-items-center" style="margin: 3% 45%;">
-      <div class="col-auto">
-        <input type="text" class="form-control mb-2" placeholder="Email">
+  <div id="loginbox" class="allbox">
+    <form id="loginform">
+      <div class="form-row align-items-center" style="margin: 3% 45%; width: 25%;">
+      <h3>LOGIN</h3><br>
+        <div class="col-auto">
+          <input type="text" id="emaillogin" class="form-control mb-2" placeholder="Email">
+        </div>
+        <div class="col-auto">
+          <input type="text" id="passwordlogin" class="form-control mb-2" placeholder="Password">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-2">login</button>
+          <!-- <button type="submit" onclick="cek()" id="regisbutton" class="btn btn-info mb-2">Register</button> -->
+        </div>
       </div>
-      <div class="col-auto">
-        <input type="text" class="form-control mb-2" placeholder="Password">
-      </div>
-      <div class="col-auto">
-        <button type="submit" class="btn btn-primary mb-2">login</button>
-        <button type="submit" class="btn btn-info mb-2">Register</button>
-      </div>
-    </div>
-  </form>
-
+    </form>
+  </div>
+    
+    
   <!-- REGISTER -->
-  <form>
-    <div class="form-row align-items-center" style="margin: 3% 45%;">
-      <div class="col-auto">
-        <input type="text" class="form-control mb-2" placeholder="Email">
+  <div id="regisbox" class="allbox">
+    <form id="regisform">
+      <div class="form-row align-items-center" style="margin: 3% 45%; width: 25%;">
+        <h3>REGISTER</h3>
+        <div class="col-auto">
+          <input type="text" id="emailregis" class="form-control mb-2" placeholder="Email" required>
+        </div>
+        <div class="col-auto">
+          <input type="text" id="passwordregis" class="form-control mb-2" placeholder="Password" required>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-info mb-2">Register</button>
+          <!-- <button type="submit" class="btn btn-primary mb-2">login</button> -->
+        </div>
       </div>
-      <div class="col-auto">
-        <input type="text" class="form-control mb-2" placeholder="Password">
+    </form>
+  </div>
+    
+    
+      <!-- LOG OUT -->
+      <div id="logoutbox" class="allbox">
+        <form id="logoutform">
+          <div class="col-auto" style="margin: 3% 45%;">
+            <button type="submit" class="btn btn-warning mb-2">Log out</button>
+          </div>
+        </form>
       </div>
-      <div class="col-auto">
-        <button type="submit" class="btn btn-info mb-2">Register</button>
-        <button type="submit" class="btn btn-primary mb-2">login</button>
-      </div>
-    </div>
-  </form>
+      
+      <!-- FORM ADD TODO -->
+        <div id="add-todo" class="allbox">
+        
+          <form id="add-todo-form">
+            <div class="form-row align-items-center" style="width: 70%;margin: 3% 15%;">
+              <div class="col-md-6">
+                <input type="text" id="title" class="form-control mb-2" placeholder="Title">
+              </div>
+              <div class="col-md-6">
+                <input type="text" id="description" class="form-control mb-2" placeholder="Description">
+              </div>
+              <div class="col-md-6">
+                <input type="text" id="status" class="form-control mb-2" placeholder="Status">
+              </div>
+              <div class="col-md-6">
+                <input type="text" id="due_date" class="form-control mb-2" placeholder="Due date">
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-info mb-2">Tambah Todo</button>
+              </div>
+            </div>
+          </form>
+          
+        
+        <!-- LIST TODO -->
+        <div id="get-todo" class="allbox">
 
-
-  <!-- FORM ADD TODO -->
-  <form>
-    <div class="form-row align-items-center" style="margin: 3% 35%;">
-      <div class="col-md-6">
-        <input type="text" class="form-control mb-2" placeholder="Title">
-      </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control mb-2" placeholder="Description">
-      </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control mb-2" placeholder="Status">
-      </div>
-      <div class="col-md-6">
-        <input type="text" class="form-control mb-2" placeholder="Due date">
-      </div>
-      <div class="col-auto">
-        <button type="submit" class="btn btn-info mb-2">Tambah Todo</button>
-      </div>
-    </div>
-  </form>
-
-
-  <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+          <table class="table" style="width: 70%; margin: 3% auto;">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+          
+          <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+          <script src="./main.js"></script>
 </body>
 </html>
