@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <div id="theLogin" class="the-element">
+        <h1 id="titlepage">LOGIN PAGE</h1>
+        <h3 class="subtitle">Login to view your todo list</h3>
+
+        <form action="" method="POST">
+            <label for="">Email</label>
+            <input type="text" name="email" id="" placeholder="Type your email">
+            <label for="">Password</label>
+            <input type="text" name="password" id="" placeholder="Type your password">
+            <button type="submit" id="login-submit">Login</button>
+        </form>
+        <button id="regis-btn">Register</button>
+    </div>
+
+    <div id="theRegister" class="the-element">
+        <h1>REGISTER</h1>
+        <h3>Register now!</h3>
+        
+        <form action="" method="POST">
+            <label for="">Email</label>
+            <input type="text" name="email" id="" placeholder="Type your email">
+            <label for="">Password</label>
+            <input type="text" name="password" id="" placeholder="Type your password">
+            <button type="submit">Submit</button>
+        </form>
+        <button id="login-btn">Login</button>
+
+    </div>
+
+    <div id="theTodos" class="the-element">
+        <h1>Your Todo List</h1>
+        <label for="">Add New Todo</label>
+
+        <form action="">
+            <input type="text" name="" id="" placeholder="title">
+            <input type="text" name="" id="" placeholder="description">
+        </form>
+
+        <table id="todosTable">
+            <thead>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </thead>
+            <tbody id="todosTBody">
+            </tbody>
+        </table>
+
+        <a href="">Log Out</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
