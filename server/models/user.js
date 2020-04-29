@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'Email is Empty!'
-        }
+        },
+        isEmail: true
       }
     },
     password: {
@@ -52,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
   })
   
   User.associate = function(models) {
-    // associations can be defined here
+    User.hasMany(models.Todo);
   };
   return User;
 };

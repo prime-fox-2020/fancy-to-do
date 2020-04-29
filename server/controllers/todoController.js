@@ -2,11 +2,12 @@ const {Todo} = require('../models');
 
 class TodoController{
 
-    static create(req, res){
-        let { title, description, status, due_date } = req.body;
+    static create(req, res, next){
+        const UserId = req.user.id;
+        const { title, description, status, due_date } = req.body;
 
         Todo.create({
-            title, description, status, due_date 
+            title, description, status, due_date, UserId
         })
         .then(data => {
             res.status(201).json(data);
@@ -14,103 +15,79 @@ class TodoController{
         .catch(err => {
             console.log(err);
             if(err.name === 'SequelizeValidationError'){
-                res.status(400).json({
-                    message: err.message.split(',\n').join(' ')
-                })
+                next({status: 400, message: err.message.split(',\n').join(' ')})
             } else {
-                res.status(500).json({
-                    message: err.message || 'Internal Server Error'
-                });
+                next({status: 500, message: err.message || 'Internal Server Error'})
             }
         })
     }
 
-    static read(req, res){
+    static read(req, res, next){
+        const UserId = req.user.id;
+
         Todo.findAll({
+            where: { UserId },
             order: [['id', 'asc']]
         })
-        .then(data => {
-            res.status(200).json(data);
+        .then(todo => {
+            res.status(200).json(todo);
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({
-                message: err.message || 'Internal Server Error'
-            });
+            next({status: 500, message: err.message || 'Internal Server Error'})
         })
     }
 
-    static readById(req, res){
-        let id = req.params.id;
+    static readById(req, res, next){
+        const { id } = req.params;
 
         Todo.findByPk(id, {})
-        .then(data => {
-            if(!data){
-                res.status(404).json({
-                    message: 'ID is not found!'
-                })
+        .then(todo => {
+            console.log(todo)
+            if(!todo){
+                next({status: 404, message: 'DATA_NOT_FOUND'})
             } else {
-                // res.status(200).json(data);
+                res.status(200).json(todo)
             }
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({
-                message: err.message || 'Internal Server Error'
-            });
+            next({status: 500, message: 'Internal Server Error'})
         })
     }
 
-    static update(req, res){
-        let id = req.params.id;
-        let updateTodo = req.body;
+    static update(req, res, next){
+        const { id } = req.params;
+        const updateTodo = req.body;
 
         Todo.update(updateTodo, {
             where: { id }
         })
-        .then(data => {
-            if(!data[0]){
-                res.status(404).json({
-                    message: 'ID is not found!'
-                })
-            } else {
-                return Todo.findByPk(id, {})
-            }
+        .then(() => {
+            return Todo.findByPk(id, {});
         })
         .then(data => res.status(200).json(data))
         .catch(err => {
             console.log(err);
             if(err.name === 'SequelizeValidationError'){
-                res.status(400).json({
-                    message: err.message.split(',\n').join(' ')
-                })
+                next({status: 400, message: err.message.split(',\n').join(' ')})
             } else {
-                res.status(500).json({
-                    message: err.message || 'Internal Server Error'
-                });
+                next({status: 500, message: err.message || 'Internal Server Error'})
             }
         })
     }
 
-    static delete(req, res){
-        let id = req.params.id;
+    static delete(req, res, next){
+        const id = req.params.id;
 
         Todo.destroy({ where: { id } })
-        .then(data => {
-            if(data === 1){
-                return Todo.findByPk(id, {})
-            } else {
-                res.status(404).json({
-                    message: 'ID is not found!'
-                })
-            }
+        .then(() => {
+            return Todo.findByPk(id, {})
         })
         .then(data => res.status(200).json(data))
         .catch(err => {
             console.log(err);
-            res.status(500).json({
-                message: err.message || 'Internal Server Error'
-            });
+            next({status: 500, message: err.message || 'Internal Server Error'})
         })
     }
 

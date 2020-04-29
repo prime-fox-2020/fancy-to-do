@@ -13,34 +13,28 @@ Ryz Todo App is an application to list and check your activity. This app has :
 
 _Request Header_
 ```
-{
-  "access_token": "<your access token>"
-}
+not needed
 ```
 
 _Request Body_
 ```
-not needed
+{ 
+    "first_name": "<your first name>",
+    "last_name": "<your last name>",
+    "email": "<your email>",
+    "password": "<your password>"
+}
 ```
 
 _Response (200)_
 ```
-[
-  {
-    "id": 1,
-    "name": "<asset name>",
-    "description": "<asset description>",
-    "createdAt": "2020-03-20T07:15:12.149Z",
-    "updatedAt": "2020-03-20T07:15:12.149Z",
-  },
-  {
-    "id": 2,
-    "name": "<asset name>",
-    "description": "<asset description>",
-    "createdAt": "2020-03-20T07:15:12.149Z",
-    "updatedAt": "2020-03-20T07:15:12.149Z",
-  }
-]
+{
+    "id": "<your id>",
+    "first_name": "<your first name>",
+    "last_name": "<your last name>",
+    "email": "<your email>",
+    "password": "<your password>",
+}
 ```
 
 _Response (400 - Bad Request)_
@@ -57,20 +51,20 @@ _Response (400 - Bad Request)_
 _Request Header_
 ```
 {
-  "access_token": "<your access token>"
+    "access_token": "<your access token>"
 }
 ```
 
 _Request Body_
 ```
 {
-  "name": "<name to get insert into>",
-  "description": "<description to get insert into>"
+    "email": "<your email>",
+    "password": "<your password>"
 }
 ```
 
 _Response (201 - Created)_
-```
+<!-- ```
 {
   "id": <given id by system>,
   "name": "<posted name>",
@@ -78,14 +72,14 @@ _Response (201 - Created)_
   "createdAt": "2020-03-20T07:15:12.149Z",
   "updatedAt": "2020-03-20T07:15:12.149Z",
 }
-```
+``` -->
 
 _Response (400 - Bad Request)_
-```
+<!-- ```
 {
   "message": "<returned error message>"
 }
-```
+``` -->
 
 ### POST /todos/
 ### GET /todos/
