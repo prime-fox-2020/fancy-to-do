@@ -52,7 +52,7 @@ function showTodo(todos) {
 
   let list = `
   <h1 class="mt-3">Todo List</h1>
-  <button class="btn btn-primary" id="add">Add</button>
+  <button class="btn btn-primary" id="add" data-toggle="modal" data-target="#add-todo">Add</button>
   <table class="table mt-3">
   <thead class="thead-dark">
     <tr>
@@ -169,6 +169,13 @@ $('.container').on('submit', 'form.user-register', e => {
     })
   })
   .done(function(res) {
+    $('div.container').html(`
+      <div class="jumbotron">
+        <h1 class="display-4">Register Success</h1>
+        <p class="lead">Login To access TodoApp</p>
+        <a class="btn btn-success btn-lg" id="login" role="button">Login</a>
+      </div>
+    `);
     console.log( "success >>", res );
   })
   .fail(function(err) {
@@ -198,3 +205,71 @@ $('#logout').on('click', () => {
   renderHome();
 })
 
+/* CREATE, UPDATE, DELETE */
+
+//create todo
+$('.todo-add').on('submit', e => {
+  const todo = {
+    title: $('#title').val(),
+    description: $('#description').val(),
+    status: $('#status').val(),
+    due_date: $('#due_date').val()
+  }
+  console.log(todo);
+  $.ajax({
+    url: 'http://localhost:3000/todos',
+    type: "POST",
+    contentType: "application/json;charset=utf-8",
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    },
+    data: JSON.stringify(todo)
+  })
+  .done(function(res) {
+    $('#add-todo').modal('hide');
+    $('#title').val('');
+    $('#description').val('');
+    $('#status').val('');
+    $('#due_date').val('');
+    renderTodo();
+    console.log( "success >>", res );
+  })
+  .fail(function(err) {
+    console.log( "error >>", err );
+  })
+  .always(function() {
+    console.log( "complete" );
+  });
+  e.preventDefault();
+})
+
+//delete todo
+$('.container').on('click', '[id=delete]', el => {
+  const id = el.target.dataset.id;
+  $('.modal-body-delete').html(`<br><h4 style="text-align: center;">Delete this Todo?</h4><br>`);
+  $('#delete-todo').modal('show');
+  $('#delete-button').on('click', el => {
+    deleteTodo(id);
+  })
+})
+
+function deleteTodo(id) {
+  $.ajax({
+    url: `http://localhost:3000/todos/${id}`,
+    type: 'DELETE',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(function(res) {
+    $('#delete-todo').modal('hide');
+    renderTodo();
+    console.log( "success >>", res );
+  })
+  .fail(function(err) {
+    console.log( "error >>", err );
+  })
+  .always(function() {
+    console.log( "complete" );
+  });
+}
