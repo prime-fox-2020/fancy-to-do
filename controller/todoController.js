@@ -6,7 +6,7 @@ class TodoController {
         const dataUserId = req.userData.id
 
         Todo.findAll({
-            where : {dataUserId}
+            where : {UserId : dataUserId}
         })
         .then(data => {
             res.status(200).json(data)
@@ -19,12 +19,15 @@ class TodoController {
 
     static addTodo(req, res, next) {
         let data = req.body
+
         let newTodo = {
             title : data.title,
             description : data.description,
             status : data.status,
             due_date : data.due_date,
-            UserId : req.userData.id
+            UserId : req.userData.id,
+            createdAt: new Date(),
+            updatedAtd : new Date()
         }
         Todo.create(newTodo)
         .then( data => {
@@ -42,6 +45,7 @@ class TodoController {
 
     static findByPk(req, res, next) {
         let id = req.params.id
+
         Todo.findByPk(id)
         .then(data => {
             if(!data) {
@@ -87,6 +91,7 @@ class TodoController {
 
     static deleteTodo(req, res, next) {
         let id = req.params.id
+        
         Todo.destroy({
             where : {
                 id : id, 

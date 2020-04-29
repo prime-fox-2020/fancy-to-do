@@ -6,7 +6,8 @@ class UserController {
     static registrasi (req, res) {
         const { email, password } = req.body
         User.create({
-            email, password
+            email, 
+            password
         })
         .then( user => {
             res.status(201).json(user)
