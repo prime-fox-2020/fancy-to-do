@@ -36,17 +36,3 @@ $(document).ready(function () {
 
     $(".todo").hide();
 })
-// let statusLogin = false;
-
-// $("#login").click(function () {
-//     console.log("clicked")
-//     statusLogin = true;
-// })
-
-// if (!statusLogin) {
-//     $("#page1").show();
-//     $("#todo").hide();
-// } else {
-//     $("#page1").hide();
-//     $("#todo").show();
-// }
