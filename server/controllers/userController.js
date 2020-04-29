@@ -3,7 +3,7 @@ const jwt = require('../helper/jwt');
 const compareSync = require('../helper/compareBcrypt');
 
 class UserController {
-	static register(req, res, next) {
+	static register(req, res) {
 		const { name, email, password } = req.body;
 
 		User.create({
@@ -18,21 +18,21 @@ class UserController {
 				});
 			})
 			.catch((err) => {
-				//  let arr = []
-				//  console.log(err)
-				//  for(let i = 0; i < err.errors.length; i++){
-				//    arr.push(err.errors[i].message)
-				//  }
-				//  if(arr.length > 0){
-				//    res.status(400).json({
-				//      error: arr.join(',')
-				//    })
-				//  }else{
-				//    res.status(500).json({
-				//      error: err
-				//    })
-				//  }
-				next(err);
+				 let arr = []
+				 console.log(err)
+				 for(let i = 0; i < err.errors.length; i++){
+				   arr.push(err.errors[i].message)
+				 }
+				 if(arr.length > 0){
+				   res.status(400).json({
+				     error: arr.join(',')
+				   })
+				 }else{
+				   res.status(500).json({
+				     error: err
+				   })
+				 }
+				// next(err);
 			});
 	}
 

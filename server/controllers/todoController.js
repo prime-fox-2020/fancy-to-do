@@ -135,6 +135,7 @@ class TodoController {
 		Todo.destroy({ where: { id } })
 			.then((data) => {
 				if (data !== 0) {
+					console.log()
 					res.status(200).json({
 						todo: data
 					});
@@ -145,12 +146,13 @@ class TodoController {
 					next({name: 'DATA_NOT_FOUND'})
 				}
 			})
-			// .catch((err) => {
+			.catch((err) => {
 			// 	res.status(500).json({
 			// 		error: err
 			// 	});
-			// });
 			next(err)
+			});
+		
 	}
 }
 
