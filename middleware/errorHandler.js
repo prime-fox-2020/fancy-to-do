@@ -1,7 +1,7 @@
 module.exports = function(err, req, res, next){
     let statusCode = 500
     let errorCode = `Internal Server Error`
-    let message = ``
+    let message = err.message || `Internal Server Error`
 
     if (err.name == "SequelizeValidationError"){
         statusCode = 400
@@ -15,14 +15,22 @@ module.exports = function(err, req, res, next){
             }
         }
     } 
+    else if (err.name == `Invalid Token`){
+        statusCode = 401
+        errorCode = `AUTHENTICATION_FAILED`
+        message = `Invalid Token`
+    }
+    else if (err.name == `Forbidden Access`){
+        statusCode = 403
+        errorCode = `USER_RESTRICTED_ACCESS`
+        message = `Forbidden Access`
+    }
     else if (err.name == `Data Not Found`){
         statusCode = 404
         errorCode = `DATA_NOT_FOUND`
-        message = `Data tidak ditemukan`
+        message = `Data Not Found`
     } 
-    // else {
-
-    // }
+    
 
     res.status(statusCode).json({errorCode, message})
 }

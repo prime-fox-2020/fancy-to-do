@@ -10,8 +10,7 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err => {
-            next()
-            // res.status(500).json(err)
+            next(err)
         })
     }
 
@@ -44,7 +43,7 @@ class TodoController {
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 
@@ -83,8 +82,7 @@ class TodoController {
             }
         })
         .catch(err => {
-            next()
-            // res.status(500).json(err)
+            next(err)
         })
     }
 }

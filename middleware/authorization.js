@@ -7,15 +7,15 @@ function authorization(req,res,next){
     Todo.findByPk(id)
     .then(todo => {
         if(!todo){
-            res.status(404).json({message : `Data Not Found`})
+            next({name : `Data Not Found`})
         } else if (todo.UserId !== userId){
-            res.status(403).json({message : `Forbidden Access`})
+            next({name : `Forbidden Access`})
         } else {
             next()
         }
     })
     .catch(err => {
-        res.status(500).json({message:err.message || `Internal Server Error`})
+        next(err)
     })
 }
 

@@ -6,7 +6,7 @@ const errorHandler = require('./middleware/errorHandler')
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
-app.use('/', routers)
+app.use(routers)
 app.use(errorHandler)
 
 app.listen(PORT, () => {
