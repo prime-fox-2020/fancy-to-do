@@ -17,10 +17,15 @@ const errorHandler = (err, req, res, params) => {
         message = 'Invalid Email / Password';
     } else if (err.name == 'EMAIL_ALREADY_USED') {
         statusCode = 400;
-        errorCode = 'IEMAIL_ALREADY_USED';
+        errorCode = 'EMAIL_ALREADY_USED';
         message = 'Email already used';
+    } else if (err.name == 'CITY_NOT_FOUND') {
+        statusCode = 404;
+        errorCode = 'CITY_NOT_FOUND';
+        message = 'City not found';
     }
 
+    
     res.status(statusCode).json({ errorCode, message });
 }
 
