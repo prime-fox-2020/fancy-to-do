@@ -59,7 +59,7 @@ class TodosController {
         Todo.destroy({
             where: { id }
         }).then(response => {
-            if(response[0] === 1) {
+            if(response === 1) {
                 res.status(200).json({message: "Todo successfully deleted"})
             } else {
                 throw { message: 'todo not found', status: 404 }

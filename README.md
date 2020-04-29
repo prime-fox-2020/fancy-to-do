@@ -1,5 +1,5 @@
 # fancy-to-do
-Create fancy to do app, using express, jquery, ajax
+Create SPA fancy todo, using express, jquery, ajax
 
 ## REST endpoint
 - [POST/ register](#postregister)

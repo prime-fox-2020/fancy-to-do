@@ -17,7 +17,13 @@ class UserController {
                 })
             }
         }).then(user => {
-            res.status(201).json({id: user.id, email: user.email, password: user.password})
+            const access_token = generateToken(user)
+            res.status(201).json({
+                id: user.id,
+                email: user.email,
+                password: user.password,
+                access_token
+            })
         }).catch(next)
     }
     static login (req, res, next) {
