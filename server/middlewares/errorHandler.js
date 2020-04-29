@@ -2,7 +2,7 @@ function errorHandler(err,req,res, next){
   let statusCode = 500;
   let errorCode = "UNKNOWN_ERROR"
   console.log(err.name, '-----ini error')
-  console.log('halooo')
+ 
 
   if(err.name == 'SequelizeValidationError'){
     statusCode = 400;
@@ -20,6 +20,10 @@ function errorHandler(err,req,res, next){
     statusCode = 403
     errorCode = 'FORBIDDEN_ACCESS'
     message = "You are not authorized to access the file"
+  }else if(err.name == 'ReferenceError'){
+    statusCode = 500 
+    errorCode = 'INTERNAL_SERVER_ERROR'
+    message = "Reffernce error"
   }
 
   res.status(statusCode).json({
