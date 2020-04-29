@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <h1 class="display-4">What To Do's</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+            featured content or information.</p>
+
+        <div class="container" id="page1">
+            <div class="row">
+                <div class="col-sm">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput3">Name</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput3">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Email address</label>
+                            <input type="email" class="form-control" id="exampleFormControlInput1"
+                                placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput2">Password</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput2">
+                        </div>
+                    </form>
+                    <button class="btn btn-primary" id="register">Register</button>
+                </div>
+                <div class="col-sm-1">
+                    <p class="text-center"><br><br><br><br><br>OR</p>
+                </div>
+                <div class="col-sm">
+                    <br><br>
+                    <form method="POST">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                            placeholder="name@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput2">Password</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput2">
+                    </div>
+                    </form>
+                    <button class="btn btn-primary" id="login">Login</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="todo">
+            <p>ToDo</p>
+
+            <button class="btn btn-primary" id="logout">Log Out</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+   <script src="./index.js"></script>
+</body>
+
+</html>
