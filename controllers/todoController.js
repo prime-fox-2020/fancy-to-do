@@ -2,12 +2,12 @@ const {Todo} = require('../models');
 
 class todoController {
     static findAll(req, res) {
-        Todo.findAll()
+        Todo.findAll({where: {UserId: req.userData.id}})
         .then(data => {
             res.status(200).json(data);
         })
         .catch(err => {
-            res.status(500).json({errMessage: err});
+            res.status(500).json({errMessage: err.message});
         })
     }
 
@@ -18,14 +18,14 @@ class todoController {
             else res.status(404).json({errMessage: `Data with id ${req.params.id} not found`});
         })
         .catch(err => {
-            res.status(500).json({errMessage: err});
+            res.status(500).json({errMessage: err.message});
         })
     }
 
     static addData(req, res) {
-        const {title, description, status, due_date} = req.body;
+        const {title, description, due_date} = req.body;
         const input = {
-            title, description, status, due_date
+            title, description, due_date, UserId: req.userData.id
         }
 
         Todo.create(input)
@@ -33,11 +33,14 @@ class todoController {
             res.status(201).json(data);
         })
         .catch(err => {
-            let errMessage = [];
-            for(let i in err.errors) {
-                errMessage.push(err.errors[i].message);
+            if(err.errors[0].message) {
+                let errMessage = [];
+                for(let i in err.errors) {
+                    errMessage.push(err.errors[i].message);
+                }
+                res.status(400).json({errMessage});
             }
-            res.status(400).json({errMessage});
+            else res.status(500).json({errMessage: err.message});
         })
     }
 
@@ -57,11 +60,14 @@ class todoController {
             res.status(200).json(data);
         })
         .catch(err => {
-            let errMessage = [];
-            for(let i in err.errors) {
-                errMessage.push(err.errors[i].message);
+            if(err.errors[0].message) {
+                let errMessage = [];
+                for(let i in err.errors) {
+                    errMessage.push(err.errors[i].message);
+                }
+                res.status(400).json({errMessage});
             }
-            res.status(400).json({errMessage});
+            else res.status(500).json({errMessage: err});
         })
     }
 
