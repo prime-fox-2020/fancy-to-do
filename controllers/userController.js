@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const generateToken = require('../helpers/jwt');
 
 class userController{
-    static register(req, res) {
+    static register(req, res, next) {
         const {email, password} = req.body;
 
         User.create({email, password})
@@ -11,30 +11,23 @@ class userController{
             res.status(201).json(data);
         })
         .catch(err => {
-            if(err.errors[0].message) {
-                let errMessage = [];
-                for(let i in err.errors) {
-                    errMessage.push(err.errors[i].message);
-                }
-                res.status(400).json({errMessage});
-            }
-            else res.status(500).json({errMessage: err});
+            next(err);
         })
     }
 
-    static login(req, res) {
+    static login(req, res, next) {
         const {email, password} = req.body;
 
         User.findOne({where: {email}})
         .then(data => {
-            if(!data || !bcrypt.compareSync(password, data.password)) res.status(400).json({errMessage: 'Invalid User/ Password'});
+            if(!data || !bcrypt.compareSync(password, data.password)) next({name: 'LOGIN_FAILED'});
             else {
                 const access_token = generateToken(data);
                 res.status(200).json({access_token});
             }
         })
         .catch(err => {
-            res.status(500).json({errMessage: err});
+            next(err);
         })
     }
 }

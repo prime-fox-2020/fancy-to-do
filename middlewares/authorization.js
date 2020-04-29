@@ -3,12 +3,12 @@ const {Todo} = require('../models');
 const authorization = (req, res, next) => {
     Todo.findByPk(req.params.id)
     .then(data => {
-        if(!data) res.status(404).json({errMessage: 'Todo not found'});
-        else if(data.UserId !== req.userData.id) res.status(403).json({errMessage: 'Unauthorize'});
+        if(!data) next({name: 'DATA_NOT_FOUND'});
+        else if(data.UserId !== req.userData.id) next({name: 'AUTHORIZATION_ERROR'});
         else next();
     })
     .catch(err => {
-        res.status(500).json({errMessage: err.message});
+        next(err)
     })
 }
 

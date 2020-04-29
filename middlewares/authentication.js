@@ -4,14 +4,14 @@ const secretKey = 'biasa saja';
 const authentication = (req, res, next) => {
     const {access_token} = req.headers;
     
-    if(!access_token) res.status(404).json({errMessage: 'token not found'});
+    if(!access_token) next({name: 'TOKEN_NOT_FOUND'});
 
     try {
         const decoded = jwt.verify(access_token, secretKey);
         req.userData = decoded;
         next();    
     } catch(err) {
-        res.status(401).json({errMessage: err.message || 'User Unauthenticate'});
+        err.message ? next(err) : next({name: 'AUTHENTICATION_ERROR'})
     }
 }
 
