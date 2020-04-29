@@ -7,8 +7,10 @@ $(document).ready(()=> {
     $(".form-container").hide()
     if(!localStorage.getItem("access_token")){
         $(".home").show()
+        $(".logoutBtn").hide()
     } else {
         $(".home").hide()
+        $(".logoutBtn").show()
         $(".user-page").show()
         $(".todo-detail").hide()
         getTodo()
@@ -36,6 +38,7 @@ $(document).ready(()=> {
         $(".form-container").hide()
         $(".home").show()
         $(".todo-item").remove()
+        signOut()
     })
     $(".addBtn").click(e => {
         e.preventDefault()
@@ -66,6 +69,7 @@ $(document).ready(()=> {
             localStorage.setItem('access_token', response.access_token)
             $(".home").hide()
             $(".form-container").hide()
+            $(".logoutBtn").show()
             $(".user-page").show()
             $(".todo-detail").hide()
             $("#regEmail").val('')
@@ -90,6 +94,7 @@ $(document).ready(()=> {
             localStorage.setItem('access_token', response.access_token)
             $(".home").hide()
             $(".form-container").hide()
+            $(".logoutBtn").show()
             $(".user-page").show()
             $(".todo-detail").hide()
             $("#logEmail").val('')
@@ -337,3 +342,32 @@ function deleteTodo(id) {
 function cancelDelete(){
     $(".alert").remove()
 }
+
+function onSignIn(googleUser) {
+    const id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url:`${url}/googleSign`,
+        method:"POST",
+        data: { id_token }
+    })
+    .done(response => {
+        localStorage.setItem('access_token', response.access_token)
+        $(".home").hide()
+        $(".form-container").hide()
+        $(".logoutBtn").show()
+        $(".user-page").show()
+        $(".todo-detail").hide()
+    })
+    .fail(err=>{
+        console.log(err)
+    })
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+      localStorage.removeItem('access_token')
+    });
+    $(".logoutBtn").hide()
+  }

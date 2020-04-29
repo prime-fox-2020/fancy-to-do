@@ -5,6 +5,7 @@ const errorHandler = require('../middlewares/errorHandler')
 
 router.post('/register', userController.register)
 router.post('/login', userController.login)
+router.post('/googleSign', userController.googleSign)
 router.use('/todos', todosRoutes)
 router.use(errorHandler)
 
