@@ -8,7 +8,7 @@ class Controller{
             res.status(200).json(data)
         })
         .catch(err=>{
-            res.status(400).json('internal server error')
+            next(err)
         })
     }
 
@@ -20,7 +20,7 @@ class Controller{
             res.status(200).json(data)
         })
         .catch(err=>{
-            res.status(400).json('internal server error')
+            next(err)
         })
     }
 
@@ -31,7 +31,7 @@ class Controller{
             res.status(200).json(data)
         })
         .catch(err=>{
-            res.status(400).json('internal server error')
+            next(err)
         })
     }
 
@@ -49,7 +49,7 @@ class Controller{
             res.status(201).json(data)
         })
         .catch(err=>{
-            res.status(400).json({message: `internal server error`})
+            next(err)
         })
     }
 

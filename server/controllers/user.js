@@ -10,7 +10,7 @@ class Controller{
             res.status(200).json(data)
         })
         .catch(err=>{
-            res.status(400).json('data tidak ada')
+            next(err)
         })
     }
 
@@ -74,7 +74,7 @@ class Controller{
             res.status(200).json({access_token})
         })
         .catch(err=>{
-            res.status(500).json({message:'internal server error'})
+            next(err)
         })
     }
 
@@ -85,7 +85,7 @@ class Controller{
             res.status(200).json(data)
         })
         .catch(err=>{
-            res.status(200).json({message: `data not found`})
+            next(err)
         })
     }
 

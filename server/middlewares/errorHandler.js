@@ -9,8 +9,11 @@ function errorHandler (err , req , res , next){
         path = err.errors[0].path
         msg = err.errors[0].message
         res.status(statuscode).json({errorCode,path,msg})
-    }else{
-        res.status(statuscode).json({err})
+    }else if (err.name == "DATA_NOT_FOUND"){
+        statuscode = 404
+        errorCode = 'Invalid_ID'
+        msg = 'Data not found'
+        res.status(statuscode).json({errCode,msg})
     }
     
 

@@ -12,7 +12,7 @@ function authentication (req,res,next){
         next()
     }
     catch(err){
-        res.status(501).json('un - authenticated')
+        next(err)
     }
 }
 
@@ -29,7 +29,7 @@ function authorization (req,res,next){
         }
     }
     catch(err){
-        res.status(501).json('un - authorized only for admin')
+        next(err)
     }
 }
 
@@ -44,8 +44,6 @@ function authorizationSU(req,res,next){
             }
             else if(username !== data.username){
                 status = false
-                // throw res.status(501).json({'un - authorized only for admin or user only')
-
                 throw ({name:'unauthorized',msg: 'authorized only for admin or user only'})
             }
             else if(username == data.username){
