@@ -2,7 +2,7 @@ const {Todo} = require('../models/index')
 
 class Controller{
     
-    static findAll(req,res){
+    static findAll(req,res,next){
         Todo.findAll({})
         .then(data=>{
             res.status(200).json(data)
@@ -12,7 +12,7 @@ class Controller{
         })
     }
 
-    static findAllMyTodos(req,res){
+    static findAllMyTodos(req,res,next){
         const username = req.userData.username
         console.log(username)
         Todo.findAll({where : {username : username}})
@@ -24,7 +24,7 @@ class Controller{
         })
     }
 
-    static findId(req,res){
+    static findId(req,res,next){
         const id = req.params.id
         Todo.findAll({where: {id : id}})
         .then(data=>{
@@ -35,7 +35,7 @@ class Controller{
         })
     }
 
-    static add(req,res){
+    static add(req,res,next){
         const body = {
             username:req.body.username,
             title:req.body.title,
@@ -75,7 +75,7 @@ class Controller{
         })
     }
 
-    static delete(req,res){
+    static delete(req,res,next){
         const id = req.params.id
 
         Todo.destroy({where: {id : id}})
