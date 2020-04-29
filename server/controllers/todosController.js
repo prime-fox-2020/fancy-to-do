@@ -24,7 +24,8 @@ class TodosController{
   static findAll(req, res, next){
     const id = req.userData.id
     Todo.findAll({
-      where: {UserId: id}
+      where: {UserId: id},
+      order: [['id', 'DESC']]
     })
     .then(data=>{
       res.status(200).json(data)
