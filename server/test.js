@@ -1,9 +1,10 @@
 
 
 
-const usernameCheck = "admin01"
+const usernameCheck = ""
 
-console.log(usernameCheck.slice(0,5))
+console.log(usernameCheck.split('').length)
+
 
 
 // if(usernameCheck)

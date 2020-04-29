@@ -12,8 +12,26 @@ module.exports = (sequelize, DataTypes) => {
   }
   
   User.init({
-    first_name: DataTypes.STRING,
-    last_name: DataTypes.STRING,
+    first_name: {
+      type : DataTypes.STRING,
+      validate:{
+        isLength(value){
+          if(value.split('').length<3){
+            throw new Error('at least 3 characters')
+          }
+        }
+      }
+    },
+    last_name: {
+      type : DataTypes.STRING,
+      validate:{
+        isLength(value){
+          if(value.split('').length<3){
+            throw new Error('at least 3 characters')
+          }
+        }
+      }
+    },
     email: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING

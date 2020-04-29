@@ -15,7 +15,7 @@ class Controller{
     }
 
 
-    static register(req,res){
+    static register(req,res,next){
 
     const body = req.body
         body.first_name = body.first_name,
@@ -38,12 +38,12 @@ class Controller{
                 return User.create(body)
             }
         })
-
         .then(user=>{
             res.status(201).json(user)
         })
         .catch(err=>{
-            res.status(500).json('internal server error')
+            next(err)
+            // res.status(500).json({message:`internal server error ${err}`})
         })
     }
 
@@ -55,10 +55,10 @@ class Controller{
         User.findOne({where:{username : username}})
         .then(data=>{
             if(!data){
-                res.status(400).json('user tidak ada / password salah')
+                res.status(400).json({message:'user tidak ada / password salah'})
             }
             if(!bcrypt.compareSync(password,data.password)){
-                res.status(400).json('user tidak ada / password salah')
+                res.status(400).json({message:'user tidak ada / password salah'})
             }
             return data
         })
@@ -74,7 +74,7 @@ class Controller{
             res.status(200).json({access_token})
         })
         .catch(err=>{
-            res.status(500).json('internal server error')
+            res.status(500).json({message:'internal server error'})
         })
     }
 
