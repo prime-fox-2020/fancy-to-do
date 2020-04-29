@@ -7,7 +7,8 @@ class ToDoController{
         const userDataId = req.userData.id
 
         ToDo.findAll({
-            where: { UserId: userDataId }
+            where: { UserId: userDataId },
+            order: [['id', 'ASC']]
         })
         .then(data => {
             res.status(200).json(data)
@@ -40,7 +41,7 @@ class ToDoController{
         ToDo.create({
             title:req.body.title,
             description: req.body.description,
-            status: 'berhasil di-create',
+            status: req.body.status,
             due_date: new Date(),
             UserId: userDataId
         })
@@ -48,15 +49,6 @@ class ToDoController{
             res.status(201).json(data)
         })
         .catch(err => {
-            // let message = []
-            // if(err.name == 'SequelizeValidationError'){
-            //     for (let i = 0; i < err.errors.length; i++) {
-            //         message.push(err.errors[i].message)
-            //     }
-            //     res.status(400).json({ message })
-            // }else{
-            //     res.status(500).json(err)
-            // }
             next(err)
         })
     }
@@ -66,7 +58,7 @@ class ToDoController{
         ToDo.update({
             title:req.body.title,
             description: req.body.description,
-            status: 'berhasil di-update',
+            status: req.body.status,
             due_date: new Date(),
             UserId: userDataId
         }, { where : { id : req.params.id}})
@@ -79,16 +71,6 @@ class ToDoController{
             }
         })
         .catch(err => {
-            // console.log(err);
-            // if(err.name == 'SequelizeValidationError'){
-            //     let message = []
-            //     for (let i = 0; i < err.errors.length; i++) {
-            //         message.push(err.errors[i].message)
-            //     }
-            //     res.status(400).json({ message })
-            // }else{
-            //     res.status(500).json(err)
-            // }
             next(err)
         })
     }
