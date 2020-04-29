@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const secretKey = 'h4cK71v3i6Ht'
 
 const helpers = {
 
@@ -13,11 +12,11 @@ const helpers = {
     return jwt.sign({ 
       id: user.id, 
       email: user.email 
-    }, secretKey)
+    }, process.env.JWT_S_KEY)
   },
   verifyToken: (token) => {
     return new Promise((resolve, reject) => {
-      jwt.verify(token, secretKey, (err, payload) => {
+      jwt.verify(token, process.env.JWT_S_KEY, (err, payload) => {
         if (err) return reject(err)
         resolve(payload)
       })

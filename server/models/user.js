@@ -52,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
   User.beforeCreate( (instance, options) => {
     const hash = hashPassword(instance.password)
     instance.password = hash
+    if (!instance.last_name) instance.last_name = instance.first_name
   })
 
   return User;

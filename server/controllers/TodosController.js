@@ -2,76 +2,48 @@ const {Todo} = require('../models')
 
 class TodosController {
   
-  static getMany(req, res) {
+  static getMany(req, res, next) {
     Todo.findAll({where: {UserId: req.user.id}}).then(data => {
       res.status(200).json(data)
     })
-    .catch(err => {
-      res.status(500).json({error: err})
-    })
+    .catch(err => next(err))
   }
   
-  static createOne(req, res) {
+  static createOne(req, res, next) {
     const {title, description, status, due_date} = req.body
     const newObj = {title, description, status, due_date, UserId: req.user.id}
 
     Todo.create(newObj).then(data => {
       res.status(201).json(data)
     })
-    .catch(err => {
-      if (err.name === 'SequelizeValidationError') {
-        let errors = err.errors.map(el => el.message)
-        res.status(400).json({error: errors})
-      } else {
-        res.status(500).json({error: err})
-      }
-    })
+    .catch(err => next(err))
   }
 
-  static getOne(req, res) {
+  static getOne(req, res, next) {
     const {id} = req.params
 
     Todo.findByPk(id).then(data => {
-      if (data) {
-        res.status(200).json(data)
-      } else {
-        res.status(404).json({error: {message: `Todo with ID ${id} is not found`}})
-      }
+      res.status(200).json(data)
     })
-    .catch(err => {
-      res.status(500).json({error: err})
-    })
+    .catch(err => next(err))
   }
 
-  static updateOne(req, res) {
+  static updateOne(req, res, next) {
     const {id} = req.params
     const {title, description, due_date, status} = req.body
     const newObj = {title, description,due_date, status, UserId: req.user.id}
 
-    Todo.findByPk(id).then(result => {
-      if (result) {
-        return Todo.update(newObj, {where: {id}})
-      } else {
-        res.status(404).json({error: {message: `Todo with ID ${id} is not found`}})
-      }
-    })
+    Todo.update(newObj, {where: {id}})
     .then(result => {
       return Todo.findByPk(id)
     })
     .then(result => {
       res.status(200).json(result)
-    })
-    .catch(err => {
-      if (err.name === 'SequelizeValidationError') {
-        let errors = err.errors.map(el => el.message)
-        res.status(400).json({error: errors})
-      } else {
-        res.status(500).json({error: err})
-      }
-    })
+    })    
+    .catch(err => next(err))
   }
   
-  static removeOne(req, res) {
+  static removeOne(req, res, next) {
     const {id} = req.params
     let todo
     
@@ -80,15 +52,9 @@ class TodosController {
       return Todo.destroy({where: {id}})
     })
     .then(result => {
-      if (todo) {
-        res.status(200).json({todo, message: `Todo with ID ${id} successfully deleted`})
-      } else {
-        res.status(404).json({error: {message: `Todo with ID ${id} is not found`}})
-      }
+      res.status(200).json({todo, message: `Todo with ID ${id} successfully deleted`})
     })
-    .catch(err => {
-      res.status(500).json({error: err})
-    })
+    .catch(err => next(err))
   }
 }
 

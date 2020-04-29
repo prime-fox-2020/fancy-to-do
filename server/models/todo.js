@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate:{
+        notNull:{
+          msg: 'Title cannot be empty'
+        },
         notEmpty:{
           msg: 'Title cannot be empty'
         }
@@ -18,8 +21,12 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     status: {
       type: DataTypes.ENUM,
+      allowNull: false,
       values: ['active', 'completed', 'pastdue'],
       validate: {
+        notNull: {
+          msg: "Status cannot be empty"
+        },
         isIn: {
           args: [['active', 'completed', 'pastdue']],
           msg: "Status must be active, completed or pastdue"
@@ -65,6 +72,6 @@ module.exports = (sequelize, DataTypes) => {
   Todo.associate = function(models) {
     Todo.belongsTo(models.User)
   };
-  
+
   return Todo;
 };

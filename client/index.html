@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style type="text/css">
+    /* #loginForm {
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      height: -webkit-fill-available;
+    } */
+  </style>
+</head>
+<body class="teal lighten-2">
+  <nav>
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo">Todo App</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li id="logoutButton"><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  
+  <div id="loginForm" class="container">
+    <div id="loginError" class="row">
+      <div class="col s10 push-s1">
+        <div class="card-panel red darken-2">
+          <span id="loginErrorText" class="white-text">
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form action="" id="userLoginForm" class="col s8 push-s2 grey lighten-5 hoverable">
+        <div class="row">
+          <div class="input-field col s10 push-s1">
+            <h1>Login Form</h1>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">email</i>
+            <input id="userEmail" name="email" type="email" class="validate">
+            <label for="userEmail">Email</label>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">lock</i>
+            <input name="password" id="userPassword" type="password" class="validate">
+            <label for="userPassword">Password</label>
+          </div>
+          <div class="input-field col s5 push-s1" style="margin-left: 3rem;">
+            <a id="buttonLogin" class="waves-effect waves-light black-text btn-large">Login</a>
+          </div>
+          <div class="input-field col s5 pull-s1" style="margin-right: 3rem;">
+            <a id="buttonRegisterForm" class="waves-effect waves-light black-text light-blue lighten-2 btn-large right">Register</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="registerForm" class="container">
+    <div id="registerError" class="row">
+      <div class=" col s10 push-s1">
+        <div class="card-panel red darken-2">
+          <span id="registerErrorText" class="white-text">
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form action="" id="userLoginForm" class="col s8 push-s2 grey lighten-5 hoverable">
+        <div class="row">
+          <div class="input-field col s10 push-s1">
+            <h1>Register Form</h1>
+          </div>
+          <div class="input-field col s5 push-s1">
+            <i class="material-icons prefix">person</i>
+            <input id="first_name" name="first_name" type="text" class="validate">
+            <label for="first_name">First Name</label>
+          </div>
+          <div class="input-field col s5 push-s1">
+            <i class="material-icons prefix"></i>
+            <input id="last_name" name="first_name" type="text">
+            <label for="last_name">Last Name</label>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">email</i>
+            <input id="userEmailRegister" name="email" type="email" class="validate">
+            <label for="userEmailRegister">Email</label>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">lock</i>
+            <input name="password" id="userPasswordRegister" type="password" class="validate">
+            <label for="userPasswordRegister">Password</label>
+          </div>
+          <div class="input-field col s5 push-s1" style="margin-left: 3rem;">
+            <a id="buttonRegister" class="waves-effect waves-light black-text btn-large">Register</a>
+          </div>
+          <div class="input-field col s5 pull-s1" style="margin-right: 3rem;">
+            <a id="buttonLoginForm" class="waves-effect waves-light black-text light-blue lighten-2 btn-large right">Login</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  
+  <!-- JQUERY -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+  <!--JavaScript at end of body for optimized loading-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
