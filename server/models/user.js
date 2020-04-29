@@ -37,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password Cannot be empty'
         }
       }
-    }
+    },
+    location: DataTypes.STRING
   }, {
     sequelize,
     hooks:{

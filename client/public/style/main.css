@@ -1,0 +1,30 @@
+body{
+
+}
+
+#todo{
+  margin: 0 auto
+}
+
+#todo .todo-body{
+  background-color: #eee;
+}
+
+#todo h1{
+  margin: 0 15px;
+}
+
+.todos{
+  margin: 20px 0;
+  list-style: none;
+}
+
+.todo button{
+  float: right;
+  margin: 3px;
+}
+
+
+#login{
+  margin: 0 auto;
+}

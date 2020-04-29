@@ -6,8 +6,9 @@ const { cryptCompare }  = require('../helper/bcrypting')
 
 class UserControllers{
   static register(req, res, next){
-    const { email, password } = req.body
-    User.create({ email, password })
+    const { email, password, location } = req.body
+    console.log(location)
+    User.create({ email, password, location: location })
       .then(user => res.status(201).json(user))
       .catch(err => next(err))
   }
