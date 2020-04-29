@@ -1,0 +1,88 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    background: linear-gradient(90deg, rgba(144,242,174,1) 0%, rgba(79,215,180,1) 39%, rgba(0,212,255,1) 100%);
+}
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: rgba(34, 61, 38, 0.74);
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    background-color: rgb(86, 209, 162);
+    height: 4rem;
+    z-index: 1;
+}
+.logo {
+    align-items: flex-start;
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgba(34, 61, 38, 0.74);
+}
+.logoutBtn {
+    align-items: flex-end;
+}
+
+.body {
+    padding-top: 3rem;
+}
+
+.home, .form-container {
+    width: 20rem;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+}
+.form-container {
+    background-color: rgba(0, 0, 0, 0.041);
+    border-radius: 0.5rem;
+}
+.form-container h2 {
+    padding: 1rem 1rem 1rem 0px;
+}
+.button-container, #form-register, #form-login, #form-create, #form-update {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+.button-container {
+    height: 12rem;
+}
+#form-register, #form-login {
+    height: 16rem;
+    padding: 1rem;
+}
+#form-create, #form-update {
+    height: 19rem;
+    padding: 1rem;
+}
+.btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-page .btn, .logoutBtn, .form-container .btn {
+    width: 7rem;
+}
+.user-page {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.todos-table, .todo-table {
+    width: 50rem;
+    margin: 1rem auto;
+    text-align: center;
+    color: rgba(34, 61, 38, 0.74);
+}

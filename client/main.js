@@ -136,9 +136,9 @@ function appendTodos(obj, element) {
     for(let i = 0; i < todos.length; i++){
         if(todos[i].id === obj.id){
             if (todos[i].status === "not completed") {
-                checkBtn = `<button onClick="checking(${obj.id})" class="btn btn-outline-success">done</button>`
+                checkBtn = `<button onClick="checking(${obj.id})" class="btn btn-success">done</button>`
             } else {
-                checkBtn = `<button onClick="checking(${obj.id})" class="btn btn-success">revert</button>`
+                checkBtn = `<button onClick="checking(${obj.id})" class="btn btn-warning">revert</button>`
             }
             break
         }
@@ -149,7 +149,7 @@ function appendTodos(obj, element) {
                 <td>${obj.status}</td>
                 <td>
                 ${checkBtn}
-                <button onClick="todoDetail(${obj.id})" class="btn btn-outline-primary">view detail</button>
+                <button onClick="todoDetail(${obj.id})" class="btn btn-info">view detail</button>
                 <button onClick="confirmDelete(${obj.id})" class="btn btn-danger">delete</button>
                 </td>
             </tr>`)
@@ -163,7 +163,7 @@ function appendTodo(obj, element) {
             <td>${obj.status}</td>
             <td>${obj.due_date}</td>
             <td>
-                <button onClick="edit(${obj.id})" class="btn btn-outline-primary">edit</button>
+                <button onClick="edit(${obj.id})" class="btn btn-info">edit</button>
                 <button onClick="confirmDelete(${obj.id})" class="btn btn-danger">delete</button>
             </td>
         </tr>`)
@@ -300,15 +300,19 @@ function edit(id) {
 }
 
 function confirmDelete(id) {
-    $(".message").append(`
-        <div class="alert alert-danger">
-            are you sure want to delete?
-            <div class="choice">
-                <a onClick="deleteTodo(${id})" style="cursor: pointer;">Yes</a>
-                <a onClick="cancelDelete()" style="cursor: pointer;">No</a>
-            </div>
-        </div>
-    `)
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Your Todo cannot be restored!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it'
+      }).then((result) => {
+        if (result.value) {
+            deleteTodo(id)
+        }
+      })
 }
 
 function deleteTodo(id) {
@@ -319,7 +323,12 @@ function deleteTodo(id) {
             access_token: localStorage.getItem('access_token')
         }
     }).done(response => {
-        $(".alert").remove()
+        Swal.fire(
+          'Deleted!',
+          'Todo successfully deleted.',
+          'success'
+        )
+        $(".item-detail").remove()
         $(".todo-detail").hide()
         $(".todo-list").show()
         let index = null
@@ -335,12 +344,13 @@ function deleteTodo(id) {
             appendTodos(todo, ".todos-table")
         })
     }).fail(err => {
+        Swal.fire(
+          'Failed!',
+          'Something is wrong.',
+          'warning'
+        )
         console.log(err)
     })
-}
-
-function cancelDelete(){
-    $(".alert").remove()
 }
 
 function onSignIn(googleUser) {
