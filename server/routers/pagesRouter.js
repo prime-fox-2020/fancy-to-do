@@ -5,6 +5,10 @@ const UsersController = require('../controllers/UsersController')
 router.route('/login')
   .post(UsersController.login)
   
+// root/login/googleLogin
+router.route('/login/googleLogin')
+  .post(UsersController.googleLogin)
+  
 // root/register
 router.route('/register')
   .post(UsersController.register)

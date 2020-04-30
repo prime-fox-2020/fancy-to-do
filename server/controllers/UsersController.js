@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const {OAuth2Client} = require('google-auth-library')
 const {generateToken} = require('../helpers')
 const {User} = require('../models')
 const AppError = require('../helpers/appError')
@@ -14,6 +15,44 @@ class UsersController {
       if (!result || !bcrypt.compareSync(password, result.password)) {
         next(new AppError('Invalid Email / Password', 401))
       } else {
+        access_token = generateToken(result)
+        res.status(200).json({access_token})
+      }
+    })
+    .catch(err => next(err))
+  }
+
+  static googleLogin(req, res, next) {
+    const token = req.body.id_token
+    const CLIENT_ID = process.env.G_CLIENT_ID
+    const client = new OAuth2Client(CLIENT_ID)
+    let payload, access_token
+
+    client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,
+    })
+    .then(ticket => {
+      payload = ticket.getPayload()
+      return User.findOne({
+        where: {email: payload.email}
+      })
+    })
+    .then(user => {
+      if (!user) {
+        return User.create({
+          first_name: payload.given_name,
+          last_name: payload.family_name,
+          email: payload.email,
+          password: 'gmailcom'
+        })
+      } else {
+        access_token = generateToken(user)
+        res.status(200).json({access_token})
+      }
+    })
+    .then(result => {
+      if (result) {
         access_token = generateToken(result)
         res.status(200).json({access_token})
       }

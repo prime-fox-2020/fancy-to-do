@@ -73,5 +73,9 @@ module.exports = (sequelize, DataTypes) => {
     Todo.belongsTo(models.User)
   };
 
+  Todo.beforeValidate( (instance, options) => {
+    instance.status = instance.status || 'active'
+  })
+
   return Todo;
 };
