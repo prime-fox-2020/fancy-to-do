@@ -68,6 +68,7 @@ class TodosController {
     }
     static holidayCheck(req, res, next) {
         const country = req.body.country
+        console.log('masuk controller holiday')
         const date = new Date()
         const day = date.getDate()
         const month = date.getMonth()+1
@@ -91,6 +92,7 @@ class TodosController {
                     }
                 }
             })
+            console.log(holidays)
             res.status(200).json(holidays)
         }).catch(next)
     }

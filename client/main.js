@@ -13,6 +13,7 @@ $(document).ready(()=> {
         $(".logoutBtn").show()
         $(".user-page").show()
         $(".todo-detail").hide()
+        $(".holiday-list").hide()
         getTodo()
     }
 
@@ -38,6 +39,7 @@ $(document).ready(()=> {
         $(".form-container").hide()
         $(".home").show()
         $(".todo-item").remove()
+        fb_logout()
         signOut()
     })
     $(".addBtn").click(e => {
@@ -49,7 +51,9 @@ $(document).ready(()=> {
         e.preventDefault()
         $(".todo-list").show()
         $(".item-detail").remove()
+        $(".holiday-item").remove()
         $(".todo-detail").hide()
+        $(".holiday-list").hide()
         $(".form-create").hide()
         $(".form-update").hide()
     })
@@ -129,6 +133,29 @@ $(document).ready(()=> {
             console.log(err)
         })
     })
+    $(".holiday").submit(e => {
+        e.preventDefault()
+        const country = $(".country").val()
+        $.ajax({
+            url:`${url}/todos/holidays`,
+            type: "POST",
+            headers: {
+                access_token: localStorage.getItem('access_token')
+            },
+            data: {
+                country
+            }
+        }).done(response => {
+            response.forEach(holiday => {
+                appendHoliday(holiday, ".holidays-table")
+            })
+            $(".holiday-list").show()
+            $(".todo-list").hide()
+            $(".todo-detail").hide()
+        }).fail(err => {
+            console.log(err)
+        })
+    })
 })
 
 function appendTodos(obj, element) {
@@ -154,7 +181,6 @@ function appendTodos(obj, element) {
                 </td>
             </tr>`)
 }
-
 function appendTodo(obj, element) {
     $(element)
     .append(`<tr class="item-detail">
@@ -166,6 +192,13 @@ function appendTodo(obj, element) {
                 <button onClick="edit(${obj.id})" class="btn btn-info">edit</button>
                 <button onClick="confirmDelete(${obj.id})" class="btn btn-danger">delete</button>
             </td>
+        </tr>`)
+}
+function appendHoliday(obj, element) {
+    $(element)
+    .append(`<tr class="holiday-item">
+            <td>${obj.name}</td>
+            <td>${obj.date}</td>
         </tr>`)
 }
 
@@ -381,3 +414,49 @@ function signOut() {
     });
     $(".logoutBtn").hide()
   }
+
+window.fbAsyncInit = function() {
+    FB.init({
+        appId      : '592056835074602',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v6.0'
+    });
+};
+
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+function fbLogin(){
+    FB.login(function(response) {
+        if(response.status === 'connected') {
+            const user_token = response.authResponse.accessToken
+            $.ajax({
+                type: 'POST',
+                url: `${url}/facebookLogin`,
+                data: { user_token }
+            }).done(response => {
+                localStorage.setItem('access_token', response.access_token)
+                $(".home").hide()
+                $(".form-container").hide()
+                $(".logoutBtn").show()
+                $(".user-page").show()
+                $(".todo-detail").hide()
+            })
+            .fail(err=>{
+                console.log(err)
+            })
+        }
+      });
+}
+
+function fb_logout(){
+    FB.logout(function(response) {
+        console.log('user logout')
+     });
+}

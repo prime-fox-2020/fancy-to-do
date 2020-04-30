@@ -1,7 +1,8 @@
 const { User } = require('../models')
-const generateToken = require('../helpers/jwt')
 const { checkPwd } = require('../helpers/bcrypt')
 const { OAuth2Client } = require('google-auth-library')
+const generateToken = require('../helpers/jwt')
+const axios = require('axios')
 const client = new OAuth2Client(process.env.gClient_id)
 
 class UserController {
@@ -73,6 +74,53 @@ class UserController {
             res.status(200).json({access_token})
         }).catch(next)
     }
+    static facebookLogin(req, res, next) {
+        const { user_token } = req.body
+        let email = null
+        axios({
+            method:'get',
+            url:`https://graph.facebook.com/me?access_token=${user_token}`
+        }).then(response => {
+            const { data } = response
+            email = `${data.id}@email.com`
+            return User.findOne({
+                where: { email }
+            })
+        }).then(user => {
+            if(user) {
+                const access_token = generateToken(user)
+                res.status(200).json({access_token})
+            } else {
+                return User.create({
+                    email,
+                    password: "password filler"
+                })
+            }
+        }).then(user => {
+            const access_token = generateToken(user)
+            res.status(200).json({access_token})
+        }).catch(next)
+    }
 }
 
 module.exports = UserController
+
+
+
+
+// const { user_token } = req.body
+// let app_token = null
+// axios({
+//     method:'get',
+//     url:`https://graph.facebook.com/oauth/access_token?client_id=${process.env.fb_id}&client_secret=${process.env.fb_secret}&grant_type=client_credentials`
+// }).then(response => {
+//     app_token = response.data.access_token
+//     return axios({
+//         method:'get',
+//         url:`https://graph.facebook.com/debug_token?input_token=${user_token}&access_token=${app_token}`
+//     })
+// }).then(response => {
+//     console.log(response)
+// }).catch(err => {
+//     console.log(err)
+// })

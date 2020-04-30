@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="layout.css">
     <title>Todo</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="main.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -21,14 +24,37 @@
             <div class="button-container">
                 <button class="registerBtn btn btn-success btn-block btn-lg">Register</button>
                 <button class="loginBtn btn btn-success btn-block btn-lg">Login</button>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <div class="btn-container">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <button id="customBtn" class="btn btn-primary"
+                    style="border-radius: 0px;" onclick="fbLogin()">
+                    Facebook Login</button>
+                </div>
             </div>
         </section>
         
         <section class="user-page">
             <div class="todo-list">
                 <h2>Todo List</h2>
-                <button class="addBtn btn btn-success">Add Todo</button>
+                <div class="betweenTitleTable">
+                    <div>
+                        <button class="addBtn btn btn-success">Add Todo</button>
+                    </div>
+                    <div style="width: 50%;">
+                        <form class="holiday">
+                            <label>Check Holiday</label>
+                            <select name="country" class="country" class="custom-select mr-sm-2">
+                                <option value="">Select Country</option>
+                                <option value="id">Indonesia</option>
+                                <option value="my">Malaysia</option>
+                                <option value="sg">Singapore</option>
+                                <option value="gb">UK</option>
+                                <option value="us">USA</option>
+                            </select>
+                            <button type="submit" class="btn btn-info">select</button>
+                        </form>
+                    </div>
+                </div>
                 <table class="todos-table table table-striped">
                     <tr>
                         <th>Title</th>
@@ -37,9 +63,28 @@
                     </tr>
                 </table>
             </div>
+
             <div class="todo-detail">
                 <h2>Todo Detail</h2>
-                <button class="backBtn btn btn-warning">Back</button>
+                <div class="betweenTitleTable">
+                    <div>
+                        <button class="backBtn btn btn-warning">Back</button>
+                    </div>
+                    <div style="width: 50%;">
+                        <form class="holiday">
+                            <label>Check Holiday</label>
+                            <select name="country" class="country" class="custom-select mr-sm-2">
+                                <option value="">Select Country</option>
+                                <option value="id">Indonesia</option>
+                                <option value="my">Malaysia</option>
+                                <option value="sg">Singapore</option>
+                                <option value="gb">UK</option>
+                                <option value="us">USA</option>
+                            </select>
+                            <button type="submit" class="btn btn-info">select</button>
+                        </form>
+                    </div>
+                </div>
                 <table class="todo-table table table-striped">
                     <tr>
                         <th>Title</th>
@@ -47,6 +92,19 @@
                         <th>Status</th>
                         <th>Due Date</th>
                         <th>Action</th>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="holiday-list">
+                <h2>Holiday List</h2>
+                <div class="betweenTitleTable">
+                    <button class="backBtn btn btn-warning">Back</button>
+                </div>
+                <table class="holidays-table table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
                     </tr>
                 </table>
             </div>
@@ -99,9 +157,5 @@
             </form>
         </div>
     </div>
-
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="main.js"></script>
 </body>
 </html>
