@@ -6,33 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="google-signin-client_id" content="19697038873-v705k9jorulu7h5ucid0uchac6fost2g.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Todo App</title>
-    <style>
-      body{
-        margin: 0 50px;
-      }
-      .element{
-        text-align: center;
-      }
-      .row {
-        padding-left: 150px;
-
-      }
-      button {
-        margin: 5px;
-      }
-      form{
-        margin: 10px 150px;
-      }
-      .button{
-        margin: 20px auto;
-      }
-    </style>
+    <link rel="stylesheet" href="./public/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@500&family=Courgette&family=Fugaz+One&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- navbar -->
     <div id="navbar">
-      <nav class="navbar navbar-expand-lg navbar-light bg-info">
-        <a class="navbar-brand" href="#">Todo App</a>
+      <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <a class="navbar-brand logo">Todo App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -40,11 +21,16 @@
         <div class="collapse navbar-collapse" id="navLogIn">
           <ul class="navbar-nav mr-auto">
           </ul>
-          <button id="logout" class="btn btn-success my-2 my-sm-0" type="submit">Log Out</button>
+          <button class="btn btn-success btn-sm hide-button" id="goto-todo-list">Todo List</button>
+          <button class="btn btn-success btn-sm hide-button" id="goto-calendar">Holidays Info</button>
+          <button id="logout" class="btn btn-success btn-sm my-2 my-sm-0 hide-button" type="submit">Log Out</button>
+
         </div>
       </nav>
     </div>
+    <!-- end of navbar -->
 
+    <!-- login page -->
     <div id="login" class="element">
       <form class="form-login">
         <h2>Login</h2>
@@ -67,11 +53,13 @@
           or
           <button class="btn btn-success btn-sm" id="goto-register-btn">Register</button><br>
           <p>Login With Google Account</p>
-          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <div id="google-btn" class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
       </form>
     </div>
+    <!-- end of login page -->
 
+    <!-- register page -->
     <div id="register" class="element">
       <form class="form-register">
         <h2>Register</h2>
@@ -94,13 +82,15 @@
         </div>
       </form>
     </div>
+    <!-- end of register page -->
 
+    <!-- todo list page -->
     <div id="todo-list" class="element">
       <h2>Todo List</h2>
-      <button class="btn btn-primary btn-sm" id="add-todo-btn">Add Todo</button>
-      <button class="btn btn-warning btn-sm" id="goto-calendar">Show Holidays</button>
+      <button class="btn btn-warning btn-sm" id="add-todo-btn">Add Todo</button>
+      <!-- <button class="btn btn-warning btn-sm" id="goto-calendar">Click me for Holidays Info</button> -->
       <table class="table table-striped" id="table-todo">
-        <thead>
+        <thead class="thead-dark">
           <tr>
             <th scope="col">Title</th>
             <th scope="col">Description</th>
@@ -113,7 +103,9 @@
         </tbody>
       </table>
     </div>
+    <!-- end of todo list page -->
 
+    <!-- edit todo page -->
     <div id="edit-todo" class="element">
       <h2>Edit Todo</h2>
       <div id="editMsg" class="alert alert-danger" role="alert">
@@ -140,7 +132,9 @@
         <button class="btn btn-danger btn-sm" id="cancel-edit-btn">Cancel</button>
       </form>
     </div>
+    <!-- end of edit todo page -->
 
+    <!-- add todo page -->
     <div id="add-todo" class="element">
       <h2>Add Todo</h2>
       <div id="msgAdd" class="alert alert-danger" role="alert">
@@ -167,14 +161,14 @@
         <button class="btn btn-danger btn-sm" id="cancel-add-btn">Cancel</button>
       </form>
     </div>
+    <!-- end of add todo page -->
 
+    <!-- 3rd Party API page -->
     <div id="calendar" class="element">
       <h2>Holiday List</h2>
 
-      <button class="btn btn-primary btn-sm" id="goto-todo-list">Todo List</button>
-
       <table class="table table-striped" id="table-calendar">
-        <thead>
+        <thead class="thead-dark">
           <tr>
             <th scope="col">No</th>
             <th scope="col">Name</th>
@@ -186,6 +180,7 @@
         </tbody>
       </table>
     </div>
+    <!-- end of 3rd Party API page -->
     
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>

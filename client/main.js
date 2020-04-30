@@ -4,17 +4,7 @@ let calendar =[]
 let dataTodo;
 
 $(document).ready(() => {
-  $(".element").hide()
-
-  if(localStorage.getItem("access_token")) {
-    $('#todo-list').show()
-    showTodo()
-  } else {
-    $('#login').show()
-    $('#messageLogin').hide()
-    $("#logout").hide()
-  }
-
+  checkToken()
   $("#goto-register-btn").click(event => {
     event.preventDefault()
     $(".element").hide()
@@ -51,7 +41,7 @@ $(document).ready(() => {
     $('.element').hide()
     $('#messageLogin').hide()
     $('#login').show()
-    $("#logout").hide()
+    $(".hide-button").hide()
   })
 
   $('#add-todo-btn').click(event => {
@@ -73,11 +63,6 @@ $(document).ready(() => {
     $('#todo-list').show()
   })
 
-  $("#delete-btn").click(event => {
-    event.preventDefault()
-    $(".modal").show()
-  })
-
   $("#goto-todo-list").click(event => {
     event.preventDefault()
     $(".element").hide()
@@ -90,9 +75,9 @@ $(document).ready(() => {
     $("#calendar").show()
     showCalendar()
   })
-
 })
 
+// login function
 const login = () => {
   $.ajax({
     method: 'post',
@@ -107,7 +92,7 @@ const login = () => {
     localStorage.setItem('access_token', access_token)
     $('.element').hide()
     $('#todo-list').show()
-    $('#logout').show()
+    $('.hide-button').show()
     showTodo()
   })
   .fail(err=>{
@@ -120,6 +105,7 @@ const login = () => {
   })
 }
 
+// register function
 const register = () => {
   $.ajax({
     method: 'post',
@@ -145,6 +131,7 @@ const register = () => {
   })
 }
 
+// get all todo
 const showTodo = () => {
   $.ajax({
     url: `${url}/todos`,
@@ -176,6 +163,7 @@ const showTodo = () => {
   })
 }
 
+// create todo
 const addTodo = () => {
   $.ajax({
     method: 'POST',
@@ -207,6 +195,7 @@ const addTodo = () => {
   })
 }
 
+// update todo
 const edit = (id) => {
   $(".element").hide()
   $("#edit-todo").show()
@@ -252,8 +241,9 @@ const edit = (id) => {
 
 }
 
+// delete todo
 const deleteTodo = (id) => {
-  console.log(id)
+
   $.ajax({
     method: "DELETE",
     url: `${url}/todos/${id}`,
@@ -271,6 +261,7 @@ const deleteTodo = (id) => {
   })
 }
 
+// show 3rd Party API
 const showCalendar = () => {
   $.ajax({
     url: `${url}/calendar`,
@@ -298,6 +289,22 @@ const showCalendar = () => {
   })
 }
 
+// check user access_token
+const checkToken = () => {
+  if(localStorage.getItem("access_token")) {
+    $(".element").hide()
+    $('#todo-list').show()
+    $('.hide-button').show()
+    showTodo()
+  } else {
+    $(".element").hide()
+    $('#login').show()
+    $('#messageLogin').hide()
+    $(".hide-button").hide()
+  }
+}
+
+// google sign in function
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
   $.ajax({
@@ -308,29 +315,23 @@ function onSignIn(googleUser) {
   .done(data => {
     const access_token = data.access_token
     localStorage.setItem('access_token', access_token)
-    $('.element').hide()
-    $('#todo-list').show()
-    $('#logout').show()
-    showTodo()
+    checkToken()
   })
   .fail(err => {
     console.log(err.responseJSON.message)
   })
 }
 
+// google sign out function
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut()
   .then(function () {
     console.log('User signed out.');
-    return localStorage.removeItem('access_token')
+    localStorage.removeItem('access_token')
+    checkToken()
   })
-  .then(() => {
-    event.preventDefault()
-    $('.element').hide()
-    $('#messageLogin').hide()
-    $('#login').show()
-  })
+
   .catch(err => {
     console.log(err)
   })

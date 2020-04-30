@@ -1,0 +1,55 @@
+body{
+  margin: 0 50px;
+  background-color: rgb(252, 252, 252);
+  font-family: 'Baloo Paaji 2', cursive;
+
+}
+
+.element{
+  margin-top: 20px;
+  text-align: center;
+}
+.row {
+  padding-left: 150px;
+
+}
+button {
+  margin: 5px;
+}
+form{
+  margin: 10px 150px;
+}
+.button{
+  margin: 20px auto;
+}
+
+.col-md-3 p {
+  margin: 30px 0 10px 0;
+}
+
+.table {
+  margin: 20px 0;
+}
+
+#google-btn {
+  /* border: 1px solid black; */
+  padding-left: 30px;
+}
+
+#table-calendar {
+  font-family: 'Baloo Paaji 2', cursive;
+  /* letter-spacing: 1px; */
+  font-size: 18px;
+}
+
+
+.logo {
+  font-family: 'Fugaz One', cursive;
+  font-size: 25px;
+}
+/* 
+#login {
+  border: 1px solid gray;
+  padding: 10px;
+  background-color: white;
+} */
