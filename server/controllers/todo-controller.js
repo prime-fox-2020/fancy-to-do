@@ -3,7 +3,7 @@ const {Todo} = require('../models')
 class TodoController {
     static findAll(req, res, next) {
         let userId = req.userDataId        
-        Todo.findAll({where: {"UserId": userId}})
+        Todo.findAll({where: {"UserId": userId}, order: [["id", "asc"]] })
         .then(data => {
             if (userId) {
                 res.status(200).json(data)
@@ -12,17 +12,10 @@ class TodoController {
                     msg: "Tolong login dulu",
                     code: 401
                 }
-                // res.status(401).json({
-                //     message: "Tolong login dulu",
-                //     errors: err.message
-                // })
             }
         })
         .catch(err => {
             next(err)
-            // res.send(500).json({
-            //     errors: err.message
-            // })
         })
     }
 
@@ -41,9 +34,6 @@ class TodoController {
         })
         .catch(err => {
             next(err)
-            // res.status(500).json({
-            //     err: err
-            // })
         })
     }
 
@@ -59,7 +49,7 @@ class TodoController {
         })
     }
     
-    static update(req, res) {
+    static update(req, res, next) {
         let id = req.params.id      
         let queryBody = req.body
         let updatedTodo = {
@@ -70,20 +60,13 @@ class TodoController {
         }
         Todo.update(updatedTodo, {where: {id: id}})
         .then(data => {
-            if (data == 1) {
-                res.status(201).json({
-                    message: "data sukses di update",
-                    todo: updatedTodo
-                })
-            } else {
-                res.status(404).json({message: "data tidak ada"})
-            }
+            res.status(201).json({
+                message: "data sukses di update",
+                todo: updatedTodo
+            })
         })
         .catch(err => {
-            res.send(500).json({
-                err: "Internal server error",
-                err: err
-            })
+            next(err)
         })
     }
 

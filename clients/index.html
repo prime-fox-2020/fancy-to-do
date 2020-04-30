@@ -10,9 +10,9 @@
     <div id="nav-bar">
         <nav>
             <ul>
-                <a style="float: left;" href="/todos">Todos</a>
-                <a style="float: left;" href="/users/register">Registrasi</a>
-                <a style="float: left;" href="/users/login">Login</a>
+                <li><a style="text-decoration: none;" href="/todos">Todos</a></li>
+                <li><a style="text-decoration: none;" href="/users/register">Registrasi</a></li>
+                <li><a style="text-decoration: none;" href="/users/login">Login</a></li>
                 <button id="logout-button" style="float: right; background-color: red; color: white;"><a style="text-decoration: none; color: seashell;" href="">Log-out</a></button>
             </ul>
         </nav>
@@ -64,8 +64,8 @@
 
     <!-- Halaman Todo List sesuai dengan yang sedang login -->
     <div id="dashboard">
-        <h3>Your Todo List</h3>
-        <button id="add-todos-button">Add new todo</button>
+        <h3 id="welcome">TODO LIST</h3>
+        <button id="add-todos-button" style="background-color: blue;"><a href="" style="text-decoration: none; color: white;">Add new todo</a></button>
         <table border="1">
             <thead>
                 <tr>
@@ -73,6 +73,7 @@
                     <td>DESCRIPTION</td>
                     <td>STATUS</td>
                     <td>DUE DATE</td>
+                    <td colspan="2">ACTIONS</td>
                 </tr>
             </thead>
             <tbody id="todo-list">
@@ -80,6 +81,53 @@
 
         </table>
     </div>
+
+    <!-- Halaman Add new Todos -->
+    <div id="add-page">
+        <!-- Login form -->
+        <form id="form-add" action="" method="">
+            <h3>Add New Todo</h3>
+            <p id="add-error" style="color: red;"></p>
+            <label>Title:</labe><br>
+            <input type="text" name="title" id="title-add"><br><br>
+            
+            <label>Description:</labe><br>
+            <input type="text" name="description" id="description-add"><br><br>
+    
+            <label>Status:</labe><br>
+            <input type="text" name="status" id="status-add"><br><br>
+
+            <label>Due Date:</labe><br>
+            <input type="text" name="due_date" id="due-date-add"><br><br>
+    
+            <button type="submit" value="login">Add</button>
+            <button><a href="">Cancel</a></button>
+        </form>
+    </div>
+
+    <!-- Halaman Edit Todos -->
+    <div id="edit-page">
+        <!-- Login form -->
+        <form id="form-edit" action="" method="">
+            <h3>Edit Todo</h3>
+            <p id="edit-error" style="color: red;"></p>
+            <label>Title:</labe><br>
+            <input type="text" name="title" id="title-edit"><br><br>
+            
+            <label>Description:</labe><br>
+            <input type="text" name="description" id="description-edit"><br><br>
+    
+            <label>Status:</labe><br>
+            <input type="text" name="status" id="status-edit"><br><br>
+
+            <label>Due Date:</labe><br>
+            <input type="text" name="due_date" id="due-date-edit"><br><br>
+    
+            <button type="submit" value="login">Edit</button>
+            <button><a href="">Cancel</a></button>
+        </form>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
