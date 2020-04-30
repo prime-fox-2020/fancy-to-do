@@ -14,7 +14,6 @@ class TodosController {
         })
         .catch(err=>{
             next(err)
-            // res.status(500).json({errors:err.message})
         })
     }
     
@@ -31,16 +30,6 @@ class TodosController {
             res.status(201).json(data)
         })
         .catch(err=>{
-            // if(err.name=="SequelizeValidationError"){
-            //     // next(err)
-            //     // const error = []
-            //     // for(let i = 0; i < err.errors.length; i++){
-            //     //     error.push(err.errors[i].message)
-            //     // }
-            //     // res.status(404).json({errors:error.join(', ')})
-            // }else{
-            //     res.status(500).json({errors:err.message})
-            // }
             next(err)
         })
     }
@@ -70,28 +59,10 @@ class TodosController {
                 }
             })
             .catch(err=>{
-                // if(err.name=="SequelizeValidationError"){
-                //     const error = []
-                //     for(let i = 0; i < err.errors.length; i++){
-                //         error.push(err.errors[i].message)
-                //     }
-                //     res.status(404).json({errors:error.join(', ')})
-                // }else{
-                //     res.status(500).json({errors:err.message})
-                // }
                 next(err)
             })
         })
         .catch(err=>{
-            // if(err.name=="SequelizeValidationError"){
-            //     const error = []
-            //     for(let i = 0; i < err.errors.length; i++){
-            //         error.push(err.errors[i].message)
-            //     }
-            //     res.status(404).json({errors:error.join(', ')})
-            // }else{
-            //     res.status(500).json({errors:err.message})
-            // }
             next(err)
         })
     }

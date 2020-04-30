@@ -1,6 +1,9 @@
 const {User}=require('../models')
 const bcrypt = require('bcrypt');
 const generateToken=require('../helpers/jwt')
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID="765895710625-jpgolkh5mprdgujl4jvpjiijrhacr4j8.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
 
 class UserController{
     static register(req,res){
@@ -44,6 +47,46 @@ class UserController{
         })
         .catch(err=>{
             res.status(400).json({errors:err.message})
+        })
+
+    }
+
+    static googleLogin(req,res,next){
+        const token=req.headers.google_token
+        let currentEmail
+        client.verifyIdToken({
+            idToken:token,
+            audience:CLIENT_ID
+        })
+        .then(access=>{
+            // console.log(access)
+            const payload = access.getPayload();
+            // console.log(payload)
+            currentEmail = payload['email'];
+            return User.findOne({
+                where:{
+                    email:currentEmail
+                }
+            })
+        })
+        .then(user=>{
+            if(user){
+                const access_token=generateToken(user)
+                res.status(200).json({access_token})
+                return
+            }else{
+                return User.create({
+                    email: currentEmail,
+                    password:"randompassword"
+                })
+            }
+        })
+        .then(newUser=>{
+            const access_token=generateToken(newUser)
+            res.status(200).json({access_token})
+        })
+        .catch(err=>{
+            console.log(err)
         })
 
     }
