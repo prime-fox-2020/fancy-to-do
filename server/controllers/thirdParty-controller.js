@@ -5,7 +5,7 @@ class CalendarController {
         axios.get('https://calendarific.com/api/v2/holidays', {
             params: {
                 'api_key': 'fc24d16705399cb231e56807dfd018bcf351b8e3',
-                'country': 'US',
+                'country': 'ID',
                 'year': 2020
             }
         })

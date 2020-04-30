@@ -7,11 +7,13 @@ console.log(process.env.NODE_ENV);
 const express = require("express")
 const app = express()
 const port = 3000
+const cors = require('cors')
 const indexRouter = require('./routes')
 const errorHandler = require('./middlewares/errorHandler')
 
 
 app.use(express.json())
+app.use(cors())
 app.use(express.urlencoded({extended: true}))
 app.use(indexRouter)
 app.use(errorHandler)

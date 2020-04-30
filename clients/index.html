@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>fancy todo app</title>
+</head>
+<body>
+    <h1>FANCY TODO APP</h1>
+
+    <!-- Halaman Registrasi -->
+    <div id="register-page">
+        <!-- Register form -->
+        <form id="form-register" action="" method="">
+            <h3>Registrasi</h3>
+            <p id="register-error" style="color: red;"></p>
+            <label>Nama:</labe><br>
+            <input type="text" name="name" id="name-register"><br><br>
+    
+            <label>Username:</labe><br>
+            <input type="text" name="username" id="username-register"><br><br>
+            
+            <label>Email:</labe><br>
+            <input type="text" name="email" id="email-register"><br><br>
+    
+            <label>Password:</labe><br>
+            <input type="text" name="password" id="password-register"><br><br>
+    
+            <button type="submit" value="register">Daftar</button>
+            <button><a href="">Cancel</a></button>
+        </form>
+    </div>
+    
+    <!-- Halaman Login -->
+    <div id="login-page">
+        <!-- Login form -->
+        <form id="form-login" action="" method="">
+            <h3>Login</h3>
+            <p id="login-error" style="color: red;"></p>
+            <label>Username:</labe><br>
+            <input type="text" name="username" id="username-login"><br><br>
+            
+            <label>Email:</labe><br>
+            <input type="text" name="email" id="email-login"><br><br>
+    
+            <label>Password:</labe><br>
+            <input type="text" name="password" id="password-login"><br><br>
+    
+            <button type="submit" value="login">Login</button>
+            <button><a href="">Cancel</a></button>
+        </form>
+    </div>
+
+    <!-- Halaman Todo List sesuai dengan yang sedang login -->
+    <div id="dashboard">
+        <h1>Yours Todo List</h1>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!--  name: {
+      type: DataTypes.STRING,
+      
+    username: {
+      type:DataTypes.STRING,
+      
+    email: {
+      type:DataTypes.STRING,
+     
+    password: {
+      type: DataTypes.STRING,
+      
+  }, {sequelize}); -->
