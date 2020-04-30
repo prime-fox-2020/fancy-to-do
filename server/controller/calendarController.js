@@ -1,6 +1,5 @@
-
-
 const axios = require('axios')
+const api_key = process.env.API_KEY
 
 class CalendarController {
 
@@ -9,7 +8,7 @@ class CalendarController {
 
     axios.get(url, {
       params: {
-        api_key: 'a65a12b8ca7cfef89f6ed45d823b232aacffffcb',
+        api_key: api_key,
         country:'ID',
         year:2020
       }

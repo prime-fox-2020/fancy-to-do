@@ -2,6 +2,11 @@ const User = require('../models').User
 const generateToken = require('../helpers/jwt')
 const { comparePassword } = require('../helpers/bcrypt')
 
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+const client = new OAuth2Client(CLIENT_ID);
+const randomPassword = process.env.USER_RANDOM_PASSWORD
+
 class UserController {
 
   static register (req, res, next){
@@ -44,6 +49,43 @@ class UserController {
         const access_token = generateToken(user)
         res.status(201).json({access_token})
       }
+    })
+    .catch(err => {
+      next(err)
+    })
+  }
+
+
+  static googleSign(req, res, next) {
+    const token = req.body.id_token
+    let currentEmail = null
+
+    client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID
+    })
+    .then(ticket => {
+      const payload = ticket.getPayload();
+      currentEmail = payload['email'];
+      return User.findOne({
+        where: {email: currentEmail}
+      })
+      
+    })
+    .then(user => {
+      if(user) {
+        const access_token = generateToken(user)
+        res.status(201).json({access_token})
+      } else {
+        return User.create({
+          email: currentEmail,
+          password: randomPassword
+        })
+      }
+    })
+    .then(newUser => {
+      const access_token = generateToken(newUser)
+      res.status(201).json({access_token})
     })
     .catch(err => {
       next(err)

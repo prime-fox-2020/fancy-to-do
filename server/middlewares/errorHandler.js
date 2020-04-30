@@ -23,6 +23,14 @@ module.exports = function(err, req, res, next) {
     statusCode = 404
     errorCode = 'ERROR_NOT_FOUND'
     message = 'Error Not Found'
+  } else if(err.name == 'PLEASE_LOGIN_FIRST') {
+    statusCode = 400
+    errorCode = 'PLEASE_LOGIN_FIRST'
+    message = 'Please Login First'
+  } else if(err.name == 'FORBIDDEN_ACCESS') {
+    statusCode = 403
+    errorCode = 'FORBIDDEN_ACCESS'
+    message = 'Forbidden Access'
   }
 
   res.status(statusCode).json({errorCode, message})

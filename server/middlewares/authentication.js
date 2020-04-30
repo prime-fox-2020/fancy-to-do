@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken')
-const secretKey = 'secretKey'
+const secretKey = process.env.SECRET_KEY
 
 const authentication = (req, res, next) => {
   const {access_token} = req.headers
 
   if(!access_token) {
-    res.status(400).json({message: 'Please Login First'})
+    next({name: 'PLEASE_LOGIN_FIRST'})
   }
 
   try{
@@ -13,7 +13,7 @@ const authentication = (req, res, next) => {
     req.userData = decoded
     next()
   } catch(err) {
-    res.status(401).json({message: err.message})
+    next(err)
   }
 }
 
