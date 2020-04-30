@@ -7,10 +7,20 @@
     <title>fancy todo app</title>
 </head>
 <body>
-    <h1>FANCY TODO APP</h1>
-
+    <div id="nav-bar">
+        <nav>
+            <ul>
+                <a style="float: left;" href="/todos">Todos</a>
+                <a style="float: left;" href="/users/register">Registrasi</a>
+                <a style="float: left;" href="/users/login">Login</a>
+                <button id="logout-button" style="float: right; background-color: red; color: white;"><a style="text-decoration: none; color: seashell;" href="">Log-out</a></button>
+            </ul>
+        </nav>
+        <h1>FANCY TODO APP</h1>
+    </div>
     <!-- Halaman Registrasi -->
     <div id="register-page">
+        
         <!-- Register form -->
         <form id="form-register" action="" method="">
             <h3>Registrasi</h3>
@@ -54,23 +64,23 @@
 
     <!-- Halaman Todo List sesuai dengan yang sedang login -->
     <div id="dashboard">
-        <h1>Yours Todo List</h1>
+        <h3>Your Todo List</h3>
+        <button id="add-todos-button">Add new todo</button>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>TITLE</td>
+                    <td>DESCRIPTION</td>
+                    <td>STATUS</td>
+                    <td>DUE DATE</td>
+                </tr>
+            </thead>
+            <tbody id="todo-list">
+            </tbody>
+
+        </table>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
-<!--  name: {
-      type: DataTypes.STRING,
-      
-    username: {
-      type:DataTypes.STRING,
-      
-    email: {
-      type:DataTypes.STRING,
-     
-    password: {
-      type: DataTypes.STRING,
-      
-  }, {sequelize}); -->
