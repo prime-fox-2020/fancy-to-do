@@ -1,4 +1,5 @@
 const { User } = require('../models'); 
+const { OAuth2Client } = require('google-auth-library');
 const bcrypt = require('bcrypt');
 const generateToken = require('../helpers/jwt');
 
@@ -51,6 +52,48 @@ class UserController{
             res.status(500).json({
                 message: err.message || 'Internal Server Error'
             });
+        })
+    }
+
+    static google_sign_in(req, res){
+        const CLIENT_ID = "1035908548664-6h8ieb0vhdspv8c75l6a6dnmcvfkp7gt.apps.googleusercontent.com";
+        const client = new OAuth2Client(CLIENT_ID);
+        const token = req.body.id_token;
+        let first_name, last_name, email;
+
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID
+        })
+        .then(ticket => {
+            const payload = ticket.getPayload();
+            email = payload['email'];
+            first_name = payload['given_name'];
+            last_name = payload['family_name'];
+
+            return User.findOne({
+                where: { email }
+            });
+        })
+        .then(user => {
+            if(user){
+                const access_token = generateToken(user);
+                res.status(200).json({ access_token });
+                return;
+            } else{
+                return User.create({
+                    first_name, last_name, email, password: `${Math.random()}`
+                })
+            }
+        })
+        .then(newUser => {
+            const access_token = generateToken(newUser);
+            res.status(200).json({ access_token });
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: err.message || 'Internal Server Error'
+            })
         })
     }
 
