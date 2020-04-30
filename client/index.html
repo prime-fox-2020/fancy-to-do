@@ -1,0 +1,65 @@
+<html lang="en">
+  <head>
+      <title>Fancy Todo</title>
+      <meta name="google-signin-client_id" content="554039684184-2n139m80ct7h9iv8bgk5oradj8p3orm9.apps.googleusercontent.com">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+          <!-- ini untuk form login -->
+    <form id="id_login" action="index.html">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="passwordLogin">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <!-- Registrasi -->
+    <form class ="" style = "display:none" id="regis">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="emailRegis" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="passwordRegis">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <!-- Add Todo -->
+    <form style = "display:none" id="addTodo">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Description</label>
+          <input type="password" class="form-control" id="description">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Status</label>
+            <input type="password" class="form-control" id="status">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Due Date</label>
+            <input type="password" class="form-control" id="due_date">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    
+    <a href="#" onclick="signOut();">Sign out</a>
+    </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script 
+        src="https://code.jquery.com/jquery-3.5.0.min.js" 
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" 
+        crossorigin="anonymous"
+    ></script>
+    <script src="index.js"></script>
+  </body>
+</html>
