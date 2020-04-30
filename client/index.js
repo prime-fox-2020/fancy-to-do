@@ -1,4 +1,6 @@
 $(document).ready(function(){
+
+
     $("#form-login").hide()
     $("#form-register").hide()
     $("#dashboardPage").hide()
@@ -11,7 +13,7 @@ $(document).ready(function(){
     if(localStorage.token){
         $("#navbarUser").hide()
         $("#navbarTodo").show()
-        $("#dashboardPage").show()
+        // $("#dashboardPage").show()
         fetchTodo()
     }else{
         $("#navbarUser").show()
@@ -46,6 +48,8 @@ $(document).ready(function(){
         })
         $('#input-email').val("")
         $('#input-password').val("")
+        $("#form-login").show()
+        $("#form-register").hide()
     })
 
     $("#form-login").on('submit',function(e){
@@ -80,6 +84,7 @@ $(document).ready(function(){
     
     $('#add').on('click',function(e){
         $("#addTodo").show()
+        $("#editTodo").hide()
         $("#image").hide()
         e.preventDefault()
     })
@@ -166,6 +171,7 @@ function fetchTodo(){
         }
     })
     .done(function(response){
+         $("#dashboardPage").show()
         response.forEach(element => {
             $("#bodyTable").append(`
             <tr>
@@ -177,7 +183,7 @@ function fetchTodo(){
             </tr>
             `)
         });
-        $("#dashboardPage").show()
+       
     })
     .fail(function(err){
         console.log(err.responseJSON)
@@ -234,6 +240,7 @@ function editTodo(id){
         $("#description-edit").val(response.description)
         $("#status-edit").val(response.status)
         $("#duedate-edit").val(response.due_date)
+        $("#addTodo").hide()
         console.log(response,'edit')
     })
     .fail(function(err){
@@ -283,12 +290,34 @@ function onSignIn(googleUser) {
         }
     })
     .done(function(response){
+        localStorage.setItem('token',response.access_token)
         $('#signError').hide()
         $("#navbarUser").hide()
         $("#form-login").hide()
-        $("#dashboardPage").show()
         $("#navbarTodo").show()
-        localStorage.setItem('token',response.access_token)
+        // $("#dashboardPage").show()
+        fetchTodo()
+        console.log(response)
+    })
+    .fail(function(err){
+        console.log(err.responseJSON)
+    })
+}
+
+function uploadImage(){
+    const access_token=localStorage.getItem('token')
+    const dataGambar =new FormData()
+    // dataGambar.append('file', $('#file')[0].files[0])
+
+    $.ajax({
+        method: "POST",
+        url: `http://localhost:3000/imgur/upload`,
+        headers: {
+            access_token
+        },
+        data:dataGambar
+    })
+    .done(function(response){
         console.log(response)
     })
     .fail(function(err){

@@ -34,6 +34,26 @@ class ImgurController{
             res.status(400).json(err)
         })
     }
+
+    static uploadImage(req,res){
+        console.log(req.body)
+        // axios({
+        //     method:"POST",
+        //     url:"https://api.imgur.com/3/upload",
+        //     headers:{
+        //         "Authorization": "Client-ID ea55b9d74ffb27e"
+        //     },
+        //     data:{
+
+        //     }
+        // })
+        // .then(data=>{
+        //     res.status(200).json(data)
+        // })
+        // .catch(err=>{
+        //     res.status(400).json(err)
+        // })
+    }
 }
 
 module.exports=ImgurController
