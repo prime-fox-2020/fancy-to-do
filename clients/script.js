@@ -44,6 +44,16 @@ $(document).ready(function() {
         })            
     })
 
+    // Mengambil elemen html dengan class delete-this-todo dengan event click
+    $(document).on("click", ".delete-this-todo", function() {
+        event.preventDefault()
+        console.log(".delete-this-todo ke click", this);
+        console.log($(this).attr('data-id'));
+        let id = $(this).attr('data-id')
+        console.log('Masuk delete todo');
+        deleteTodo(id)            
+    })
+
     // Mengambil elemen html dengan id form-registrasi
     $('#form-register').submit(function( event ) {
         event.preventDefault();
@@ -103,6 +113,8 @@ $(document).ready(function() {
                         <td>${data.description}</td>
                         <td>${data.status}</td>
                         <td>${data.due_date}</td>
+                        <td><button class="edit-this-todo" data-id="${data.id}">EDIT</button></td>
+                        <td><button class="delete-this-todo" data-id="${data.id}">DELETE</button></td>
                     </tr>
                 `)
             $('#dashboard').show()
@@ -114,10 +126,10 @@ $(document).ready(function() {
             
         })
         .always(function() {
-            $('#title-add').val()
-            $('#description-add').val()
-            $('#status-add').val()
-            $('#due-date-add').val()
+            $('#title-add').val('')
+            $('#description-add').val('')
+            $('#status-add').val('')
+            $('#due-date-add').val('')
         })
     }
 
@@ -252,17 +264,7 @@ $(document).ready(function() {
         })
     }
 
-
-
-    $(document).on("click", ".delete-this-todo", function() {
-        event.preventDefault()
-        console.log(".delete-this-todo ke click", this);
-        console.log($(this).attr('data-id'));
-        let id = $(this).attr('data-id')
-        console.log('Masuk delete todo');
-        deleteTodo(id)            
-    })
-
+    // Request delete untuk mendelet todo sesuai dengan todo_id
     function deleteTodo(todo_id) {
         const token = localStorage.getItem('token')
         $.ajax({
@@ -274,7 +276,7 @@ $(document).ready(function() {
         })
         .done(data => {
             console.log(data);
-            $('#dashboard').show()
+            $("#dashboard").show()
         })
         .fail(err => {
             console.log(err, 'tidak dapat mendelete todo');
