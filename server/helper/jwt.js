@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
-const secretKey = 'sayakurangpahamsecretkey'
-
+const dotenv = require('dotenv')
+dotenv.config()
+const secretKey = process.env.secretKey
 
 const generateToken = (user) => {
     return jwt.sign(

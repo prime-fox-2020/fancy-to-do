@@ -2,7 +2,9 @@ const { User } = require('../models')
 const bcrypt = require('bcryptjs')
 const { generateToken } = require('../helper/jwt')
 const axios = require("axios");
-
+const {OAuth2Client} = require('google-auth-library')
+const dotenv = require('dotenv')
+dotenv.config()
 
 class Control {
     static register(req, res, next) {
@@ -32,9 +34,6 @@ class Control {
         .then(data => {
             res.status(201).json(data)
         })
-        // .catch((error)=>{
-        //     console.log(error)
-        // })
         .catch(err => {
             next(err)
         })
@@ -42,7 +41,6 @@ class Control {
 
     static login (req, res, next) {
         const { email, password } = req.body
-        const errorMessage = {status: 400, message: 'Wrong email and password'}
 
         User.findOne({
             where: {
@@ -50,10 +48,8 @@ class Control {
             }
         })
         .then(data => {
-            // console.log(data.id)
             if(!data || !(bcrypt.compareSync(password, data.password))){
                 res.status(400).json({message: 'Wrong email and password'})
-                // next(errorMessage)
             }else{
                 const access_token = generateToken(data)
                 res.status(201).json({ access_token })
@@ -61,11 +57,40 @@ class Control {
         })
         .catch(err => {
             next(err)
-            // if (err.status) {
-            //     res.status(err.status).json({message: err.message})
-            // }
-            // console.log(err)
-            // res.status(500).json(err.message)
+        })
+    }
+
+    static googleLogin (req, res, next) {
+        const token = req.body.token_id
+        const client = new OAuth2Client(process.env.client_id);
+        let email;
+
+        client.verifyIdToken({
+            idToken: token,
+            audience: process.env.client_id
+        })
+        .then(ticket => {
+            const payload = ticket.getPayload();
+            email = payload['email']
+
+            return User.findOne({
+                where: {email: email}
+            })
+        })
+        .then(data => {
+            if (data) {
+                return data
+            }   
+            else {
+                return User.create({ email, password: 'password' })
+            } 
+        })
+        .then(data => {
+            const access_token = generateToken (data)
+            res.status(200).json({access_token})
+        })
+        .catch(err => {
+            next(err)
         })
     }
 }

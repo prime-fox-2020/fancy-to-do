@@ -7,6 +7,7 @@ const userControl = require('../controller/userControl')
 
 route.post('/register', userControl.register)
 route.post('/login', userControl.login)
+route.post('/googlelogin', userControl.googleLogin)
 
 
 route.use('/todos', todoRoute)

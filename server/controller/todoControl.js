@@ -11,31 +11,9 @@ class Control {
         })
         .then(data => {
             res.status(201).json(data)
-            return Email.send({
-                SecureToken: 'C55CB6F7FA46D660B06D820DC22F42F18BCD',
-                To: 'andreanwirapradana@gmail.com',
-                From: 'andreanwirapradana@gmail.com',
-                Subject: 'This is subject',
-                Body: "This is body"
-            })
-            .then(
-                message => alert(message)
-            )
         })
         .catch(err => {
             next(err)
-            // let arr = []
-            // for (let i = 0; i < err.errors.length; i++) {
-            //     arr.push(err.errors[i].message)
-            // }
-            // if (arr.length > 0) {
-            //     res.status(400).json({error: arr.join(',')})
-            // }
-            // else {
-            //     res.status(500).json({
-            //         error: err
-            //     })
-            // }
         })
     }
 
@@ -96,18 +74,6 @@ class Control {
         })
         .catch(err => {
             next(err)
-            // let arr = []
-            // for (let i = 0; i < err.errors.length; i++) {
-            //     arr.push(err.errors[i].message)
-            // }
-            // if (arr.length > 0) {
-            //     res.status(400).json({error: arr.join(',')})
-            // }
-            // else {
-            //     res.status(500).json({
-            //         error: err
-            //     })
-            // }
         })
     }
 
