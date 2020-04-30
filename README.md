@@ -27,10 +27,12 @@ _Response (201 - Created)_
 _Response (400 - Bad Request)_
 ```
 {
+  "errorCode": "EMAIL_ALREADY_USED",
   "message": "Email has been already used"
 },
 {
-  "validation error": "< validation message details >" 
+  "errorCode": "VALIDATION_ERROR",
+  "message": "Title is required, Description is required, Due date is required"
 }
 ```
 
@@ -122,10 +124,11 @@ _Response (401)_
 }
 ```
 
-_Response (500 - Internal Server Error)_
+_Response (500)_
 ```
 {
-  "message": "Internal Server Error"
+  "errorCode": "UNKNOWN_ERROR",
+  "message": ""
 }
 ```
 ---
@@ -173,10 +176,11 @@ _Response (401)_
 }
 ```
 
-_Response (500 - Internal Server Error)_
+_Response (500)_
 ```
 {
-  "message": "Internal Server Error"
+  "errorCode": "UNKNOWN_ERROR",
+  "message": ""
 }
 ```
 ---
@@ -237,14 +241,16 @@ _Response (403)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "Error Not Found" 
+  "errorCode": "DATA_NOT_FOUND",
+  "message": "No data matched"
 }
 ```
 
-_Response (500 - Internal Server Error)_
+_Response (500)_
 ```
 {
-  "message": "Internal Server Error"
+  "errorCode": "UNKNOWN_ERROR",
+  "message": ""
 }
 ```
 ---
@@ -310,14 +316,16 @@ _Response (403)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "Error Not Found" 
+  "errorCode": "DATA_NOT_FOUND",
+  "message": "No data matched"
 }
 ```
 
-_Response (500 - Internal Server Error)_
+_Response (500)_
 ```
 {
-  "message": "Internal Server Error"
+  "errorCode": "UNKNOWN_ERROR",
+  "message": ""
 }
 ```
 ---
@@ -379,14 +387,16 @@ _Response (403)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "Error Not Found" 
+  "errorCode": "DATA_NOT_FOUND",
+  "message": "No data matched"
 }
 ```
 
-_Response (500 - Internal Server Error)_
+_Response (500)_
 ```
 {
-  "message": "Internal Server Error"
+  "errorCode": "UNKNOWN_ERROR",
+  "message": ""
 }
 ```
 ---

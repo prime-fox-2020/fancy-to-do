@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
         validateDate(value){
-          if(value != null){
+          if(value && value != null){
             const date = new Date().getTime()
             const inputDate = value.getTime()
             if(inputDate < date){
@@ -49,7 +49,8 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       }
-    }
+    },
+    imageurl : DataTypes.STRING
   }, { sequelize });
   Todo.associate = function(models) {
     Todo.belongsTo(models.User)

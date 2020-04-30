@@ -21,6 +21,30 @@ const errorHandler = (err, req, res, params) => {
         statusCode = 400
         errorCode = "INVALID_EMAIL_PASSWORD"
         message = "Email or password is incorrect"
+    } else if(err.name === 'ACCESS_DENIED'){
+        statusCode = 404
+        errorCode = 'ACCESS_DENIED'
+        message = 'Invalid token' 
+    } else if(err.name === 'AUTHENTICATION_FAILED') {
+        statusCode = 401
+        errorCode = 'AUTHENTICATION_FAILED' 
+        message = 'User not authenticated'
+    } else if(err.name === 'FORBIDDEN_ACCESS'){
+        statusCode = 403
+        errorCode = 'FORBIDDEN_ACCESS'
+        message = 'User did not have access' 
+    } else if(err.name === 'INVALID_FORMAT_EMAIL'){
+        statusCode = 400
+        errorCode = 'INVALID_FORMAT_EMAIL'
+        message = 'Invalid format email'
+    } else if(err.name === 'EMAIL_SUGGESTION'){
+        statusCode = 400
+        errorCode = 'EMAIL_SUGGESTION'
+        message = err.msg
+    } else if(err.name === 'EMAIL_NOT_FOUND'){
+        statusCode = 400
+        errorCode = 'EMAIL_NOT_FOUND'
+        message = 'Please use your valid email'
     }
     
     res.status(statusCode).json({errorCode, message})

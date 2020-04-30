@@ -1,10 +1,10 @@
 const {Todo} = require('../models')
-
+const {User} = require('../models')
 class TodosController{
     static add(req, res, next){
-        const { title, description, status, due_date } = req.body
-        const  UserId  = req.userData.id
-        Todo.create( {title, description, status, due_date, UserId} )
+        const { title, description, status, imageurl, due_date } = req.body
+        const UserId  = req.userData.id
+        Todo.create( {title, description, status, due_date, imageurl, UserId} )
         .then(data => {
             res.status(201).json(data)
         })
@@ -13,7 +13,14 @@ class TodosController{
         })
     }
 
-    static read(req, res){
+    static read(req, res, next){
+        // User.findByPk(req.userData.id, {include: [{ model: Todo}]})
+        // .then(data => {
+        //     res.status(200).json(data.Todos)
+        // })
+        // .catch(err => {
+        //     next(err)
+        // })
         Todo.findAll()
         .then(data => {
             res.status(200).json(data)
