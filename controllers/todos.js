@@ -2,36 +2,52 @@ const { Todo } = require('../models')
 
 class ToDoController {
     static list(req,res){
-        Todo.findAll()
-        .then(todo => {
-            res.status(200).json(todo)
-        })
-        .catch(err => {
-            res.send(err)
-        })
-    }
-    static find(req,res){
-        let getId = req.params.id
-        
+        //Menerima dr middleware
+        const getId = req.userData.id
         Todo.findAll({
             where : {
-                id : getId
+                UserId : getId
             }
         })
         .then(todo => {
             res.status(200).json(todo)
         })
         .catch(err => {
+            res.status(500).json(err)
+        })
+    }
+    static find(req,res){
+        let getId = req.params.id
+        
+        Todo.findOne({
+            where : {
+                id : getId
+            }
+        })
+        .then(todo => {
+            if(!todo ){
+                res.status(404).json({
+                    message : "Todo not found!"
+                })
+            }else{
+                res.status(200).json(todo)
+            }
+        })
+        .catch(err => {
+            res.status(500).json(err)
             res.send(err)
         })
     }
     static addTodo(req,res){
         let form = req.body
+        let userId = req.userData.id
+        
         Todo.create({
             title : form.title,
             description : form.description,
             status : form.status,
-            due_date : form.due_date
+            due_date : form.due_date,
+            UserId : userId
         })
         .then(todo => {
             res.status(201).json(todo)
@@ -54,6 +70,13 @@ class ToDoController {
             }
         })
         .then(todo => {
+             if(!todo ){
+                res.status(404).json({
+                    message : "Todo not found!"
+                })
+            }else{
+                res.status(200).json(todo)
+            }
             res.status(201).json(todo)
         })
         .catch(err => {
@@ -68,6 +91,13 @@ class ToDoController {
             }
         })
         .then(todo =>{
+             if(!todo ){
+                res.status(404).json({
+                    message : "Todo not found!"
+                })
+            }else{
+                res.status(200).json(todo)
+            }
             res.status(200).json(todo)   
         })
         .catch(err =>{
