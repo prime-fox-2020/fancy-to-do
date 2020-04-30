@@ -17,6 +17,7 @@ class Controller{
         })
     }
 
+    
 
     static register(req,res,next){
 
@@ -76,6 +77,7 @@ class Controller{
                 email : data.email,
                 username : data.username
             },secretKey)
+            console.log(jwt.verify(access_token,secretKey))
             res.status(200).json({access_token})
         })
         .catch(err=>{
@@ -105,7 +107,7 @@ class Controller{
         })
         .then(user=>{
             if(user){
-            const access_token=generateToken
+            const access_token = generateToken
             } else {
                 const body = {}
                 body.first_name = payload['given_name'],

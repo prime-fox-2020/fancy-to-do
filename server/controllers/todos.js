@@ -1,4 +1,6 @@
 const {Todo} = require('../models/index')
+const secretKey = "KeyBoardWarrior"
+const jwt = require('jsonwebtoken')
 
 class Controller{
     
@@ -13,10 +15,12 @@ class Controller{
     }
 
     static findAllMyTodos(req,res,next){
-        const username = req.userData.username
-        console.log(username)
+        const access_token = req.headers.access_token
+        const decoded = jwt.verify(access_token,secretKey)
+        const username = decoded.username
         Todo.findAll({where : {username : username}})
         .then(data=>{
+            console.log(data)
             res.status(200).json(data)
         })
         .catch(err=>{
@@ -76,8 +80,9 @@ class Controller{
     }
 
     static delete(req,res,next){
+        
         const id = req.params.id
-
+        console.log(id)
         Todo.destroy({where: {id : id}})
         .then(data=>{
             res.status(200).json(data)

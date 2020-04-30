@@ -4,53 +4,63 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width , initial-scale=1.0">
+            <link rel="stylesheet" href="really-simple-jquery-dialog.css">
             <title>Home</title>
         </head>
 
     <body>
-        <h1 id = 'greetings'> Test for todos</h1>
+        <h1 id = 'greetings'> Todos</h1>
         <h1 class = 'use-class'>Menggunakan Class </h1>
-
-        <!-- <form id = 'login-form'> -->
-            <!-- <label for=''> Username </label>
-            <br>
-            <input type = 'text' name = 'username'>
-            <br>
-            <label for=''>Password</label>
-            <br>
-            <input type = 'password' name = 'password'>
-            <br> -->
-            <button type = 'submit' id = 'login'>Login</button>
-        <!-- </form> -->
-
        
         <p1 id = 'login-status'> Belum login</p1>
         <button id = 'logout'> Logout</button>
 
         <div class = 'page-login'>
             <h1>Halaman Login</h1>
-        
+            <form id = credential >
+            <label for =''> Username </label>
+            <input type = 'text' id = 'username'>
+            <label for =''> Password </label>
+            <input type = 'password' id = 'password'>
+            <input type = 'submit'>
+            </form>
         </div>
-
 
         <div class = 'page-todos'>
             <h1>Halaman Todos</h1>
-            <p1>Anda berhasil login</p1>
-        <ul>
-            <li class = 'todo'>Use</li>
-            <li class = 'todo'><button>My list</button></li>
-        </ul>
-            <form id class = search-todo>
-            <label for=''>search</label>
             <input type = 'text' name = 'search_id'>
-            <input type = 'submit'>
-
+            <input type = 'submit' value ='search'>
+            <button id = 'mylist'>My list</button>
             </form>
-
-
-
         </div>
 
+        <div class = 'search-button'>
+            <input type = 'submit' value ='search'>
+        </div>
+
+
+        <div class = 'todos-findAll'>
+            <h1>List All Todos</h1>   
+            
+        <table id = findAll>
+            
+            
+        </table>
+        </div>
+
+        <div class = 'todos-mytodos'>
+            <h1>List My Todos</h1>
+        <table id = mytodos>
+            
+        </table>
+        </div>
+
+        <div id = 'delete-confirmation'>  </div>
+
+        <div id = 'edit-pop-up'> </div>
+
+
+     
 
 
 
@@ -60,7 +70,8 @@
         crossorigin="anonymous">
         </script>
         <script src='./index.js'></script>
-
+        <script src='./really-simple-jquery-dialog.js'></script>
+ 
 
 
     </body>
