@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="19697038873-v705k9jorulu7h5ucid0uchac6fost2g.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Todo App</title>
     <style>
@@ -16,6 +17,9 @@
       .row {
         padding-left: 150px;
 
+      }
+      button {
+        margin: 5px;
       }
       form{
         margin: 10px 150px;
@@ -58,9 +62,12 @@
           </div>
         </div>
         <div class="col-md-3 button">
+          
           <button type="submit" class="btn btn-primary btn-sm" >Login</button>
           or
-          <button class="btn btn-success btn-sm" id="goto-register-btn">Register</button>
+          <button class="btn btn-success btn-sm" id="goto-register-btn">Register</button><br>
+          <p>Login With Google Account</p>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
       </form>
     </div>
@@ -89,10 +96,9 @@
     </div>
 
     <div id="todo-list" class="element">
-      <div id="message"></div>    
       <h2>Todo List</h2>
-
       <button class="btn btn-primary btn-sm" id="add-todo-btn">Add Todo</button>
+      <button class="btn btn-warning btn-sm" id="goto-calendar">Show Holidays</button>
       <table class="table table-striped" id="table-todo">
         <thead>
           <tr>
@@ -161,6 +167,28 @@
         <button class="btn btn-danger btn-sm" id="cancel-add-btn">Cancel</button>
       </form>
     </div>
+
+    <div id="calendar" class="element">
+      <h2>Holiday List</h2>
+
+      <button class="btn btn-primary btn-sm" id="goto-todo-list">Todo List</button>
+
+      <table class="table table-striped" id="table-calendar">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="main.js"></script>
     <!-- Optional JavaScript -->
