@@ -1,0 +1,31 @@
+body {
+  margin: 0 5%;
+  font-family: 'Acme', sans-serif;
+}
+
+.table {
+  color: rgb(90, 66, 226);
+}
+
+.top-table{
+  color: black;
+  background-color: rgb(30, 144, 210);
+}
+
+.navbar{
+  background-color: rgb(30, 144, 210);
+}
+
+.g-signin2{
+  padding-left: 25%;
+
+}
+
+form{
+  padding-left: 25%;
+}
+
+.errorMsg{
+  padding-left: 25%;
+
+}

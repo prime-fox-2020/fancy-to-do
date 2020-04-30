@@ -1,7 +1,7 @@
 module.exports = function(err, req, res, next){
   let statusCode = 500
   let errorCode = 'UNKNOWN_ERROR'
-  // console.log(err, '>>> ini error');
+  let message = 'Internal Server Error'
   
   if(err.name === 'SequelizeValidationError'){
     statusCode = 400
@@ -27,6 +27,15 @@ module.exports = function(err, req, res, next){
     statusCode = 400
     errorCode = 'EMAIL_ALREADY_EXIST'
     message = `Email Already Exist`
+  } else if(err.name == 'FORBIDDEN_ACCESS'){
+    statusCode = 403
+    errorCode = 'FORBIDDEN_ACCESS'
+    message = `Forbidden Access`
+  } else if(err.name == 'LOGIN_FIRST'){
+    statusCode = 400
+    errorCode = 'LOGIN_FIRST'
+    message = `Please Login First!`
   }
+  
   res.status(statusCode).json({errorCode, message})
 }

@@ -1,11 +1,13 @@
 const baseUrl = 'http://localhost:3000'
 let todos;
 let todoId = 0
+let calendarData;
 
 $(document).ready(()=>{
   $('section').hide()
   
   if(!localStorage.token){
+    $('.errorMsg').empty()
     $('#login-page').show()
   } else {
     $('#logoutButton').show()
@@ -16,30 +18,35 @@ $(document).ready(()=>{
   $('#registerButton').click(e => {
     e.preventDefault()
     $('section').hide()
+    $('.errorMsg').empty()
     $("#register-page").show()
   })
 
   $('#cancelButton').click(e => {
     e.preventDefault()
     $('section').hide()
+    $('.errorMsg').empty()
     $("#login-page").show()
   })
 
   $('#addButton').click(e=>{
     e.preventDefault()
     $('section').hide()
+    $('.errorMsg').empty()
     $("#add-page").show()
   })
   
   $('#cancelEditButton').click(e=>{
     e.preventDefault()
     $('section').hide()
+    $('.errorMsg').empty()
     $('#todo-page').show()
   })
 
   $('#cancelAddButton').click(e=>{
     e.preventDefault()
     $('section').hide()
+    $('.errorMsg').empty()
     $('#todo-page').show()
   })
   
@@ -59,11 +66,25 @@ $(document).ready(()=>{
   
   $("#logoutButton").click(e => {
     e.preventDefault()
+    signOut()
     localStorage.removeItem("token")
     $('section').hide()
+    $('.errorMsg').empty()
     $('#login-page').show()
   })
 
+  $("#calendarButton").click(e => {
+    e.preventDefault()
+    $('section').hide()
+    $('#calendar-page').show()
+    calendar()
+  })
+
+  $('#todoButton').click(e=>{
+    e.preventDefault()
+    $('section').hide()
+    $('#todo-page').show()
+  })
 })
 
 function login (email, password){
@@ -82,7 +103,9 @@ function login (email, password){
     fetchTodo()
   })
   .fail(err=>{
-    console.log(err, `error`)
+    $('.errorMsg').empty()
+    const msgErr = err.responseJSON.message
+    $('.errorMsg').append(`<p class="alert alert-danger col-md-4">${msgErr}</p>`)
   })
   .always(()=>{
     $('#email').val('')
@@ -100,15 +123,22 @@ function register(email, password){
     }
   })
   .done(data => {
-    localStorage.setItem('token', data.token)
     $('section').hide()
-    $('#todo-page').show()
-    fetchTodo()
+    $('#login-page').show()
   })
   .fail(err => {
-    console.log(err)
+    $('.errorMsg').empty()
+    const msgErr = err.responseJSON.message.split(', ')
+    msgErr.forEach(list=>{
+      $('.errorMsg').append(`<p class="alert alert-danger col-md-4">${list}</p>`)
+    })
+  })
+  .always(()=>{
+    $('#email').val('')
+    $('#password').val('')
   })
 }
+
 
 function fetchTodo (){
   $.ajax({
@@ -139,7 +169,7 @@ function fetchTodo (){
     }
   })
   .fail(err=>{
-    console.log(err)
+    console.log(err.responseJSON.message)
   })
 }
 
@@ -168,7 +198,11 @@ function addTodo (e){
     fetchTodo()
   })
   .fail(err=>{
-    console.log(err)
+    $('.errorMsg').empty()
+    const msgErr = err.responseJSON.message.split(', ')
+    msgErr.forEach(list=>{
+      $('.errorMsg').append(`<p class="alert alert-danger col-md-4">${list}</p>`)
+    })
   })
   .always(()=>{
     $('#title').val('')
@@ -218,7 +252,11 @@ function putTodo (e){
       fetchTodo()
     })
     .fail(err=>{
-      console.log(err)
+      $('.errorMsg').empty()
+      const msgErr = err.responseJSON.message.split(', ')
+      msgErr.forEach(list=>{
+      $('.errorMsg').append(`<p class="alert alert-danger col-md-4">${list}</p>`)
+      })
     })
     .always(()=>{
       $('#editTitle').val('')
@@ -243,6 +281,53 @@ function deleteTodo (e, id){
     fetchTodo()
   })
   .fail(err=>{
+    console.log(err)
+  })
+}
+
+function onSignIn(googleUser) {
+  var id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    method: 'POST',
+    url: `${baseUrl}/google-login`,
+    data: { id_token: id_token}
+  })
+  .done(data => {
+    localStorage.setItem('token', data.access_token)
+    $('section').hide()
+    $('#todo-page').show()
+    fetchTodo()
+  })
+  .fail(err => {
+    console.log(err)
+  })
+}
+
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+  });
+}
+
+
+const calendar = () => {
+  $.ajax({
+    url: `${baseUrl}/calendar`,
+    method: 'GET'
+  })
+  .done(res => {
+    $('#calendar-list').empty()
+    res.forEach(list=>{
+      $('#calendar-list').append(`
+        <tr>
+        <td>${list.name}</td>
+        <td>${list.description}</td>
+        <td>${list.date.substring(0,10)}</td>
+        </tr>
+      `)
+    })
+  })
+  .fail(err => {
     console.log(err)
   })
 }

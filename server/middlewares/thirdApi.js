@@ -8,13 +8,22 @@ class Calendar {
     
     axios.get(url, {
       params: {
-        api_key: '7f1f874e7c24ed1d8f31a67ab1d224e30628d6d1',
+        api_key: process.env.calendarApi,
         country: 'ID',
         year: 2020
       }
     })
     .then(response => {
-      res.status(200).json(response.data)
+      let result = []
+      let datas = response.data.response.holidays
+      datas.forEach(list => {
+        result.push({
+          name: list.name,
+          description: list.description,
+          date: list.date.iso
+        })
+      });
+      res.status(200).json(result)
     })
     .catch(err=>{
       next(err)
