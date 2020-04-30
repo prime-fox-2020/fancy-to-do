@@ -7,7 +7,7 @@ const TodoController = require('../controllers/TodoController')
 
 route.use(authentication) //for all
 
-route.get('/', authorization, TodoController.showTodo)
+route.get('/', TodoController.showTodo)
 route.post('/', TodoController.addTodo)
 route.get('/:id', TodoController.getTodo)
 

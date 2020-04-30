@@ -1,221 +1,224 @@
 # fancy-to-do
-Create fancy to do app, using express, jquery, ajax
-
+Fancy To Do App, using express, jquery, ajax
+This is an application to organize your to do list.
+This app has :
 * RESTful endpoint for Todo List's CRUD operation
 * JSON formatted response
 
-##Restful endpoints
+&nbsp;
+## RESTful endpoints
+---
+http://localhost:3000/todos
 ### GET/todos
+
 >get all todos list
 
 _Request Header_
-
+```
 {
-  soon updated
+  "access_token": "<your access token>"
 }
-
+```
 _Request Body_
-
+```
 not needed
-
+```
 _Response (200)_
-
-{
-    "Todo": [
-        {
-            "id": 2,
-            "title": "Belajar Todos Kedua",
-            "description": "lanjut mencoba authentication",
-            "status": "berhasil",
-            "due_date": "2020-04-27",
-            "createdAt": "2020-04-27T13:48:31.410Z",
-            "updatedAt": "2020-04-27T13:51:03.672Z"
-        },
-        {
-            "id": 1,
-            "title": "Belajar Todos",
-            "description": "mencoba restful",
-            "status": "berhasil",
-            "due_date": "2020-04-27",
-            "createdAt": "2020-04-27T13:07:02.409Z",
-            "updatedAt": "2020-04-27T13:51:37.106Z"
-        },
-        {
-            "id": 3,
-            "title": "Belajar Todos Ketiga",
-            "description": "mereview middleware & session",
-            "status": "berhasil",
-            "due_date": "2020-04-27",
-            "createdAt": "2020-04-27T13:57:19.641Z",
-            "updatedAt": "2020-04-27T13:57:19.641Z"
-        }
-    ]
-}
-
+```
+[
+    {
+        "id": 1,
+        "title": "<todo title>",
+        "description": "<todo description>",
+        "status": "<todo status>",
+        "due_date": "<todo due_date>",
+        "UserId": "<todo UserId>",
+        "createdAt": "2020-04-27T13:07:02.409Z",
+        "updatedAt": "2020-04-27T17:00:35.647Z"
+    },
+    {
+        "id": 2,
+        "title": "<todo title>",
+        "description": "<todo description>",
+        "status": "<todo status>",
+        "due_date": "<todo due_date>",
+        "UserId": "<todo UserId>",
+        "createdAt": "2020-04-27T13:57:19.641Z",
+        "updatedAt": "2020-04-27T13:57:19.641Z"
+    }
+]
+```
 _Response (500 - Bad Request)_
-
+```
 {
-    "error": {}
+    "error": "<returned error message>"
 }
-
-
-
-
+```
+---
+http://localhost:3000/todos
 ### POST/todos
 
 >Create new todos list
 
-__Request Header_
-
+_Request Header_
+```
 {
-  soon updated
+  "access_token": "<your access token>"
 }
-
+```
 _Request Body_
-
+```
 {
   "title": "<title to get insert into>",
   "description": "<description to get insert into>",
   "status": "<status to get insert into>",
-  "due_date": "<due_date to get insert into>"
+  "due_date": "<due_date to get insert into>",
+  "UserId": "<UserId to get insert by selected access_token>",
 }
-{
-  "title": "Belajar Todos Keempat",
-  "description": "tes delete",
-  "status": "berhasil",
-  "due_date": "2020-04-27"
-}
-
+```
 _Response (201 - Created)_
-
+```
 {
-    "Todo": {
-        "id": 4,
-        "title": "Belajar Todos Keempat",
-        "description": "tes delete",
-        "status": "berhasil",
-        "due_date": "2020-04-27",
-        "updatedAt": "2020-04-27T15:38:37.080Z",
-        "createdAt": "2020-04-27T15:38:37.080Z"
-    }
+    "id": <given id by system>,
+    "title": "<posted title>",
+    "description": "<posted description>",
+    "status": "<posted status>",
+    "due_date": "<posted due_date>",
+    "UserId": "<posted UserId>",
+    "updatedAt": "2020-04-29T09:18:21.016Z",
+    "createdAt": "2020-04-29T09:18:21.016Z"
 }
-
+```
 _Response(400- bad request)_
-ex: title
+```
 {
-    "error": "Please do not leave empty title"
+    "message": "<returned error message>"
 }
-
+```
 _Response (500)_
-
+```
 {
-  "error": "<returned error message>"
+   "message": "<returned error message>"
 }
-
+```
+---
+http://localhost:3000/todos/:id
 ### GET/todos/:id
 
 >Get todos list by ID
 
-
-__Request Header_
-
+_Request Header_
+```
 {
-  soon updated
+  "access_token": "<your access token>"
 }
-
+```
 _Request Body_
-
+```
 not needed
-
+```
 _Response (200)_
-
+```
 {
-    "Todo": {
-        "id": 2,
-        "title": "Belajar Todos Kedua",
-        "description": "lanjut mencoba authentication",
-        "status": "berhasil",
-        "due_date": "2020-04-27",
-        "createdAt": "2020-04-27T13:48:31.410Z",
-        "updatedAt": "2020-04-27T13:51:03.672Z"
-    }
+    "id": "<todo given id>",
+    "title": "<todo title>",
+    "description": "<todo description>",
+    "status": "<todo status>",
+    "due_date": "<todo due_date>",
+    "UserId": "<todo given UserId>",
+    "createdAt": "2020-04-29T09:18:21.016Z",
+    "updatedAt": "2020-04-29T09:41:36.971Z"
 }
-
-_Response (404 - not found)_
-
+```
+_Response (400 - bad request)_
+```
 {
-    "error": "data todo not found"
+    "message": "Bad Request - unable find data todo"
 }
-
+```
 _Response (500)_
-
+```
 {
   "error": "<returned error message>"
 }
-
+```
+---
+http://localhost:3000/todos/:id
 ### PUT/todos/:id
 
 >Update todos list by ID
 
-
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
 _Request Body_
-
+```
 {
   "title": "<title to get updated later on>",
   "description": "<description to get updated later on>",
+  "status": "<status to get updated later on>",
   "due_date": "<due_date to get updated later on>",
-   "status": "<status to get updated later on>"
+  "UserId": "<UserId to get updated by selected access_token>"
 }
-{
-  "title": "Belajar Todos",
-  "description": "mencoba restful",
-  "due_date": "berhasil",
-   "status": "2020-04-27"
-}
-
+```
 _Response(200)_
-
+```
 {
-    "Todo": "data successfully updated"
+    "message": "Update selected todo successfully"
 }
-
+```
 _Response(404 - not found)_
+```
 {
-    "error": "data todo not found"
+    "error": "<returned error message>"
 }
-
-
-_Response(400- bad request)_
-ex: description
-{
-    "error": "Please do not leave empty description"
-}
-
-_Response (500)_
-
+```
+_Response(400 - bad request)_
+```
 {
   "error": "<returned error message>"
 }
-
-
+```
+_Response (500)_
+```
+{
+  "error": "<returned error message>"
+}
+```
+---
+http://localhost:3000/todos/:id
 ### DELETE/todos/:id
 
 >Delete todos list by ID
 
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+_Request Body_
+```
+not needed
+```
 _Response(200)_
-
+```
 {
-    "Todo": 1
+    "message": "Delete selected todo successfully"
 }
-
+```
 _Response(404 - not found)_
+```
 {
-    "error": "data todo not found"
+    "error": "<returned error message>"
 }
-
+```
 _Response (500)_
-
+```
 {
   "error": "<returned error message>"
 }
-
+```

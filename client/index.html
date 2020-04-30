@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>My Fancy Todo App</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <nav class="navbar bg-light mb-3">
+            <h1 class="text-center">Fancy Todo Application</h1>
+        </nav>
+        <h6 class="text-center" id="greet" >~Be Productive Akhy~</h6>
+      
+        <!-- Register Todo -->
+        <div class="app" id="register">
+            <h2>Register</h2>
+
+            <form id="register-form">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email-register" placeholder="e.g: example@mail.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password-register" placeholder="e.g: <input password>">
+                </div>
+
+                <button class="btn btn-success" id="btn-register" type="submit" >Register</button> | 
+                <button class="btn btn-primary" id="btn-gotologin">Log in</button>
+
+            </form>
+        </div>
+      
+        <!-- Login Todo -->
+        <div class="app" id="login">
+            <h2>Login</h2>
+        
+            <form id="login-form">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email-login"  placeholder="e.g: example@mail.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password-login" placeholder="e.g: <input password>">
+                </div>
+
+                <button class="btn btn-success" id="btn-login" type="submit">Log in</button> | 
+                <button class="btn btn-primary" id="btn-gotoregister">Register</button>
+
+            </form>
+        </div>
+
+        <!-- Add Todo -->
+        <div class="app" id="add">
+            <h2>Add Todo</h2>
+            <form id="add-form">
+                
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="add-title" placeholder="e.g: Learning">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="add-description" placeholder="e.g: Astrology">
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="text" class="form-control" id="add-date" placeholder="YYYY-MM-DD">
+                </div>
+
+                <button type="submit" class="btn btn-success">Create</button>
+                <button class="btn btn-danger list" id='btn-list-from-add'>Cancel</button><!--backtollist-->
+            
+            </form>
+        </div>
+      
+        <!-- Edit Todo -->
+        <div class="app" id="edit">
+            <h2>Edit Todo</h2>
+            <form id="edit-form">
+
+                <!-- <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="edit-title" value="<%= response.title %>">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="edit-description" value="<%= response.description %>">
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="text" class="form-control" id="edit-date" value="<%= response.due_date %>">
+                </div>
+
+                <button type="submit" class="btn btn-success" id="edit-update">Update</button>
+                <button class="btn btn-danger list" id='btn-list-from-edit'>Cancel</button> -->
+                <!--backtollist-->
+
+            </form>
+        </div>
+      
+        <!-- Show Todo -->
+        <div class="app" id="todolist">
+            <h1 class="text-center">Todo list</h1>
+
+            <button class="btn btn-primary" id='btn-add'>Add Todo</button>
+            <a href="/todos/delete/<%=element.id%>"onclick="return confirm('Are you sure want to log out from page?')">
+                <button class="btn btn-warning logout float-right" id="btn-logout">Log out</button>
+            </a><br><br>
+
+            <table class="table" id="table-todo">
+
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+
+            </table>
+        </div>
+      
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script> <!-- CDN -->
+
+    <!-- <script src="./index.js"></script> -->
+
+    <script type="text/javascript">
+    function editTodo(event, id){
+        console.log(id, '===============ID')
+        event.preventDefault()
+        var todo = {
+            title: $('#edit-title').val(),
+                        description: $('#edit-description').val(),
+                        status: $('#edit-status').val(),
+                        due_date: $('#edit-due_date').val()
+        }
+        console.log(todo)
+                $.ajax({
+                    url:`http://localhost:3000/todos/${id}`,
+                    type:"PUT",
+                    headers: {
+                    access_token: localStorage.getItem('access_token'),
+                    data: todo
+                }
+
+                })
+                .done(function(response){
+                    //add here
+                    console.log(response, 'ADA DONG ==============')
+                    
+                })
+                .fail()
+                .always()
+            }
+        function getATodo(id){ //for url id
+            console.log('kepanggil')
+            $.ajax({
+                url:`http://localhost:3000/todos/${id}`,
+                type:"GET",
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(function(response){
+                //get here
+                console.log(response)
+            })
+            .fail()
+            .always()
+        }
+
+        function toFormEdit(id){ //for url id
+            console.log('kepanggil')
+            $.ajax({
+                url:`http://localhost:3000/todos/${id}`,
+                type:"GET",
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(function(response){
+                //get here
+                console.log(response)
+                const {id, title, description, status, due_date} = response
+
+                var $temp = `
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="edit-title" value="${title}">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="edit-description" value="${description}">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <input type="text" class="form-control" id="edit-status" value="${status}">
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date">Due Date</label>
+                        <input type="text" class="form-control" id="edit-due_date" value="${due_date}">
+                    </div>
+
+                    <button type="submit" class="btn btn-success" id="edit-update" onclick="editTodo(event, ${id})">Update</button>
+                    <button class="btn btn-danger list" id='btn-list-from-edit'>Cancel</button>
+                    `
+                $("#edit-form").append($temp);
+                $(".app").hide();
+                $("#edit").show();
+                
+            })
+            .fail()
+            .always()
+        }
+
+        $(document).ready(function(){
+            console.log($('#greet'))
+            // ".class" "#id"
+            $(".app").hide();
+
+
+
+            function showTodo(){
+                $.ajax({
+                    url:"http://localhost:3000/todos",
+                    type:"GET",
+                    headers: {
+                        access_token: localStorage.getItem('access_token')
+                    },
+                    
+                })
+                .done(function(response){
+                    console.log(response)
+                    //append here
+                    $("#table-todo tbody").empty();
+                    var $temp = ''
+                    for (let i = 0; i < response.length; i++) {
+                        const {id, title, description, status, due_date, UserId} = response[i]
+                        $temp += `
+                            <tr>
+                                <td> ${id} </td>
+                                <td> ${title} </td>
+                                <td> ${description} </td>
+                                <td> ${status} </td>
+                                <td> ${due_date} </td>
+                                <td> ${UserId} </td>
+                                <td>
+                                    <button class="btn btn-success" id="btn-show">Show</button>
+                                    <button class="btn btn-primary" id="btn-edit" onclick="toFormEdit(${id})">Edit</button>
+                                    <a href="/todos/delete/<%=element.id%>"onclick="return confirm('Are you sure want to delete this particular todo?')">
+                                        <button type="button" class="btn btn-danger" id='btn-delete'>Delete</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        `
+                    }
+                    // console.log($temp, '<<<')
+                    $("#table-todo tbody").append($temp);
+                    
+                })
+                
+            }
+
+            function addTodo(){
+                $.ajax({
+                    url:"http://localhost:3000/todos",
+                    type:"POST"
+                })
+                .done(function(response){
+                    //add here
+                    for (let i = 0; i < response.length; i++) {
+                        
+                    }
+                })
+                .fail()
+                .always()
+            }
+
+
+            
+
+            // Yes No access_token | localStorage.setItem('access_token', 'iseng123') @ web app inspect
+            if (localStorage.getItem('access_token')) { // Yes
+                $("#todolist").show();
+                showTodo()
+            }else{                                      // No
+                $("#login").show();
+            }
+            
+            //VIEW PAGE BUTTON
+            $('#btn-gotologin').click(function(e){
+                e.preventDefault();
+                $(".app").hide();
+                $("#login").show();
+            });
+            $('#btn-gotoregister').click(function(e){
+                e.preventDefault();
+                $(".app").hide();
+                $("#register").show();
+            });
+            $('#btn-add').click(function(e){
+                e.preventDefault();
+                $(".app").hide();
+                $("#add").show();
+            });
+            $('#btn-list-from-add').click(function(e){
+                e.preventDefault();
+                $(".app").hide();
+                $("#todolist").show();
+            });
+            $('#btn-edit').click(function(e){
+                e.preventDefault();
+                $(".app").hide();
+                $("#edit").show();
+            });
+            $('#btn-list-from-edit').click(function(e){
+                e.preventDefault();
+                $(".app").hide();
+                $("#todolist").show();
+            });
+
+
+            
+        })
+    </script>
+</body>
+</html>

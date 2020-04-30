@@ -14,13 +14,13 @@ class UserController {
                 res.status(201).json({ TodoUser: user})
             } else {
                 res.status(400).json({ 
-                    error: err.message || 'error - bad request'
+                    message: err.message || 'error - bad request'
                 })
             }
         })
         .catch( err => {
             res.status(500).json({ 
-                error: err.message || 'internal server error'
+                message: err.message || 'internal server error'
             })
         })
 
@@ -46,7 +46,7 @@ class UserController {
         })
         .catch( err => {
             res.status(500).json({ 
-                error: err.message || 'internal server error'
+                message: err.message || 'internal server error'
             })
         })
 

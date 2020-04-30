@@ -17,7 +17,7 @@ const authorization = (req, res, next) => {
         }
     })
     .catch( err =>{
-        res.status(500).json({error: err.message || 'internal error server'})
+        res.status(500).json({message: err.message || 'internal error server'})
     })
     
 }
