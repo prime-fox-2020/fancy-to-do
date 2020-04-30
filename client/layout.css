@@ -95,12 +95,12 @@ h2 {
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
-#holiday {
+.holiday {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 }
-#country {
+.country {
     width: 40%;
 }
