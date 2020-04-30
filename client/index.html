@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="54748666354-2v7tlei54md0vdfbsfp6g8unde3gp7bn.apps.googleusercontent.com">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -29,10 +30,11 @@
           </div>
           <div class="login-register">
             <button id="login-btn" type="submit" class="btn btn-info">Login</button>
-            |
-            <button class="register-btn btn btn-link">Register</button>
           </div>
         </form>
+        <p class="lead">Or</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <button class="register-btn btn btn-link">Don't have account yet? Register here</button>
       </div>
 
       <!-- REGISTER -->
@@ -64,7 +66,7 @@
       <div id="todo" class="bg-info">
         <div class="header d-flex justify-content-between">
           <h1 class="display-4 text-white">TODOS</h1>
-          <button class="btn btn-info" id="logout">logout</button>
+          <button class="btn btn-info" id="logout" onclick="signOut();">logout</button>
         </div>
         <div class="todo-body">
           <!-- TODO FORM -->
@@ -88,7 +90,7 @@
                 </select>
               </div>
             </div>
-            <button type="submit" class="btn btn-info">Submit</button>
+            <button type="submit" class="btn btn-info">Create Todo</button>
           </form>
 
           <!-- INI UL -->
@@ -110,11 +112,10 @@
             </button>
           </div>
           <div class="modal-body">
-            Congratulation you are registered. You can log in now
+            Congratulation you are registered
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-info login-modal" data-dismiss="modal">Login</button>
           </div>
         </div>
       </div>
@@ -187,6 +188,8 @@
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="./public/script/app.js"></script>
+    <script src="./public/script/google.js"></script>
   </body>
 </html>

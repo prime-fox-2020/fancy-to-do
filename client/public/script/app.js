@@ -16,7 +16,6 @@ function start(){
     $('.todos').html(todos)
   })
   .fail(err => console.log(err))
-  .always(() => console.log('hei come visit wix.com'))
   
   if(!login){
     $('#login').show()
@@ -24,6 +23,7 @@ function start(){
     $('#todo').hide()
   }else{
     $('#login').hide()
+    $('#register').hide()
     $('#todo').show()
   }
 }
@@ -74,10 +74,12 @@ $('#login-btn').on('click', function(e){
     start()
   })
   .fail(err => {
+    console.log(err)
+  })
+  .always(() => {
     $('#login-email').val("")
     $('#login-password').val("")
   })
-  .always(() => console.log('hei come visit wix.com'))
   
 })
 
@@ -107,18 +109,17 @@ $('#register-btn').on('click', function(e){
     }
   })
   .done(result => {
-    console.log('success')
+    localStorage.setItem('access_token', result.access_token)
+    start()
   })
   .fail(err => {
+    console.log(err)
+  })
+  .always(() => {
     $('#login-email').val("")
     $('#login-password').val("")
     $('#register-location').val("")
   })
-  .always(() => console.log('hei come visit wix.com'))
-})
-
-$('.login-modal').click(function(e){
-  start()
 })
 
 
@@ -219,3 +220,7 @@ $('ul').on('click', '.delete', function(e){
     })
   })
 })
+
+module.exports = {
+  start
+}
