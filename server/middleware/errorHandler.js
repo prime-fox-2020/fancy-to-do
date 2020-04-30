@@ -4,7 +4,6 @@ module.exports = (err, req, res, next) => {
   let statusCode  = 500
   let errorCode   = "UNKNOWN_ERROR"
   let message     = err.message || 'Interval Server Error'
-  console.log(err)
 
   if(err.name === "SequelizeValidationError") {
     statusCode  = 400
@@ -33,19 +32,19 @@ module.exports = (err, req, res, next) => {
   }else if(err.name === 'TokenNotFound'){
     statusCode  = 404
     errorCode   = "TOKEN_NOT_FOUND"
-    message     = "token is not founded"
+    message     = "token is not found"
   }else if(err.name === "ToDoNotFound"){
     statusCode  = 404
     errorCode   = "TO_DO_NOT_FOUND"
-    message     = "To do is not founded in this user"
+    message     = "To do is not found in this user"
   }else if(err.name === "ItemNotFound"){
     statusCode  = 404
     errorCode   = "TO_DO_NOT_FOUND"
-    message     = "To do is not founded in this user"
+    message     = "To do is not found in this user"
   }else if(err.name === "LocationNotFound"){
     statusCode  = 404
     errorCode   = "LOCATION_NOT_FOUND"
-    message     = "Location not founded"
+    message     = "Location not found"
   }
 
   res.status(statusCode).json({ errorCode, message })

@@ -10,6 +10,7 @@ const authentication = (req, res, next) => {
   // console.log(localStorage)
   if(!access_token){
     next({ name: 'TokenNotFound' })
+    return
   }
 
   try {

@@ -9,7 +9,6 @@ const client            = new OAuth2Client(process.env.CLIENT_ID)
 class UserControllers{
   static register(req, res, next){
     const { email, password, location } = req.body
-    console.log(location)
     User.create({ email, password, location: location })
       .then(user => {
         const access_token = requestToken(user)
@@ -48,7 +47,6 @@ class UserControllers{
       audience: process.env.CLIENT_ID
     })
       .then(ticket => {
-        console.log(ticket)
         const payload = ticket.getPayload()
         email = payload['email']
         return User.findOne({where : { email } })

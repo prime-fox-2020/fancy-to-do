@@ -8,9 +8,8 @@ function onSignIn(googleUser) {
     }
   })
   .done(result => {
-    console.log(result)
     localStorage.setItem('access_token', result.access_token)
-    start()
+    main()
   })
   .fail(err => {
     console.log(err)
