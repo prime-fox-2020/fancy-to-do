@@ -20,7 +20,7 @@ class TodoController{
         let newTodo = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
+            status: false,
             due_date: req.body.due_date,
             UserId: UserId
         }
@@ -75,14 +75,13 @@ class TodoController{
     }
 
     static checkHoliday(req, res, next) {
-        const country = req.body.country
         const day = new Date().getDate()
         const month = new Date().getMonth() + 1
         const year = new Date().getFullYear()
         // console.log(month)
         axios({
             method:"GET",
-            url:`https://calendarific.com/api/v2/holidays?&api_key=${process.env.api_key}&country=${country}&year=${year}`
+            url:`https://calendarific.com/api/v2/holidays?&api_key=${process.env.api_key}&country=id&year=${year}`
         }).then(result => {
             const datas = result.data.response.holidays
             console.log(datas)

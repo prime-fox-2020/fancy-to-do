@@ -7,14 +7,14 @@ const errHandler = (err, req, res, next) => {
         });
         status = 400
     } else if(err.message) {
-        errors.push({message: err.message})
         if(err.status){
             status = err.status
         }
+        errors.push({message: err.message})
     } else {
         errors.push({message: "Internal server error"})
     }
-    res.status(status).json(err.message || errors)
+    res.status(status).json(errors)
 }
 
 module.exports = errHandler
