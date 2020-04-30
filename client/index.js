@@ -95,6 +95,34 @@ $(document).ready(function(){
         $("#dashboardPage").hide()
     })
 
+    $(document).ready(function (e) {
+        $('#upload').on('click', function () {
+            const access_token=localStorage.getItem('token')
+            var file_data = $('#file').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            console.log(form_data.get('file'))
+            $.ajax({
+                url: 'http://localhost:3000/imgur/upload', // point to server-side controller method
+                dataType: 'json', // what to expect back from the server
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                headers:{
+                    access_token
+                },
+                success: function (response) {
+                    $('#msg').html(response); // display success response from the server
+                },
+                error: function (response) {
+                    $('#msg').html(response); // display error response from the server
+                }
+            });
+        });
+    });
+
 
 })
 
@@ -304,23 +332,30 @@ function onSignIn(googleUser) {
     })
 }
 
-function uploadImage(){
-    const access_token=localStorage.getItem('token')
-    const dataGambar =new FormData()
-    // dataGambar.append('file', $('#file')[0].files[0])
-
-    $.ajax({
-        method: "POST",
-        url: `http://localhost:3000/imgur/upload`,
-        headers: {
-            access_token
-        },
-        data:dataGambar
-    })
-    .done(function(response){
-        console.log(response)
-    })
-    .fail(function(err){
-        console.log(err.responseJSON)
-    })
-}
+// function uploadImage(){
+//     const access_token=localStorage.getItem('token')
+//     const file_data = $('#file').prop('files')[0];
+//     var form_data = new FormData();
+//     form_data.append('file', file_data)
+//     console.log(form_data)
+//     $.ajax({
+//         url: `http://localhost:3000/imgur/upload`,
+//         method: "POST",
+//         headers: {
+//             access_token
+//         },
+//         data:form_data
+//         // {
+//         //     image:$('#file').val()
+//         // }
+//     })
+//     .done(function(response){
+//         // console.log($('#file').val())
+//         // // $('#msg').html(response);
+//         // console.log(response)
+//     })
+//     .fail(function(err){
+//         // $('#msg').html(err);
+//         console.log(err.responseJSON)
+//     })
+// }

@@ -35,7 +35,7 @@ class ImgurController{
         })
     }
 
-    static uploadImage(req,res){
+    static uploadImage(req,res,next){
         console.log(req.body)
         // axios({
         //     method:"POST",
