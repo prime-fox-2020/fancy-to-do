@@ -2,7 +2,8 @@ const { User } = require('../models')
 const bcrypt = require('bcrypt')
 const {generateToken} = require('../helpers/jwt')
 const axios = require('axios')
-
+// const googleVerification = require('../helpers/googleOauthApi.js');
+const { OAuth2Client } = require('google-auth-library')
 
 class UserController {
   static register(req,res,next){
@@ -35,7 +36,7 @@ class UserController {
         res.status(201).json({id: user.id, email:user.email, password:user.password, message:'successfully registered'})
       })
     .catch((error)=>{
-      next(error)
+      next({name: "RegisterError", message : error})
     })
   }
 
@@ -60,6 +61,56 @@ class UserController {
       res.status(400).json({
         message: err.message || 'Bad Request'
       })
+    })
+  }
+
+  static googleLogin(req,res,next){
+    const client = new OAuth2Client(process.env.CLIENT_ID)
+    const id_token = req.headers.id_token
+    let email = ''
+    // console.log(req.body.id_token);
+    client.verifyIdToken({
+      idToken : id_token,
+      audience: process.env.CLIENT_ID
+    })
+    .then(ticket=>{
+      // console.log(ticket);
+      email = ticket.getPayload().email
+      return User.findOne({
+        where : {
+          email : email
+        }
+      })
+    })
+    .then(data=>{
+      // console.log(data);
+      if (data){
+        return data
+        // let user = {id : data.id, email : data.email}
+        // let token = generateToken(user)
+        // return res.status(200).json({
+        //   id : user.id,
+        //   email: user.email,
+        //   access_token : token
+        // })
+      } else {
+        return User.create({
+          email : email,
+          password : process.env.DEFAULT_GOOGLE_PASSWORD
+        })
+      }
+    })
+    .then(data=>{
+      let user = {id : data.id, email : data.email}
+      let token = generateToken(user)
+      return res.status(201).json({
+          id : user.id,
+          email : user.email,
+          access_token : token
+        })
+    })
+    .catch(err=>{
+      next(err)
     })
   }
 }

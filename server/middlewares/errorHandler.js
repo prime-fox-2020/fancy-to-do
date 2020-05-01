@@ -27,6 +27,10 @@ if(err.name === "SequelizeValidationError"){
     statusCode  = 404
     errorCode   = "TO_DO_NOT_FOUND"
     message     = "To do is not founded in this user"
+}else if(err.name === "RegisterError"){
+    statusCode  = 404
+    errorCode   = "VALIDATION_ERROR"
+    message     = err.message
 }
           
   res.status(statusCode).json({ errorCode, message })

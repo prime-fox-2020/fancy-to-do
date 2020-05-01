@@ -36,10 +36,10 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.DATE,
     validate:{
       notEmpty:{
-        msg:'due date Required'
+        msg:'Due date Required'
         },
         isDate: {
-          msg: 'due_date Format is YYYY-MM-DD'
+          msg: 'Due date Format is MM-DD-YYYY'
         }
       }
     }
