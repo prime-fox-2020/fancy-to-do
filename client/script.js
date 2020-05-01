@@ -1,3 +1,4 @@
+const serverTodo = 'http://localhost:3000'
 $(document).ready(function() {
   $('#registerForm').hide()
   $('#loginError').hide()
@@ -54,9 +55,43 @@ $(document).ready(function() {
   $('#todosParent').on('click', '.todo-delete', function (event) {
     event.preventDefault()
     const todo = $(this).parent()
-    
-    deleteTodo(todo)
+    let lanjutkan = window.confirm('Are you sure want to delete?')
+
+    if (lanjutkan) deleteTodo(todo)
   })
+
+  $('#todosParent').on('click', '.todo-edit', function (event) {
+    event.preventDefault()
+    const todo = $(this).parent()
+    editTodo(todo)
+  })
+
+  $('#dashboardSection').on('click', '.add-todo', (event) => {
+    event.preventDefault()
+    $('.form-edit-todo').html('<h5>Add new todo</h5>')
+    $('.form-method-todo').val('add')
+    $('#add-todo').modal('open')
+  })
+
+  $('#addNewTodo').on('submit', function (event) {
+    const formMethod = $('.form-method-todo').val()
+    const newTodo = {}
+    event.preventDefault()
+
+    newTodo.title = $('#titleTodo').val()
+    newTodo.description = $('#descriptionTodo').val()
+    newTodo.status = $('[name=statusTodo]').filter(':checked').val()
+    newTodo.due_date = $('[name=due_dateTodo]').val()
+
+    if(newTodo.due_date) newTodo.due_date = convertMyDate(newTodo.due_date)
+    if (formMethod === 'add') {
+      addTodo(newTodo)
+    } else {
+      newTodo.id = formMethod
+      updateTodo(newTodo)
+    }
+  })
+
 })
 
 function userLogout() {
@@ -128,7 +163,7 @@ function clearTodos() {
 function getTodos() {
   $.ajax({
     method: 'GET',
-    url: 'http://localhost:3000/todos',
+    url: serverTodo + '/todos',
     headers: {
       access_token: localStorage.getItem('access_token')
     }
@@ -137,13 +172,24 @@ function getTodos() {
     console.log({response})
     if (response.length) {
       response.forEach(item => {
+        let dueDate = new Date(item.due_date)
+        if (dueDate < new Date() && item.status === 'active') {
+          item.status = 'pastdue'
+        }
+      })
+      response.forEach(item => {
         const list = `
         <li data-id="${item.id}" class="card-image">
-          <a class="btn-floating halfway-fab waves-effect waves-light todo-header"><i class="material-icons" style="color: black; font-size: 2.5rem;">${item.status === 'completed' ? 'check_box' : 'check_box_outline_blank'}</i></a>
+          <a class="btn-floating halfway-fab waves-effect waves-light todo-status"><i class="material-icons" style="color: black; font-size: 2.5rem;">${item.status === 'completed' ? 'check_box' : 'check_box_outline_blank'}</i></a>
           <a class="btn-floating halfway-fab waves-effect waves-light todo-edit" teal><i class="material-icons">edit</i></a>
           <a class="btn-floating halfway-fab waves-effect waves-light todo-delete red"><i class="material-icons">delete</i></a>
-          <div class="collapsible-header${item.status === 'completed' ? ' todo-completed' : ''}"  style="padding-left: 5rem;"><h5>${item.title}</h5></div>
-          <div class="collapsible-body white${item.status === 'completed' ? ' todo-completed' : ''}"><span>${item.description}</span></div>
+          <div class="collapsible-header${item.status === 'completed' ? ' todo-completed' : ''}${item.status === 'pastdue' ? ' red lighten-4' : ''}"  style="padding-left: 5rem;">
+            <h5>${item.title}</h5>
+            <h5 style="margin-left: auto; margin-right: 10rem;">${item.due_date}</h5>
+          </div>
+          <div class="collapsible-body white${item.status === 'completed' ? ' todo-completed' : ''}" style="padding-left: 5rem;">
+          <span>${item.description}</span>
+          </div>
         </li>
         `
         $('#todosParent').append(list)
@@ -163,7 +209,7 @@ function deleteTodo(todo) {
 
   $.ajax({
     method: 'DELETE',
-    url: 'http://localhost:3000/todos/' + id,
+    url: serverTodo + '/todos/' + id,
     headers: {
       access_token: localStorage.access_token
     }
@@ -173,6 +219,91 @@ function deleteTodo(todo) {
       todo.remove()
       M.toast({html: response.message})
     }
+  })
+  .fail(err => {
+    console.log(err)
+  })
+}
+
+function addTodo(obj) {
+  const {title, description = '', status = 'active', due_date = ''} = obj
+
+  $.ajax({
+    method: 'POST',
+    url: serverTodo + '/todos',
+    headers: {
+      access_token: localStorage.access_token
+    },
+    data: {
+      title,
+      description,
+      status,
+      due_date
+    }
+  })
+  .done(response => {
+    console.log(response)
+    $('.modal').modal('close')
+    clearTodos()
+    getTodos()
+    M.toast({html: 'New todo added successfully :)'})
+  })
+  .fail(err => {
+    console.log('gagal son')
+    console.log(err)
+  })
+}
+
+function updateTodo(obj) {
+  const {id, title, description = '', status = 'active', due_date = ''} = obj
+
+  $.ajax({
+    method: 'PUT',
+    url: serverTodo + '/todos/' + id,
+    headers: {
+      access_token: localStorage.access_token
+    },
+    data: {
+      title,
+      description,
+      status,
+      due_date
+    }
+  })
+  .done(response => {
+    console.log(response)
+    $('.modal').modal('close')
+    clearTodos()
+    getTodos()
+    M.toast({html: 'Your todo item updated successfully :)'})
+  })
+  .fail(err => {
+    console.log('gagal son')
+    console.log(err)
+  })
+}
+
+function editTodo(node) {
+  const id = node.attr('data-id')
+
+  $.ajax({
+      method: 'GET',
+      url: serverTodo + '/todos/' + id,
+      headers: {
+        access_token: localStorage.access_token
+      }
+  })
+  .done(response => {
+    $('.form-edit-todo').html('<h5>Edit todo</h5>')
+    $('[name=titleTodo]').val(response.title)
+    $('[for=titleTodo]').addClass('active')
+    $('#descriptionTodo').val(response.description)
+    $('[for=descriptionTodo]').addClass('active')
+    $('[name=statusTodo][value='+ response.status +']').prop('checked', true)
+    $('[name=due_dateTodo]').val(dateFromDB(response.due_date))
+    $('.form-method-todo').val(id)
+    
+    $('#add-todo').modal('open')
   })
   .fail(err => {
     console.log(err)
@@ -213,4 +344,49 @@ function signOut() {
   auth2.signOut().then(function () {
     console.log('User signed out.')
   })
+}
+
+function dateFromDB(str) {
+  // mmm dd, yyyy from yyyy-mm-dd
+  const [yyyy, mm, dd] = str.split('-')
+  const mmm = [
+    'mmm',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ]
+  return `${mmm[Number(mm)]} ${dd}, ${yyyy}`
+}
+
+function convertMyDate(str) {
+  // mmm dd, yyyy
+  const mmm = [
+    'mmm',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ]
+  const dd = str.slice(4, 6)
+  const mm = mmm.indexOf(str.slice(0, 3)) > 9 ? 'mmm.indexOf(str.slice(0, 3))' : `0${mmm.indexOf(str.slice(0, 3))}`
+  const yyyy = str.slice(8)
+  let result = yyyy + '-' + mm + '-' + dd
+  return result
 }

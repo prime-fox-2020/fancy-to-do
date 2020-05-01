@@ -14,7 +14,7 @@
       height: 185px;
       position: absolute;
       z-index: -1;
-      width: 100%;
+      width: -webkit-fill-available;
     }
     .add-todo {
       margin-top: 3rem;
@@ -30,7 +30,7 @@
     #buttonLogin:hover, #buttonRegister:hover {
       cursor: pointer;
     }
-    .todo-header {
+    .todo-status {
       left: 15px; 
       top: 25px;
       right: unset !important;
@@ -40,7 +40,7 @@
       color: silver;
       box-shadow: none;
     }
-    .todo-header:hover {
+    .todo-status:hover {
       background-color: transparent;
       box-shadow: none;
     }
@@ -174,7 +174,7 @@
 
   <div id="dashboardSection" class="container" style="display: none;">
     <div class="row">
-      <a class="add-todo waves-effect waves-light red btn-large modal-trigger" href="#add-todo"><i class="material-icons left">playlist_add</i>Add Todo</a>
+      <a class="add-todo waves-effect waves-light red btn-large"><i class="material-icons left">playlist_add</i>Add Todo</a>
       <div class="card">
         <div class="card-content">
           <ul id="todosParent" class="collapsible">
@@ -198,16 +198,18 @@
   <!-- Add Todo -->
   <div id="add-todo" class="modal">
     <div class="modal-content">
+      <div class="form-edit-todo">{{title}}</div><br />
       <form id="addNewTodo" action="">
+        <div class="form-method-todo" style="display: none;"></div>
         <div class="input-field col s6">
           <i class="material-icons prefix">short_text</i>
           <input name="titleTodo" id="titleTodo" type="text" class="validate">
           <label for="titleTodo">Title</label>
-        </div><br />
+        </div>
         
         <div class="input-field col s6">
           <i class="material-icons prefix">wrap_text</i>
-          <textarea id="descriptionTodo" class="materialize-textarea"></textarea>
+          <textarea name="descriptionTodo" id="descriptionTodo" class="materialize-textarea"></textarea>
           <label for="descriptionTodo">Description</label>
         </div><br />
         
@@ -219,19 +221,19 @@
           </p>
           <p>
             <label>
-              <input name="statusTodo" type="radio" checked />
+              <input value="active" name="statusTodo" type="radio" checked />
               <span>Active</span>
             </label>
           </p>
           <p>
             <label>
-              <input name="statusTodo" type="radio" />
+              <input value="completed" name="statusTodo" type="radio" />
               <span>Completed</span>
             </label>
           </p>
           <p>
             <label>
-              <input class="with-gap" name="statusTodo" type="radio"  />
+              <input value="pastdue" name="statusTodo" type="radio"  />
               <span>Past Due</span>
             </label>
           </p>

@@ -3,7 +3,10 @@ const {Todo} = require('../models')
 class TodosController {
   
   static getMany(req, res, next) {
-    Todo.findAll({where: {UserId: req.user.id}}).then(data => {
+    Todo.findAll({
+      where: {UserId: req.user.id},
+      order: [['updatedAt', 'DESC']]
+    }).then(data => {
       res.status(200).json(data)
     })
     .catch(err => next(err))
