@@ -1,10 +1,10 @@
 # fancy-to-do
 A simple todo apps, created using node.js, express, sequelize, postgres. this app server & client side.
 ## Server side:
-Tech stack: node.js, express, postgres, sequelize, google oauth, 3rd party API: Numbers (https://rapidapi.com/divad12/api/numbers-1).&#13;
 Server side has:
 - RESTful endpoint for asset's CRUD operation
 - Return JSON formatted response
+Tech stack: node.js, express, postgres, sequelize, google oauth, 3rd party API: Numbers (https://rapidapi.com/divad12/api/numbers-1)
 ## Client side:
 Tech stack: jquery, ajax, bootstrap
 
