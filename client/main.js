@@ -34,10 +34,14 @@ $(document).ready(function() {
         const err = response.responseJSON.message
         let errMessage = ''
         for(let i = 0; i < err.length; i++){
-          errMessage += err[i]
+          errMessage += err[i]+','
         }
-        $('#erroradd').show()
-        $("#erroradd").text(errMessage)
+        errMessage = errMessage.split(',').join('<br />')
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: errMessage
+        })
     })
   })
   
@@ -46,8 +50,6 @@ $(document).ready(function() {
 		e.preventDefault();
 		const email = $('#emaillogin').val();
 		const password = $('#passwordlogin').val();
-		console.log(email);
-		console.log(password);
 
 		$.ajax({
 		  url: 'http://localhost:3000/users/login',
@@ -58,15 +60,25 @@ $(document).ready(function() {
 		  }
 		  })
 		  .done(function(response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Congrats...',
+          text: 'Success Login',
+        })
         localStorage.setItem('access_token', response.access_token)
         $('#passwordlogin').val('');
         $('#emaillogin').val('');
         checkStorage()
       })
       .fail(function(response) {
+        Swal.fire({
+          icon: 'error',
+          title: 'OOps..',
+          text: response.responseJSON.message,
+        })
         checkStorage()
-        $('#errorlogin').show()
-        $("#errorlogin").text(response.responseJSON.message)
+        // $('#errorlogin').show()
+        // $("#errorlogin").text(response.responseJSON.message)
         $('#passwordlogin').val('');
         $('#emaillogin').val('');
         $('#errorregis').hide()
@@ -90,6 +102,11 @@ $(document).ready(function() {
 		  }
 		  })
 		  .done(function(response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Congrats...',
+          text: 'Success Register',
+        })
             $("#regisbox").hide()
             $('#loginbox').show();
 		  })
@@ -97,10 +114,16 @@ $(document).ready(function() {
         const err = response.responseJSON.message.errors
         let errMessage = ''
         for(let i = 0; i < err.length; i++){
-          errMessage += (`${err[i].message}\n`)
+          errMessage += err[i].message+','
         }
-        $('#errorregis').show()
-        $("#errorregis").text(errMessage)
+        errMessage = errMessage.split(',').join('<br />')
+        Swal.fire({
+          icon: 'error',
+          title: 'OOps..',
+          html: errMessage
+        })
+        // $('#errorregis').show()
+        // $("#errorregis").text(errMessage)
         $('#passwordregis').val('');
         $('#emailregis').val('');
         $('#errorlogin').hide()
@@ -122,7 +145,7 @@ $(document).ready(function() {
         $('#due_date').val("");
         $('#errorregis').hide()
         $('#errorlogin').hide()
-        
+
         //googleSign Out
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function() {
@@ -200,23 +223,23 @@ function getTodos() {
   }
 
   function confirmDelete(id) {
-    const token = localStorage.getItem('access_token');
-    $.ajax({
-      method: 'GET',
-      url: `http://localhost:3000/todos/${id}`,
-      headers: {
-        access_token : token
-      }
-    })
-      .done(response => {
-        console.log(response);
+    // const token = localStorage.getItem('access_token');
+    // $.ajax({
+    //   method: 'GET',
+    //   url: `http://localhost:3000/todos/${id}`,
+    //   headers: {
+    //     access_token : token
+    //   }
+    // })
+      // .done(response => {
+        // console.log(response);
         $('#deleteModal').modal('show');
-        $('#delete-id').val(response.id);
-        $('.modal-body').val(`"${response.title}" ?`);
-      })
-      .fail(err => {
-        console.log(err);
-      });
+        $('#delete-id').val(id);
+        // $('.modal-body').val(`"${response.title}" ?`);
+      // })
+      // .fail(err => {
+      //   console.log(err);
+      // });
   }
 
 
@@ -231,13 +254,13 @@ function getTodos() {
         access_token : token
       }
     })
-      .done(response => {
-        $('#deleteModal').modal('hide');
-        getTodos()
-      })
-      .fail(err => {
-        console.log(err);
-      });
+    .done(response => {
+      $('#deleteModal').modal('hide');
+      getTodos()
+    })
+    .fail(err => {
+      console.log(err);
+    });
   }
 
   function editForm(value){
@@ -302,10 +325,14 @@ function getTodos() {
         const err = response.responseJSON.message
         let errMessage = ''
         for(let i = 0; i < err.length; i++){
-          errMessage += err[i]
+          errMessage += err[i]+','
         }
-        $('#erroredit').show()
-        $("#erroredit").text(errMessage)
+        errMessage = errMessage.split(',').join('<br />')
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: errMessage
+        })
       });
   }
 
@@ -330,7 +357,20 @@ function getTodos() {
     });
   
   }
-  // localStorage.setItem('access_token', response.access_token)
-  //       $('#passwordlogin').val('');
-  //       $('#emaillogin').val('');
-  //       checkStorage()
+
+  // $("#logout").on("click", function() {
+  //   swal({
+  //   title: 'Logga ut?',
+  //   type: 'warning',
+  //   showCancelButton: true,
+  //   confirmButtonColor: '#3085d6',
+  //   cancelButtonColor: '#d33',
+  //   confirmButtonText: 'OK',
+  //   closeOnConfirm: true,
+  //   closeOnCancel: true
+  //  }).then((result) => { 
+  //     if (result.value===true) { 
+  //        $('#logoutform').submit() // this submits the form 
+  //     } 
+  //  }) 
+// })   

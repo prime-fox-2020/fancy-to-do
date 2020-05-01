@@ -18,7 +18,7 @@ if(err.name === "SequelizeValidationError"){
 }else if(err.name === 'TokenNotFound'){
     statusCode  = 404
     errorCode   = "TOKEN_NOT_FOUND"
-    message     = "token is not founded"
+    message     = "Invalid Token"
 }else if(err.name === "ToDoNotFound"){
     statusCode  = 404
     errorCode   = "TO_DO_NOT_FOUND"

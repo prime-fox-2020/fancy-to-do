@@ -167,12 +167,10 @@
                   <p>Do you want to Delete this todos?</p>
               </div>
               <div class="modal-footer">
-                <form onsubmit="deleteTodo(id)">
                   <input type="hidden" id="delete-id" value="">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-danger">Delete</button>
+                  <button onclick="deleteTodo()" type="submit" class="btn btn-danger">Delete</button>
               </div>
-                </form>
               </div>
           </div>
         </div>
@@ -180,6 +178,7 @@
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <script src="./main.js"></script>
 </body>
 </html>
