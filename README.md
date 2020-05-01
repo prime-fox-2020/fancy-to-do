@@ -19,6 +19,7 @@ Not Needed
 ```
 
 _Response (200)_
+```
 [
     {
         "id" : 1,
@@ -39,7 +40,7 @@ _Response (200)_
         "updatedAt": "2020-03-20T07:15:12.149Z",
     }
 ]
-
+```
 _Response (500)_
 ```
 {
