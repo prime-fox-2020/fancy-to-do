@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="533545026162-kjek5j6sq663cj5j3s2smqll90el7r42.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Modak&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: linear-gradient(to right, #ED4264, #FFEDBC);
+        }
+
+        .container {
+            max-width: 80%;
+        }
+
+        #title {
+            font-family: 'Dancing Script', cursive;
+            color: aqua;
+            font-size: 400%;
+        }
+
+        .listTodo {
+            font-size: large;
+            font-weight: bold;
+            text-shadow: 0 0 5px #FFF, 0 0 10px #FFF, 0 0 15px #FFF, 0 0 20px #49ff18, 0 0 30px #49FF18;
+            list-style: disc;
+        }
+
+        li.todo {
+            list-style: none;
+        }
+
+        .subUp {
+            background-color: aquamarine;
+            color: black;
+        }
+
+        .buttonDelete {
+            background-color: crimson;
+            font-weight: bold;
+        }
+
+        .buttonEdit {
+            background-color: darkgreen;
+            font-weight: bold;
+        }
+
+        #logout {
+            float: right;
+            color: blueviolet;
+            background-color: azure;
+            display: none;
+        }
+
+        .changeStyle {
+            font-family: 'Modak', cursive;
+            font-size: x-large;
+        }
+    </style>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js'></script>
+    <script src='jquery.voicerss-tts.min.js'></script>
+    <script src='voicerss-tts.min.js'></script>
+    <title>ToDo</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="title">To-Do List</h1>
+        <br>
+        <input id="logout" onclick="signOut();" class="btn btn-danger" type="submit" value="Logout"></input>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="changeStyle">Email address</label>
+                <input type="email" class="form-control" id="inputEmailRegis" name="email" placeholder="Enter email">
+                <p id="errEmailRegis"></p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="changeStyle">Password</label>
+                <input type="password" class="form-control" id="inputPasswordRegis" placeholder="Password"
+                    name="password">
+                <p id="errPassRegis"></p>
+            </div>
+            <a href="" id="goToLogin" style="font-weight: 800;">Already have an account? Go Login</a>
+            <br>
+            <button type="submit" class="btn btn-primary" id="register">Register</button>
+        </form>
+
+        <form id="loginForm" style="display: none;">
+            <p id="errEmailPassLogin"></p>
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="changeStyle">Email address</label>
+                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="changeStyle">Password</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+            </div>
+            <a href="" id="goToRegister" style="font-weight: 800;">Haven't registered yet? Go register</a>
+            <br>
+            <button type="submit" class="btn btn-primary" id="login">Login</button>
+            <p style="color: aqua;">Or Login with</p>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </form>
+
+        <div id="toDoList" >
+            <form action="">
+                <div class="form-group">
+                    <label for="exampleInputEmail1" class="changeStyle">Title</label>
+                    <input type="text" class="form-control" id="toDoTitle" placeholder="Enter To-Do title">
+                    <p id="errTitle"></p>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1" class="changeStyle">Description</label>
+                    <input type="text" class="form-control" id="toDoDescription" placeholder="Enter To-Do Description">
+                    <p id="errDesc"></p>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1" class="changeStyle">Status</label>
+                    <select class="form-control" id="toDoStatus">
+                        <option value="backlog" selected>Backlog</option>
+                        <option value="ongoing">Ongoing</option>
+                        <option value="done">Done</option>
+                    </select>
+                </div>
+                <input id="submitNew" class="subUp btn btn-primary" type="submit" value="Submit new To-Do">
+            </form>
+
+            <br>
+            <h3 class="listTodo">To-Do Lists</h3>
+            <ul class="listTodo" id="todos">
+            </ul>
+        </div>
+
+        <div id="updateForm">
+        <form action="">
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="changeStyle">Title</label>
+                <input type="text" class="form-control" id="updateToDoTitle" placeholder="Enter To-Do title">
+                <p id="errTitle"></p>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="changeStyle">Description</label>
+                <input type="text" class="form-control" id="updateToDoDescription" placeholder="Enter To-Do Description">
+                <p id="errDesc"></p>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1" class="changeStyle">Status</label>
+                <select class="form-control" id="updateToDoStatus">
+                    <option value="backlog" selected>Backlog</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="done">Done</option>
+                </select>
+            </div>
+            <input id="update" class="subUp btn btn-primary" type="submit" value="Update">
+        </form>
+        </div>
+
+        <div class="modal fade ede" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are You Sure?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger yes" data-dismiss="modal">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="./script.js"></script>
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+</body>
+
+</html>

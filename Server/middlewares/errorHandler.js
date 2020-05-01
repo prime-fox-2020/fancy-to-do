@@ -35,6 +35,22 @@ module.exports = (err, req ,res , next) => {
         statusCode = 404
         errorCode = 'LOCATION_NOT_FOUND'
         message = 'Location not found'
+    }else if(err.name == 'token not found'){
+        statusCode = 404
+        errorCode = 'TOKEN_NOT_FOUND'
+        message = 'Token not found'
+    }else if(err.name == "jwt malformed" || err.name == "user not authenticated"){
+        statusCode = 401
+        errorCode = 'USER_NOT_AUTHENTICATED'
+        message = 'User not authenticated'
+    }else if(err.name == 'Todo-list not found'){
+        statusCode = 404
+        errorCode = 'TODO-LIST_NOT_FOUND'
+        message = 'Todo-list not found'
+    }else if(err.name == 'Forbidden access'){
+        statusCode = 403
+        errorCode = 'FORBIDDEN_ACCESS'
+        message = 'Forbidden Access'
     }
 
     res.status(statusCode).json({errorCode, message})

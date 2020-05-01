@@ -5,7 +5,7 @@ class WeatherController{
         // console.log(req.query);
         axios({
             method:'GET',
-            url: `http://api.openweathermap.org/data/2.5/weather?q=${req.query.q}&appid=${process.env.API_KEY}`,
+            url: `http://api.openweathermap.org/data/2.5/weather?q=${req.query.q}&appid=${process.env.API_KEY_WEATHER}`,
             // params : {"q": req.params.q, "appid": process.env.API_KEY}
         })
         .then(result => {
