@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				validate: {
 					notEmpty: {
-						msg: 'Namanya isi'
+						msg: 'Title required'
 					}
 				}
 			},
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				validate: {
 					notEmpty: {
-						msg: 'Deskripsinya isi'
+						msg: 'Description required'
 					}
 				}
 			},
@@ -27,7 +27,19 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.BOOLEAN,
 				validate: {
 					notEmpty: {
-						msg: 'Statusnya isi'
+						msg: 'Status required'
+					},
+					isBoolen(value){
+						let counter = 0
+						let arr = ['true', true, 'false', false]
+						for(let i = 0; i < arr.length; i++){
+							if(value == arr[i]){
+								counter++
+							}
+						}
+						if(counter == 0){
+							throw new Error('Status has to be true or false')
+						}
 					}
 				}
 			},
@@ -35,10 +47,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.DATEONLY,
 				validate: {
 					notEmpty: {
-						msg: 'Due date isi'
+						msg: 'Due date required'
 					},
 					isDate: {
-						msg: 'Format due_date harus YYYY-MM-DD'
+						msg: 'Due date format has to be YYYY-MM-DD'
 					}
 				}
 			},

@@ -1,13 +1,20 @@
 function errorHandler(err,req,res, next){
   let statusCode = 500;
   let errorCode = "UNKNOWN_ERROR"
+  let message;
   console.log(err.name, '-----ini error')
  
 
   if(err.name == 'SequelizeValidationError'){
     statusCode = 400;
+    let arr = []
+    console.log(err)
+    for(var i = 0; i < err.errors.length; i++){
+       arr.push(err.errors[i].message)
+    }
+    console.log(arr)
     errorCode = 'VALIDATION_ERROR';
-    message = "All datas cannot be empty/Email format invalid/Due_date format has to be YYY-MM-DD"
+    message = arr
   }else if(err.name == 'DATA_NOT_FOUND'){
     statusCode = 404  
     errorCode = 'INVALID_ID'
@@ -24,6 +31,10 @@ function errorHandler(err,req,res, next){
     statusCode = 500 
     errorCode = 'INTERNAL_SERVER_ERROR'
     message = "Reffernce error"
+  }else if(err.name == 'Login Error'){
+    statusCode = 400
+    errorCode = 'Validation Error'
+    message = "Invalid Name/Password"
   }
 
   res.status(statusCode).json({

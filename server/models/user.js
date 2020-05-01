@@ -20,10 +20,11 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				validate: {
 					notEmpty: {
-						msg: 'Emailnya required'
+						msg: 'Email required'
 					},
 					isEmail(value) {
-						if (value.indexOf('@') == -1) {
+						if (value.indexOf('@') == -1 && value !== '') {
+							console.log(typeof value)
 							throw new Error('Invalid Email format');
 						}
 					}

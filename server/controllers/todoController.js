@@ -1,7 +1,7 @@
 const { Todo } = require('../models');
 
 class TodoController {
-	static create(req, res) {
+	static create(req, res, next) {
 		const { title, description, due_date, status } = req.body;
 
 		Todo.create({
@@ -38,11 +38,11 @@ class TodoController {
 			});
 	}
 
-	static show(req, res) {
+	static show(req, res, next) {
 		Todo.findAll({
 			where: {
 				UserId: req.userData.id
-			}
+			}, order: [['id', 'ASC']]
 		})
 			.then((data) => {
 				res.status(200).json({
@@ -57,7 +57,7 @@ class TodoController {
 			});
 	}
 
-	static findById(req, res) {
+	static findById(req, res, next) {
 	
 		const { id } = req.params;
 		Todo.findByPk(id)
@@ -130,7 +130,7 @@ class TodoController {
 				// }
 			});
 	}
-	static delete(req, res) {
+	static delete(req, res, next) {
 		const { id } = req.params;
 		Todo.destroy({ where: { id } })
 			.then((data) => {

@@ -6,8 +6,8 @@ const user = require('./user')
 
 const charity = require('./charity')
 
-router.use('/todo', todo)
-router.use('/user', user)
+router.use('/todos', todo)
+router.use('/users', user)
 router.use('/charity', charity)
 
 

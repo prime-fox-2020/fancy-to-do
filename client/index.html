@@ -4,46 +4,102 @@
   
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="google-signin-client_id" content="706011335996-c7necglhn9o63odfso5n0ma9b6me94cg.apps.googleusercontent.com">
    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+  
+    <title>TODOS APP</title>
   </head>
   <body>
     <div class = 'jumbotron'>
 
-   <div id = 'question' class = 'question-class'>
-     <h1 class = 'question-class'>Create Account</h1>
-     <button type="button" class="btn btn-outline-danger" id = 'question-button'>Create Account</button>
-   </div>
+   
 
 
 
-    <div id ='register'  class = 'joey'>
+<h1 style="width: 300px; font-size: 50px; padding-bottom: 20px; margin:  auto ; color: burlywood; font-weight: bold;">TODOS APP</h1>
+
+
+
+ <!-- google sign-in -->
+ 
+  
+
+
+    <div id ='register'  class = 'joey' style="margin: auto; width: 300px;">
       <h1>Register</h1>
+     
       <form id='register-form'>
         
         <input type="text" class = 'input-name-register' placeholder ='name'> <br>
         <input type="text" class = 'input-email-register' placeholder= 'email'> <br>
-        <input type="text" class = 'input-password-register' placeholder= 'password'>
+        <input type="text" class = 'input-password-register' placeholder= 'password'> <br>
         <input class="btn btn-primary" type="submit" value="Submit">
+        <button type="button" class="btn btn-primary" onclick="cek()">Back</button>
       </form>
-    </div>
 
-    <div id = 'log-in'  class = 'joey'>
-      <h1>Log In</h1>
+    
+    </div>
+    <div id = 'log-in'  class = 'joey' style="margin: auto; width: 300px;">
+      <h1 style ='font-family: Arial, Helvetica, sans-serif'>Log In</h1>
       <form id ='log-in-form'>
-        <input type="text" class = 'input-email-log-in'> <br>
-        <input type="text" class = 'input-password-log-in'><br>
+        
+        <input type="text" class = 'input-email-log-in' placeholder='email'> <br>
+        <input type="text" class = 'input-password-log-in' placeholder='password'><br>
         <input class="btn btn-primary" type="submit" value="Submit">
+        <button type="button" class="btn btn-outline-danger" id = 'question-button'>Create Account</button>
+        <div class="g-signin2" data-onsuccess="onSignIn" style='width: 150px; margin:  auto 10%;'></div>
       </form>
+      
     </div>
   </div>
+ 
+  <div id="deleteModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Do you want to Delete this todo?</p>
+        </div>
+        <div class="modal-footer">
+          <form onsubmit="deleteTodo()">
+            <input type="hidden" id="delete-id" value="">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+          </form>
+        </div>
+    </div>
+  </div>
+ 
 
-  <div id = 'todos' class = 'joey' style="margin: 3% 35%;">
   
-        
+  <div id = 'todos' class = 'joey' style="margin: auto; width: 750px;">
+    <button type="button" class="btn btn-outline-danger" id = 'log-out-button'>Log-Out</button>
+    <form id = "update-todos-form">
+      <div class="form-row align-items-center" >
+        <div class="col-md-6">
+          <input type="text" class="form-control mb-2" placeholder="Title" id = "update-title-todos">
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control mb-2" placeholder="Description"  id = "update-description-todos">
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control mb-2" placeholder="Status" id = "update-status-todos">
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control mb-2" placeholder="Due date" id = "update-due_date-todos">
+        </div>
+        <div class="col-auto">
+          <input class="btn btn-primary" type="submit" value="Submit">
+          
+        </div>
+      </div>
+    </form>
+
       <form id = "add-todos-form">
         <div class="form-row align-items-center" >
           <div class="col-md-6">
@@ -59,11 +115,13 @@
             <input type="text" class="form-control mb-2" placeholder="Due date" id = "input-due_date-todos">
           </div>
           <div class="col-auto">
-            <input class="btn btn-primary" type="submit" value="Submit">
+            <input class="btn btn-primary" type="submit" value="Add Todos">
+          
           </div>
         </div>
       </form>
     <table class="table table-striped table-dark" id= "table">
+      <button type="button" class="btn btn-outline-danger" id = 'add-button'>Add Todos</button>
       <thead>
         <tr>
           <th scope="col">Title</th>
@@ -82,13 +140,13 @@
   </div>
 
   
-
-  <script
-  src="https://code.jquery.com/jquery-3.5.0.min.js"
-  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
-  crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+ 
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="  crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+   
     <script src='./index.js'></script>
   </body>
 </html>
