@@ -39,21 +39,41 @@ function authorizationSU(req,res,next){
     
     Todo.findByPk(id)
         .then((data)=>{
+            console.log(username)
+            console.log(data.username)
             if(username.toLowerCase().slice(0,5) == 'admin'){
                 next()
             }
             else if(username !== data.username){
+                console.log('sudah disini2')
                 status = false
                 throw ({name:'unauthorized',msg: 'authorized only for admin or user only'})
             }
             else if(username == data.username){
+                console.log('test disini3')
                 next()
             }
         })
         .catch(err=>{
             next(err)
         })
-
 }
 
-module.exports={authentication,authorization,authorizationSU}
+function authorizationSA(req,res,next){
+    const username = req.userData.username
+    const bodyUsername = req.body.username
+
+        if(username.toLowerCase().slice(0,5) == 'admin'){
+            next()
+        }
+        else if(username !== bodyUsername){
+            status = false
+            throw ({name:'unauthorized',msg: 'authorized only for admin or user only'})
+        }
+        else if(username == bodyUsername){
+            next()
+        }
+    }
+
+
+module.exports={authentication,authorization,authorizationSU,authorizationSA}

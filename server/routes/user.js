@@ -8,6 +8,7 @@ route.post('/register',user.register)
 route.post('/login',user.login)
 route.delete('/delete/:id',user.delete)
 route.post('/google-sign-in',user.googleSign)
+route.get('/info',user.getInfo)
 
 
 

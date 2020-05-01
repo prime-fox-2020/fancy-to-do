@@ -2,7 +2,7 @@ const {User} = require('../models/index')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const {OAuth2Client} = require('google-auth-library');
-const CLIENT_ID = '296871087286-2qqndb23jaigbpcut8iciubv32ltjhga.apps.googleusercontent.com'
+const CLIENT_ID = '296871087286-hmm6icohb03nnd1a7g4jki3o16o15ngj.apps.googleusercontent.com'
 const client = new OAuth2Client(CLIENT_ID);
 
 class Controller{
@@ -87,43 +87,65 @@ class Controller{
 
     static googleSign(req,res,next){
         const token = req.body.id_token
-        const body = {}
-            body.first_name = body.first_name,
-            body.last_name = body.last_name,
-            body.email = body.email,
-            body.username = body.username,
-            body.password = body.password
-
 
         client.verifyIdToken({
             idToken: token,
             audience: CLIENT_ID,
         })    
-
         .then(ticket=>{
-            const payload = ticket.getPayload();
-            currentUsername = payload['given_name']+payload['family_name']
-            return User.findOne( { where:{ username : currentUsername } } )
+            let payload = ticket.getPayload()
+            let username = payload.given_name+payload.family_name
+            return User.findOne({where:{username:username}})
         })
         .then(user=>{
             if(user){
-            const access_token = generateToken
-            } else {
-                const body = {}
-                body.first_name = payload['given_name'],
-                body.last_name = payload['family_name'],
-                body.email = payload['email'],
-                body.username = payload['given_name']+payload['family_name'],
-                body.password = payload['given_name']+payload['family_name']+'101'
-                return User.create(body)
+                throw user
+            }else if (!user){
+                return client.verifyIdToken({
+                    idToken: token,
+                    audience: CLIENT_ID,
+                })   
             }
+        })
+        .then(ticket=>{
+            console.log('masuk sini')
+            let payload = ticket.getPayload()
+            let body = {};
+            body.first_name = payload.given_name;
+            body.last_name = payload.family_name;
+            body.email = payload.email;
+            body.username = payload.given_name+payload.family_name
+            let pass = payload.email.split('').splice(0,5).join('')
+            body.password = payload.family_name+pass;
+            console.log(body)
+            return User.create(body)
         })
         .then(user=>{
             res.status(201).json(user)
         })
-        .catch(err=>{
-            next(err)
+        .catch(user=>{
+            const username = user.username
+            const password = user.password
+            User.findOne({where:{username : username}})
+            .then(data=>{
+                const secretKey= "KeyBoardWarrior"
+                const access_token = jwt.sign({
+                    id : data.id, 
+                    first_name : data.first_name, 
+                    last_name : data.last_name,
+                    email : data.email,
+                    username : data.username
+                },secretKey)
+                res.status(200).json({access_token})
+            })
+            .catch(err=>{
+                next(err)
+            })
         })
+        .catch(err=>{
+            console.log(err)
+        })
+        
     }
 
     static delete(req,res,next){
@@ -137,6 +159,20 @@ class Controller{
         })
     }
 
+    static getInfo(req,res,next){
+        const access_token = req.headers.access_token
+        const secretKey= "KeyBoardWarrior"
+        const decoded = jwt.verify(access_token,secretKey)
+
+        User.findOne({where:{username : decoded.username}})
+        .then(data=>{
+            res.status(200).json(data)
+        })
+        .catch(err=>{
+            next(err)
+        })
+
+    }
 
 
 

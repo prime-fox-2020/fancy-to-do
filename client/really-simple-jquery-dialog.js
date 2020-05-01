@@ -144,4 +144,69 @@
 
 	    return this;
 	};
+
+	$.fn.simpleAdd = function(options) {
+		if (typeof options === 'undefined') options = {};
+		console.log(options)
+
+        var defaultOptions = {
+			username: options.username,
+			title: '',
+			description:'',
+			status:'',
+			due_date:'',
+	        acceptBtnLabel: 'Accept',
+	        cancelBtnLabel: 'Cancel',
+	        success: function(result) {},
+	        cancel: function(result) {}
+	    }
+	    options = $.extend(defaultOptions, options);
+
+	    this.each(function() {
+	    	var $this = $(this);
+	    	var html;
+
+	    	$this.addClass('simple-dialog active');
+
+	    	html = '<div class="simple-dialog-content">';
+			// html += '<div class="simple-dialog-body"><p class="Prompt-id">'+ `ID`+ '</p><p class="answer"><input class = "id" type="text" /></p></div>';
+			html += `<div class="simple-dialog-body"><p class="Prompt-title"> Username default = your username [${options.username}] </p><p class="answer0"><input value = ${options.username} class = "username" type="text" /></p></div>`;
+			html += '<div class="simple-dialog-body"><p class="Prompt-title">'+ `Title  ` +'</p><p class="answer1"><input class = "title" type="text" /></p></div>';
+			html += '<div class="simple-dialog-body"><p class="Prompt-desc">' + `Description `+'</p><p class="answer2"><input class = "description" type="text" /></p></div>';
+			html += '<div class="simple-dialog-body"><p class="Prompt-status">'+ `Status  `+'</p><p class="answer"3><input class = "status" type="text" /></p></div>';
+			html += '<div class="simple-dialog-body"><p class="Prompt-due_date">'+ `Due Date `+'</p><p class="answer4"><input class = "due_date" type="text" /></p></div>';
+	    	html += '<div class="simple-dialog-footer clearfix"><a class="simple-dialog-button accept" data-action="close">'+options.acceptBtnLabel+'</a><a class = "simple-dialog-button cancel" data-action="close">'+options.cancelBtnLabel+'</a></div>';
+	    	html += '</div>';
+
+	    	$this.html(html);
+
+	    	$(document).on('click', 'a[data-action="close"]', function(e) {
+				e.preventDefault();
+				var title = $('.title').val();
+				var username = $('.username').val();
+			
+				var description = $('.description').val();
+				var status = $('.status').val();
+				var due_date = $('.due_date').val();
+
+				var answer = {}
+				answer.username = username
+				answer.title = title
+				answer.description = description
+				answer.status = status
+				answer.due_date = due_date
+
+
+				$(this).parents('.simple-dialog').removeClass('active');
+				if($(this).hasClass('accept')) {
+					options.success(answer);
+				}
+				if($(this).hasClass('cancel')) {
+					options.cancel(result);
+				}
+			});
+	    });
+
+	    return this;
+	};
 })(jQuery);

@@ -20,6 +20,11 @@ $(document).ready(function(){
             $('#page-findAll').show()
             findAllTodos()
           }
+        $('#credential').submit(function(e){
+            e.preventDefault()
+            log_in()
+            $('#page-login').hide()
+        })
 
         $('#search-box').submit(function(e){
             e.preventDefault()
@@ -30,24 +35,36 @@ $(document).ready(function(){
         })
 
         $('#mylist').click(function(){
-            
             myList()
             $('#page-myTodos').show()
             $('#page-findAll').hide()
 
+        })
 
+        $('#logout').click(function(e){
+            e.preventDefault()
+            localStorage.access_token=''
+            
         })
 
         $('#adding').click(function(){
             addData()
+            $('#page-popUp').show()
+        })
+
+        $('body').on('click','.edit-data',function(req){
+            $('#page-popUp').show()
+
         })
         
 
     })
 
 
-    $('#credential').submit(function(e){
-        e.preventDefault()
+
+
+
+    function log_in(){
         const username = $('#username').val()
         const password = $('#password').val()
 
@@ -58,8 +75,6 @@ $(document).ready(function(){
         })
         .done(function(res){
             localStorage.setItem("access_token", res.access_token);
-            findAllTodos()
-            $('#credential').hide()
         })
         .fail(function(err){
             console.log(err)
@@ -67,7 +82,7 @@ $(document).ready(function(){
         .always(function(){
             
         })
-    })
+    }
 
 
 
@@ -84,10 +99,13 @@ $(document).ready(function(){
 
             res.forEach((el)=>{
                 dataFindById +=  `<tr>
+                            <td>${el.id}</td>
+                            <td>${el.username}</td>
                             <td>${el.title}</td>
                             <td>${el.description}</td>
                             <td>${el.status}</td>
-                            <td>${el.id}
+                            <td>${el.due_date}</td>
+                            <td>
                             <button class = 'edit-data' 
                                 data-id = '${el.id}'
                                 data-username = '${el.username}'
@@ -96,7 +114,7 @@ $(document).ready(function(){
                                 data-status = '${el.status}'
                                 data-due-date = '${el.due_date}'
                                 >Edit</button></td>
-                            <td>${el.id}
+                            <td>
                             <button class = 'delete-data' 
                                 data-id = '${el.id}'
                                 data-username = '${el.username}'
@@ -120,7 +138,6 @@ $(document).ready(function(){
 
     
     function findAllTodos(){
-        
         $.ajax({
             type: 'GET',
             url : 'http://localhost:3000/todos',
@@ -133,10 +150,13 @@ $(document).ready(function(){
 
             res.forEach((el)=>{
             dataFindAll +=  `<tr>
+                            <td>${el.id}</td>
+                            <td>${el.username}</td>
                             <td>${el.title}</td>
                             <td>${el.description}</td>
                             <td>${el.status}</td>
-                            <td>${el.id}
+                            <td>${el.due_date}</td>
+                            <td>
                             <button class = 'edit-data' 
                                 data-id = '${el.id}'
                                 data-username = '${el.username}'
@@ -145,7 +165,7 @@ $(document).ready(function(){
                                 data-status = '${el.status}'
                                 data-due-date = '${el.due_date}'
                                 >Edit</button></td>
-                            <td>${el.id}
+                            <td>
                             <button class = 'delete-data' 
                                 data-id = '${el.id}'
                                 data-username = '${el.username}'
@@ -176,13 +196,15 @@ $(document).ready(function(){
         .done(function(res){
             const elMyTodos = $('#mytodos')
             let myTodos = '';
-
             res.forEach((el)=>{
             myTodos +=  `<tr>
+                            <td>${el.id}</td>
+                            <td>${el.username}</td>
                             <td>${el.title}</td>
                             <td>${el.description}</td>
                             <td>${el.status}</td>
-                            <td>${el.id}
+                            <td>${el.due_date}</td>
+                            <td>
                             <button class = 'edit-data' 
                                 data-id = '${el.id}'
                                 data-username = '${el.username}'
@@ -271,32 +293,55 @@ $(document).ready(function(){
   
     })
 
-
-
-
-
-
-
-
-
-
-
-    $('#adding').submit(function(){
+    function addData(){
         $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/todos/',
-            headers : { access_token: localStorage.getItem('access_token')}
+            type: 'GET',
+            url : 'http://localhost:3000/users/info',
+            headers: { access_token: localStorage.getItem('access_token')},
         })
         .done(function(res){
-
+            addButton(res)
         })
         .fail(function(err){
-
+                    
         })
         .always(function(){
-
+            
         })
+
+    }
+
+    function addButton(info){
+    $('#adding-pop-up').simpleAdd({
+        id:``,
+        username:`${info.username}`,
+        title : ``,
+        description : ``,
+        status : ``,
+        due_date : ``,
+        success : function(result){
+            console.log(result)
+            $.ajax({
+                type: 'POST',
+                    url: 'http://localhost:3000/todos/'                    ,
+                headers : { access_token: localStorage.getItem('access_token')},
+                data : result
+            })
+            .done(function(res){
+                findAllTodos()
+            })
+            .fail(function(err){
+                console.log(err)
+            })
+            .always(function(){
+                
+            })
+        }
     })
+    }
+    
+
+
 
 
 })

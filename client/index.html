@@ -44,8 +44,8 @@
                     <input type = 'text' id = 'search-id'>
                     <input type = 'submit'>
                 <button id = 'mylist'>My list</button>
-                <button id = 'adding'>adding</button>
                 </form>
+                <button id = 'adding'>adding</button>
             </div>
         </section>
 
@@ -78,6 +78,8 @@
             <div id = 'delete-confirmation'>  </div>
 
             <div id = 'edit-pop-up'> </div>
+
+            <div id = 'adding-pop-up'></div>
         </section>
 
         <section id = page-google-sign>
@@ -96,8 +98,8 @@
                     url: "http://127.0.0.1:3000/users/google-sign-in",
                     data: { id_token: id_token }
                     })
-                    .done(function( msg ) {
-                        alert( "Data Saved: " + msg );
+                    .done(function(res) {
+                        localStorage.setItem("access_token", res.access_token)
                     });
                 }
         </script>
