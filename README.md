@@ -9,14 +9,14 @@ A simple todo apps, created using node.js, express, sequelize, postgres. this ap
 
 
 ## REST endpoint
-- [POST/ user/signup](#postusersignup)
-- [POST/ user/signin](#postusersignin)
-- [POST/ todos](#posttodos)
-- [GET/ todos](#gettodos)
-- [GET/ todos/:id](#gettodosid)
-- [PUT/ todos/:id](#puttodosid)
-- [DELETE/ todos/:id](#deletetodosid)
-- [GET/ todos/getTrivia/:id](#deletetodosid)
+- [POST/ user/signup](#post-usersignup)
+- [POST/ user/signin](#post-usersignin)
+- [POST/ todos](#post-todos)
+- [GET/ todos](#get-todos)
+- [GET/ todos/:id](#get-todosid)
+- [PUT/ todos/:id](#put-todosid)
+- [DELETE/ todos/:id](#delete-todosid)
+- [GET/ todos/getTrivia/:id](#get-todosgettriviaid)
 ---
 
 > ## POST /user/signup
@@ -397,6 +397,72 @@ not needed
 ```json
 {
   "message": "Todos id 13 has been deleted"
+}
+```
+
+#### _Status 404 Not Found_
+```json
+{
+  "messages": [
+    "Todo ID 1 not found"
+  ]
+}
+```
+
+#### _Status 403 Forbidden
+```json
+{
+  "messages": [ "Please sign in first" ]
+}
+```
+
+#### _Status 401 Unauthorized_
+```json
+{
+  "messages": [ "You are not authorized" ]
+}
+```
+
+#### _Status 500 Internal Server Error_
+```json
+{
+  "messages": [ "Internal server error" ]
+}
+```
+
+> ## GET /todos/getTrivia/:id
+
+Get a trivia / special event that happened on todo due date
+
+### Requests
+
+#### _Header_
+```json
+{
+  "access_token": "<your access token>"
+}
+```
+
+#### _Body_
+```json
+not needed
+```
+
+#### _Parameters_
+| Name |        Description      |
+| :--: | :---------------------: |
+|  id  | Id of the specific item |
+
+### Responses
+
+#### _Status 200 OK
+```json
+{
+  "text": "United States claims Midway Atoll, the first territory annexed outside Continental limits",
+  "year": 1867,
+  "number": 363,
+  "found": true,
+  "type": "date"
 }
 ```
 
