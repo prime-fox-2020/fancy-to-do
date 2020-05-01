@@ -37,7 +37,7 @@ class TodosController {
     }
     static createTodo(req, res, next) {
         const { title, description, due_date, project } = req.body
-        let todo = null
+        let Todo = null
         Todo.create({
             title,
             description,
@@ -45,23 +45,26 @@ class TodosController {
             due_date
         }).then(response => {
             // res.status(201).json(todo)
-            todo = response
+            Todo = {
+                project,
+                todo: response
+            }
             if(project!=='personal'){
                 return UserTodo.update({
-                    TodoId: todo.id
+                    TodoId: response.id
                 }, {
                     where: { project }
                 })
             } else {
                 return UserTodo.create({
                     UserId: req.userId,
-                    TodoId: todo.id,
+                    TodoId: response.id,
                     project
                 })
             }
         }).then(response => {
             console.log(response)
-            res.status(201).json(todo)
+            res.status(201).json(Todo)
         }).catch(next)
     }
     static editTodo(req, res, next) {

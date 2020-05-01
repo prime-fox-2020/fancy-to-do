@@ -46,6 +46,13 @@ $(document).ready(()=> {
         e.preventDefault()
         $(".todo-list").hide()
         $(".form-create").show()
+        getProjects()
+    })
+    $(".projectBtn").click(e => {
+        e.preventDefault()
+        $(".todo-list").hide()
+        $(".form-project").show()
+        getMembers()
     })
     $(".backBtn").click(e => {
         e.preventDefault()
@@ -113,7 +120,8 @@ $(document).ready(()=> {
         const title = $("#todoTitle").val()
         const description = $("#todoDescription").val()
         const due_date = $("#todoDueDate").val()
-        let inputData = {title, description, due_date}
+        const project = $("#project").val()
+        let inputData = {title, description, due_date, project}
         $.ajax({
             url:`${url}/todos`,
             type: "POST",
@@ -121,14 +129,36 @@ $(document).ready(()=> {
                 access_token: localStorage.getItem('access_token')
             },
             data: inputData
-        }).done(todo => {
-            todos.push(todo)
-            appendTodos(todo, ".todos-table")
+        }).done(Todo => {
+            todos.push(Todo)
+            appendTodos(Todo, ".todos-table")
             $(".form-container").hide()
             $(".todo-list").show()
+            $(".project-value").remove()
             $("#todoTitle").val('')
             $("#todoDescription").val('')
             $("#todoDueDate").val('')
+        }).fail(err => {
+            console.log(err)
+        })
+    })
+    $("#form-project").submit(e => {
+        e.preventDefault()
+        const name = $("#projectName").val()
+        const membersId = members
+        let inputData = {name, membersId}
+        $.ajax({
+            url:`${url}/todos`,
+            type: "POST",
+            headers: {
+                access_token: localStorage.getItem('access_token')
+            },
+            data: inputData
+        }).done(response => {
+            $(".form-project").hide()
+            $(".todo-list").show()
+            $(".member-email").remove()
+            $("#projectName").val('')
         }).fail(err => {
             console.log(err)
         })
@@ -161,36 +191,38 @@ $(document).ready(()=> {
 function appendTodos(obj, element) {
     let checkBtn = null
     for(let i = 0; i < todos.length; i++){
-        if(todos[i].id === obj.id){
+        if(todos[i].todo.id === obj.todo.id){
             if (todos[i].status === "not completed") {
-                checkBtn = `<button onClick="checking(${obj.id})" class="btn btn-success">done</button>`
+                checkBtn = `<button onClick="checking(${obj.todo.id})" class="btn btn-success">done</button>`
             } else {
-                checkBtn = `<button onClick="checking(${obj.id})" class="btn btn-warning">revert</button>`
+                checkBtn = `<button onClick="checking(${obj.todo.id})" class="btn btn-warning">revert</button>`
             }
             break
         }
     }
     $(element)
     .append(`<tr class="todo-item">
-                <td>${obj.title}</td>
-                <td>${obj.status}</td>
+                <td>${obj.todo.title}</td>
+                <td>${obj.project}</td>
+                <td>${obj.todo.status}</td>
                 <td>
                 ${checkBtn}
-                <button onClick="todoDetail(${obj.id})" class="btn btn-info">view detail</button>
-                <button onClick="confirmDelete(${obj.id})" class="btn btn-danger">delete</button>
+                <button onClick="todoDetail(${obj.todo.id})" class="btn btn-info">view detail</button>
+                <button onClick="confirmDelete(${obj.todo.id})" class="btn btn-danger">delete</button>
                 </td>
             </tr>`)
 }
 function appendTodo(obj, element) {
     $(element)
     .append(`<tr class="item-detail">
-            <td>${obj.title}</td>
-            <td>${obj.description}</td>
-            <td>${obj.status}</td>
-            <td>${obj.due_date}</td>
+            <td>${obj.todo.title}</td>
+            <td>${obj.todo.description}</td>
+            <td>${obj.todo.status}</td>
+            <td>${obj.todo.due_date}</td>
+            <td>${obj.project}</td>
             <td>
-                <button onClick="edit(${obj.id})" class="btn btn-info">edit</button>
-                <button onClick="confirmDelete(${obj.id})" class="btn btn-danger">delete</button>
+                <button onClick="edit(${obj.todo.id})" class="btn btn-info">edit</button>
+                <button onClick="confirmDelete(${obj.todo.id})" class="btn btn-danger">delete</button>
             </td>
         </tr>`)
 }
@@ -220,12 +252,43 @@ function getTodo() {
         console.log(err)
     })
 }
+function getProjects(){
+    $.ajax({
+        url:`${url}/project`,
+        method:'GET',
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    }).then(response => {
+        response.forEach(project => {
+            $("#project")
+            .append(`<option class="project-value" value="${project.project}">${project.project}</option>
+            `)
+        })
+    })
+}
+function getMembers(){
+    $.ajax({
+        url:`${url}/users`,
+        method:'GET',
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    }).then(response => {
+        response.forEach(user => {
+            $("#members")
+            .append(`<input type="checkbox name="member-id" value="${user.id}">${user.email}</input>
+            `)
+        })
+    })
+}
+let members = $('input[name="member-id"]').map(() => { return $(this).val() }).get()
 
 function checking(id) {
     let complete = false
     for(let i = 0; i < todos.length; i++){
-        if(todos[i].id === id){
-            todos[i].status === "completed" ? complete = true : complete = false
+        if(todos[i].todo.id === id){
+            todos[i].todo.status === "completed" ? complete = true : complete = false
             break
         }
     }
@@ -242,11 +305,11 @@ function checking(id) {
         })
         .done(response => {
             $(".todo-item").remove()
-            todos.forEach(todo => {
-                if(todo.id === id){
-                    todo.status = "completed"
+            todos.forEach(Todo => {
+                if(Todo.todo.id === id){
+                    Todo.todo.status = "completed"
                 }
-                appendTodos(todo, ".todos-table")
+                appendTodos(Todo, ".todos-table")
             })
         })
         .fail(err=>{
@@ -265,11 +328,11 @@ function checking(id) {
         })
         .done(response => {
             $(".todo-item").remove()
-            todos.forEach(todo => {
-                if(todo.id === id){
-                    todo.status = "not completed"
+            todos.forEach(Todo => {
+                if(Todo.todo.id === id){
+                    Todo.todo.status = "not completed"
                 }
-                appendTodos(todo, ".todos-table")
+                appendTodos(Todo, ".todos-table")
             })
         })
         .fail(err=>{
@@ -282,7 +345,7 @@ function todoDetail(id) {
     $(".todo-list").hide()
     $(".todo-detail").show()
     for(let i = 0; i < todos.length; i++){
-        if(todos[i].id === id){
+        if(todos[i].todo.id === id){
             appendTodo(todos[i], ".todo-table")
             break
         }
@@ -294,10 +357,10 @@ function edit(id) {
     $(".form-update").show()
     let index = null
     for(let i = 0; i < todos.length; i++){
-        if(todos[i].id === id){
-            $("#updateTitle").val(todos[i].title)
-            $("#updateDescription").val(todos[i].description)
-            $("#updateDueDate").val(todos[i].due_date)
+        if(todos[i].todo.id === id){
+            $("#updateTitle").val(todos[i].todo.title)
+            $("#updateDescription").val(todos[i].todo.description)
+            $("#updateDueDate").val(todos[i].todo.due_date)
             index = i
             break
         }
@@ -308,9 +371,9 @@ function edit(id) {
         const description = $("#updateDescription").val()
         const due_date = $("#updateDueDate").val()
         let inputData = {title, description, due_date}
-        todos[index].title = title
-        todos[index].description = description
-        todos[index].due_date = due_date
+        todos[index].todo.title = title
+        todos[index].todo.description = description
+        todos[index].todo.due_date = due_date
         $.ajax({
             url:`${url}/todos/${id}`,
             type: "PUT",
@@ -323,8 +386,8 @@ function edit(id) {
             $(".todo-list").show()
             $(".item-detail").remove()
             $(".todo-item").remove()
-            todos.forEach(todo => {
-                appendTodos(todo, ".todos-table")
+            todos.forEach(Todo => {
+                appendTodos(Todo, ".todos-table")
             })
         }).fail(err =>{
             console.log(err)
@@ -366,15 +429,15 @@ function deleteTodo(id) {
         $(".todo-list").show()
         let index = null
         for(let i = 0; i < todos.length; i++){
-            if(todos[i].id === id){
+            if(todos[i].todo.id === id){
                 index = i
                 break
             }
         }
         todos.splice(index, 1)
         $(".todo-item").remove()
-        todos.forEach(todo => {
-            appendTodos(todo, ".todos-table")
+        todos.forEach(Todo => {
+            appendTodos(Todo, ".todos-table")
         })
     }).fail(err => {
         Swal.fire(

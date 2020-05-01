@@ -2,12 +2,12 @@ const { UserTodo } = require('../models')
 
 class projectController {
     static addProject (req, res, next) {
-        const { name, members } = req.body
-        members.push({id: req.userId})
+        const { name, membersId } = req.body
+        membersId.push(req.userId)
         if(name !== 'personal'){
-            members.forEach(member => {
+            membersId.forEach(memberId => {
                 UserTodo.create({
-                    UserId: member.id,
+                    UserId: memberId,
                     project: name
                 }).then(response => {
                     const obj = {
