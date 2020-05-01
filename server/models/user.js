@@ -5,6 +5,14 @@ module.exports = (sequelize, DataTypes) => {
   const { generatePassword } = require('../helper/bcrypt')
   class User extends Model {}
   User.init ({
+    name : {
+      type: DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : `Name Section is Empty`
+        }
+      }
+    },
     email: {
       type:DataTypes.STRING,
       validate : {
@@ -14,7 +22,14 @@ module.exports = (sequelize, DataTypes) => {
         isEmail : true
       }
     },
-    password: DataTypes.STRING
+    password: {
+      type:DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : `Password Section is Empty`
+        }
+      }
+    }
   }, { sequelize });
 
   User.beforeCreate((instance,options) => {

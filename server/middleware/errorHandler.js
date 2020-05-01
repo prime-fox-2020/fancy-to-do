@@ -25,6 +25,11 @@ module.exports = function(err, req, res, next){
         errorCode = `USER_RESTRICTED_ACCESS`
         message = `Forbidden Access`
     }
+    else if (err.name == `Invalid Email/Password`){
+        statusCode = 404
+        errorCode = `INVALID_EMAIL_OR_PASSWORD`
+        message = `Invalid Email/Password`
+    }
     else if (err.name == `Data Not Found`){
         statusCode = 404
         errorCode = `DATA_NOT_FOUND`
