@@ -63,6 +63,7 @@ $(document).ready(()=> {
         $(".holiday-list").hide()
         $(".form-create").hide()
         $(".form-update").hide()
+        $(".form-project").hide()
     })
 
     $("#form-register").submit(e => {
