@@ -28,7 +28,7 @@ class Control {
                 })  
             }
             else {
-                res.status(401).json({message: 'Email invalid'})
+                next({name: 'EmailValidationError'})
             }
         })
         .then(data => {
@@ -48,11 +48,12 @@ class Control {
             }
         })
         .then(data => {
-            if(!data || !(bcrypt.compareSync(password, data.password))){
-                res.status(400).json({message: 'Wrong email and password'})
-            }else{
+            if(data && (bcrypt.compareSync(password, data.password))){
                 const access_token = generateToken(data)
                 res.status(201).json({ access_token })
+            }
+            else{
+                next({name: 'SequelizeValidationError'})
             }
         })
         .catch(err => {

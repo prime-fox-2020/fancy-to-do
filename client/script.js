@@ -3,11 +3,8 @@ $(document).ready(function () {
 
     $("#login-form").submit(function(e) {
         e.preventDefault();
-        console.log('submit');
         const email = $('#input-email-login').val();
         const password = $('#input-password-login').val()
-        console.log(email)
-        console.log(password)
 
         $.ajax({
             url: 'http://localhost:3000/login',
@@ -18,15 +15,31 @@ $(document).ready(function () {
             }
         })
         .done(function (response) {
-            console.log('Login Success', response.access_token)
+            console.log('Login Success')
             localStorage.setItem('access_token', response.access_token)
             check()
         })
         .fail(function (response) {
-            console.log('gagal nih')
+            $("#modalContent").empty()
+            let newModal = `
+            <div class="modal-header" id='modalHeader'>
+                <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>${response.responseJSON.message}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            `
+            $("#modalContent").append(newModal)
+            $("#failModal").modal('show')
         })
         .always(function (response) {
-            console.log('Done', response)
+            console.log('Done')
         })
     })
 
@@ -38,7 +51,6 @@ $(document).ready(function () {
 
     $('#register-form').submit(function (e) {
         e.preventDefault()
-        console.log('register submit')
         const email = $('#input-email-register').val();
         const password = $('#input-password-register').val()
 
@@ -51,14 +63,30 @@ $(document).ready(function () {
             }
         })
         .done(function (response) {
-            console.log('Register Success', response)
+            console.log('Register Success')
             check()
         })
         .fail(function (response) {
-            console.log('Fail to Register', response)
+            $("#modalContent").empty()
+            let newModal = `
+            <div class="modal-header" id='modalHeader'>
+                <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>${response.responseJSON.message}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            `
+            $("#modalContent").append(newModal)
+            $("#failModal").modal('show')
         })
         .always(function (response) {
-            console.log('Done', response)  
+            console.log('Done')  
         })
     })
     
@@ -68,7 +96,6 @@ $(document).ready(function () {
         const title = $("#input-todos-title").val()
         const description = $('#input-todos-description').val()
         const due_date = $('#input-todos-due_date').val()
-        console.log(description)
         $.ajax({
             url: 'http://localhost:3000/todos',
             type: 'POST',
@@ -89,14 +116,30 @@ $(document).ready(function () {
             $('#input-todos-due_date').val('')
             $('#input-todos-status').val('')
 
-            console.log('Succesfuly added new todo', response)
+            console.log('Succesfuly added new todo')
             getTodos()
         })
         .fail(function (response) {
-            console.log('Fail to add new todo', response)
+            $("#modalContent").empty()
+            let newModal = `
+            <div class="modal-header" id='modalHeader'>
+                <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>${response.responseJSON.message}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            `
+            $("#modalContent").append(newModal)
+            $("#failModal").modal('show')
         })
         .always(function (response) {
-            console.log('Done', response)
+            console.log('Done')
         })
     })
 
@@ -107,7 +150,6 @@ $(document).ready(function () {
         const description = $('#edit-description').val()
         const status = $('#edit-status').val()
         const due_date = $('#edit-due_date').val()
-        console.log(due_date)
         $.ajax({
             url: `http://localhost:3000/todos/${todoId}`,
             type: 'PUT',
@@ -125,7 +167,61 @@ $(document).ready(function () {
             check()
         })
         .fail(function (response) {
-            console.log('fail to edit', response)
+            $("#modalContent").empty()
+            let newModal = `
+            <div class="modal-header" id='modalHeader'>
+                <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>${response.responseJSON.message}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            `
+            $("#modalContent").append(newModal)
+            $("#failModal").modal('show')
+        })
+    })
+
+    $("#delete-btn").click(function () {
+        $("#modalDelete").show()
+    })
+
+    $("#confirmDelete").click(function () {
+        const access_token = localStorage.getItem('access_token')
+        $.ajax({
+            method: 'delete',
+            url: `http://localhost:3000/todos/${todoId}`,
+            headers: {
+                access_token: access_token
+            }
+        })
+        .done(response => {
+            $("#modalDelete").hide()
+            getTodos()
+        })
+        .fail(response => {
+            $("#modalContent").empty()
+            let newModal = `
+            <div class="modal-header" id='modalHeader'>
+                <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>${response.responseJSON.message}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            `
+            $("#modalContent").append(newModal)
+            $("#failModal").modal('show')
         })
     })
 
@@ -146,15 +242,18 @@ $(document).ready(function () {
         $('#theLogin').show()
     })
 
-    $("#logout-btn").click(function () {
-        localStorage.removeItem('access_token')
-        check()
+    $(".clsBtn").click(function () {
+        $('#modalDelete').hide()
     })
-    
 })
 
+let todoId;
+function getId(id) {
+    todoId = id
+    return todoId
+}
+
 function getTodos() {
-    console.log('masuk get todos')
     const access_token = localStorage.getItem('access_token')
     $.ajax({
         url: 'http://localhost:3000/todos',
@@ -177,14 +276,29 @@ function getTodos() {
             </tr>`
             $('#theTodos tbody').append(new_row)
         }
-        console.log(response)
     })
     .fail(function (response) {
-        console.log('Failed to get asset', response)
+        $("#modalContent").empty()
+        let newModal = `
+        <div class="modal-header" id='modalHeader'>
+            <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>${response.responseJSON.message}</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        `
+        $("#modalContent").append(newModal)
+        $("#failModal").modal('show')
     })
 }
 
-let todoId;
+
 
 function getTodoById(id) {
     $(".the-element").hide()
@@ -198,20 +312,17 @@ function getTodoById(id) {
         }
     })
     .done(response => {
-        console.log(response)
         let todo = response
+        $('#edit-form').empty()
         let newForm = `
         <label for="">Title</label>
         <input type="text" name="title" id="edit-title" value="${todo.title}">
         <label for="">Description</label>
         <input type="text" name="description" id="edit-description" value="${todo.description}">
         <label for="">Status</label>
-        <select name="" id="">
-        if (${todo.status} == 'false') {
-            <option value="false" id="edit-status" selected>False</option>
-        } else {
-            <option value="true" id="edit-status" selected>True</option>
-        }
+        <select name="" id="edit-status">
+            <option value="false">False</option>
+            <option value="true">True</option>
         </select>
         <label for="">Due Date</label>
         <input type="text" name="due_date" id="edit-due_date" value="${todo.due_date}">
@@ -221,32 +332,31 @@ function getTodoById(id) {
         getId(id)
         $("#theEdit").show()
     })
-    .fail(err => {
-        console.log(err)
+    .fail(response => {
+        $("#modalContent").empty()
+        let newModal = `
+        <div class="modal-header" id='modalHeader'>
+            <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>${response.responseJSON.message}</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        `
+        $("#modalContent").append(newModal)
+        $("#failModal").modal('show')
     })
 }
 
-function getId(id) {
-    todoId = id
-    return todoId
-}
 
 function deleteTodo (id) {
-    const access_token = localStorage.getItem('access_token')
-    $.ajax({
-        method: 'delete',
-        url: `http://localhost:3000/todos/${id}`,
-        headers: {
-            access_token: access_token
-        }
-    })
-    .done(data => {
-        console.log(data)
-        getTodos()
-    })
-    .fail(err => {
-        console.log(err)
-    })
+    getId(id)
+    $("#modalDelete").show()
 }
 
 function check() {
@@ -260,17 +370,13 @@ function check() {
     }
 }
 
-function logOut() {
-    localStorage.removeItem('access_token')
-}
-
 function onSignIn(googleUser) {
+    console.log('masuk google')
     var id_token = googleUser.getAuthResponse().id_token;   
     $.ajax({
         url: "http://localhost:3000/googlelogin",
         type: 'POST',
         data: {token_id: id_token}
-
     })
     .done(function(response) {
         console.log(response)
@@ -280,15 +386,12 @@ function onSignIn(googleUser) {
     .fail(function (response) {
         console.log('failed')
     })
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
+        auth2.disconnect();
         console.log('User signed out.');
     });
     localStorage.removeItem('access_token')

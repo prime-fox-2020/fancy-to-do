@@ -9,6 +9,11 @@ module.exports = function (err, req, res, next) {
         errorCode = 'VALIDATION_ERROR'
         message = 'Incomplete data'
     }
+    else if (err.name == 'EmailValidationError') {
+        statusCode = 400
+        errorCode = 'VALIDATION_ERROR'
+        message = 'Email invalid'
+    }
     else if (err.name == 'DATA_NOT_FOUND') {
         statusCode = 404
         errorCode = 'INVALID ID'
