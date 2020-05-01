@@ -88,14 +88,14 @@ Sign in with email & password account
 
 ### Responses
 
-#### Status 200 OK
+#### _Status 200 OK_
 ```json
 {
   "access_token": "<your access token>"
 }
 ```
 
-#### Status 400 Bad Request
+#### _Status 400 Bad Request_
 ```json
 {
   "messages": [
@@ -104,7 +104,7 @@ Sign in with email & password account
 }
 ```
 
-#### Status 500 Internal server error
+#### _Status 500 Internal Server Error_
 ```json
 {
   "messages": [ "Internal server error" ]
@@ -137,7 +137,7 @@ Create a new todo
 
 ### Responses
 
-#### _Status 200 OK
+#### _Status 200 OK_
 ```json
 {
   "message": "A todo has been created"
@@ -153,7 +153,7 @@ Create a new todo
 }
 ```
 
-#### _Status 403 Forbidden
+#### _Status 403 Forbidden_
 ```json
 {
   "messages": [ "Please sign in first" ]
@@ -187,7 +187,7 @@ not needed
 
 ### Responses
 
-#### _Status 200 OK
+#### _Status 200 OK_
 ```json
 {
   "todos": [
@@ -215,7 +215,7 @@ not needed
 }
 ```
 
-#### _Status 403 Forbidden
+#### _Status 403 Forbidden_
 ```json
 {
   "messages": [ "Please sign in first" ]
@@ -254,7 +254,7 @@ not needed
 
 ### Responses
 
-#### _Status 200 OK
+#### _Status 200 OK_
 ```json
 {
   "id": 12,
@@ -277,7 +277,7 @@ not needed
 }
 ```
 
-#### _Status 403 Forbidden
+#### _Status 403 Forbidden_
 ```json
 {
   "messages": [ "Please sign in first" ]
@@ -330,7 +330,7 @@ Choose the item property(s) that you want to edit
 
 ### Responses
 
-#### _Status 200 OK
+#### _Status 200 OK_
 ```json
 {
   "message": "Todo 14 has been updated"
@@ -346,7 +346,7 @@ Choose the item property(s) that you want to edit
 }
 ```
 
-#### _Status 403 Forbidden
+#### _Status 403 Forbidden_
 ```json
 {
   "messages": [ "Please sign in first" ]
@@ -393,7 +393,7 @@ not needed
 
 ### Responses
 
-#### _Status 200 OK
+#### _Status 200 OK_
 ```json
 {
   "message": "Todos id 13 has been deleted"
@@ -409,7 +409,7 @@ not needed
 }
 ```
 
-#### _Status 403 Forbidden
+#### _Status 403 Forbidden_
 ```json
 {
   "messages": [ "Please sign in first" ]
@@ -455,7 +455,7 @@ not needed
 
 ### Responses
 
-#### _Status 200 OK
+#### _Status 200 OK_
 ```json
 {
   "text": "United States claims Midway Atoll, the first territory annexed outside Continental limits",
@@ -475,7 +475,7 @@ not needed
 }
 ```
 
-#### _Status 403 Forbidden
+#### _Status 403 Forbidden_
 ```json
 {
   "messages": [ "Please sign in first" ]
