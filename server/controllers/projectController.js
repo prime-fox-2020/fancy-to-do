@@ -4,6 +4,7 @@ class projectController {
     static addProject (req, res, next) {
         const { name, membersId } = req.body
         membersId.push(req.userId)
+        console.log('masuk project controller', name, membersId)
         if(name !== 'personal'){
             membersId.forEach(memberId => {
                 UserTodo.create({

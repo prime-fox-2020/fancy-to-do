@@ -1,5 +1,6 @@
 const url = 'http://localhost:3000'
 let todos = []
+let members = []
 
 $(document).ready(()=> {
 
@@ -39,6 +40,9 @@ $(document).ready(()=> {
         $(".form-container").hide()
         $(".home").show()
         $(".todo-item").remove()
+        $(".todo-detail").remove()
+        $(".project-value").remove()
+        $(".member-id").remove()
         fb_logout()
         signOut()
     })
@@ -59,6 +63,8 @@ $(document).ready(()=> {
         $(".todo-list").show()
         $(".item-detail").remove()
         $(".holiday-item").remove()
+        $(".project-value").remove()
+        $(".member-id").remove()
         $(".todo-detail").hide()
         $(".holiday-list").hide()
         $(".form-create").hide()
@@ -84,6 +90,7 @@ $(document).ready(()=> {
             $(".logoutBtn").show()
             $(".user-page").show()
             $(".todo-detail").hide()
+            $(".holiday-list").hide()
             $("#regEmail").val('')
             $("#regPassword").val('')
             getTodo()
@@ -109,6 +116,7 @@ $(document).ready(()=> {
             $(".logoutBtn").show()
             $(".user-page").show()
             $(".todo-detail").hide()
+            $(".holiday-list").hide()
             $("#logEmail").val('')
             $("#logPassword").val('')
             getTodo()
@@ -148,8 +156,9 @@ $(document).ready(()=> {
         const name = $("#projectName").val()
         const membersId = members
         let inputData = {name, membersId}
+        console.log(inputData)
         $.ajax({
-            url:`${url}/todos`,
+            url:`${url}/project`,
             type: "POST",
             headers: {
                 access_token: localStorage.getItem('access_token')
@@ -158,7 +167,7 @@ $(document).ready(()=> {
         }).done(response => {
             $(".form-project").hide()
             $(".todo-list").show()
-            $(".member-email").remove()
+            $(".member-id").remove()
             $("#projectName").val('')
         }).fail(err => {
             console.log(err)
@@ -193,7 +202,7 @@ function appendTodos(obj, element) {
     let checkBtn = null
     for(let i = 0; i < todos.length; i++){
         if(todos[i].todo.id === obj.todo.id){
-            if (todos[i].status === "not completed") {
+            if (todos[i].todo.status === "not completed") {
                 checkBtn = `<button onClick="checking(${obj.todo.id})" class="btn btn-success">done</button>`
             } else {
                 checkBtn = `<button onClick="checking(${obj.todo.id})" class="btn btn-warning">revert</button>`
@@ -276,14 +285,17 @@ function getMembers(){
             access_token: localStorage.getItem('access_token')
         }
     }).then(response => {
+        console.log(response)
         response.forEach(user => {
-            $("#members")
-            .append(`<input type="checkbox name="member-id" value="${user.id}">${user.email}</input>
+            $(".members")
+            .append(`<input type="checkbox" class="member-id" onClick="addMembers(${user.id})"><snap class="member-id">${user.email}</snap></input>
             `)
         })
     })
 }
-let members = $('input[name="member-id"]').map(() => { return $(this).val() }).get()
+function addMembers(id){
+    members.push(id)
+}
 
 function checking(id) {
     let complete = false
@@ -464,6 +476,7 @@ function onSignIn(googleUser) {
         $(".logoutBtn").show()
         $(".user-page").show()
         $(".todo-detail").hide()
+        getTodo()
     })
     .fail(err=>{
         console.log(err)
@@ -511,6 +524,7 @@ function fbLogin(){
                 $(".logoutBtn").show()
                 $(".user-page").show()
                 $(".todo-detail").hide()
+                getTodo()
             })
             .fail(err=>{
                 console.log(err)

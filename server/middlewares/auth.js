@@ -24,7 +24,7 @@ const authentication = (req, res, next) => {
 
 const authorization = (req, res, next) => {
     const { id } = req.params
-    UserTodo.findOne({
+    UserTodo.findAll({
         where: {
             TodoId: id
         }
@@ -32,10 +32,12 @@ const authorization = (req, res, next) => {
     .then(response => {
         // console.log(response)
         if(response){
-            if(response.UserId === req.userId){
-                next()
-            } else {
-                throw { message: "cannot be accessed", status: 403 }
+            for(let i = 0; i <= response.length; i++){
+                console.log(response[i].UserId, req.userId)
+                if(response[i].UserId === req.userId){
+                    next()
+                    break
+                }
             }
         } else {
             throw { message: 'todo not found', status: 404 }

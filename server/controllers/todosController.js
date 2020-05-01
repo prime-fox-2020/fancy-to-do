@@ -37,7 +37,7 @@ class TodosController {
     }
     static createTodo(req, res, next) {
         const { title, description, due_date, project } = req.body
-        let Todo = null
+        let objTodo = null
         Todo.create({
             title,
             description,
@@ -45,7 +45,7 @@ class TodosController {
             due_date
         }).then(response => {
             // res.status(201).json(todo)
-            Todo = {
+            objTodo = {
                 project,
                 todo: response
             }
@@ -64,7 +64,7 @@ class TodosController {
             }
         }).then(response => {
             console.log(response)
-            res.status(201).json(Todo)
+            res.status(201).json(objTodo)
         }).catch(next)
     }
     static editTodo(req, res, next) {
