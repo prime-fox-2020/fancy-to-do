@@ -51,22 +51,11 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'date type invalid'
         }
       }
-    },
-    UserId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate:{
-        notNull: {
-          msg: 'userId is null'
-        },
-        notEmpty: {
-          msg: 'userId cannot be empty'
-        }
-      }
     }
   }, {});
   Todo.associate = function(models) {
-    Todo.belongsTo(models.User)
+    Todo.belongsToMany(models.User,{through:'UserTodo'})
+    Todo.hasMany(models.UserTodo)
   };
   return Todo;
 };

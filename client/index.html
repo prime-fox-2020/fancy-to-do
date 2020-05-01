@@ -37,10 +37,11 @@
             <div class="todo-list">
                 <h2>Todo List</h2>
                 <div class="betweenTitleTable">
-                    <div>
+                    <div class="btn-container" style="width: 25%;">
                         <button class="addBtn btn btn-success">Add Todo</button>
+                        <button class="projectBtn btn btn-success">Add Project</button>
                     </div>
-                    <div style="width: 50%;">
+                    <div style="width: 40%;">
                         <form class="holiday">
                             <label>Check Holiday</label>
                             <select name="country" class="country custom-select mr-sm-2">
@@ -57,6 +58,7 @@
                 <table class="todos-table table table-striped">
                     <tr>
                         <th>Title</th>
+                        <th>Project</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -69,7 +71,7 @@
                     <div>
                         <button class="backBtn btn btn-warning">Back</button>
                     </div>
-                    <div style="width: 50%;">
+                    <div style="width: 40%;">
                         <form class="holiday">
                             <label>Check Holiday</label>
                             <select name="country" class="country custom-select mr-sm-2">
@@ -89,6 +91,7 @@
                         <th>Description</th>
                         <th>Status</th>
                         <th>Due Date</th>
+                        <th>Project</th>
                         <th>Action</th>
                     </tr>
                 </table>
@@ -136,6 +139,10 @@
                 <input type="text" name="title" id="todoTitle" class="form-control" placeholder="Title">
                 <input type="date" name="due_date" id="todoDueDate" class="form-control" placeholder="Due Date">
                 <textarea name="description" id="todoDescription" class="form-control" placeholder="Description"></textarea>
+                <label>Project</label>
+                <select id="project" class="custom-select mr-sm-2">
+                    <option value="personal">personal</option>
+                </select>
                 <div class="btn-container">
                     <button type="submit" id="submitTodoBtn" class="btn btn-success">Create</button>
                     <button class="backBtn btn btn-warning">Back</button>
@@ -150,6 +157,19 @@
                 <textarea name="description" id="updateDescription" class="form-control" placeholder="Description"></textarea>
                 <div class="btn-container">
                     <button type="submit" id="submitUpdateBtn" class="btn btn-success">Update</button>
+                    <button class="backBtn btn btn-warning">Back</button>
+                </div>
+            </form>
+        </div>
+        <div class="form-project form-container">
+            <h2>Create Project</h2>
+            <form id="form-project">
+                <input type="text" name="title" id="projectName" class="form-control" placeholder="Project Name">
+                <label>Choose Members</label>
+                <div class="members">
+                </div>
+                <div class="btn-container">
+                    <button type="submit" class="btn btn-success">Create</button>
                     <button class="backBtn btn btn-warning">Back</button>
                 </div>
             </form>

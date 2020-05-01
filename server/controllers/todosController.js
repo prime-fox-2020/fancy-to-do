@@ -1,39 +1,74 @@
-const { Todo } =  require('../models')
+const { Todo, UserTodo } =  require('../models')
 const axios = require('axios')
 
 class TodosController {
     static getTodos(req, res, next) {
-        Todo.findAll({
+        UserTodo.findAll({
             where: {
                 UserId: req.userId
             },
+            include: Todo,
             order:[['id', 'asc']]
-        }).then(todos => {
+        }).then(response => {
+            let todos = []
+            response.forEach(project => {
+                if(project.Todo){
+                    todos.push({
+                        project: project.project,
+                        todo: project.Todo
+                    })
+                }
+            })
             res.status(200).json(todos)
+            console.log(todos)
         }).catch(next)
     }
     static getTodo(req, res, next) {
         const { id } = req.params
-        Todo.findByPk(id)
+        Todo.findByPk(id, {include: UserTodo})
         .then(response => {
+            console.log(response)
             if(response){
-                const todo = response.dataValues
-                res.status(200).json(todo)
+                const Todo = {
+                    project: response.UserTodos[0].project,
+                    todo: response.dataValues
+                }
+                res.status(200).json(Todo)
             } else {
                 throw { message: 'todo not found', status: 404 }
             }
         }).catch(next)
     }
     static createTodo(req, res, next) {
-        const { title, description, due_date } = req.body
+        const { title, description, due_date, project } = req.body
+        let objTodo = null
         Todo.create({
             title,
             description,
             status: 'not completed',
-            due_date,
-            UserId: req.userId
-        }).then(todo => {
-            res.status(201).json(todo)
+            due_date
+        }).then(response => {
+            // res.status(201).json(todo)
+            objTodo = {
+                project,
+                todo: response
+            }
+            if(project!=='personal'){
+                return UserTodo.update({
+                    TodoId: response.id
+                }, {
+                    where: { project }
+                })
+            } else {
+                return UserTodo.create({
+                    UserId: req.userId,
+                    TodoId: response.id,
+                    project
+                })
+            }
+        }).then(response => {
+            console.log(response)
+            res.status(201).json(objTodo)
         }).catch(next)
     }
     static editTodo(req, res, next) {

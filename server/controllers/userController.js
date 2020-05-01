@@ -101,26 +101,12 @@ class UserController {
             res.status(200).json({access_token})
         }).catch(next)
     }
+    static getUsers(req, res, next) {
+        User.findAll()
+        .then(users => {
+            res.status(200).json(users)
+        }).catch(next)
+    }
 }
 
 module.exports = UserController
-
-
-
-
-// const { user_token } = req.body
-// let app_token = null
-// axios({
-//     method:'get',
-//     url:`https://graph.facebook.com/oauth/access_token?client_id=${process.env.fb_id}&client_secret=${process.env.fb_secret}&grant_type=client_credentials`
-// }).then(response => {
-//     app_token = response.data.access_token
-//     return axios({
-//         method:'get',
-//         url:`https://graph.facebook.com/debug_token?input_token=${user_token}&access_token=${app_token}`
-//     })
-// }).then(response => {
-//     console.log(response)
-// }).catch(err => {
-//     console.log(err)
-// })
