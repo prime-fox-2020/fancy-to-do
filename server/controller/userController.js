@@ -6,26 +6,27 @@ const CLIENT_ID=process.env.CLIENT_ID
 const client = new OAuth2Client(CLIENT_ID);
 
 class UserController{
-    static register(req,res){
+    static register(req,res,next){
         const {email,password}=req.body
         User.create({
             email,password
         })
         .then(()=>{
-            User.findAll()
-            .then(data=>{
-                res.status(201).json(data)
-            })
-            .catch(err=>{
-                res.status(400).json({errors:err.message})
-            })
+            return User.findAll()
+        })
+        .then(data=>{
+            res.status(201).json(data)
         })
         .catch(err=>{
-            res.status(400).json({errors:err.message})
+            if(err.name=="SequelizeValidationError"){
+                next(err)
+            }else{
+                next({name:"NEED_ARGUMENT"})
+            }
         })
     }
 
-    static login(req,res){
+    static login(req,res,next){
         const {email,password}=req.body
 
         User.findOne({
@@ -35,7 +36,7 @@ class UserController{
         })
         .then(user=>{
             if(!user || !bcrypt.compareSync(password,user.password)){
-                res.status(400).json({message:"Invalid Email/Password"})
+                next({name:"INVALID_ID"})
             }
 
             return user
@@ -46,7 +47,7 @@ class UserController{
             res.status(200).json({access_token})
         })
         .catch(err=>{
-            res.status(400).json({errors:err.message})
+            next({name:"NEED_ARGUMENT"})
         })
 
     }
@@ -59,9 +60,7 @@ class UserController{
             audience:CLIENT_ID
         })
         .then(access=>{
-            // console.log(access)
             const payload = access.getPayload();
-            // console.log(payload)
             currentEmail = payload['email'];
             return User.findOne({
                 where:{
@@ -86,7 +85,7 @@ class UserController{
             res.status(200).json({access_token})
         })
         .catch(err=>{
-            console.log(err)
+            next(err)
         })
 
     }

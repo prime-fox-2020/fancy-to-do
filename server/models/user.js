@@ -8,12 +8,29 @@ module.exports = (sequelize, DataTypes) => {
 
   class User extends Model{}
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg:'Email is required'
+        }
+      }
+    },
+    password: {
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg:'Password is required'
+        }
+      }
+    }
+    // email: DataTypes.STRING,
+    // password: DataTypes.STRING
   }, {sequelize});
 
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Project)
   };
 
   User.beforeCreate((instance,options)=>{

@@ -33,6 +33,16 @@ const errorHandler=(err,req,res,next)=>{
             errorCode="TOKEN_NOT_FOUND"
             message="token not found"
             break
+        case "INVALID_ID":
+            statusCode=404
+            errorCode="INVALID_ID"
+            message="Invalid Email/Password"
+            break
+        case "NEED_ARGUMENT":
+            statusCode=400
+            errorCode="NEED_ARGUMENT"
+            message="data and salt arguments required"
+            break
     }
     res.status(statusCode).json({errorCode,message})
 }

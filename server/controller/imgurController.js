@@ -20,7 +20,7 @@ class ImgurController{
             res.status(200).json(data.data)
         })
         .catch(err=>{
-            res.status(400).json(err)
+            next(err)
         })
     }
 
@@ -36,7 +36,7 @@ class ImgurController{
             res.status(200).json(data.data)
         })
         .catch(err=>{
-            res.status(400).json(err)
+            next(err)
         })
     }
 }
