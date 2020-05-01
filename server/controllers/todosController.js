@@ -25,11 +25,15 @@ class TodosController {
     }
     static getTodo(req, res, next) {
         const { id } = req.params
-        Todo.findByPk(id)
+        Todo.findByPk(id, {include: UserTodo})
         .then(response => {
+            console.log(response)
             if(response){
-                const todo = response.dataValues
-                res.status(200).json(todo)
+                const Todo = {
+                    project: response.UserTodos[0].project,
+                    todo: response.dataValues
+                }
+                res.status(200).json(Todo)
             } else {
                 throw { message: 'todo not found', status: 404 }
             }

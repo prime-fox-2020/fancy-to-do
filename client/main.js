@@ -357,12 +357,24 @@ function checking(id) {
 function todoDetail(id) {
     $(".todo-list").hide()
     $(".todo-detail").show()
-    for(let i = 0; i < todos.length; i++){
-        if(todos[i].todo.id === id){
-            appendTodo(todos[i], ".todo-table")
-            break
+    // for(let i = 0; i < todos.length; i++){
+    //     if(todos[i].todo.id === id){
+    //         appendTodo(todos[i], ".todo-table")
+    //         break
+    //     }
+    // }
+    $.ajax({
+        type:'GET',
+        url:`${url}/todos/${id}`,
+        headers: {
+            access_token: localStorage.getItem('access_token')
         }
-    }
+    }).done(Todo => {
+        console.log(Todo)
+        appendTodo(Todo, ".todo-table")
+    }).fail(err => {
+        console.log(err)
+    })
 }
 
 function edit(id) {

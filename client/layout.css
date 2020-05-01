@@ -85,7 +85,7 @@ h2 {
     align-items: center;
 }
 .todos-table, .todo-table, .holidays-table {
-    width: 50rem;
+    width: 60rem;
     margin: auto;
     text-align: center;
     color: rgba(34, 61, 38, 0.74);

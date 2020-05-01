@@ -3,6 +3,7 @@ const { UserTodo, User } =require('../models')
 
 const authentication = (req, res, next) => {
     const { access_token } = req.headers
+    console.log(access_token)
     try {
         if(access_token){
             const decoded = jwt.verify(access_token, process.env.secret_token)
