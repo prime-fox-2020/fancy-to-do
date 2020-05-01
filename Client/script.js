@@ -49,6 +49,7 @@ function showTodo(todos) {
   $('#login').hide();
   $('#register').hide();
   $('#logout').show();
+  $('.g-signin2').hide();
 
   let list = `
   <h1 class="mt-3">Todo List</h1>
@@ -67,15 +68,16 @@ function showTodo(todos) {
   `;
 
   todos.forEach(todo => {
+    const {id, title, description, status, due_date} = todo;
     list += `
     <tr>
-      <th scope="row">${todo.title}</th>
-      <td>${todo.description}</td>
-      <td>${todo.status}</td>
-      <td>${todo.due_date}</td>
+      <th scope="row" id="title${id}">${title}</th>
+      <td id="description${id}">${description}</td>
+      <td id="status${id}">${status}</td>
+      <td id="due_date${id}">${due_date.substring(0,10)}</td>
       <td>
-        <button class="btn btn-success" data-id="${todo.id}" id="edit">Edit</button>   
-        <button class="btn btn-danger" data-id="${todo.id}" id="delete">Delete</button>
+        <button class="btn btn-success" data-id="${id}" id="edit">Edit</button>   
+        <button class="btn btn-danger" data-id="${id}" id="delete">Delete</button>
     </tr>
     `;
   })
@@ -198,10 +200,15 @@ $( document ).ready(function() {
 $('#logout').hide();
 
 $('#logout').on('click', () => {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  });
   localStorage.removeItem('access_token');
   $('#login').show();
   $('#register').show();
   $('#logout').hide();
+  $('.g-signin2').show();
   renderHome();
 })
 
@@ -243,10 +250,111 @@ $('.todo-add').on('submit', e => {
   e.preventDefault();
 })
 
+//edit todo
+$('.container').on('click', '[id=edit]', el => {
+  const id = el.target.dataset.id;
+  
+  $('#edit-title').val();
+  $('#edit-description').val();
+  $('#edit-status').val();
+  $('#edit-due_date').val();
+  
+  $('#edit-todo').replaceWith(`
+  <div class="modal fade" id="edit-todo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Todo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="todo-edit">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" name="title" class="form-control" id="edit-title" value="${$(`#title${id}`)[0].textContent}">
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" name="description" class="form-control" id="edit-description" value="${$(`#description${id}`)[0].textContent}">
+            </div>
+            <div class="form-group">
+              <label for="status">Status</label>
+              <input type="text" name="status" class="form-control" id="edit-status" value="${$(`#status${id}`)[0].textContent}">
+            </div>
+            <div class="form-group">
+              <label for="due_date">Due Date</label>
+              <input type="date" name="due_date" class="form-control" id="edit-due_date" value="${$(`#due_date${id}`)[0].textContent}">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `);
+  $('#edit-todo').modal('show');
+  $('.todo-edit').on('submit', e => {
+    const todo = {
+      title: $('#edit-title').val(),
+      description: $('#edit-description').val(),
+      status: $('#edit-status').val(),
+      due_date: $('#edit-due_date').val()
+    }
+
+    $.ajax({
+      url: `http://localhost:3000/todos/${id}`,
+      type: "PUT",
+      contentType: "application/json;charset=utf-8",
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      },
+      data: JSON.stringify(todo)
+    })
+    .done(function(res) {
+      console.log(id);
+      $('#edit-todo').modal('hide');
+      renderTodo();
+      console.log('success >>', res);
+    })
+    .fail(function(err) {
+      console.log( "error >>", err );
+    })
+    .always(function() {
+      console.log( "complete" );
+    });
+    e.preventDefault();
+  })
+})
+
 //delete todo
 $('.container').on('click', '[id=delete]', el => {
   const id = el.target.dataset.id;
-  $('.modal-body-delete').html(`<br><h4 style="text-align: center;">Delete this Todo?</h4><br>`);
+  $('#delete-todo').replaceWith(`
+  <div class="modal fade" id="delete-todo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h4 style="text-align: center;">Are you sure?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="delete-button">Delete Todo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `);
   $('#delete-todo').modal('show');
   $('#delete-button').on('click', el => {
     deleteTodo(id);
@@ -272,4 +380,29 @@ function deleteTodo(id) {
   .always(function() {
     console.log( "complete" );
   });
+}
+
+//google sign in
+function onSignIn(googleUser) {
+  const id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:3000/google-signin',
+    contentType: "application/x-www-form-urlencoded",
+    data: {
+      idToken: id_token
+    }
+  })
+  .done(data => {
+    localStorage.setItem('access_token', data.access_token);
+    console.log(localStorage);
+    renderTodo();
+    console.log(data);
+  })
+  .fail(err => {
+    console.log('error', err);
+  })
+  .always(() => {
+    console.log('Google signin complete');
+  })
 }

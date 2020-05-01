@@ -25,7 +25,7 @@ class TodoController {
   }
 
   static getData(req, res, next) {
-    Todolist.findAll({where: {UserId: req.userData.id}})
+    Todolist.findAll({where: {UserId: req.userData.id}, order: [['id', 'ASC']]})
     .then(data => {
       res.status(200).json(data);
     })
