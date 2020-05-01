@@ -1,5 +1,5 @@
 const jwt =require('jsonwebtoken')
-const secretKey = "polalala"
+const secretKey = process.env.SECRET_KEY
 
 const authentication =(req,res,next)=>{
     console.log(req.headers)

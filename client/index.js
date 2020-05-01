@@ -83,9 +83,11 @@ $(document).ready(function(){
     })
     
     $('#add').on('click',function(e){
+        $(".containerwow").hide()
         $("#addTodo").show()
         $("#editTodo").hide()
         $("#image").hide()
+        $("#dashboardPage").hide()
         e.preventDefault()
     })
 
@@ -127,6 +129,8 @@ $(document).ready(function(){
 })
 
 function display(){
+    $(".containerwow").show()
+    $(`.containerwow`).empty()
     const access_token=localStorage.getItem('token')
     $.ajax({
         method:"GET",
@@ -136,9 +140,24 @@ function display(){
         }
     })
     .done(function(response){
-        response.data.forEach(e=>{
-            $("#image").append(`<img src="${e.link}" class="img-responsive img-thumbnail"/>`)
-        })
+        let temp=0
+        for (let i = 0; i < response.data.length; i++) {
+            if(i==0||i%3==0){
+                temp++
+                $(`.containerwow`).append(`
+                <div class="row" id="baris${temp}">
+                    <div class="col-sm">
+                    <img src="${response.data[i].link}" class="img-responsive img-thumbnail"/>
+                    </div>
+                </div>`)
+            }else{
+                console.log(temp)
+                $(`#baris${temp}`).append(` 
+                <div class="col-sm">
+                <img src="${response.data[i].link}" class="img-responsive img-thumbnail"/>
+                </div>`)
+            }
+        }
         $("#image").show()
         $("#addTodo").hide()
         $("#editTodo").hide()
@@ -207,11 +226,33 @@ function fetchTodo(){
                 <td>${element.description}</td>
                 <td>${element.status}</td>
                 <td>${element.due_date}</td>
-                <td><button onclick= "editTodo(${element.id})" class="btn btn-outline-info">Edit</button> <button onclick= "deleteTodo(${element.id})" class="btn btn-outline-danger">Delete</button></td>
+                <td><button onclick= "editTodo(${element.id})" class="btn btn-outline-info">Edit</button> <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop${element.id}">
+                Delete</button></td>
             </tr>
             `)
+            $("#body").append(` <div class="modal fade" id="staticBackdrop${element.id}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Warning</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure to delete this Project?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="deleteTodo(${element.id})">Understood</button>
+                    </div>
+                    </div>
+                </div>
+            </div>`)
         });
-       
+        $("#addTodo").hide()
+        $("#editTodo").hide()
+        $("#image").hide()
     })
     .fail(function(err){
         console.log(err.responseJSON)
@@ -241,9 +282,6 @@ function deleteTodo(id){
         }
     })
     .done(function(response){
-        if (!confirm("Do you want to delete")){
-            return false;
-        }
         location.reload(true)
         console.log(response,'delete')
     })
@@ -269,6 +307,7 @@ function editTodo(id){
         $("#status-edit").val(response.status)
         $("#duedate-edit").val(response.due_date)
         $("#addTodo").hide()
+        $("#dashboardPage").hide()
         console.log(response,'edit')
     })
     .fail(function(err){
@@ -324,7 +363,7 @@ function onSignIn(googleUser) {
         $("#form-login").hide()
         $("#navbarTodo").show()
         // $("#dashboardPage").show()
-        fetchTodo()
+        // fetchTodo()
         console.log(response)
     })
     .fail(function(err){

@@ -95,7 +95,6 @@ class TodosController {
             const target=data
             if(data==null){
                 next({name:"DATA_NOT_FOUND"})
-                // res.status(404).json({error:"Error Not Found"})
             }else{
                 Project.destroy({
                     where:{
@@ -107,13 +106,11 @@ class TodosController {
                 })
                 .catch(err=>{
                     next(err)
-                    // res.status(500).json({errors:err.message})
                 })
             }     
         })
         .catch(err=>{
             next(err)
-            // res.status(500).json({errors:err.message})
         })
     }
 }

@@ -6,8 +6,9 @@
     <meta name="google-signin-client_id" content="765895710625-jpgolkh5mprdgujl4jvpjiijrhacr4j8.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>TODOS APP</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="body">
     <div id="navbarUser">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="">TODO APP</a>
@@ -46,41 +47,40 @@
         </nav>
     </div>
     
-    <div class="register mt-5" >
+    <div class="register" >
         <form id="form-register">
-            <h2>Register</h2>
+            <h2 id="h2-register">Register</h2>
             <div class="form-register-email">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="input-email" aria-describedby="emailHelp">
+              <!-- <label for="exampleInputEmail1">Email address</label> -->
+              <input type="email" placeholder="Email Id" id="input-email">
             </div>
             <div class="form-register-password">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="input-password">
+              <!-- <label for="exampleInputPassword1">Password</label> -->
+              <input type="password" placeholder="Password" id="input-password">
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="registerbutton" class="btn btn-primary">Submit</button>
         </form>
     </div>
 
-    <div class="login mt-5" >
-        <form id="form-login">
-            <h2>Login</h2>
-            <p id="signError" style="color:red"></p>
-            <div class="form-login-email">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="input-email-login" aria-describedby="emailHelp">
-            </div>
-            <div class="form-login-password">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="input-password-login">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+    <div class="login" >
+      <form id="form-login">
+          <h2 id="h2-login">Login</h2>
+          <p id="signError" style="color:red"></p>
+          <div class="form-login-email">
+            <!-- <label for="exampleInputEmail1">Email address</label> -->
+            <input type="email" placeholder="Email Id"  id="input-email-login" >
+          </div>
+          <div class="form-login-password">
+            <!-- <label for="exampleInputPassword1">Password</label> -->
+          <input type="password" placeholder="Password"  id="input-password-login">
+          </div>
+          <button type="submit" id="loginbutton" class="btn btn-primary">Submit</button>
+      </form>
+  </div>
 
     <div id="dashboardPage">
-        <table class="table">
+        <table class="table table-hover table-dark">
             <thead>
               <tr>
                 <th scope="col">Title</th>
@@ -93,66 +93,39 @@
             </tbody>
           </table>
     </div>
-
+    
     <div id="addTodo">
-        <form id="formTodo" onsubmit="createTodo(event)">
-            <div class="form-group">
-                <label for="exampleInputEmail1">ID</label>
-                <input type="text" class="form-control" id="id" aria-describedby="emailHelp">
-              </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Title</label>
-              <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Description</label>
-              <input type="text" class="form-control" id="description">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Status</label>
-                <input type="text" class="form-control" id="status">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Due Date</label>
-                <input type="text" class="form-control" id="duedate">
-              </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+      <form id="formTodo" onsubmit="createTodo(event)">
+      <div class="contact-form">
+          <div id="input-add">
+              <input type="text" class="input" id="id" placeholder="ID" disabled>
+              <input type="text" class="input" id="title" placeholder="Title">
+              <input type="text" class="input" id="description" placeholder="Description">
+              <input type="text" class="input" id="status" placeholder="Status">
+              <input type="date" class="input" id="duedate" placeholder="Due Date">
+          <button type="submit" id="addbutton" class="btn btn-primary">Submit</button>
+      </form>
+          </div>
+      </div>
+  </div>
+
+  <div id="editTodo">
+      <form id="formTodo-edit" onsubmit="change(event)">
+      <div class="contact-form">
+          <div id="input-edit">
+              <input type="text" class="input" id="id-edit" placeholder="ID" disabled>
+              <input type="text" class="input" id="title-edit" placeholder="Title">
+              <input type="text" class="input" id="description-edit" placeholder="Description">
+              <input type="text" class="input" id="status-edit" placeholder="Status">
+              <input type="date" class="input" id="duedate-edit" placeholder="Due Date">
+          <button type="submit" id="editbutton" class="btn btn-primary">Submit</button>
+      </form>
+          </div>
+      </div>
+  </div>
+
+    <div class="containerwow">
     </div>
-
-    <div id="editTodo">
-        <form id="formTodo-edit" onsubmit="change(event)">
-            <div class="form-group">
-                <label for="exampleInputEmail1">ID</label>
-                <input type="text" class="form-control" id="id-edit" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Title</label>
-              <input type="text" class="form-control" id="title-edit" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Description</label>
-              <input type="text" class="form-control" id="description-edit">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Status</label>
-                <input type="text" class="form-control" id="status-edit">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Due Date</label>
-                <input type="text" class="form-control" id="duedate-edit">
-              </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-    </div>
-
-    <div id="image">
-    </div>
-
-    <p id="msg"></p>
-
-    <input type="file" id="file" name="file" multiple />
-    <button id="upload">Upload</button>
   
 
 <script src="https://apis.google.com/js/platform.js" async defer></script>
