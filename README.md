@@ -9,15 +9,19 @@ Tech stack: jquery, ajax, bootstrap
 
 
 ## REST endpoint
+- [POST/ user/signup](#get-todos)
+- [POST/ user/signin](#get-todos)
+- [POST/ todos](#post-todos)
 - [GET/ todos](#get-todos)
 - [GET/ todos/:id](#get-todosid)
-- [POST/ todos](#post-todos)
 - [PUT/ todos/:id](#put-todosid)
 - [DELETE/ todos/:id](#delete-todosid)
-
+- [GET/ todos/getTrivia/:id](#delete-todosid)
+---
+&nbsp;
 ## GET/todos
 
-get list of all todos
+> get list of all todos
 
 ### Responses
 
