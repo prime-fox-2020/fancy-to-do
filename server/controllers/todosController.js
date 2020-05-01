@@ -10,8 +10,17 @@ class TodosController {
             include: Todo,
             order:[['id', 'asc']]
         }).then(response => {
-            res.status(200).json(response)
-            console.log(response)
+            let todos = []
+            response.forEach(project => {
+                if(project.Todo){
+                    todos.push({
+                        project: project.project,
+                        todo: project.Todo
+                    })
+                }
+            })
+            res.status(200).json(todos)
+            console.log(todos)
         }).catch(next)
     }
     static getTodo(req, res, next) {
@@ -42,6 +51,12 @@ class TodosController {
                     TodoId: todo.id
                 }, {
                     where: { project }
+                })
+            } else {
+                return UserTodo.create({
+                    UserId: req.userId,
+                    TodoId: todo.id,
+                    project
                 })
             }
         }).then(response => {

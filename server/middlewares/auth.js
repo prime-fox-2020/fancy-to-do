@@ -27,11 +27,19 @@ const authorization = (req, res, next) => {
     UserTodo.findOne({
         where: {
             TodoId: id
-        },
-        include:Todo
+        }
     })
     .then(response => {
-        console.log(response)
+        // console.log(response)
+        if(response){
+            if(response.UserId === req.userId){
+                next()
+            } else {
+                throw { message: "cannot be accessed", status: 403 }
+            }
+        } else {
+            throw { message: 'todo not found', status: 404 }
+        }
     // .then(todo => {
     //     if(todo) {
     //         if(todo.UserId === req.userId){
