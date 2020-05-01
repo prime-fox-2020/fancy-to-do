@@ -57,7 +57,7 @@ class Control {
                 res.status(201).json(data)
             }
             else {
-                res.status(404).json({message: 'id not found'})
+                next({name: 'SequelizeValidationError'})
             }
         })
         .catch(err => {
