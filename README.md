@@ -33,6 +33,10 @@ _Response (400 - Bad Request)_
 {
   "errorCode": "VALIDATION_ERROR",
   "message": "Title is required, Description is required, Due date is required"
+},
+{
+  "errorCode": "EMAIL_NOT_FOUND",
+  "message": "Please use your valid email"
 }
 ```
 

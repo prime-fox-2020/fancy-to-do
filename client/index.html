@@ -8,6 +8,7 @@
     <title>Todo App</title>
 </head>
 <body>
+  <div class="container-fluid pr-5 pt-3 text-right signout-project-menu"><a href="" onclick="" style="margin-right: 25px;">Project</a><a href="" onclick="signOut();">Sign out</a></div>
   <div class="container p-5" id="signin-form"> 
     <h2>Sign in</h2>
     <form>
@@ -21,8 +22,9 @@
         </div>
         <p>Don't have account yet ? <span id="signup"><a href="" class="changeSignUp">Sign up</a></span></p>
         <p class="alert-signin text-danger"></p>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-    </form><br>
+        <button type="submit" class="btn btn-primary sign-in-button">Sign in</button>
+    </form>
+    <hr><small>or sign in with</small><hr>
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
   </div>
@@ -47,10 +49,11 @@
   <div class="container-fluid p-5" id="yourListTodo">
       <p class="alert-access text-danger"></p>
       <div class="row">
-        <div class="col" id="column-todo" style="width: 60%;">
+        <div class="col-2">
         </div>
-        <div class="col column-form todo-add" style="width: 40%;">
-          <div class="container-fluid text-right"><a href="#" onclick="signOut();">Sign out</a></div>
+        <div class="col-4" id="column-todo">
+        </div>
+        <div class="col-4 column-form todo-add">
           <h2>Add todo :</h2>
           <form enctype="multipart/form-data" id="formSubmit">
               <div class="form-group">
@@ -68,18 +71,18 @@
               <div class="form-group">
                 <label for="img">Select image:</label>
                 <input type="file" id="todo-image" name="img" accept="image/*">
+                <small id="emailHelp" class="form-text text-muted">Choose wisely, you can't change your image todo later.</small>
               </div>
               <p class="alert-add text-danger"></p>
               <button type="submit" class="btn btn-primary">Add todo</button>
           </form>
         </div>
-        <div class="col column-form todo-edit" style="width: 40%;">
-          <div class="container-fluid text-right"><a href="#" onclick="signOut();">Sign out</a></div>
+        <div class="col-4 column-form todo-edit">
           <h2>Edit todo</h2>
           <form>
             <div class="form-group">
               <label for="todo-name">Todo</label>
-              <input type="text" class="form-control" id="todo-name-edit" aria-describedby="emailHelp" placeholder="Enter todo" value="">
+              <input type="text" class="form-control" id="todo-name-edit" aria-describedby="emailHelp" placeholder="Enter todo">
             </div>
             <div class="form-group">
               <label for="todo-description">Description</label>
@@ -91,8 +94,14 @@
             </div>
             <input type="number" class="form-control" id="todo-id-edit" value="" hidden>
             <p class="alert-edit text-danger"></p>
-            <button type="submit" class="btn btn-primary">Edit</button>
+            <div class="container">
+              <button type="submit" class="btn btn-primary">Edit todo</button>
+              <button type="button" class="btn btn-danger" onclick="clearToggleEdit()">Cancel</button>
+            </div>
           </form>
+        </div>
+        <div class="col-2">
+
         </div>
       </div>
   </div>
@@ -102,32 +111,6 @@
   crossorigin="anonymous"></script>
   <script src="./script.js"></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <script>
-    function onSignIn(googleUser) {
-      const id_token = googleUser.getAuthResponse().id_token
-      $.ajax({
-        method: "POST",
-        url: "http://localhost:3000/google-sign",
-        data: { id_token : id_token }
-      })
-      .done( data => {
-        localStorage.setItem('access_token', data.access_token)
-        getTodos()
-        toggleYourListTodo()
-      })
-  }
-</script>
-<script>
-  function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-      console.log('User signed out.');
-    });
-    localStorage.removeItem('access_token')
-    setUp()
-    toggleSignIn()
-  }
-</script>
 </body>
 </html>
 

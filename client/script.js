@@ -29,7 +29,6 @@ $(document).ready( () => {
         })
     })
     $("#signin-form").submit( e => {
-        getTodos()
         e.preventDefault()
         const email = $("#loginEmail").val()
         const password = $("#loginPassword").val()
@@ -40,7 +39,9 @@ $(document).ready( () => {
         })
         .done( data =>{
             localStorage.setItem('access_token', data.access_token)
+            $(".signout-project-menu").show()    
             toggleYourListTodo()
+            getTodos()
         })
         .fail( response => {
             $(".alert-signin").text(response.responseJSON.message)
@@ -76,11 +77,11 @@ $(document).ready( () => {
             <div class="card m-3 todo-datas" style="width: 16rem;" data-id="${data.id}">
                 <img class="card-img-top" src="${data.imageurl}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">${data.title} ${data.status? '&#10004' : ''} <button type="button" class="btn btn-primary-outline" onclick="getEditData(${data.id})"> &#x2699; </button> </h5>
+                    <h5 class="card-title"><span class="title-data-get">${data.title}</span> ${data.status? '&#10004' : ''} <button type="button" class="btn btn-primary-outline" onclick="getEditData(${data.id})"> &#x2699; </button> </h5>
                     <p class="card-text description">${data.description}</p>
-                    <p class="card-text due-date">Due date : ${date}</p>
+                    <p class="card-text due-date date-data-get">Due date : ${date}</p>
                     <div class="row">
-                        <div class="col"><button class="btn btn-success" type="button" onclick="updateTodo(${data.id}, ${data.status}, '${data.title}')">Update</button></div>
+                        <div class="col"><button class="btn btn-success update-todo" type="button" onclick="updateTodo(${data.id}, ${data.status}, '${data.title}')">Update</button></div>
                         <div class="col"><button class="btn btn-danger delete-todo" type="button" onclick="deleteTodo(${data.id})" data-id="${data.id}">Remove</button></div>
                     </div>
                 </div>
@@ -125,7 +126,7 @@ $(document).ready( () => {
             toggleAddTodo()
             $(".alert-edit").text("")
             $(".alert-add").text("")
-            $('.todo-datas[data-id=' + id + ']').find('h5.card-title').html(`${title} <button type="button" class="btn btn-primary-outline" onclick="getEditData(${id})"> &#x2699; </button>`);
+            $('.todo-datas[data-id='+ id + ']').find('.title-data-get').text(title)
             $('.todo-datas[data-id=' + id + ']').find('p.description').html(description);
             $('.todo-datas[data-id=' + id + ']').find('p.due-date').html(`Due date : ${date}`);
         })
@@ -133,14 +134,14 @@ $(document).ready( () => {
             $(".alert-edit").text(response.responseJSON.message)
         })
     })
-    
 })
 
 function setUp(){
     $("#signup-form").hide()
     $("#signin-form").hide()
     $("#yourListTodo").hide()
-    $(".todo-edit").hide()    
+    $(".todo-edit").hide()
+    $(".signout-project-menu").hide()    
 }
 
 function toggleSignIn(){
@@ -171,6 +172,13 @@ function toggleEditTodo(){
     $(".todo-add").hide()  
 }
 
+function clearToggleEdit(){
+    $("#todo-name-edit").val("")
+    $("#todo-description-edit").val("")
+    $("#todo-due_date-edit").val("")
+    toggleAddTodo()
+}
+
 function getTodos(){
     $.ajax({
         type: "GET",
@@ -180,6 +188,7 @@ function getTodos(){
         }
     })
     .done( data => {
+        console.log('Get todos')
         let todos = ``
         for(let i = 0; i < data.length; i++){
             const date = data[i].due_date.substring(0,10).split('-').reverse().join('/')
@@ -189,11 +198,11 @@ function getTodos(){
             <div class="card m-3 todo-datas" style="width: 16rem; background-color: ${color};" data-id="${data[i].id}">
                 <img class="card-img-top" src="${data[i].imageurl}" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title">${data[i].title} ${data[i].status? '&#10004' : ''} <button type="button" class="btn btn-primary-outline" onclick="getEditData(${data[i].id})"> &#x2699; </button> </h5>
+                    <h5 class="card-title"><span class="title-data-get">${data[i].title}</span> ${data[i].status? '&#10004' : ''} <button type="button" class="btn btn-primary-outline" onclick="getEditData(${data[i].id})"> &#x2699; </button> </h5>
                     <p class="card-text description">${data[i].description}</p>
-                    <p class="card-text due-date">Due date : ${date}</p>
+                    <p class="card-text due-date date-data-get">Due date : ${date}</p>
                     <div class="row">
-                        <div class="col"><button class="btn btn-success" type="button" onclick="updateTodo(${data[i].id}, ${data[i].status}, '${data[i].title}')">Update</button></div>
+                        <div class="col"><button class="btn btn-success update-todo" type="button" onclick="updateTodo(${data[i].id}, ${data[i].status}, '${data[i].title}')">Update</button></div>
                         <div class="col"><button class="btn btn-danger delete-todo" type="button" onclick="deleteTodo(${data[i].id})" data-id="${data[i].id}")">Remove</button></div>
                     </div>
                 </div>
@@ -272,28 +281,17 @@ function deleteTodo(id){
 }
 
 function getEditData(id){    
-    const token = localStorage.getItem('access_token')
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:3000/todos/" + id,
-        headers: {
-            'access_token' : token
-        }
-    })
-    .done( (data) =>{
-        toggleEditTodo()
-        $("#todo-name-edit").attr("value", `${data.title}`)
-        $("#todo-id-edit").attr("value", `${data.id}`)
-    })
-    .fail( response => {
-        $(".alert-access").text(response.responseJSON.message)
-        $(".alert-access").show()
-    })
+    let text = $('.todo-datas[data-id='+ id + ']').find('.title-data-get').text()
+    let date = $('.todo-datas[data-id='+ id + ']').find('.date-data-get').text().split(' : ')[1].split('/').reverse().join('-')
+    $("#todo-due_date-edit").val(date)
+    $("#todo-name-edit").val(text)
+    $("#todo-id-edit").val(id)
+    
+    toggleEditTodo()
+    
 }
 
 function updateTodo(id, status, title){
-    let updateStatus 
-    status ? updateStatus = false : updateStatus = true
     const token = localStorage.getItem('access_token')
     $.ajax({
         type: "PUT",
@@ -302,15 +300,41 @@ function updateTodo(id, status, title){
             'access_token' : token
         },
         data: {
-            'status' : updateStatus
+            'status' : !status
         },
     })
     .done( () => {
-        $('.todo-datas[data-id='+ id + ']').css('background-color', `${updateStatus? 'aquamarine' : 'white'}`)
-        $('.todo-datas[data-id='+ id + ']').find('h5.card-title').html(`${title} ${updateStatus? '&#10004' : ''} <button type="button" class="btn btn-primary-outline" onclick="getEditData(${id})"> &#x2699; </button>`);
+        $('.todo-datas[data-id='+ id + ']').css('background-color', `${!status? 'aquamarine' : 'white'}`)
+        $('.todo-datas[data-id='+ id + ']').find('button.update-todo').attr("onclick", `updateTodo(${id}, ${!status}, '${title}')`);
+        $('.todo-datas[data-id='+ id + ']').find('h5.card-title').html(`<span class="title-data-get">${$('.todo-datas[data-id='+ id + ']').find('.title-data-get').text()}</span> ${!status? '&#10004' : ''} <button type="button" class="btn btn-primary-outline" onclick="getEditData(${id})"> &#x2699; </button>`);
     })
     .fail( response => {
         $(".alert-access").text(response.responseJSON.message)
         $(".alert-access").show()
+    })    
+}
+
+function onSignIn(googleUser) {
+    const id_token = googleUser.getAuthResponse().id_token
+    $.ajax({
+      method: "POST",
+      url: "http://localhost:3000/google-sign",
+      data: { id_token : id_token }
     })
+    .done( data => {
+        localStorage.setItem('access_token', data.access_token)
+        toggleYourListTodo()
+        $(".signout-project-menu").show()    
+        getTodos()
+    })
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
+    localStorage.removeItem('access_token')
+    setUp()
+    toggleSignIn()
 }
