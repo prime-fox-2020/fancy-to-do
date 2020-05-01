@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty:{
-          msg : 'Title cannot be empty'
+          msg : 'Title is required'
         }
       }
     },
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty:{
-          msg : 'Description cannot be empty'
+          msg : 'Description is required'
         }
       }
     },
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         notEmpty:{
-          msg : 'Status cannot be empty'
+          msg : 'Status is required'
         }
       }
     },

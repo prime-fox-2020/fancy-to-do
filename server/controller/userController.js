@@ -25,7 +25,7 @@ class UserController {
       }
     })
     .then(user=>{
-      res.status(201).json({
+      res.status(200).json({
         data: user.id,
         email: user.email,
         password: user.password

@@ -49,9 +49,9 @@
         </div>
         <div class="col-md-3 button">
           
-          <button type="submit" class="btn btn-primary btn-sm" >Login</button>
+          <button type="submit" class="btn btn-primary btn-sm shadow" >Login</button>
           or
-          <button class="btn btn-success btn-sm" id="goto-register-btn">Register</button><br>
+          <button class="btn btn-success btn-sm shadow" id="goto-register-btn">Register</button><br>
           <p>Login With Google Account</p>
           <div id="google-btn" class="g-signin2" data-onsuccess="onSignIn"></div>
         </div>
@@ -87,8 +87,7 @@
     <!-- todo list page -->
     <div id="todo-list" class="element">
       <h2>Todo List</h2>
-      <button class="btn btn-warning btn-sm" id="add-todo-btn">Add Todo</button>
-      <!-- <button class="btn btn-warning btn-sm" id="goto-calendar">Click me for Holidays Info</button> -->
+      <button class="btn btn-warning btn-sm shadow" id="add-todo-btn">Add Todo</button>
       <table class="table table-striped" id="table-todo">
         <thead class="thead-dark">
           <tr>
@@ -128,8 +127,8 @@
           <label for="edit-due_date">Due Date</label>
           <input type="date" class="form-control" id="edit-due_date" placeholder="Due_date">
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-        <button class="btn btn-danger btn-sm" id="cancel-edit-btn">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm shadow">Submit</button>
+        <button class="btn btn-danger btn-sm shadow" id="cancel-edit-btn">Cancel</button>
       </form>
     </div>
     <!-- end of edit todo page -->
@@ -157,8 +156,8 @@
           <label for="add-due_date">Due Date</label>
           <input type="date" class="form-control" id="add-due_date" name="due_date" placeholder="Due Date">
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-        <button class="btn btn-danger btn-sm" id="cancel-add-btn">Cancel</button>
+        <button type="submit" class="btn btn-primary btn-sm shadow">Submit</button>
+        <button class="btn btn-danger btn-sm shadow" id="cancel-add-btn">Cancel</button>
       </form>
     </div>
     <!-- end of add todo page -->
@@ -186,10 +185,6 @@
     <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="main.js"></script>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
   </body>
 </html>

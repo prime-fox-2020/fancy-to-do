@@ -5,7 +5,7 @@ module.exports = function(err, req, res, next) {
 
   if(err.name == 'SequelizeValidationError') {
     statusCode = 400
-    errorCode = 'Validation_Error'
+    errorCode = 'VALIDATION_ERROR'
     const msg =[]
     for(let i = 0 ; i < err.errors.length; i++) {
       msg.push(err.errors[i].message)

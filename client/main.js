@@ -14,9 +14,7 @@ $(document).ready(() => {
 
   $("#cancel-register-btn").click(event => {
     event.preventDefault()
-    $(".element").hide()
-    $("#login").show()
-    $("#messageLogin").hide()
+    checkToken()
   })
 
   $(".form-login").submit(event => {
@@ -38,10 +36,7 @@ $(document).ready(() => {
     event.preventDefault()
     signOut()
     localStorage.removeItem('access_token')
-    $('.element').hide()
-    $('#messageLogin').hide()
-    $('#login').show()
-    $(".hide-button").hide()
+    checkToken()
   })
 
   $('#add-todo-btn').click(event => {
@@ -80,7 +75,7 @@ $(document).ready(() => {
 // login function
 const login = () => {
   $.ajax({
-    method: 'post',
+    method: 'POST',
     url: `${url}/login`,
     data: {
       email: $('#inputEmail').val(),
@@ -90,14 +85,24 @@ const login = () => {
   .done(data=> {
     const access_token = data.access_token
     localStorage.setItem('access_token', access_token)
+    Swal.fire({
+      icon: 'success',
+      title: 'Congratulation',
+      text: 'Success Login'
+    })
     $('.element').hide()
     $('#todo-list').show()
     $('.hide-button').show()
     showTodo()
   })
   .fail(err=>{
-    $('#errLogin').text(err.responseJSON.message)
-    $('#messageLogin').show()
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.responseJSON.message
+    })
+    // $('#errLogin').text(err.responseJSON.message)
+    // $('#messageLogin').show()
   })
   .always(() => {
     $('#inputEmail').val('')
@@ -116,14 +121,24 @@ const register = () => {
     }
   })
   .done(data=> {
+    Swal.fire({
+      icon: 'success',
+      title: 'Congratulation',
+      text: 'Register Success'
+    })
     $('.element').hide()
     $('#login').show()
     $('#inputEmail').val('')
     $('#inputPassword').val('')
   })
   .fail(err=>{
-    $('#errRegist').text(err.responseJSON.message)
-    $('#messageRegist').show()
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.responseJSON.message
+    })
+    // $('#errRegist').text(err.responseJSON.message)
+    // $('#messageRegist').show()
   })
   .always(() => {
     $('#registEmail').val(''),
@@ -151,8 +166,8 @@ const showTodo = () => {
       <td>${todos[i].status}</td>
       <td>${todos[i].due_date}</td>
       <td>
-      <button onClick="edit(${todos[i].id})" class="btn btn-success btn-sm"  id="edit-btn">Edit</button>
-      <button onClick="deleteTodo(${todos[i].id})" class="btn btn-danger btn-sm" id="delete-btn">Delete</button>
+      <button onClick="edit(${todos[i].id})" class="btn btn-success btn-sm shadow" id="edit-btn">Edit</button>
+      <button onClick="warning  (${todos[i].id})" class="btn btn-danger btn-sm shadow" id="delete-btn">Delete</button>
       </td>
       </tr>
       `);
@@ -179,14 +194,23 @@ const addTodo = () => {
     }
   })
   .done(data => {
+    Swal.fire({
+      title: 'Success',
+      text: `Successfully added ${data.title} into todo list`
+    })
     $('.element').hide()
     $('#todo-list').show()
     showTodo()
   })
   .fail(err => {
-    $('#errAddMsg').text(err.responseJSON.message)
-    $('#msgAdd').show()
-  })
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.responseJSON.message
+    })
+      // $('#errAddMsg').text(err.responseJSON.message)
+      // $('#msgAdd').show()
+    })
   .always(() => {
     $('#add-title').val('')
     $('#add-description').val('')
@@ -200,20 +224,34 @@ const edit = (id) => {
   $(".element").hide()
   $("#edit-todo").show()
   $("#editMsg").hide()
-
-  for(let i = 0; i < todos.length; i++) {
-    if(id == todos[i].id) {
-      $("#edit-title").val(todos[i].title)
-      $("#edit-description").val(todos[i].description)
-      $("#edit-status").val(todos[i].status)
-      $("#edit-due_date").val(todos[i].due_date)
-      dataTodo = todos[i]
-      break;
-    }
-  }
   
+  $.ajax({
+    method: "GET",
+    url: `${url}/todos/${id}`,
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(todo => {
+    $("#edit-title").val(todo.title)
+    $("#edit-description").val(todo.description)
+    $("#edit-status").val(todo.status)
+    $("#edit-due_date").val(todo.due_date)
+    dataTodo = todo
+  })
+  .fail(err => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.responseJSON.message
+    })
+    // $('#errEditMsg').text(err.responseJSON.message)
+    // $('#editMsg').show()
+  })
+
   $(".form-edit-todo").submit(event => {
     event.preventDefault()
+    let todoTitle =$("#edit-title").val()
     $.ajax({
       method: "PUT",
       url: `${url}/todos/${dataTodo.id}`,
@@ -228,22 +266,48 @@ const edit = (id) => {
       }
     })
     .done(data => {
+      Swal.fire({
+        title: 'Success',
+        text: `Successfully edited ${todoTitle}`
+      })
       $('.element').hide()
       $('#todo-list').show()
       showTodo()
     })
     .fail(err => {
-      console.log(err.responseJSON.message)
-      $('#errEditMsg').text(err.responseJSON.message)
-      $('#editMsg').show()
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.responseJSON.message
+      })
+      // $('#errEditMsg').text(err.responseJSON.message)
+      // $('#editMsg').show()
     })
   })
 
 }
 
+const warning = (id) => {
+  Swal.fire({
+    text: "Are you sure you want to delete this todo?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#76db00',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Delete Todo'
+  })
+  .then((res) => {
+    if (res.value) {
+        deleteTodo(id)
+    }
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
 // delete todo
 const deleteTodo = (id) => {
-
   $.ajax({
     method: "DELETE",
     url: `${url}/todos/${id}`,
@@ -252,20 +316,33 @@ const deleteTodo = (id) => {
     }
   })
   .done(data => {
+    Swal.fire({
+      title: 'Deleted',
+      text: `Successfully delete`
+    })
     $(".element").hide()
     $("#todo-list").show()
     showTodo()
   })
   .fail(err => {
-    console.log(err.responseJSON.message)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.responseJSON.message
+    })
+    // console.log(err.responseJSON.message)
   })
+
 }
 
 // show 3rd Party API
 const showCalendar = () => {
   $.ajax({
     url: `${url}/calendar`,
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      access_token: localStorage.access_token
+    }
   })
   .done(res => {
     calendar = res.response.holidays
@@ -315,10 +392,20 @@ function onSignIn(googleUser) {
   .done(data => {
     const access_token = data.access_token
     localStorage.setItem('access_token', access_token)
+    Swal.fire({
+      icon: 'success',
+      title: 'Congratulation',
+      text: 'Success Login'
+    })
     checkToken()
   })
   .fail(err => {
-    console.log(err.responseJSON.message)
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: err.responseJSON.message
+    })
+    // console.log(err.responseJSON.message)
   })
 }
 
@@ -328,8 +415,8 @@ function signOut() {
   auth2.signOut()
   .then(function () {
     console.log('User signed out.');
-    localStorage.removeItem('access_token')
-    checkToken()
+    // localStorage.removeItem('access_token')
+    // checkToken()
   })
 
   .catch(err => {

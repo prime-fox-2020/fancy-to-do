@@ -1,18 +1,106 @@
 # fancy-to-do
-Fancy to do App is an application to manage your task. This app has : 
+Fancy to do App is an application to manage your task and created using express, jquery, ajax and postgre. This app has : 
 * RESTful endpoint for todos CRUD operation
 * JSON formatted response
+* Google Sign In
+* 3rd Party API which has information about holiday dates
+
 
 &nbsp;
 
 ## RESTful endpoints
+
+### POST /register
+
+> Register with your email and password
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+{
+  "email" : "<user_email>",
+  "password" : "<user_password>"
+}
+```
+
+_Response (200)_
+```
+{
+    "id": <user_id>,
+    "email": "<user_email>",
+    "password": "<user_password>"
+}
+```
+
+_Response (400 - Validation Error)_
+```
+{
+  "message": "<validation_error_message>"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+
+---
+
+### POST /login
+
+> Login with your account
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+{
+  "email" : "<user_email>",
+  "password" : "<user_password>"
+}
+```
+
+_Response (200)_
+```
+{
+  "access_token": "<user_access_token>"
+}
+```
+
+_Response (400 - Validation Error)_
+```
+{
+  "message": "INVALID_EMAIL/PASSWORD"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+
+---
+
 ### GET /todos
 
 > Get all todos
 
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<user_access_token>"
+}
 ```
 
 _Request Body_
@@ -52,13 +140,21 @@ _Response (500 - Internal Server Error)_
 ```
 
 ---
+
 ### GET /todos/:id
 
 > Get todos by Id
 
+_Request Params_
+```
+Todo's ID
+```
+
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<user_access_token>"
+}
 ```
 
 _Request Body_
@@ -81,6 +177,13 @@ _Response (200)_
 ]
 ```
 
+_Response (403 - Forbidden Access)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+
 _Response (404 - Error Not Found)_
 ```
 {
@@ -88,14 +191,24 @@ _Response (404 - Error Not Found)_
 }
 ```
 
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+
 ---
+
 ### POST /todos
 
 > Create new todos
 
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<user_access_token>"
+}
 ```
 
 _Request Body_
@@ -137,13 +250,21 @@ _Response (500 - Internal Server Error)_
 ```
 
 ---
+
 ### PUT /todos/:id
 
 > Update todos by Id
 
+_Request Params_
+```
+Todo's ID
+```
+
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<user_access_token>"
+}
 ```
 
 _Request Body_
@@ -192,13 +313,21 @@ _Response (500 - Internal Server Error)_
 ```
 
 ---
+
 ### DELETE /todos/:id
 
 > Delete todos by Id
 
+_Request Params_
+```
+Todo's ID
+```
+
 _Request Header_
 ```
-not needed
+{
+  "access_token": "<user_access_token>"
+}
 ```
 
 _Request Body_
@@ -208,15 +337,7 @@ not needed
 
 _Response (200)_
 ```
-{
-  "id": <given id by system>,
-  "title": "<todos deleted title>",
-  "description": "<todos deleted description>",
-  "status": "<todos deleted status>",
-  "due_date": "<todos deleted due_date>",
-  "createdAt": "2020-04-27T13:15:33.821Z",
-  "updatedAt": "2020-04-27T13:39:19.162Z"
-}
+Successfully delete
 ```
 
 
@@ -227,6 +348,80 @@ _Response (404 - Error Not Found)_
 }
 ```
 
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+---
+
+### POST /gogle-sign
+
+> Sign in using google account
+
+_Request Header_
+```
+not needed
+```
+
+_Request Body_
+```
+{
+  "id_token": "<id_token_from_google>"
+}
+```
+
+_Response (200)_
+```
+{
+  "access_token": "<user_access_token>"
+}
+```
+
+_Response (500 - Internal Server Error)_
+```
+{
+  "message": "<returned error message>"
+}
+```
+
+---
+
+### GET /calendar
+
+> Get holiday dates
+
+_Request Params_
+```
+{
+  "api_key': "<api_key>",
+  "country": 'ID',
+  "year": 2020
+}
+```
+
+_Request Header_
+```
+{
+  "access_token": "<user_access_token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200)_
+```
+{
+  "name": "<holiday_name>",
+  "description": "<holiday_description>",
+  "date": "<holiday_date>"
+}
+```
 
 _Response (500 - Internal Server Error)_
 ```
