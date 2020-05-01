@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
     <link type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <title>Hello, world!</title>
+    <title>FANCY TODO APP</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
             <h2 class="text-center">LOGIN</h2>
             <hr>
 
-            <div id="login" class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div id="login_google" class="g-signin2" data-onsuccess="onSignIn"></div>
             <form>
                 <div class="form-group">
                     <label id="user">Username</label>
@@ -27,7 +27,7 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fa fa-user"></i></div>
                         </div>
-                        <input id="email" type="text" class="form-control" placeholder="Input Username...">
+                        <input id="email" type="email" class="form-control" placeholder="Input Username...">
                     </div>
                 </div>
 
@@ -64,12 +64,12 @@
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input name="email" id="email" type="text" class="form-control">
+                    <input name="email" id="email_form" type="text" class="form-control">
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input name="password" id="password" type="password" class="form-control">
+                    <input name="password" id="password_form" type="password" class="form-control">
                 </div>
 
                 <button id="submit_register" type="submit" class="btn btn-outline-success">REGISTER</button>
@@ -89,8 +89,7 @@
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Cras justo odio
-                <span class="badge badge-primary badge-pill"><i id="check" class="fa fa-check"></i></span>
-            </li>
+                <span class="badge badge-primary badge-pill"><i class="fa fa-check"></ili>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Dapibus ac facilisis in
                 <span class="badge badge-primary badge-pill"><i class="fa fa-check"></i></span>
