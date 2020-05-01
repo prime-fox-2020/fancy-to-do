@@ -1,232 +1,233 @@
 # fancy-to-do
-* Create fancy to do app, using express, jquery, ajax
+A simple todo apps, created using node.js, express, sequelize, postgres. this app server & client side.
+## Server side:
+Tech stack: node.js, express, postgres, sequelize, google oauth, 3rd party API: Numbers (https://rapidapi.com/divad12/api/numbers-1)
+- RESTful endpoint for asset's CRUD operation
+- Return JSON formatted response
+## Client side:
+Tech stack: jquery, ajax, bootstrap
 
-&nbsp;
 
-## RESTful endpoints
-&nbsp;
-### POST  /todos
+## REST endpoint
+- [GET/ todos](#get-todos)
+- [GET/ todos/:id](#get-todosid)
+- [POST/ todos](#post-todos)
+- [PUT/ todos/:id](#put-todosid)
+- [DELETE/ todos/:id](#delete-todosid)
 
-> Create a todo
+## GET/todos
 
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
-}
-```
+get list of all todos
 
-_Request Body_
-```
-{
-  "title": "<todo title>",
-  "description": "<todo description>",
-  "status": "<todo status>",
-  "due_date": "<todo due_date>",
-}
-```
+### Responses
 
-_Response (200 - OK)_
-```
-{
-  "message": "A todo has been created"
-}
-```
-
-_Response (400 - Bad Request)_
-```
-{
-  "error": "Invalid input"
-}
-```
----
-### PUT  /todos/:id
-
-> Edit a todo by its id
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
-}
-```
-
-_Request Body_
-```
-{
-  "title": "<todo title>",
-  "description": "<todo description>",
-  "status": "<todo status>",
-  "due_date": "<todo due_date>",
-}
-```
-
-_Response (200 - OK)_
-```
-{
-  "message": "Todo ${id} has been updated"
-}
-```
-
-_Response (404 - Not Found)_
-```
-{
-  "error": "Todos id ${id} is not found"
-}
-```
-
-_Response (400 - Bad Request)_
-```
-{
-  "error": "Invalid input"
-}
-```
----
-### GET  /todos
-
-> Get all todos
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
-}
-```
-
-_Request Body_
-```
-not needed
-```
-
-_Response (200 - OK)_
-```
-{
-  "todos": [
-        {
+#### status 200 OK
+```json
+[
+    {
+        "id": 1,
+        "title": "Learn Rest API",
+        "description": "learn Rest API using node js, express, sequelize, postgres. only server side",
+        "status": "not completed",
+        "due_date": "2020-03-30",
+        "createdAt": "2020-03-30T06:27:59.739Z",
+        "updatedAt": "2020-03-30T07:48:47.349Z"
+    },
+    {
         "id": 2,
-        "title": "Puasa",
-        "description": "Tidak makan dan minum dari fajar hingga terbenam matahari",
-        "status": "Done",
-        "due_date": null,
-        "createdAt": "2020-04-27T22:15:42.862Z",
-        "updatedAt": "2020-04-27T22:15:42.862Z"
-        },
-        {
-        "id": 5,
-        "title": "Puasa",
-        "description": "Tidak makan dan minum dari fajar hingga terbenam matahari",
-        "status": "Done",
-        "due_date": "2020-05-27T17:00:00.000Z",
-        "createdAt": "2020-04-27T22:22:19.971Z",
-        "updatedAt": "2020-04-27T22:22:19.971Z"
-        }
+        "title": "Learn Rest API 2",
+        "description": "learn Rest API using node js, express, sequelize, postgres. client and server side",
+        "status": "not completed",
+        "due_date": "2020-04-01",
+        "createdAt": "2020-04-01T06:27:59.739Z",
+        "updatedAt": "2020-04-01T07:48:47.349Z"
+    }
+]
+```
+
+#### status 500
+```json
+{
+    message: "internal server error"
+}
+```
+
+## GET/todos/:id
+
+get specific todo item
+
+### parameter
+
+| Name |        Description      |
+| :--: | :---------------------: |
+|  id  | Id of the specific item |
+
+### Responses
+
+#### status 200 OK
+```json
+{
+    "id": 2,
+    "title": "Learn Rest API 2",
+    "description": "learn Rest API using node js, express, sequelize, postgres. client and server side",
+    "status": "not completed",
+    "due_date": "2020-04-01",
+    "createdAt": "2020-04-01T06:27:59.739Z",
+    "updatedAt": "2020-04-01T07:48:47.349Z"
+}
+```
+### status 404 Not Found
+```json
+example todo item does not exist:
+{
+    "message": "todo item is not found"
+}
+```
+
+## POST/todos
+
+add new todo item
+
+### Request Body
+```json
+example:
+{
+	"title": "Learn Rest API 3",
+	"description": "New Description",
+	"status": "not completed",
+	"due_date": "2020-04-05"
+}
+```
+### Responses
+
+#### status 201 OK
+```json
+example:
+{
+    "id": 3
+	"title": "Learn Rest API 3",
+	"description": "New Description",
+	"status": "not completed",
+    "due_date": "2020-04-05",
+    "updatedAt": "2020-04-02T08:50:00.721Z",
+    "createdAt": "2020-04-02T08:50:00.721Z"
+}
+```
+
+#### status 400 Bad Request
+```json
+{
+    message: [
+        "title cannot be empty",
+        "description is null"
     ]
 }
 ```
 
-_Response (500 - Internal Server Error)_
-```
+#### status 500
+```json
 {
-  "error": "Server error"
-}
-```
----
-### GET  /todos/:id
-
-> Get a todo by its id
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
+    message: "internal server error"
 }
 ```
 
-_Request Body_
-```
-not needed
-```
+## PUT/todos/:id
 
-_Response (200 - OK)_
+update specific todo item
+
+### parameter
+
+| Name |        Description      |
+| :--: | :---------------------: |
+|  id  | Id of the specific item |
+
+### Request Header
 ```
 {
-  "id": 5,
-  "title": "Puasa",
-  "description": "Tidak makan dan minum dari fajar hingga terbenam matahari",
-  "status": "Done",
-  "due_date": "2020-05-27T17:00:00.000Z",
-  "createdAt": "2020-04-27T22:22:19.971Z",
-  "updatedAt": "2020-04-27T22:22:19.971Z"
+	"Content-Type": "application/json"
+}
+```
+### Request Body
+```json
+example:
+{
+	"title": "Learn Rest API 3",
+	"description": "New Description Edited",
+	"status": "not completed",
+	"due_date": "2020-04-05"
+}
+```
+### Responses
+
+#### status 201 OK
+```json
+example:
+{
+    "id": 3
+	"title": "Learn Rest API 3",
+	"description": "New Description Edited",
+	"status": "not completed",
+    "due_date": "2020-04-05",
+    "updatedAt": "2020-04-02T08:50:00.721Z",
+    "createdAt": "2020-04-02T08:50:00.721Z"
 }
 ```
 
-_Response (404 - Not Found)_
-```
+### status 404 Not Found
+```json
+example todo item does not exist:
 {
-  "error": "Todos id ${id} is not found"
-}
-```
----
-### DELETE  /todos/:id
-
-> Delete a todo by its id
-
-_Request Header_
-```
-{
-  "access_token": "<your access token>"
+    "message": "todo item is not found"
 }
 ```
 
-_Request Body_
-```
-not needed
-```
-
-_Response (200 - OK)_
-```
+#### status 400 Bad Request
+```json
 {
-  "message": "Todos id ${id} has been deleted"
+    message: [
+        "title cannot be empty",
+        "description is null"
+    ]
 }
 ```
 
-_Response (404 - Not Found)_
-```
+#### status 500
+```json
 {
-  "error": "Todos id ${id} is not found"
-}
-```
----
-### SIGNUP  /user/signup
-
-> Sign up / create an user account
-
-_Request Header_
-```
-not needed
-```
-
-_Request Body_
-```
-{
-  "name": <your name: string>,
-  "email": <your email: string>,
-  "password": <your password: string>
+    message: "internal server error"
 }
 ```
 
-_Response (201 - Created)_
-```
+## DELETE/todos/:id
+
+delete specific todo item
+
+### parameter
+
+| Name |        Description      |
+| :--: | :---------------------: |
+|  id  | Id of the specific item |
+
+### Responses
+
+#### status 201 OK
+```json
+example:
 {
-  "id": <your id: number>,
-  "email": <your email: string>,
-  "password": <your password: hashed string>
+    "id": 3
+	"title": "Learn Rest API 3",
+	"description": "New Description Edited",
+	"status": "not completed",
+    "due_date": "2020-04-05",
+    "updatedAt": "2020-04-02T08:50:00.721Z",
+    "createdAt": "2020-04-02T08:50:00.721Z"
 }
 ```
 
-_Response (404 - Not Found)_
-```
+### status 404 Not Found
+```json
+example todo item does not exist:
 {
-  "error": "Todos id ${id} is not found"
+    "message": "todo item is not found"
 }
 ```

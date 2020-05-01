@@ -3,7 +3,7 @@ const { checkPassword } = require('../helpers/crypt')
 const { generateToken } = require('../helpers/token')
 
 class UserController {
-    static signup (req, res) {
+    static signup (req, res, next) {
         let { name, email, password } = req.body
         
         User.create({
@@ -16,37 +16,35 @@ class UserController {
                 password: data.password
             })
         })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
+        .catch(next)
     }
 
-    static signin (req, res) {
+    static signin (req, res, next) {
         const { email, password } = req.body
 
         User.findOne({
             where: { email }
         })
         .then(data => {
-            if(!data || !(checkPassword(password, data.password))){
-                res.status(400).json({ message: 'Invalid email/password'})
+            if(data) {
+                if(checkPassword(password, data.password)){
+                    const access_token = generateToken(data)
+                    res.set({
+                        'access_token': access_token
+                    })
+                    res.status(200).json({ access_token })
+                } else {
+                    throw { messages: ['Invalid email/password'], statusCode: 400 }
+                }
+            } else {
+                throw { messages: ['Invalid email/password'], statusCode: 400 }
             }
-            return data
         })
-        .then(data => {
-            const access_token = generateToken(data)
-            res.set({
-                'access_token': access_token
-            })
-            res.status(200).json({ access_token })
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            })
-        })
+        .catch(next)
+    }
+
+    static notFound (req, res, next) {
+        throw { messages: ['Page not found'], statusCode: 404 }
     }
 }
 

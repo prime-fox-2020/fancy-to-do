@@ -1,6 +1,5 @@
 'use strict';
 const { generateHashedPassword } = require('../helpers/crypt')
-
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
@@ -19,13 +18,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: `Email is already in use. Please use another email`
+      },
       validate: {
-        unique: {
-          msg: `This email is already taken. Please use another email`
-        },
         isEmail: {
           msg: `Please enter the correct email address`
         }
+        // isUnique: function(value, next) {
+        //   User.findAll({
+        //     where: { email: value }
+        //   }).done((data) => {
+        //     if (data){
+        //       throw { messages: [`Email is already in use. Please use another email`], statusCode: 400 }
+        //     }
+        //     next()
+        //   })
+        // }
       }
     },
     password: {

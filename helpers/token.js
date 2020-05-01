@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 function generateToken (user) {
-    const secretKey = 'hacktiv'
+    const secretKey = process.env.JWT_SECRET_KEY
     return jwt.sign({
         id: user.id,
         email: user.email,
@@ -10,7 +10,7 @@ function generateToken (user) {
 }
 
 function getUserData (token) {
-    const secretKey = 'hacktiv'
+    const secretKey = process.env.JWT_SECRET_KEY
     return jwt.verify(token, secretKey)
 }
 

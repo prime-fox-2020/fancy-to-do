@@ -1,5 +1,4 @@
 'use strict';
-const { getUserData } = require('../helpers/token')
 
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
@@ -10,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
       notEmpty: {
         args: true,
         msg: `Title can't be empty`
@@ -32,11 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     UserId: DataTypes.INTEGER
   }, { sequelize })
-
-  Todo.beforeCreate((todo, options) => {
-    const { access_token } = req.headers
-    todo.UserId = getUserData(access_token).id
-  });
 
   Todo.associate = function(models) {
     // associations can be defined here
