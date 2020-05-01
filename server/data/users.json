@@ -1,0 +1,30 @@
+[
+    {
+        "first_name": "erza",
+        "last_name": "scarlett",
+        "email": "erzascarlett@gmail.com",
+        "username": "admin01",
+        "password": "$2b$04$famtQ5wzTYhwT.n9Fm0AS.5RBssOCjUwio8FgySF0EaIe.tcNL8Y2"
+    },
+    {
+        "first_name": "Natsu",
+        "last_name": "Dragnell",
+        "email": "natsudragnell@gmail.com",
+        "username": "admin02",
+        "password": "$2b$04$DE0cWiYRu.wHc9Vj/ckdjOjrkbo7JNOGTTvjE8.yYinpguNhyvFJO"
+    },
+    {
+        "first_name": "Juan",
+        "last_name": "Sanjay",
+        "email": "juansanjay@gmail.com",
+        "username": "juansanjay",
+        "password": "$2b$04$prqHXSXEIOfS.4eXLOS8feeCh7MhegkIRHAF6pUuVK9YENn5iGtyu"
+    },
+    {
+        "first_name": "Pac",
+        "last_name": "Quiao",
+        "email": "pacquiao@gmail.com",
+        "username": "pacquiao",
+        "password": "$2b$04$iVoPgQdjgF3FWtJZH/X4ZOFQW1qvce/6eT62HJ.e5pp0Dy/VZ6ILO"
+    }
+]

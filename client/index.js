@@ -1,44 +1,50 @@
 $(document).ready(function(){
- 
     $('#greetings').css('color','red')
     $('.use-class').css('color','blue')
-    
-    let login_status= false
 
-    if(!localStorage.getItem('access_token')){
-        login_status = false
-    }else{
-        login_status = true
-    }
+
+    $(document).ready(()=>{
+        $('section').hide()
+
+        if(!localStorage.access_token){
+            $('.errorMsg').empty()
+            $('#page-google-sign').show()
+            $('#page-login').show()
+            $('#login').show()
+            $('#login-status').text("belum login")
+            $('#logout').hide()
+          } else {
+            $('#login-status').text("sudah login")
+            $('#logout').show()
+            $('#page-todos').show()
+            $('#page-findAll').show()
+            findAllTodos()
+          }
+
+        $('#search-box').submit(function(e){
+            e.preventDefault()
+            const search = $('#search-id').val()
+            search_by_id(search)
+            $('#page-search').show()
+            $('#page-findAll').hide()
+        })
+
+        $('#mylist').click(function(){
+            
+            myList()
+            $('#page-myTodos').show()
+            $('#page-findAll').hide()
+
+
+        })
+
+        $('#adding').click(function(){
+            addData()
+        })
         
-    $('#logout').click(function(){
-        login_status = false
-        localStorage.setItem("access_token","")
-        $('#login-status').text("belum login")
-        $('#login').show()
-        $('#logout').hide()
-        $('.page-login').show()
-        $('.page-todos').hide()
+
     })
 
-    if(login_status == false){
-        $('#login-status').text("belum login")
-        $('#login').show()
-        $('#logout').hide()
-        $('.page-login').show()
-        $('.page-todos').hide()
-    }else{
-        $('#login-status').text("sudah login")
-        $('#login').hide()
-        $('#logout').show()
-        $('.page-login').hide()
-        $('.page-todos').show()
-        $('.todos-mytodos').hide()
-        findAllTodos()
-    }
-
-   
-         
 
     $('#credential').submit(function(e){
         e.preventDefault()
@@ -62,9 +68,59 @@ $(document).ready(function(){
             
         })
     })
-    
+
+
+
+    function search_by_id(search){
+        $.ajax({
+            type: 'GET',
+            url : 'http://localhost:3000/todos'+'/'+search,
+            headers: { access_token: localStorage.getItem('access_token')}
+        })
+        .done(function(res){
+            console.log(res)
+            const elFindById = $('#by-id')
+            let dataFindById = '';
+
+            res.forEach((el)=>{
+                dataFindById +=  `<tr>
+                            <td>${el.title}</td>
+                            <td>${el.description}</td>
+                            <td>${el.status}</td>
+                            <td>${el.id}
+                            <button class = 'edit-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Edit</button></td>
+                            <td>${el.id}
+                            <button class = 'delete-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Delete</button></td>
+                        <tr>`
+            })
+            elFindById.html(dataFindById)
+            
+        })
+        .fail(function(err){
+            console.log(err)
+        })
+        .always(function(){
+
+        })
+    }
+
     
     function findAllTodos(){
+        
         $.ajax({
             type: 'GET',
             url : 'http://localhost:3000/todos',
@@ -82,7 +138,8 @@ $(document).ready(function(){
                             <td>${el.status}</td>
                             <td>${el.id}
                             <button class = 'edit-data' 
-                                data-id = '${el.id}' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
                                 data-title = '${el.title}'
                                 data-desc = '${el.description}'
                                 data-status = '${el.status}'
@@ -90,7 +147,8 @@ $(document).ready(function(){
                                 >Edit</button></td>
                             <td>${el.id}
                             <button class = 'delete-data' 
-                                data-id = '${el.id}' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
                                 data-title = '${el.title}'
                                 data-desc = '${el.description}'
                                 data-status = '${el.status}'
@@ -99,7 +157,6 @@ $(document).ready(function(){
                         <tr>`
             })
             elFindAll.html(dataFindAll)
-
         })
         .fail(function(err){
             console.log(err)
@@ -108,21 +165,15 @@ $(document).ready(function(){
 
         })
     }   
+ 
 
-    $('#search-button').submit(function(e){
-        e.preventDefault()
-        console.log($('#findAll').val())
-    })
-
-    $('#mylist').click(function(){
-        $('.todos-findAll').hide()
+    function myList(){
         $.ajax({
             type: 'GET',
             url : 'http://localhost:3000/todos/mytodos',
             headers: { access_token: localStorage.getItem('access_token')},
         })
         .done(function(res){
-            console.log(res)
             const elMyTodos = $('#mytodos')
             let myTodos = '';
 
@@ -133,7 +184,8 @@ $(document).ready(function(){
                             <td>${el.status}</td>
                             <td>${el.id}
                             <button class = 'edit-data' 
-                                data-id = '${el.id}' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
                                 data-title = '${el.title}'
                                 data-desc = '${el.description}'
                                 data-status = '${el.status}'
@@ -141,7 +193,8 @@ $(document).ready(function(){
                                 >Edit</button></td>
                             <td>${el.id}
                             <button class = 'delete-data' 
-                                data-id = '${el.id}' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
                                 data-title = '${el.title}'
                                 data-desc = '${el.description}'
                                 data-status = '${el.status}'
@@ -156,39 +209,66 @@ $(document).ready(function(){
         })
         .always(function(){
 
-        })
-        
-    })
+        }) 
+    }
     
     $('body').on('click','.delete-data',function(req){
-        $.ajax({
-            type: 'DELETE',
-            url: 'http://localhost:3000/todos/' + $(this).attr('data-id'),
-            headers : { access_token: localStorage.getItem('access_token')}
-        })
-        .done(function(res){
-            getMyTodos()
-        })
-        .fail(function(err){
-            console.log(err)
-        })
-        .always(function(){
+        $('#page-popUp').show()
+        $('#delete-confirmation').simpleConfirm({
+            message : `${$(this).attr('data-id')}`,
+            success : function(answer){
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'http://localhost:3000/todos/'
+                    +`${answer.id}`
+                    ,
+                    headers : { access_token: localStorage.getItem('access_token')}
+                })
+                .done(function(res){
+                    findAllTodos()
+                })
+                .fail(function(err){
+                    console.log(err)
+                })
+                .always(function(){
 
-        })
-    })
+                })
+                    }
+                })
+            })
 
 
     $('body').on('click','.edit-data',function(req){
+        $('#page-popUp').show()
         $('#edit-pop-up').simplePrompt({
             id:`${$(this).attr('data-id')}`,
+            username:`${$(this).attr('data-username')}`,
             title : `${$(this).attr('data-title')}`,
             description : `${$(this).attr('data-desc')}`,
             status : `${$(this).attr('data-status')}`,
             due_date : `${$(this).attr('data-due-date')}`,
             success : function(result){
-                console.log(result)
+                $.ajax({
+                    type: 'PUT',
+                    url: 'http://localhost:3000/todos/'
+                    +`${result.id}`
+                    ,
+                    headers : { access_token: localStorage.getItem('access_token')},
+                    data : result
+                })
+                .done(function(res){
+                    findAllTodos()
+                })
+                .fail(function(err){
+                    
+                })
+                .always(function(){
+                    
+                })
             }
         })
+        
+  
     })
 
 
@@ -199,41 +279,6 @@ $(document).ready(function(){
 
 
 
-
-
-
-
-
-    /// showing myTodos again
-    function getMyTodos(){
-        $.ajax({
-            type: 'GET',
-            url : 'http://localhost:3000/todos/mytodos',
-            headers: { access_token: localStorage.getItem('access_token')},
-        })
-        .done(function(res){
-            console.log(res)
-            const elMyTodos = $('#mytodos')
-            let myTodos = '';
-
-            res.forEach((el)=>{
-            myTodos +=  `<tr>
-                            <td>${el.title}</td>
-                            <td>${el.description}</td>
-                            <td>${el.status}</td>
-                            <td>${el.id}<button class = 'edit-data' data-id = '${el.id}'>Edit</button></td>
-                            <td>${el.id}<button class = 'delete-data' data-id = '${el.id}' >Delete</button></td>
-                        <tr>`
-            })
-            elMyTodos.html(myTodos)
-        })
-        .fail(function(err){
-            console.log(err)
-        })
-        .always(function(){
-
-        })
-    }
 
 
     $('#adding').submit(function(){

@@ -58,6 +58,8 @@ class Controller{
     }
 
     static update(req,res,next){
+        console.log(req.body)
+        
         const id = req.params.id
         const body = req.body
             body.username = body.username,
@@ -65,8 +67,9 @@ class Controller{
             body.description = req.body.description,
             body.status = req.body.status,
             body.due_date = req.body.due_date
-
+        
         Todo.update(body, {where : {id : id}})
+        
         .then(data=>{
             if(data == 1){
                 res.status(200).json({message: `data updated`})
