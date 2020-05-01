@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { Todo, User } =require('../models')
+const { UserTodo, User } =require('../models')
 
 const authentication = (req, res, next) => {
     const { access_token } = req.headers
@@ -24,17 +24,24 @@ const authentication = (req, res, next) => {
 
 const authorization = (req, res, next) => {
     const { id } = req.params
-    Todo.findByPk(id)
-    .then(todo => {
-        if(todo) {
-            if(todo.UserId === req.userId){
-                next()
-            } else {
-                throw { message: "cannot be accessed", status: 403 }
-            }
-        } else {
-            throw { message: 'todo not found', status: 404 }
-        }
+    UserTodo.findOne({
+        where: {
+            TodoId: id
+        },
+        include:Todo
+    })
+    .then(response => {
+        console.log(response)
+    // .then(todo => {
+    //     if(todo) {
+    //         if(todo.UserId === req.userId){
+    //             next()
+    //         } else {
+    //             throw { message: "cannot be accessed", status: 403 }
+    //         }
+    //     } else {
+    //         throw { message: 'todo not found', status: 404 }
+    //     }
     }).catch(next)
 }
 

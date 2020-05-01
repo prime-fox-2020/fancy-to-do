@@ -36,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   User.associate = function(models) {
-    User.hasMany(models.Todo)
+    User.belongsToMany(models.Todo,{through:'UserTodo'})
+    User.hasMany(models.UserTodo)
   };
   return User;
 };

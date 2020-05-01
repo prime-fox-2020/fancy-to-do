@@ -1,15 +1,17 @@
-const { Todo } =  require('../models')
+const { Todo, UserTodo } =  require('../models')
 const axios = require('axios')
 
 class TodosController {
     static getTodos(req, res, next) {
-        Todo.findAll({
+        UserTodo.findAll({
             where: {
                 UserId: req.userId
             },
+            include: Todo,
             order:[['id', 'asc']]
-        }).then(todos => {
-            res.status(200).json(todos)
+        }).then(response => {
+            res.status(200).json(response)
+            console.log(response)
         }).catch(next)
     }
     static getTodo(req, res, next) {
@@ -25,14 +27,25 @@ class TodosController {
         }).catch(next)
     }
     static createTodo(req, res, next) {
-        const { title, description, due_date } = req.body
+        const { title, description, due_date, project } = req.body
+        let todo = null
         Todo.create({
             title,
             description,
             status: 'not completed',
-            due_date,
-            UserId: req.userId
-        }).then(todo => {
+            due_date
+        }).then(response => {
+            // res.status(201).json(todo)
+            todo = response
+            if(project!=='personal'){
+                return UserTodo.update({
+                    TodoId: todo.id
+                }, {
+                    where: { project }
+                })
+            }
+        }).then(response => {
+            console.log(response)
             res.status(201).json(todo)
         }).catch(next)
     }
