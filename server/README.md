@@ -35,10 +35,16 @@ _Response (200)_
 _Response (400 - Bad Request)_
 ```
 {
-    "message": "<Wrong email and password>"
+    "message": "<Incomplete Data or Wrong Input>"
 }
 ```
 
+_Response (404 - Not Found)_
+```
+{
+    "message": "<Email or Password invalid>"
+}
+```
 
 ### POST /register
 
@@ -57,7 +63,7 @@ _Request Body_
 }
 ```
 
-_Response (200)_
+_Response (201 - Created)_
 ```
 {
   "id": "<server generated id>",
@@ -71,7 +77,14 @@ _Response (200)_
 _Response (400 - Bad Request)_
 ```
 {
-    "message": "<Incomplete data>"
+    "message": "<Incomplete data or Wrong Input>"
+}
+```
+
+_Response (401 - Unauthorized)_
+```
+{
+    "message": "<Email invalid>"
 }
 ```
 
@@ -102,8 +115,8 @@ _Response (200)_
             "description": "<asset description>",
             "status": true,
             "due_date": "2021-01-08",
-            "createdAt": "2020-04-27T10:04:46.363Z",
-            "updatedAt": "2020-04-27T10:04:46.363Z"
+            "createdAt": "2020-04-27",
+            "updatedAt": "2020-04-27"
         },
         {
             "id": 2,
@@ -111,26 +124,26 @@ _Response (200)_
             "description": "<asset description>",
             "status": true,
             "due_date": "2020-06-10",
-            "createdAt": "2020-04-27T08:22:50.398Z",
-            "updatedAt": "2020-04-27T10:24:23.366Z"
+            "createdAt": "2020-04-27",
+            "updatedAt": "2020-04-27"
         },
         {
             "id": 3,
             "title": "<asset name>",
             "description": "<asset description>",
             "status": true,
-            "due_date": "2020-05-05",
-            "createdAt": "2020-04-27T08:21:02.924Z",
-            "updatedAt": "2020-04-27T10:26:27.203Z"
+            "due_date": "<asset due date>",
+            "createdAt": "2020-04-27",
+            "updatedAt": "2020-04-27"
         }
     ]
 }
 ```
 
-_Response (400 - Bad Request)_
+_Response (500 - Bad Request)_
 ```
 {
-    "message": "<incomplete data>"
+    "message": "<Internal Server Error>"
 }
 ```
 
@@ -164,19 +177,19 @@ _Response (201 - Created)_
   "description": "<posted description>",
   "status": "<posted status>",
   "due_date": "<posted due_date>",
-  "createdAt": "2020-03-20T07:15:12.149Z",
-  "updatedAt": "2020-03-20T07:15:12.149Z",
+  "createdAt": "2020-03-20",
+  "updatedAt": "2020-03-20",
 }
 ```
 
 _Response (400 - bad request)_
 ```
 {
-    "error": "<incomplete data>"
+    "error": "<incomplete data or Wrong Input>"
 }
 ```
 
-_Response (500)_
+_Response (500 - Internal Server Error)_
 ```
 {
     "error": "<Internal server error>"
@@ -200,7 +213,7 @@ _Request Body_
 not needed
 ```
 
-_Response (200)_
+_Response (200 - Ok)_
 ```
 {
     "todo": {
@@ -208,9 +221,9 @@ _Response (200)_
         "title": "<asset name>",
         "description": "<asset description>",
         "status": false,
-        "due_date": "<asset date>",
-        "createdAt": "2020-04-27T08:35:09.002Z",
-        "updatedAt": "2020-04-27T08:35:09.002Z"
+        "due_date": "<asset due date>",
+        "createdAt": "2020-04-27",
+        "updatedAt": "2020-04-27"
     }
 }
 ```
@@ -218,14 +231,7 @@ _Response (200)_
 _Response (404 - not found)_
 ```
 {
-    "error" : "Data not found"
-}
-```
-
-_Response (500)_
-```
-{
-    "error": "<Internal server error>"
+    "error" : "<Data not found>"
 }
 ```
 
@@ -244,26 +250,27 @@ _Request Body_
 }
 ```
 
-_Response (200)_
+_Response (200 - Ok)_
 ```
 {
     "todo": [ 1 ]
 }
 ```
 
-_Response (404 - not found)_
-```
-{
-    "error" : "Data not found"
-}
-```
-
 _Response (400 - bad request)_
 ```
 {
-    "error": "<Incomplete data>"
+    "error": "<Incomplete data or Wrong Input>"
 }
 ```
+
+_Response (404 - not found)_
+```
+{
+    "error" : "<Data not found>"
+}
+```
+
 
 _Response (500)_
 ```
@@ -280,18 +287,18 @@ _Response (500)_
 _Response(200)_
 ```
 {
-    "todo": [1]
+    "todo": [ 1 ]
 }
 ```
 
 _Response(404 - not found)_
 ```
 {
-    "error": "Data not found"
+    "error": "<Data not found>"
 }
 ```
 
-_Response (500)_
+_Response (500 - Internal Server Error)_
 ```
 {
   "error": "<Internal server error>"

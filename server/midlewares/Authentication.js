@@ -4,7 +4,6 @@ const secretKey = 'sayakurangpahamsecretkey'
 
 function authentication (req, res, next) {
     const { access_token } = req.headers
-    // jwt.verify(access_token, secretKey)
 
     try {
         const decoded = jwt.verify(access_token, secretKey)

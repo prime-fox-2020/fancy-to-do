@@ -110,7 +110,6 @@ $(document).ready(function () {
             }
         })
         .done(function (response) {
-            console.log('something')
             $('#input-todos-title').val('')
             $('#input-todos-description').val('')
             $('#input-todos-due_date').val('')
@@ -185,10 +184,6 @@ $(document).ready(function () {
             $("#modalContent").append(newModal)
             $("#failModal").modal('show')
         })
-    })
-
-    $("#delete-btn").click(function () {
-        $("#modalDelete").show()
     })
 
     $("#confirmDelete").click(function () {
@@ -268,6 +263,7 @@ function getTodos() {
         for (let i = 0; i < todo.length; i++) {
             let new_row = `
             <tr>
+                <td>${i+1}</td>
                 <td>${todo[i].title}</td>
                 <td>${todo[i].description}</td>
                 <td>${todo[i].status}</td>
@@ -327,6 +323,7 @@ function getTodoById(id) {
         <label for="">Due Date</label>
         <input type="text" name="due_date" id="edit-due_date" value="${todo.due_date}">
         <button type="submit">Save</button>
+        <a class="btn btn-danger btn-sm" href="#" role="button" onclick="cancelEdit()">Cancel</a>
         `
         $('#edit-form').append(newForm)
         getId(id)
@@ -353,6 +350,9 @@ function getTodoById(id) {
     })
 }
 
+function cancelEdit() {
+    check()
+}
 
 function deleteTodo (id) {
     getId(id)
@@ -371,7 +371,6 @@ function check() {
 }
 
 function onSignIn(googleUser) {
-    console.log('masuk google')
     var id_token = googleUser.getAuthResponse().id_token;   
     $.ajax({
         url: "http://localhost:3000/googlelogin",
@@ -379,12 +378,27 @@ function onSignIn(googleUser) {
         data: {token_id: id_token}
     })
     .done(function(response) {
-        console.log(response)
         localStorage.setItem('access_token', response.access_token)
         check()
     })
     .fail(function (response) {
-        console.log('failed')
+        $("#modalContent").empty()
+        let newModal = `
+        <div class="modal-header" id='modalHeader'>
+            <h5 class="modal-title" id="exampleModalLabel">${response.responseJSON.errorCode}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>${response.responseJSON.message}</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        `
+        $("#modalContent").append(newModal)
+        $("#failModal").modal('show')
     })
 }
 

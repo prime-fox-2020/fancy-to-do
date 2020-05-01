@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: DataTypes.BOOLEAN,
     due_date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       validate: {
         notEmpty : {
           msg: 'Date cannot be empty'

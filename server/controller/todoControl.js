@@ -28,20 +28,11 @@ class Control {
         })
         .catch(err => {
             next(err)
-            // res.status(500).json({
-            //     error: err.message || 'error findAll'
-            // })
         })
     }
 
     static findById (req, res, next) {
-        // Todo.findAll({
-        //     where: {id: req.params.id}
-        // })
         Todo.findByPk(Number(req.params.id))
-        // Todo.findOne({
-        //     where: {id: req.params.id}
-        // })
         .then(data => {
             if (data) {
                 res.status(200).json(data)
@@ -49,9 +40,6 @@ class Control {
         })
         .catch(err => {
             next(err)
-            // res.status(500).json({
-            //     error: err
-            // })
         })
     }
 
@@ -78,20 +66,16 @@ class Control {
     }
 
     static delete(req, res, next) {
-        console.log(req.params.id)
         Todo.destroy({
             where: {id: req.params.id}
         })
         .then(data => {
-            console.log(data)
             if (data == 1) {
                 res.status(200).json(data)
             }
         })
         .catch(err => {
-            console.log(err)
             next(err)
-            // res.status(404).json(err)
         })
     }
 }

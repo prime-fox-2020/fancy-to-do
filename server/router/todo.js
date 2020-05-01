@@ -8,9 +8,6 @@ route.use(authentication)
 route.post('/', todo.create)
 route.get('/', todo.findAll)
 
-
-// route.use(authorization)
-
 route.get('/:id', authorization, todo.findById)
 route.put('/:id', authorization, todo.update)
 route.delete('/:id', authorization, todo.delete)

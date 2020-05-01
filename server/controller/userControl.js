@@ -41,24 +41,28 @@ class Control {
 
     static login (req, res, next) {
         const { email, password } = req.body
-
-        User.findOne({
-            where: {
-                email: email
-            }
-        })
-        .then(data => {
-            if(data && (bcrypt.compareSync(password, data.password))){
-                const access_token = generateToken(data)
-                res.status(201).json({ access_token })
-            }
-            else{
-                next({name: 'SequelizeValidationError'})
-            }
-        })
-        .catch(err => {
-            next(err)
-        })
+        if (!req.body.email && !req.body.password) {
+            next({name: 'SequelizeValidationError'})
+        }
+        else {
+            User.findOne({
+                where: {
+                    email: email
+                }
+            })
+            .then(data => {
+                if(!data && !(bcrypt.compareSync(password, data.password))){
+                    next({name: 'LoginValidationError'})
+                }
+                else{
+                    const access_token = generateToken(data)
+                    res.status(201).json({ access_token })
+                }
+            })
+            .catch(err => {
+                next({name: 'LoginValidationError'})
+            })
+        }
     }
 
     static googleLogin (req, res, next) {
@@ -91,7 +95,7 @@ class Control {
             res.status(200).json({access_token})
         })
         .catch(err => {
-            next(err)
+            next({name: 'LoginValidationError'})
         })
     }
 }
