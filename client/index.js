@@ -1,131 +1,103 @@
-$(document).ready(function(){
-
-
-    $("#form-login").hide()
-    $("#form-register").hide()
-    $("#dashboardPage").hide()
-    $("#navbarUser").show()
-    $("#navbarTodo").hide()
-    $("#addTodo").hide()
-    $("#editTodo").hide()
-    $("#image").hide()
-
-    if(localStorage.token){
-        $("#navbarUser").hide()
-        $("#navbarTodo").show()
-        // $("#dashboardPage").show()
-        fetchTodo()
-    }else{
-        $("#navbarUser").show()
-        $("#navbarTodo").hide()
-        $("#dashboardPage").hide()
-    }
-    
-
-    $('#registerid').on('click',function(e){
-        $("#form-register").show()
-        $("#form-login").hide()
-        e.preventDefault()
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url:"http://localhost:3000/user/google-login",
+        method:"POST",
+        headers:{
+            google_token:id_token
+        }
     })
-
-
-    $('#loginid').on('click',function(e){
-        $("#form-login").show()
-        $("#form-register").hide()
+    .done(function(response){
+        localStorage.setItem('token',response.access_token)
         $('#signError').hide()
-        e.preventDefault()
-    })
-
-    $("#form-register").on('submit',function(e){
-        e.preventDefault()
-        $.ajax({
-            url:"http://localhost:3000/user/register",
-            type:"POST",
-            data:{
-                email:$('#input-email').val(),
-                password:$('#input-password').val()
-            }
-        })
-        $('#input-email').val("")
-        $('#input-password').val("")
-        $("#form-login").show()
+        $("#navbarUser").hide()
+        $("#form-login").hide()
         $("#form-register").hide()
+        $("#navbarTodo").show()
+        fetchTodo()
+        console.log(response)
     })
+    .fail(function(err){
+        console.log(err.responseJSON)
+    })
+}
 
-    $("#form-login").on('submit',function(e){
-        e.preventDefault()
-        $.ajax({
-            url:"http://localhost:3000/user/login",
-            type:"POST",
-            data:{
-                email:$('#input-email-login').val(),
-                password:$('#input-password-login').val()
-            }
-        })
-        .done(function(response){
-            const token=response.access_token
-            localStorage.setItem('token',token)
-            console.log(token)
-            $('#signError').hide()
-            $("#navbarUser").hide()
-            $("#form-login").hide()
-            $("#dashboardPage").show()
-            $("#navbarTodo").show()
-            fetchTodo()
-            location.reload(true)
-        })
-        .fail(function(err){
-            $('#signError').show()
-            $('#signError').text(err.responseJSON.message)
-        })
+$('#registerid').on('click',function(e){
+    $("#form-register").show()
+    $("#form-login").hide()
+    e.preventDefault()
+})
+
+
+$('#loginid').on('click',function(e){
+    $("#form-login").show()
+    $("#form-register").hide()
+    $('#signError').hide()
+    e.preventDefault()
+})
+
+$("#form-register").on('submit',function(e){
+    e.preventDefault()
+    $.ajax({
+        url:"http://localhost:3000/user/register",
+        type:"POST",
+        data:{
+            email:$('#input-email').val(),
+            password:$('#input-password').val()
+        }
+    })
+    $('#input-email').val("")
+    $('#input-password').val("")
+    $("#form-login").show()
+    $("#form-register").hide()
+})
+
+$("#form-login").on('submit',function(e){
+    e.preventDefault()
+    $.ajax({
+        url:"http://localhost:3000/user/login",
+        type:"POST",
+        data:{
+            email:$('#input-email-login').val(),
+            password:$('#input-password-login').val()
+        }
+    })
+    .done(function(response){
+        const token=response.access_token
+        localStorage.setItem('token',token)
         $('#input-email-login').val("")
         $('#input-password-login').val("")
+
+        $('#signError').hide()
+        $("#navbarUser").hide()
+        $("#form-login").hide()
+        $("#dashboardPage").show()
+        $("#navbarTodo").show()
+        fetchTodo()
+        
+        location.reload(true)
+    })
+    .fail(function(err){
+        $('#signError').show()
+        $('#signError').text(err.responseJSON.message)
     })
     
-    $('#add').on('click',function(e){
-        $(".containerwow").hide()
-        $("#addTodo").show()
-        $("#editTodo").hide()
-        $("#image").hide()
-        $("#dashboardPage").hide()
-        e.preventDefault()
-    })
-
-    $('#showImage').on('click',function(e){
-        e.preventDefault()
-        display()
-        $("#dashboardPage").hide()
-    })
-
-    $(document).ready(function (e) {
-        $('#upload').on('click', function () {
-            const access_token=localStorage.getItem('token')
-            var file_data = $('#file').prop('files')[0];
-            var form_data = new FormData();
-            form_data.append('file', file_data);
-            console.log(form_data.get('file'))
-            $.ajax({
-                url: 'http://localhost:3000/imgur/upload', // point to server-side controller method
-                dataType: 'json', // what to expect back from the server
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: form_data,
-                type: 'post',
-                headers:{
-                    access_token
-                },
-                success: function (response) {
-                    $('#msg').html(response); // display success response from the server
-                },
-                error: function (response) {
-                    $('#msg').html(response); // display error response from the server
-                }
-            });
-        });
-    });
+})
 
 
+$('#add').on('click',function(e){
+    $(".containerwow").hide()
+    $("#addTodo").show()
+    $("#editTodo").hide()
+    $("#image").hide()
+    $("#dashboardPage").hide()
+    e.preventDefault()
+})
+
+$('#showImage').on('click',function(e){
+    e.preventDefault()
+    display()
+    $("#dashboardPage").hide()
 })
 
 function display(){
@@ -209,6 +181,7 @@ function createTodo(e){
 
 
 function fetchTodo(){
+    $("#bodyTable").empty()
     const access_token=localStorage.getItem('token')
     $.ajax({
         method:"GET",
@@ -347,54 +320,21 @@ function change(e){
     })
 }
 
-function onSignIn(googleUser) {
-    var id_token = googleUser.getAuthResponse().id_token;
-    $.ajax({
-        url:"http://localhost:3000/user/google-login",
-        method:"POST",
-        headers:{
-            google_token:id_token
-        }
-    })
-    .done(function(response){
-        localStorage.setItem('token',response.access_token)
-        $('#signError').hide()
-        $("#navbarUser").hide()
-        $("#form-login").hide()
-        $("#navbarTodo").show()
-        // $("#dashboardPage").show()
-        // fetchTodo()
-        console.log(response)
-    })
-    .fail(function(err){
-        console.log(err.responseJSON)
-    })
+if(localStorage.token){
+    $("#navbarUser").hide()
+    $("#navbarTodo").show()
+    $("#form-login").hide()
+    $("#form-register").hide()
+    $("#addTodo").hide()
+    $("#editTodo").hide()
+    $("#image").hide()
+    fetchTodo()
+}else{
+    $("#addTodo").hide()
+    $("#editTodo").hide()
+    $("#form-login").hide()
+    $("#form-register").hide()
+    $("#navbarUser").show()
+    $("#navbarTodo").hide()
+    $("#dashboardPage").hide()
 }
-
-// function uploadImage(){
-//     const access_token=localStorage.getItem('token')
-//     const file_data = $('#file').prop('files')[0];
-//     var form_data = new FormData();
-//     form_data.append('file', file_data)
-//     console.log(form_data)
-//     $.ajax({
-//         url: `http://localhost:3000/imgur/upload`,
-//         method: "POST",
-//         headers: {
-//             access_token
-//         },
-//         data:form_data
-//         // {
-//         //     image:$('#file').val()
-//         // }
-//     })
-//     .done(function(response){
-//         // console.log($('#file').val())
-//         // // $('#msg').html(response);
-//         // console.log(response)
-//     })
-//     .fail(function(err){
-//         // $('#msg').html(err);
-//         console.log(err.responseJSON)
-//     })
-// }
