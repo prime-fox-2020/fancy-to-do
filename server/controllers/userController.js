@@ -4,6 +4,7 @@ const { User } = require('../models');
 
 class UserController {
     static register(req, res, next) {
+        console.log('masuk ke controller');
         const { name, email, password } = req.body;
         User.findOne({
             where: { email }
@@ -16,6 +17,7 @@ class UserController {
                 }
             })
             .then(user => {
+                console.log("created");
                 res.status(201).json({ id: user.id, name: user.name, email: user.email, password: user.password })
             })
             .catch(err => {

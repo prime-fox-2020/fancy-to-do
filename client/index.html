@@ -19,19 +19,19 @@
         <div class="container" id="page1">
             <div class="row">
                 <div class="col-sm">
-                    <form method="POST">
+                    <form method="POST" id="form-register">
                         <div class="form-group">
-                            <label for="exampleFormControlInput3">Name</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput1">Email address</label>
-                            <input type="email" class="form-control" id="exampleFormControlInput1"
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email"
                                 placeholder="name@example.com">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlInput2">Password</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput2">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password">
                         </div>
                     </form>
                     <button class="btn btn-primary" id="register">Register</button>
@@ -39,17 +39,17 @@
                 <div class="col-sm-1">
                     <p class="text-center"><br><br><br><br><br>OR</p>
                 </div>
-                <div class="col-sm">
+                <div class="col-sm" id="form-login">
                     <br><br>
                     <form method="POST">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                        <label for="emailLogin">Email address</label>
+                        <input type="email" class="form-control" id="emailLogin"
                             placeholder="name@example.com">
                     </div>
                     <div class="form-group">
-                        <label for="exampleFormControlInput2">Password</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput2">
+                        <label for="passwordLogin">Password</label>
+                        <input type="text" class="form-control" id="passwordLogin">
                     </div>
                     </form>
                     <button class="btn btn-primary" id="login">Login</button>
@@ -59,7 +59,19 @@
 
         <div class="todo">
             <p>ToDo</p>
-
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="dataTabel">
+                  
+                </tbody>
+              </table>
             <button class="btn btn-primary" id="logout">Log Out</button>
         </div>
     </div>
