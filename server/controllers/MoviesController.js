@@ -1,5 +1,4 @@
 const axios = require('axios')
-const AppError = require('../helpers/appError')
 
 const Movie = axios.create({
   baseURL: 'https://api.trakt.tv/movies',
@@ -22,7 +21,6 @@ const Poster = axios.create({
 class MoviesController {
   
   static main(req, res, next) {
-    console.log(req)
     const {query} = req.query
     Movie.get('/trending', {
       params: {

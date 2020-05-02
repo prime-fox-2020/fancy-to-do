@@ -74,7 +74,7 @@ $(document).ready(() => {
     updateStatus(todo)
   })
 
-  $('#dashboardSection').on('click', '.add-todo', (event) => {
+  $('#dashboardSection').add('#moviesSection').on('click', '.add-todo', (event) => {
     event.preventDefault()
     $('.form-edit-todo').html('<h5>Add new todo</h5>')
     resetForm()
@@ -107,6 +107,21 @@ $(document).ready(() => {
     $('#moviesSection').hide()
   })
 
+  $('#moviesParent').on('click', '.insert-into-todo', function (event) {
+    event.preventDefault()
+    const title = $(this).parent().parent().parent().prev()[0].innerText
+    const description = $(this).parent().prev().children()[0].innerText
+    addMoo = $(this)
+    $('.form-edit-todo').html('<h5>Add schedule to watch movie</h5>')
+    $('[name=titleTodo]').val(title)
+    $('[for=titleTodo]').addClass('active')
+    $('#descriptionTodo').val(description)
+    $('[for=descriptionTodo]').addClass('active')
+    $('[name=statusTodo][value=active]').prop('checked', true)
+    $('.form-method-todo').val('')
+    
+    $('#add-todo').modal('open')
+  })
 
   $('.search-movies').on('click', (event) => {
     event.preventDefault()
@@ -120,54 +135,59 @@ $(document).ready(() => {
     $('#movieFormModal').modal('close')
     $('.loading').modal('open')
 
-    $.ajax({
-      method: 'GET',
-      url: serverTodo + '/movies',
-      headers: {
-        access_token: localStorage.getItem('access_token')
-      },
-      data: {
-        query
-      }
-    })
-    .done(response => {
-      console.log(response)
-      $('#dashboardSection').hide()
-      $('#moviesSection').show()
-      if (response.length) {
-        response.forEach(item => {
-          let list = `
-          <div class="col s12 m6">
-          <p class="flow-text">${item.movie.title}</p>
-            <div class="card horizontal">
-              <div class="card-image">
-                <img src="http://img.omdbapi.com/?apikey=70a7913d&i=${item.movie.ids.imdb}" alt="${item.movie.title}">
+    searchMovie(query)
+  })
+})
+
+function searchMovie(query) {
+  $.ajax({
+    method: 'GET',
+    url: serverTodo + '/movies',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    },
+    data: {
+      query
+    }
+  })
+  .done(response => {
+    clearMovies()
+    $('.no-movie-found').hide()
+    $('#dashboardSection').hide()
+    $('#moviesSection').show()
+    if (response.length) {
+      response.forEach(item => {
+        let list = `
+        <div class="col s12 m6">
+        <p class="flow-text">${item.movie.title}</p>
+          <div class="card horizontal">
+            <div class="card-image">
+              <img src="http://img.omdbapi.com/?apikey=70a7913d&i=${item.movie.ids.imdb}" alt="${item.movie.title}">
+            </div>
+            <div class="card-stacked">
+              <div class="card-content">
+                <h5>${item.movie.tagline}</h5>
+                <p>${item.movie.overview}</p>
               </div>
-              <div class="card-stacked">
-                <div class="card-content">
-                  <h5>${item.movie.tagline}</h5>
-                  <p>${item.movie.overview}</p>
-                </div>
-                <div class="card-action">`
-          item.movie.homepage ? list += `<a href="${item.movie.homepage}">Official Website</a>` : list += ''
-          list += `
-                </div>
+              <div class="card-action">`
+        item.movie.homepage ? list += `<a href="${item.movie.homepage}">Official Website</a>` : list += ''
+        list += `<a class="insert-into-todo waves-effect waves-light red btn-large"><i class="material-icons left">add_to_queue</i>Save to ToDO</a>
               </div>
             </div>
           </div>
-          `
-          $('#moviesParent').append(list)
-        })
-      } else {
-        $('.no-movie-found').show()
-      }
-      $('.loading').modal('close')
-    })
-    .fail(err => {
-      console.log(err)
-    })
+        </div>
+        `
+        $('#moviesParent').append(list)
+      })
+    } else {
+      $('.no-movie-found').show()
+    }
+    $('.loading').modal('close')
   })
-})
+  .fail(err => {
+    console.log(err)
+  })
+}
 
 function resetForm() {
   $('.form-method-todo').val('')

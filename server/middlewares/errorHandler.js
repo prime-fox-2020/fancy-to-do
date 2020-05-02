@@ -20,6 +20,7 @@ const sendErrDev = (err, res) => {
 }
 
 const sendErrProd = (err, res) => {
+  console.log(err)
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
