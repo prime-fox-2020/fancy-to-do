@@ -3,6 +3,7 @@ const { Todo } = require('../models')
 
 function authentication (req, res, next) {
     const { access_token } = req.headers
+    console.log(req.headers)
 
     if(!access_token) {
         throw { messages: ['Please sign in first'], statusCode: 403 }

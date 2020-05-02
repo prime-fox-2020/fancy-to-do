@@ -4,7 +4,11 @@ const unirest = require("unirest")
 
 class TodoController {
     static getAll (req, res, next) {
-        Todo.findAll()
+        Todo.findAll({
+            where: {
+              UserId: getUserData(req.headers.access_token).id
+            }
+        })
         .then(data => {
             res.status(200).json({
                 todos: data
