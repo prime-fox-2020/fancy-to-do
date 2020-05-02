@@ -186,15 +186,15 @@ function edit (event, id) {
 $('#editTodo').on('submit', function (event) {
     console.log('sampe')
     event.preventDefault()
-    const id = $('#postId').val()
-    const title = $('#postTitle').val()
-    const description = $('#postDescription').val()
-    const status = $('#postStatus').val()
-    const due_date = $('#postDueDate').val()
+    const id = $('#editId').val()
+    const title = $('#editTitle').val()
+    const description = $('#editDescription').val()
+    const status = $('#editStatus').val()
+    const due_date = $('#editDueDate').val()
 
     $.ajax({
-        method: 'PUT',
         url: base_url + '/todos/' + id,
+        method: 'PUT',
         headers: {
             access_token: localStorage.access_token
         },
@@ -203,6 +203,7 @@ $('#editTodo').on('submit', function (event) {
     .done(function (response) {
         console.log(response)
         showDashboard()
+        $('#table').show()
     })
     .fail(function (err) {
         console.log(err.responseJSON.messages)
