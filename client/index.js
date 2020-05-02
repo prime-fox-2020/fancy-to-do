@@ -331,10 +331,17 @@ function editTodo(id) {
 				$('#update-due_date-todos').val('');
 				$('#update-status-todos').val('');
 				console.log('gagal-tambah-todos', response.responseJSON);
-
+				let error = '';
 				for (let i = 0; i < response.responseJSON.message.length; i++) {
-					$('#errorContainer').append(`<p>${response.responseJSON.message[i]}</p>`);
+					error += response.responseJSON.message[i] + ',';
 				}
+
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: error,
+					footer: '<a href>Need help?</a>'
+				});
 			})
 			.always(function(response) {
 				console.log('always-tambah-todos', response);
