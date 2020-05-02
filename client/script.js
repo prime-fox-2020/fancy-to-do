@@ -77,8 +77,11 @@ $('#formSignUp').on('submit', function (event) {
 // start sign OUT process
 function signOut (event) {
     event.preventDefault()
-    console.log('User signed out.');
-    localStorage.removeItem('access_token')
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+        localStorage.removeItem('access_token')
+    });
     showHome()
 }
 // end sign OUT process
@@ -261,5 +264,29 @@ function getTrivia (id) {
     })
     .fail(function (err) {
         console.log(err.responseJSON.messages)
+    })
+}
+
+function onSignIn(googleUser) {
+    // var profile = googleUser.getBasicProfile();
+    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    let id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url: `${base_url}/user/googleSignIn`,
+        method: 'POST',
+        headers: {
+            google_token: id_token
+        }
+    })
+    .done(data => {
+        console.log(data)
+        localStorage.setItem('access_token', data.access_token)
+        showDashboard()
+    })
+    .fail(err => {
+        console.log(err)
     })
 }
