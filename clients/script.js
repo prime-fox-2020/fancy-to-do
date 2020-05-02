@@ -185,7 +185,7 @@ $(document).ready(function() {
         $('#edit-page').show()
         $('#dashboard').hide()
         $('#form-edit').submit(function(event) {
-            event.preventDefault()
+            // event.preventDefault()
             let judul = $('#title-edit').val()
             let deskripsi = $('#description-edit').val()
             let statusnya = $('#status-edit').val()
@@ -293,6 +293,7 @@ $(document).ready(function() {
             }
         })
         .done(data => {
+            location.reload(true);
             $('#pesan').text(data.message)
             $('#dashboard').show()
             $('#edit-page').hide() 
@@ -470,6 +471,7 @@ $(document).ready(function() {
     
 });
 
+
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;    
     $.ajax({
@@ -482,14 +484,14 @@ function onSignIn(googleUser) {
     .done(data=> {
         localStorage.setItem('token', data.user_token)
         localStorage.setItem('user_name', data.user_name)
+        $('#dashboard').show()
+        $('#logout').show()
+        $('#todos-nav').show()
         $('#login-error').hide() 
         $('#login-page').hide() 
         $('#calendar-page').hide()
         $('#register-page').hide()
         $('#login-nav').hide()
-        $('#dashboard').show()
-        $('#logout').show()
-        $('#todos-nav').show()
     })
     .fail(err=> {
         console.log(err);
