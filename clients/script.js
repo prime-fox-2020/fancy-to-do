@@ -497,3 +497,21 @@ function onSignIn(googleUser) {
         console.log(err);
     })
 }
+
+function myFunction() {
+    var x = document.getElementById("password-register");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+}
+
+function myFunction() {
+    var x = document.getElementById("password-login");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+}

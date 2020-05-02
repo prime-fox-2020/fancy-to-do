@@ -39,7 +39,13 @@
             <input type="text" name="email" id="email-register"><br><br>
     
             <label>Password:</labe><br>
-            <input type="text" name="password" id="password-register"><br><br>
+            <input type="password" name="password" id="password-register"><br><br>
+            <p>
+                <label>
+                    <input type="checkbox" class="filled-in" onclick="myFunction()"/>
+                    <span>Show Password</span>
+                </label>
+            </p>
     
             <button class="btn waves-effect waves-light" type="submit" value="register">Daftar</button>
             <button id="cancel-register-form" class="btn waves-effect waves-light"><a style="color: white;" href="">Cancel</a></button>
@@ -59,7 +65,13 @@
             <input type="text" name="email" id="email-login"><br><br>
     
             <label>Password:</labe><br>
-            <input type="text" name="password" id="password-login"><br><br>
+            <input type="password" name="password" id="password-login"><br><br>
+            <p>
+                <label>
+                    <input type="checkbox" class="filled-in" onclick="myFunction()"/>
+                    <span>Show Password</span>
+                </label>
+            </p>
     
             <button class="btn waves-effect waves-light" type="submit" value="login">Login</button>
             <button id="cancel-login-form" class="btn waves-effect waves-light"><a style="color: white;" href="">Cancel</a></button><br><br>
@@ -123,7 +135,7 @@
             <input type="text" name="status" id="status-add"><br><br>
 
             <label>Due Date:</labe><br>
-            <input type="text" name="due_date" id="due-date-add"><br><br>
+            <input type="date" name="due_date" id="due-date-add"><br><br>
     
             <button class="btn waves-effect waves-light" type="submit" value="login">Add</button>
             <button id="cancel-add-form" class="btn waves-effect waves-light"><a href="" style="color: white;">Cancel</a></button>
@@ -146,7 +158,7 @@
             <input type="text" name="status" id="status-edit"><br><br>
 
             <label>Due Date:</labe><br>
-            <input type="text" name="due_date" id="due-date-edit"><br><br>
+            <input type="date" name="due_date" id="due-date-edit"><br><br>
     
             <button class="btn waves-effect waves-light" type="submit" value="edit">Edit</button>
             <button id="cancel-edit-form" class="btn waves-effect waves-light"><a style="color: white;" href="">Cancel</a></button>
