@@ -70,6 +70,17 @@ class UserControllers{
       })
       .catch(err => console.log(err))
   }
+
+  static getLocation(req, res, next){
+    const userId = req.userData.id
+    User.findByPk(userId)
+      .then(user => {
+        if(user){
+          res.status(200).json(user.location)
+        }else next({name : 'UserNotFound'})
+      })
+      .catch(err => next(err))
+  }
 }
 
 module.exports = UserControllers

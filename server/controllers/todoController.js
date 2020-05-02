@@ -9,7 +9,8 @@ class TodoControllers{
 
     Todo.findAll({
 
-      where: { UserId: userId }
+      where: { UserId: userId },
+      order: [['id', 'DESC']]
 
     })
       .then(todos => {

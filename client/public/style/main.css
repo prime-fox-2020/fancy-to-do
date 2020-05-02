@@ -1,5 +1,6 @@
 body{
-
+  background-image: url('../img/glenn-carstens-peters-RLw-UC03Gwc-unsplash.jpg');
+  background-position: center;
 }
 
 #todo{
@@ -25,6 +26,9 @@ body{
 }
 
 
-#login{
+#login,
+#register{
+  background-color: #eee;
+  padding: 15px;
   margin: 0 auto;
 }

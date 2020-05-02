@@ -45,6 +45,10 @@ module.exports = (err, req, res, next) => {
     statusCode  = 404
     errorCode   = "LOCATION_NOT_FOUND"
     message     = "Location not found"
+  }else if(err.name === "UserNotFound"){
+    statusCode  = 404
+    errorCode   = "USER_NOT_FOUND"
+    message     = "User not found"
   }
 
   res.status(statusCode).json({ errorCode, message })

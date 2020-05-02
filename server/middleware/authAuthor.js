@@ -7,7 +7,6 @@ const authentication = (req, res, next) => {
 
   const { access_token } = req.headers
   
-  // console.log(localStorage)
   if(!access_token){
     next({ name: 'TokenNotFound' })
     return
@@ -18,7 +17,6 @@ const authentication = (req, res, next) => {
     next()
 
   } catch(err) {
-    console.log('ini auth')
     next(err)
   }
 
