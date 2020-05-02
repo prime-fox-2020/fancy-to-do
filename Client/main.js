@@ -107,6 +107,7 @@ $('#register').submit(function(e){
         data: data,
     })
     .done(register => {
+        // console.log(register)
         $('#success').empty()
         $('#error').empty()
         $('#reqgister_username').val('')
@@ -119,7 +120,7 @@ $('#register').submit(function(e){
         $('#field-edit-todo').hide()
         $('#field-holidays').hide()
 
-        $('#success').append(`<div class="alert alert-success" role="alert">You have successfully registered</div>`)
+        $('#success').append(`<div class="alert alert-success" role="alert">${register.username}, you have successfully registered</div>`)
     })
     .fail(err => {
         console.log(err)
@@ -183,26 +184,27 @@ function onSignIn(googleUser) {
         }
     })
     .done(data => {
-
         $('#success').empty()
         $('#error').empty()
         $('#nav-login').hide()
         $('#nav-register').hide()
         $('#nav-todos').show()
         $('#nav-holidays').show()
-        $('#nav-signout').show()
+        $('#nav-logout').show()
         $('#field-register').hide()
         $('#field-login').hide()
         showTodos()
         $('#field-todos').show()
-        $('#field-addTodo').hide()
-        $('#field-editTodo').hide()
+        $('#field-add-todo').hide()
+        $('#field-edit-todo').hide()
         $('#field-holidays').hide()
 
         localStorage.setItem('acces_token', data.acces_token)
     })
     .fail(err => {
         console.log(err)
+        $('#error').empty()
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
 }
 
@@ -246,7 +248,9 @@ function showTodos(){
         });
     })
     .fail(err => {
-        console.log(err);
+        // console.log(err);
+        $('#error').empty()
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
 }
 
@@ -281,11 +285,13 @@ $('#add-todo').submit(function(e){
         $('#field-add-todo').hide()
         $('#field-todos').show()
         $('#field-edit-todo').hide()
+        $('#field-holidays').hide()
 
         $('#success').append(`<div class="alert alert-success" role="alert"> Todo with title ${newTodo.title} has been added </div>`)
     })
     .fail(err => {
         console.log(err)
+        $('#error').empty()
         $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
 })
@@ -363,7 +369,8 @@ $('#edit-todo').submit(function(e){
         },
     })
     .done(editTodo => {
-        console.log( $('#edit-title').val())
+        // console.log( $('#edit-title').val())
+        console.log(editTodo)
         $('#success').empty()
         $('#error').empty()
         $('#edit-id').val('')
@@ -376,11 +383,13 @@ $('#edit-todo').submit(function(e){
         $('#field-add-todo').hide()
         $('#field-edit-todo').hide()
         $('#field-todos').show()
+        $('#field-holidays').hide()
 
+        $('#success').append(`<div class="alert alert-success" role="alert">${editTodo.message}</div>`)
     })
     .fail(err => {
         $('#error').empty()
-        console.log(err)
+        // console.log(err)
         $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
 })
@@ -402,6 +411,8 @@ function deleteTodo(id){
         showTodos() 
         $('#field-add-todo').hide()
         $('#field-todos').show()
+        $('#field-edit-todo').hide()
+        $('#field-holidays').hide()
 
         $('#success').append(`<div class="alert alert-success" role="alert">Todo has been deleted</div>`)
     })
@@ -439,7 +450,8 @@ function showHolidays(){
         });
     })
     .fail(err => {
-        console.log(err);
+        $('#error').empty()
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
     })
 }
 

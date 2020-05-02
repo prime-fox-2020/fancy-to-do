@@ -82,7 +82,7 @@ class UserController {
                 return User.create({
                     username: currentUsername,
                     email: currentEmail,
-                    password: 'qwerty'
+                    password: process.env.DEFAULT_PASSWORD
                 })
             }
         })
