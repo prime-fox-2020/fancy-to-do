@@ -26,7 +26,7 @@ class UserController {
           url:"https://simplemailsender.p.rapidapi.com/SendMails/Send",
           headers:{
               "x-rapidapi-host":"simplemailsender.p.rapidapi.com",
-              "x-rapidapi-key":"4e0e3fc803mshecdbceee149660bp1f41c7jsnd56619c29ad2"
+              "x-rapidapi-key":process.env.RAPIDAPI_KEY
           },
           data:{
               Correo_Delivery : req.body.email,
