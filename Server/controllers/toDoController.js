@@ -25,7 +25,7 @@ class ToDoController{
             where : { id: req.params.id}
         })
         .then(data=> {
-            if(data == null){
+            if(!data){
                 next({name: 'DATA_NOT_FOUND'})
             }else{
                 res.status(200).json(data)
@@ -64,7 +64,7 @@ class ToDoController{
         }, { where : { id : req.params.id}})
         .then(data => {
             // console.log(data);
-            if(data[0] == 1){
+            if(data[0] === 1){
                 res.status(200).json({message: 'data succesfully updated'})
             }else{
                 next({name: 'DATA_NOT_FOUND'})
@@ -81,7 +81,7 @@ class ToDoController{
         })
         .then(data => {
             // console.log(data);
-            if(data == 1){
+            if(data === 1){
                 res.status(200).json({message: 'data succesfully deleted'})
             }else{
                 next({name: 'DATA_NOT_FOUND'})

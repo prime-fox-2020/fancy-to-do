@@ -17,8 +17,9 @@ class UserController {
                 res.status(201).json(user)
             })
             .catch(err => {
-                if (err.name == 'SequelizeUniqueConstraintError') {
-                    next(err.name)
+                // console.log(err.name);
+                if (err.name === 'SequelizeUniqueConstraintError') {
+                    next({name : err.name})
                 } else {
                     next(err)
                 }

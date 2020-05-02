@@ -32,7 +32,7 @@ $(document).ready(function wow() {
             .fail(failed => {
                 console.log(failed.responseJSON)
             })
-            .always( ()=>{
+            .always(() => {
                 $("#errTitle").html(`<p id="errTitle"></p>`)
                 $("#errDesc").html(`<p id="errDesc"></p>`)
             })
@@ -74,7 +74,7 @@ $(document).ready(function wow() {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/user/register',
+            url: 'http://localhost:3000/register',
             data: {
                 email: $('#inputEmailRegis').val(),
                 password: $('#inputPasswordRegis').val()
@@ -82,30 +82,33 @@ $(document).ready(function wow() {
         })
             .done(response => {
                 // console.log(response);
-                $('#inputEmailRegis').val("")
-                $('#inputPasswordRegis').val("")
+                $("#errEmailRegis").html(`<p id="errEmailRegis"></p>`)
+                $("#errPassRegis").html(`<p id="errPassRegis"></p>`)
                 check()
             })
             .fail(failed => {
                 // console.log(failed.responseJSON.message);
-                if (failed.responseJSON.message.length == 2) {
+                if (failed.responseJSON.message.length === 2) {
                     $("#errEmailRegis").html(`<p id="errEmailRegis">${failed.responseJSON.message[0]}</p>`)
                     $("#errPassRegis").html(`<p id="errPassRegis">${failed.responseJSON.message[1]}</p>`)
-                } else if (failed.responseJSON.message == "kolom email tidak boleh kosong") {
+                } else if (failed.responseJSON.message === "kolom email tidak boleh kosong") {
                     $("#errEmailRegis").html(`<p id="errEmailRegis">${failed.responseJSON.message}</p>`)
                     $("#errPassRegis").html(`<p id="errPassRegis"></p>`)
-                } else if (failed.responseJSON.message == "kolom password tidak boleh kosong") {
+                } else if (failed.responseJSON.message === "kolom password tidak boleh kosong") {
                     $("#errPassRegis").html(`<p id="errPassRegis">${failed.responseJSON.message}</p>`)
                     $("#errEmailRegis").html(`<p id="errEmailRegis"></p>`)
+                } else if (failed.responseJSON.message === "Email address already in use!") {
+                    $("#errPassRegis").html(`<p id="errPassRegis"></p>`)
+                    $("#errEmailRegis").html(`<p id="errEmailRegis">${failed.responseJSON.message}</p>`)
                 } else {
                     $("#errEmailRegis").html(`<p id="errEmailRegis"></p>`)
                     $("#errPassRegis").html(`<p id="errPassRegis"></p>`)
                 }
-                $('#inputEmailRegis').val("")
-                $('#inputPasswordRegis').val("")
             })
             .always(() => {
                 console.log("always register");
+                $('#inputEmailRegis').val("")
+                $('#inputPasswordRegis').val("")
             })
     })
 
@@ -113,7 +116,7 @@ $(document).ready(function wow() {
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/user/login',
+            url: 'http://localhost:3000/login',
             data: {
                 email: $('#inputEmail').val(),
                 password: $('#inputPassword').val()
@@ -124,8 +127,7 @@ $(document).ready(function wow() {
                 access_token = response.access_token
                 localStorage.setItem('access_token', response.access_token)
                 $("#errEmailPassLogin").html(`<p id="errEmailPassLogin"></p>`)
-                $('#inputEmail').val("")
-                $('#inputPassword').val("")
+
                 check()
             })
             .fail(failed => {
@@ -135,10 +137,10 @@ $(document).ready(function wow() {
                 } else {
                     $("#errEmailPassLogin").html(`<p id="errEmailPassLogin"></p>`)
                 }
-                $('#inputEmail').val("")
-                $('#inputPassword').val("")
             })
             .always(() => {
+                $('#inputEmail').val("")
+                $('#inputPassword').val("")
             })
     })
 
@@ -190,10 +192,10 @@ $(document).ready(function wow() {
             })
             .always(() => {
                 // console.log("----------");
+                $("#toDoTitle").val("");
+                $("#toDoDescription").val("");
+                $("#toDoStatus").val("backlog");
             })
-            $("#toDoTitle").val("");
-            $("#toDoDescription").val("");
-            $("#toDoStatus").val("backlog");
     })
 
     function getData(id) {
@@ -239,7 +241,7 @@ $(document).ready(function wow() {
                         }
                     })
                         .done(response => {
-                            check()
+                            console.log(response);
                         })
                         .fail(failed => {
                             console.log(failed.responseJSON.message);
@@ -250,6 +252,7 @@ $(document).ready(function wow() {
                             id = null
                             $("#updateToDoTitle").val(" ");
                             $("#updateToDoDescription").val(" ");
+                            check()
                         })
                 })
             })
@@ -327,7 +330,7 @@ function onSignIn(googleUser) {
 
     $.ajax({
         type: 'POST',
-        url: "http://localhost:3000/user/googleLogin",
+        url: "http://localhost:3000/googleLogin",
         data: {
             id_token: id_token
         }
@@ -340,4 +343,12 @@ function onSignIn(googleUser) {
         .fail(failed => {
             console.log(failed.responseJSON);
         })
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+        main.func()
+    });
 }
