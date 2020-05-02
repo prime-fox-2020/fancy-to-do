@@ -13,8 +13,9 @@ _Get all Todo, created by the user logged in_
 #### Request Body      
   None
 #### Response(200)
-> [
->   {
+````
+[
+   {
         "id": 14,
         "title": "clean bathroom",
         "description": "clean the bathroom in first floor",
@@ -44,22 +45,26 @@ _Get all Todo, created by the user logged in_
         "updatedAt": "2020-04-28T11:11:45.780Z",
         "UserId": "3"
     }
-> ]
-
+ ]
+````
 #### Response(500)
-> {
+````
+{
     "errorMessage": "Unknown Error"
-> }
-
+}
+````
 
 ### POST/todos
-> Create a New Todo
-- Request Headers 
+_Create a New Todo_
+#### Request Headers 
+ ````   
     {
         "Content-Type": "application/x-www-form-urlencoded"
         "access-token" : "your access token"
     }
-- Request Body
+  ````  
+#### Request Body
+````
 {
     "title" : "buy milk"
     "description" : "buy milk to make cake"
@@ -90,18 +95,22 @@ _Get all Todo, created by the user logged in_
 {
     "errorMessage": "Validation Error"
 }
-
+````
 ###  GET/todos/:id
-> Get a specific Todo by ID , created by the user that's logged in.
-- Request Headers
+_Get a specific Todo by ID , created by the user that's logged in._
+#### Request Headers
+````    
     {
         "Content-Type": "application/x-www-form-urlencoded"
         "access-token" : "your access token"
     }
-- Request Body
+````
+#### Request Body
+ ````
   None
-
-- Response(200)
+````
+#### Response(200)
+````
 {
     "id": 16,
     "title": "make lunch",
@@ -112,69 +121,92 @@ _Get all Todo, created by the user logged in_
     "updatedAt": "2020-04-28T11:00:29.591Z",
     "UserId": "3"
 }
-- Response(500)
+````
+#### Response(500)
+````
 {
     "errorMessage": "Unknown Error"
 }
-- Response(404)
+````
+#### Response(404)
+````
 {
     "errorMessage": "Data not Found"
 }
-
+````
 
 
 ### POST/todos/:id
-> Edit a specific todo by id 
-- Request Headers 
-    {
+_Edit a specific todo by id_ 
+#### Request Headers 
+   ````
+   {
         "Content-Type": "application/x-www-form-urlencoded"
         "access-token" : "your access token"
     }
-
-- Request Body
+````
+#### Request Body
+````
 {
     "title" : "buy milk"
     "description" : "buy milk to make cake"
     "status" : "true"
     "due_date" : "2020-08-04"
 }
-- Response (200)
+````
+#### Response (200)
+````
 [
     1
 ]
-- Response (500)
+````
+#### Response (500)
+````
 {
     "errorMessage": "Unknown Error"
 }
-- Response(404)
+````
+#### Response(404)
+````
 {
     "errorMessage": "Data not Found"
 }
-
-- Response(400)
+````
+#### Response(400)
+````
 {
     "errorMessage": "Validation Error"
 }
+````
 ### DELETE/todos/:id
-> Delete a specific todo
-- Request Headers 
+_Delete a specific todo_
+#### Request Headers 
+````
     {
         "Content-Type": "application/x-www-form-urlencoded"
         "access-token" : "your access token"
     }
+````
+#### Request Body
+````
+None
+````
 
-- Request Body
-  None
-
-- Response(200)
+#### Response(200)
+````
 [
     1
 ]
-- Response(500)
+````
+#### Response(500)
+````
 {
     "errorMessage": "Unknown Error"
 }
-- Response(404)
+````
+#### Response(404)
+````
 {
     "errorMessage": "Data not Found"
 }
+````
