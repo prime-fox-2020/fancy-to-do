@@ -108,3 +108,8 @@ h2 {
 .country {
     width: 40%;
 }
+.members {
+    margin: 0px 1rem 1rem 0.3rem;
+    display: flex;
+    flex-direction: column;
+}
