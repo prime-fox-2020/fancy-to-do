@@ -134,6 +134,7 @@
 
 				$(this).parents('.simple-dialog').removeClass('active');
 				if($(this).hasClass('accept')) {
+					console.log('options')
 					options.success(answer);
 				}
 				if($(this).hasClass('cancel')) {

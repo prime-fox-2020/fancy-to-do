@@ -1,5 +1,6 @@
-$(document).ready(function(){
 
+$(document).ready(function(){
+    getQuotes()
 
     $(document).ready(()=>{
         $('section').hide()
@@ -14,16 +15,20 @@ $(document).ready(function(){
           } else {
             $('#login-status').text("sudah login")
             $('#logout').show()
+            $('#page-clock').show()
             $('#page-todos').show()
             $('#page-findAll').show()
             $('#page-vue').show()
+            $('#page-google-sign').hide()
             findAllTodos()
             thisData()
+            getQuotes()
           }
+
         $('#credential').submit(function(e){
             e.preventDefault()
             log_in()
-            $('#page-login').hide()
+            getQuotes()
         })
 
         $('#search-box').submit(function(e){
@@ -43,7 +48,9 @@ $(document).ready(function(){
 
         $('#logout').click(function(e){
             e.preventDefault()
-            localStorage.access_token=''
+            signOut()
+            localStorage.clear();
+
             
         })
 
@@ -72,6 +79,15 @@ $(document).ready(function(){
         })
         .done(function(res){
             localStorage.setItem("access_token", res.access_token);
+            $('#page-login').hide()
+            $('#login-status').text("sudah login")
+            $('#logout').show()
+            $('#page-todos').show()
+            $('#page-findAll').show()
+            $('#page-vue').show()
+            $('#page-google-sign').hide()
+            findAllTodos()
+            thisData()
         })
         .fail(function(err){
             console.log(err)
@@ -80,6 +96,13 @@ $(document).ready(function(){
             
         })
     }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
 
 
 
@@ -277,8 +300,10 @@ $(document).ready(function(){
                 })
                 .done(function(res){
                     findAllTodos()
+                    $('#page-popUp').hide()
                 })
                 .fail(function(err){
+                    console.log(err)
                     
                 })
                 .always(function(){
@@ -301,6 +326,7 @@ $(document).ready(function(){
             addButton(res)
         })
         .fail(function(err){
+            console.log(err)
                     
         })
         .always(function(){
@@ -320,7 +346,7 @@ $(document).ready(function(){
             elMyInfo.text(`sebagai ${res.username}`)
         })
         .fail(function(err){
-                    
+            console.log(err)
         })
         .always(function(){
             
@@ -358,6 +384,22 @@ $(document).ready(function(){
     }
     
 
+    function getQuotes(){
+    $.get( "http://ron-swanson-quotes.herokuapp.com/v2/quotes", function( data, textStatus, jqxhr ) {
+        let app_vue = $('#app-vue')
+        app_vue.text(data); // Data returned
+    });
+
+
+    // $.ajax({
+    //         method:"get",
+    //         url: "http://ron-swanson-quotes.herokuapp.com/v2/quotes",
+    //     })
+    //     .done(function(res){
+    //         console.log(res.data)
+    //     })
+    
+    }
 
 
 

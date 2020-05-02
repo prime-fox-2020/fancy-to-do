@@ -39,18 +39,14 @@ function authorizationSU(req,res,next){
     
     Todo.findByPk(id)
         .then((data)=>{
-            console.log(username)
-            console.log(data.username)
             if(username.toLowerCase().slice(0,5) == 'admin'){
                 next()
             }
             else if(username !== data.username){
-                console.log('sudah disini2')
                 status = false
                 throw ({name:'unauthorized',msg: 'authorized only for admin or user only'})
             }
             else if(username == data.username){
-                console.log('test disini3')
                 next()
             }
         })

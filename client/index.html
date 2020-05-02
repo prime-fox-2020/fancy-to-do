@@ -4,26 +4,42 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width , initial-scale=1.0">
-
-            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            
+            <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
             <meta name="google-signin-scope" content="profile email">
             <meta name="google-signin-client_id" content="296871087286-hmm6icohb03nnd1a7g4jki3o16o15ngj.apps.googleusercontent.com">
             <script src="https://apis.google.com/js/platform.js" async defer></script>
 
+            <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+            <link rel="stylesheet" href = "css/clock.css">
+            <link rel="stylesheet" href = "css/global.css">
+
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-            <link rel="stylesheet" href="really-simple-jquery-dialog.css">
+            <link rel="stylesheet" href="css/really-simple-jquery-dialog.css">
+
+
             <title>Home</title>
         </head>
 
     <body>
-
         <p1 id = 'login-status'> loginstatus</p1>
         <button id = 'logout'> Logout</button>
         <div id = 'my-info'>
             <p1 id = my-info-table>test</p1>
-            
         </div>
+        <section id = 'page-clock'>
+            <div id="clock_hou" class="clock_container">
+                <div class="lbl">Jakarta GMT + 7 </div>
+                <div class="clockHolder">
+                <div class="rotatingWrapper"><img class="hour" src="./images/1HOUR.png" /></div>
+                <div class="rotatingWrapper"><img class="min" src="./images/1MIN.png" /></div>
+                <div class="rotatingWrapper"><img class="sec" src="./images/1SEC.png" /></div>
+                <img class="clock" src="./images/1FACE.png" /> </div>
+                <div class="digital"> <span class="hr"></span><span class="minute"></span> <span class="period"></span> </div>
+            </div>
+        </section>
+        <br>
 
         <section id = 'page-login'>
             <div class = 'page-login'>
@@ -38,11 +54,9 @@
             </div>
         </section>
 
+
         <section id = page-vue>
             <div id='app-vue'>
-                <br>
-                <p>Quotes of the day</p><p>{{status}}</p>
-                
             </div>
     
         </section>
@@ -56,7 +70,7 @@
                     <input type = 'submit'>
                 <button id = 'mylist'>My list</button>
                 </form>
-                <button id = 'adding'>adding</button>
+                <button id = 'adding'>ADD new Todos</button>
             </div>
         </section>
 
@@ -117,7 +131,7 @@
         </script>
         </section>
 
-    <script>
+    <!-- <script>
         var vm = new Vue({
             el: '#app-vue',
             data:{
@@ -142,15 +156,7 @@
             }
         })
 
-
-
-
-
-
-
-    </script>
-
-
+    </script> -->
 
         <script			  
         src="https://code.jquery.com/jquery-3.5.0.min.js"

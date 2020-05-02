@@ -10,7 +10,7 @@ routes.use('/todos',todos)
 
 routes.use('/users',user)
 
-
+routes.get('/')
 
 
 
