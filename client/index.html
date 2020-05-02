@@ -12,6 +12,30 @@
 </head>
 
 <body>
+    <!-- navbar (#main-navbar) -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Todo App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">My Todos</a>
+                </li>
+                <li>
+                    <button type="button" onclick="addTodos();" class="btn btn-dark">Add Todo</button>
+                </li>
+            </ul>
+            <form id="logout" class="form-inline my-2 my-lg-0">
+                <button onclick="signOut();" class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- form login / register (#login-form) -->
     <form style="padding: 2% 30%;" id="login-form">
         <h1 id="form-title">Login To Todo App</h1>
         <div class="alert alert-danger" role="alert">
@@ -31,12 +55,38 @@
         </div>
         <button type="submit" class="btn btn-primary" id="login-submit">Submit</button><br><br>
         <a type="button" id="register-button">Don't have an account? Register here</a>
-        <p>Or Sign In with Google</p>        
+        <p>Or Sign In with Google</p>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </form>
     
+    <!-- input data (#input-data) -->
+    <form style="padding: 2% 30%;" id="input-data">
+        <h1 id="form-input-title">Add New Todo</h1>
+        <div class="alert alert-danger" role="alert">
+            A simple danger alert—check it out!
+        </div>
+        <div class="alert alert-success" role="alert">
+            A simple danger alert—check it out!
+        </div>
+        <div class="form-group">
+            <label for="title">title</label>
+            <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Todo's title">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Description">
+        </div>
+        <div class="form-group">
+            <label for="due-date">Due Date</label>
+            <input type="date" class="form-control" id="due-date">
+        </div>
+        <button type="submit" class="btn btn-primary" id="input-submit">Submit</button>
+        <button type="button" class="btn btn-danger" id="cancel">Cancel</button>
+        <input type="text" id="id" style="visibility: hidden;">
+    </form>
+
+    <!-- Table for show all todo (#show-data) -->
     <div id="show-data">
-        <a href="#" onclick="signOut();">Sign out</a>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -44,7 +94,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Due Date</th>
                     <th scope="col">Status</th>
-                    <th scope="col">User Id</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody id="todos">
