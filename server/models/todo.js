@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Date cannot be empty'
         },
         isDate: {
-          msg: 'Date format must YYYY-MM-DD'
+          msg: 'Date format must DD-MM-YYYY'
         }
       }
     },
