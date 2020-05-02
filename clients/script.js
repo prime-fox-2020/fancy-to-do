@@ -1,41 +1,191 @@
 let url_nya = 'http://localhost:3000'
 
-$(document).ready(function() {
+function getIndonesianDate(value) {
+    let year = value.substring(0,4)
+    let month = value.substring(5,7)
+    let date = value.substring(8,10)
+    let tanggal_lengkap = null
+    if (date && month && year) {
+        switch (Number(month)) {
+            case 01: {tanggal_lengkap = `${date} Januari ${year}`; break;}
+            case 02: {tanggal_lengkap = `${date} Februari ${year}`; break;}
+            case 03: {tanggal_lengkap = `${date} Maret ${year}`; break;}
+            case 04: {tanggal_lengkap = `${date} April ${year}`; break;}
+            case 05: {tanggal_lengkap = `${date} Mei ${year}`; break;}
+            case 06: {tanggal_lengkap = `${date} Juni ${year}`; break;}
+            case 07: {tanggal_lengkap = `${date} Juli ${year}`; break;}
+            case 08: {tanggal_lengkap = `${date} Agustus ${year}`; break;}
+            case 09: {tanggal_lengkap = `${date} September ${year}`; break;}
+            case 10: {tanggal_lengkap = `${date} Oktober ${year}`; break;}
+            case 11: {tanggal_lengkap = `${date} November ${year}`; break;}
+            case 12: {tanggal_lengkap = `${date} Desember ${year}`; break;}
+            default: {tanggal_lengkap = 'Maaf data yang anda masukan tidak valid!';}
+        }
+    } 
+    return tanggal_lengkap
+}
 
-    console.log('Hallo Jquery World!!'); 
+$(document).ready(function() {    
     if (localStorage.token) {
-        $('#dashboard').show()
+        $('#dashboard').show() 
+        $('#todos-nav').show()
+        $('#register-nav').show()
+        $('#logout').show()
         $('#login-page').hide()
         $('#register-page').hide()
         $('#edit-page').hide()
         $('#add-page').hide()
+        $('#calendar-page').hide()
+        $('#login-nav').hide()
         getAllTodos()
     } else if (!localStorage.token) {
+        $('#register-page').show()
+        $('#login-nav').show()
+        $('#logout').hide()
         $('#dashboard').hide()
         $('#edit-page').hide()
         $('#add-page').hide()
-        $('#login-page').show()
-        $('#register-page').show()
+        $('#login-page').hide()
+        $('#calendar-page').hide()
+        $('#todos-nav').hide()
     }
+
+    $('#cancel-edit-form').click(function(event) {
+        $('#dashboard').show() 
+    })
+
+    $('#cancel-add-form').click(function(event) {
+        $('#dashboard').show() 
+    })
+
+    $('#back-to-dashboard').click(function(event) {
+        $('#dashboard').show() 
+    })
+
+    $('#cancel-login-form').click(function(event) {
+        event.preventDefault()
+        $('#register-page').show()
+        $('#login-page').hide()
+    })
+
+    $('#cancel-register-form').click(function(evebt) {
+        event.preventDefault()
+        if (localStorage.token) {
+            $('#dashboard').show() 
+            $('#register-page').hide()
+        } else if (!localStorage.token) {
+            $('#login-page').show()
+            $('#register-page').hide()
+        }
+
+    })
+
+
+    $('#todos-nav').click(function(event) {
+        if (localStorage.token) {
+            $('#dashboard').show() 
+            $('#login-page').hide()
+            $('#register-page').hide()
+            $('#edit-page').hide()
+            $('#add-page').hide()
+            $('#calendar-page').hide()
+            $('#login-nav').hide()
+            getAllTodos()
+        } else if (!localStorage.token) {
+            $('#register-page').show()
+            $('#login-nav').show()
+            $('#dashboard').hide()
+            $('#edit-page').hide()
+            $('#add-page').hide()
+            $('#login-page').hide()
+            $('#calendar-page').hide()
+        }
+    })
+
+    $('#register-nav').click(function(event) {
+        event.preventDefault()
+        if (localStorage.token) {
+            $('#dashboard').hide() 
+            $('#login-page').hide()
+            $('#register-page').show()
+            $('#logout').show()
+            $('#edit-page').hide()
+            $('#add-page').hide()
+            $('#calendar-page').hide()
+            $('#login-nav').hide()
+            getAllTodos()
+        } else if (!localStorage.token) {
+            $('#register-page').show()
+            $('#login-nav').show()
+            $('#logout').hide()
+            $('#dashboard').hide()
+            $('#edit-page').hide()
+            $('#add-page').hide()
+            $('#login-page').hide()
+            $('#calendar-page').hide()
+        }
+    })
+    
+    $('#login-nav').click(function(event) {
+        event.preventDefault()
+        console.log('login di nav bar ter click');
+        $('#login-page').show()
+        $('#register-page').hide()
+        $('#dashboard').hide()
+    })
+
+    $('#logout').click(function(event) {
+        // event.preventDefault()
+        const auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            localStorage.clear()
+            $('#login-page').hide()
+            $('#dashboard').hide()
+        });
+    })
+
+    $('#holidays-button').click(function(event) {
+        event.preventDefault(event)
+        console.log('masuk holidays calendar');
+        showCalendarHolidays()
+    })
     
     // Mengambil elemen html dengan id add-todos-button untuk mengganti page  
     $('#add-todos-button').click(function(event) {
         event.preventDefault(event)
-        console.log('add todos right now');
         $('#add-page').show()
         $('#dashboard').hide()
     })
 
     // Mengambil elemen html dengan class edit-this-todo dengan event click
-    $(document).on("click", ".edit-this-todo", function() {
-        console.log(".edit-this-todo ke click", this);
-        console.log($(this).attr('data-id'));
+    $(document).on("click", "#edit-this-todo", function(event) {
+        event.preventDefault()
         let id = $(this).attr('data-id')
+        const token = localStorage.getItem('token')
+        $.ajax({
+            method: 'GET',
+            url: url_nya + '/todos/' + id,
+            headers: {
+                token
+            }
+        })
+        .done(data => {
+            $('#title-edit').val(data.title)
+            $('#description-edit').val(data.description)
+            $('#status-edit').val(data.status)
+            $('#due-date-edit').val(data.due_date)
+        })
+        .fail(err => {
+            console.log(err, `tidak dapat mencari todo dengan id ${id}`);
+            $('#edit-error').text(err.responseJSON.msg)
+            
+        })
+        .always(function() {
+        })
         $('#edit-page').show()
         $('#dashboard').hide()
         $('#form-edit').submit(function(event) {
             event.preventDefault()
-            console.log('Masuk edit todo');
             let judul = $('#title-edit').val()
             let deskripsi = $('#description-edit').val()
             let statusnya = $('#status-edit').val()
@@ -45,33 +195,27 @@ $(document).ready(function() {
     })
 
     // Mengambil elemen html dengan class delete-this-todo dengan event click
-    $(document).on("click", ".delete-this-todo", function() {
+    $(document).on("click", "#delete-this-todo", function() {
         event.preventDefault()
-        console.log(".delete-this-todo ke click", this);
-        console.log($(this).attr('data-id'));
-        let id = $(this).attr('data-id')
-        console.log('Masuk delete todo');
-        deleteTodo(id)            
+        let id = $(this).attr('data-id')        
+        deleteTodo(id)  
     })
 
     // Mengambil elemen html dengan id form-registrasi
     $('#form-register').submit(function( event ) {
         event.preventDefault();
-        console.log('masuk register submit');
-                
         let name = $('#name-register').val()
         let username = $('#username-register').val()
         let email = $('#email-register').val()
         let password = $('#password-register').val() 
         $('#register-error').hide()
-        register(name, username, email, password)
         // ajax untuk user register
+        register(name, username, email, password)
     });
 
     // Mengambil elemen html dengan id form-login
     $('#form-login').submit(function(event) {
         event.preventDefault()
-        console.log('masuk login submit');
         let usrname = $('#username-login').val()
         let eml = $('#email-login').val()
         let pswd = $('#password-login').val()
@@ -81,7 +225,6 @@ $(document).ready(function() {
     // Mengambil elemen html dengan id form-add
     $('#form-add').submit(function(event) {
         event.preventDefault()
-        console.log('Masuk add todo');
         let judul = $('#title-add').val()
         let deskripsi = $('#description-add').val()
         let statusnya = $('#status-add').val()
@@ -106,17 +249,16 @@ $(document).ready(function() {
             }
         })
         .done(data => {
-            console.log(data);
             $("#todo-list").append(`
                     <tr>
-                        <td>${data.title}</td>
-                        <td>${data.description}</td>
-                        <td>${data.status}</td>
-                        <td>${data.due_date}</td>
-                        <td><button class="edit-this-todo" data-id="${data.id}">EDIT</button></td>
-                        <td><button class="delete-this-todo" data-id="${data.id}">DELETE</button></td>
-                    </tr>
-                `)
+                        <td id="title">${data.title}</td>
+                        <td id="description">${data.description}</td>
+                        <td id="status">${data.status}</td>
+                        <td id="due-date">${getIndonesianDate(data.due_date)}</td>
+                        <td><button class="waves-effect waves-light btn" id="edit-this-todo" data-id="${data.id}">EDIT</button></td>
+                        <td><button class="waves-effect waves-light btn" id="delete-this-todo" data-id="${data.id}">DELETE</button></td>
+                    </tr>`)
+            getAllTodos()
             $('#dashboard').show()
             $('#add-page').hide() 
         })
@@ -150,7 +292,7 @@ $(document).ready(function() {
             }
         })
         .done(data => {
-            console.log(data.todo);
+            $('#pesan').text(data.message)
             $('#dashboard').show()
             $('#edit-page').hide() 
         })
@@ -177,16 +319,17 @@ $(document).ready(function() {
             }
         })
         .done(data => {
-            console.log(data);
+            $('#username').text(localStorage.getItem('user_name'))
+            $('#todo-list').empty()
             for (let i in data) {
                 $("#todo-list").append(`
                     <tr>
-                        <td>${data[i].title}</td>
-                        <td>${data[i].description}</td>
-                        <td>${data[i].status}</td>
-                        <td>${data[i].due_date}</td>
-                        <td><button class="edit-this-todo" data-id="${data[i].id}">EDIT</button></td>
-                        <td><button class="delete-this-todo" data-id="${data[i].id}">DELETE</button></td>
+                        <td id="title">${data[i].title}</td>
+                        <td id="description">${data[i].description}</td>
+                        <td id="status">${data[i].status}</td>
+                        <td id="due-date">${getIndonesianDate(data[i].due_date)}</td>
+                        <td><button class="waves-effect waves-light btn" id="edit-this-todo" data-id="${data[i].id}">EDIT</button></td>
+                        <td><button class="waves-effect waves-light btn" id="delete-this-todo" data-id="${data[i].id}">DELETE</button></td>
                     </tr>
                 `)
             }            
@@ -211,18 +354,21 @@ $(document).ready(function() {
             }
         })
         .done(data => {
-            console.log('berhasil login!!');
             const token = data.user_token 
             localStorage.setItem('token', token)
-            console.log(data.user_token);
+            localStorage.setItem('user_name', data.user_name)
             $('#login-error').hide() 
             $('#login-page').hide() 
+            $('#calendar-page').hide()
             $('#register-page').hide()
+            $('#login-nav').hide()
+            $('#pesan').hide()
             $('#dashboard').show()
+            $('#logout').show()
+            $('#todos-nav').show()
             getAllTodos()
         })
         .fail(err => {
-            console.log(err, "Login error");
             $('#login-error').show() 
             $('#login-error').text(err.responseJSON.err)
         })
@@ -246,13 +392,11 @@ $(document).ready(function() {
             }
         })
         .done(data => {
-            console.log(data, 'berhasil registrasi!!');
             $('#register-error').hide() 
             $('#register-page').hide() 
             $('#login-page').show() 
         })
         .fail(err => {
-            console.log(err.responseJSON.msg, "Registrasi error");
             $('#register-error').show() 
             $('#register-error').text(err.responseJSON.msg) 
         })
@@ -275,7 +419,8 @@ $(document).ready(function() {
             }
         })
         .done(data => {
-            console.log(data);
+            $('#pesan').text(data.message)
+            getAllTodos()
             $("#dashboard").show()
         })
         .fail(err => {
@@ -287,15 +432,65 @@ $(document).ready(function() {
         })
     }
 
+    function showCalendarHolidays() {
+        $.ajax({
+            method: 'GET',
+            url: url_nya + '/holidays',
+            params: {
+                api_key: 'fc24d16705399cb231e56807dfd018bcf351b8e3',
+                country: 'ID',
+                year: 2020
+            }
+        })
+        .done(data => { 
+            data = data.response.response.holidays
+            // console.log(data);            
+            $('#holidays-list').empty()
+            for (let i in data) {
+                $("#holidays-list").append(`
+                    <tr>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].description}</td>
+                        <td>${getIndonesianDate(data[i].date.iso.slice(0,10))}</td>
+                    </tr>
+                `)
+            }            
+            $('#calendar-page').show()
+            $('#dashboard').hide()
+        })
+        .fail(err => {
+            console.log(err, "Tidak dapat memproses calendar");
+            
+        })
+        .always(function() {
+            console.log('Memproses data calendar');
+        })
+    }
     
-    
-    $('#logout-button').click(function(event) {
-        // event.preventDefault()
-        localStorage.clear()
-        $('#login-page').show()
-        $('#dashboard').hide()
-    })
-
-
-
 });
+
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;    
+    $.ajax({
+        url: `${url_nya}/users/google-login`,
+        method: 'POST',
+        headers: {
+            google_token: id_token 
+        }  
+    })
+    .done(data=> {
+        localStorage.setItem('token', data.user_token)
+        localStorage.setItem('user_name', data.user_name)
+        $('#login-error').hide() 
+        $('#login-page').hide() 
+        $('#calendar-page').hide()
+        $('#register-page').hide()
+        $('#login-nav').hide()
+        $('#dashboard').show()
+        $('#logout').show()
+        $('#todos-nav').show()
+    })
+    .fail(err=> {
+        console.log(err);
+    })
+}

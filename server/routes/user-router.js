@@ -4,6 +4,7 @@ const UserController = require('../controllers/user-controller.js')
 router.get('/', UserController.showUsers)
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
+router.post('/google-login', UserController.googleLogin)
 router.delete('/:id', UserController.deleteUser)
 
 module.exports = router
