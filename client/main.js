@@ -253,11 +253,13 @@ function getTodo() {
         }
     }).done(response => {
         todos = response
-        if(todos.length > 0){
-            todos.forEach(todo => {
-                appendTodos(todo, ".todos-table")
-            })
-        }
+        $(document).ready(() => {
+            if(todos.length > 0){
+                todos.forEach(todo => {
+                    appendTodos(todo, ".todos-table")
+                })
+            }
+        })
     }).fail(err => {
         console.log(err)
     })
@@ -270,10 +272,12 @@ function getProjects(){
             access_token: localStorage.getItem('access_token')
         }
     }).then(response => {
-        response.forEach(project => {
-            $("#project")
-            .append(`<option class="project-value" value="${project.project}">${project.project}</option>
-            `)
+        $(document).ready(() => {
+            response.forEach(project => {
+                $("#project")
+                .append(`<option class="project-value" value="${project.project}">${project.project}</option>
+                `)
+            })
         })
     })
 }
@@ -286,10 +290,14 @@ function getMembers(){
         }
     }).then(response => {
         console.log(response)
-        response.forEach(user => {
-            $(".members")
-            .append(`<input type="checkbox" class="member-id" onClick="addMembers(${user.id})"><snap class="member-id">${user.email}</snap></input>
-            `)
+        $(document).ready(() => {
+            response.forEach(user => {
+                $(".members")
+                .append(`<div style="display: flex; align-items:baseline" class="member-id">
+                <input type="checkbox" onClick="addMembers(${user.id})">
+                ${user.email}</input>
+                </div>`)
+            })
         })
     })
 }
@@ -317,12 +325,14 @@ function checking(id) {
             }
         })
         .done(response => {
-            $(".todo-item").remove()
-            todos.forEach(Todo => {
-                if(Todo.todo.id === id){
-                    Todo.todo.status = "completed"
-                }
-                appendTodos(Todo, ".todos-table")
+            $(document).ready(() => {
+                $(".todo-item").remove()
+                todos.forEach(Todo => {
+                    if(Todo.todo.id === id){
+                        Todo.todo.status = "completed"
+                    }
+                    appendTodos(Todo, ".todos-table")
+                })
             })
         })
         .fail(err=>{
@@ -340,12 +350,14 @@ function checking(id) {
             }
         })
         .done(response => {
-            $(".todo-item").remove()
-            todos.forEach(Todo => {
-                if(Todo.todo.id === id){
-                    Todo.todo.status = "not completed"
-                }
-                appendTodos(Todo, ".todos-table")
+            $(document).ready(() => {
+                $(".todo-item").remove()
+                todos.forEach(Todo => {
+                    if(Todo.todo.id === id){
+                        Todo.todo.status = "not completed"
+                    }
+                    appendTodos(Todo, ".todos-table")
+                })
             })
         })
         .fail(err=>{
@@ -370,8 +382,9 @@ function todoDetail(id) {
             access_token: localStorage.getItem('access_token')
         }
     }).done(Todo => {
-        console.log(Todo)
-        appendTodo(Todo, ".todo-table")
+        $(document).ready(() => {
+            appendTodo(Todo, ".todo-table")
+        })
     }).fail(err => {
         console.log(err)
     })
@@ -410,9 +423,11 @@ function edit(id) {
             $(".form-update").hide()
             $(".todo-list").show()
             $(".item-detail").remove()
-            $(".todo-item").remove()
-            todos.forEach(Todo => {
-                appendTodos(Todo, ".todos-table")
+            $(document).ready(() => {
+                $(".todo-item").remove()
+                todos.forEach(Todo => {
+                    appendTodos(Todo, ".todos-table")
+                })
             })
         }).fail(err =>{
             console.log(err)
@@ -460,9 +475,11 @@ function deleteTodo(id) {
             }
         }
         todos.splice(index, 1)
-        $(".todo-item").remove()
-        todos.forEach(Todo => {
-            appendTodos(Todo, ".todos-table")
+        $(document).ready(() => {
+            $(".todo-item").remove()
+            todos.forEach(Todo => {
+                appendTodos(Todo, ".todos-table")
+            })
         })
     }).fail(err => {
         Swal.fire(
@@ -488,13 +505,13 @@ function onSignIn(googleUser) {
         $(".logoutBtn").show()
         $(".user-page").show()
         $(".todo-detail").hide()
+        $(".holiday-list").hide()
         getTodo()
     })
     .fail(err=>{
         console.log(err)
     })
 }
-
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -512,7 +529,6 @@ window.fbAsyncInit = function() {
         version    : 'v6.0'
     });
 };
-
 (function(d, s, id){
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return;}
@@ -520,7 +536,6 @@ window.fbAsyncInit = function() {
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
-
 function fbLogin(){
     FB.login(function(response) {
         if(response.status === 'connected') {
@@ -536,6 +551,7 @@ function fbLogin(){
                 $(".logoutBtn").show()
                 $(".user-page").show()
                 $(".todo-detail").hide()
+                $(".holiday-list").hide()
                 getTodo()
             })
             .fail(err=>{
@@ -544,7 +560,6 @@ function fbLogin(){
         }
       });
 }
-
 function fb_logout(){
     FB.logout(function(response) {
         console.log('user logout')
