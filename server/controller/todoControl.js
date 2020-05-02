@@ -1,4 +1,6 @@
 const { Todo } = require('../models')
+const axios = require("axios");
+
 
 class Control {
     static create (req, res, next) {
@@ -11,6 +13,24 @@ class Control {
         })
         .then(data => {
             res.status(201).json(data)
+            const msg = `You have a new todo, ${data.title}. Your due date is ${data.due_date}`
+            axios({
+                    "method":"POST",
+                    "url":"https://simplemailsender.p.rapidapi.com/SendMails/Send",
+                    "headers":{
+                    "x-rapidapi-host":"simplemailsender.p.rapidapi.com",
+                    "x-rapidapi-key":"6a2493f933msh89af1ce3ec969a8p1631adjsn0163c62e9286"
+                },"data":{
+                    Correo_Delivery: req.userData.email,
+                    Mensjae: msg
+                }
+            })
+            .then((response)=>{
+                console.log('Mail Sent')
+            })
+            .catch((err)=>{
+                next({name: 'Internal Server Error'})
+            })
         })
         .catch(err => {
             next(err)
