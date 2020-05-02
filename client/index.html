@@ -5,8 +5,6 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width , initial-scale=1.0">
             
-            <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-            <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
             <meta name="google-signin-scope" content="profile email">
             <meta name="google-signin-client_id" content="296871087286-hmm6icohb03nnd1a7g4jki3o16o15ngj.apps.googleusercontent.com">
             <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -22,11 +20,13 @@
             <title>Home</title>
         </head>
 
+    
+
     <body>
-        <p1 id = 'login-status'> loginstatus</p1>
+        <p1 id = 'login-status'> loginstatus </p1>
         <button id = 'logout'> Logout</button>
         <div id = 'my-info'>
-            <p1 id = my-info-table>test</p1>
+            <p1 id = my-info-table></p1>
         </div>
         <section id = 'page-clock'>
             <div id="clock_hou" class="clock_container">
@@ -131,32 +131,6 @@
         </script>
         </section>
 
-    <!-- <script>
-        var vm = new Vue({
-            el: '#app-vue',
-            data:{
-                status:''
-            },
-            created : function(){
-                this.loadQuote();
-            },
-            methods:{
-                loadQuote: function(){
-                    this.status = 'Fetching'
-                    var vm=this;
-                    axios.get (`http://ron-swanson-quotes.herokuapp.com/v2/quotes`)
-                    .then(res=>{
-                        vm.status = res.data[0];
-                    })
-                    .catch(err=>{
-                        vm.status = err
-                    })
-                }
-
-            }
-        })
-
-    </script> -->
 
         <script			  
         src="https://code.jquery.com/jquery-3.5.0.min.js"

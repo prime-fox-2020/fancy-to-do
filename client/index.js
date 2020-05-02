@@ -101,6 +101,14 @@ $(document).ready(function(){
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
           console.log('User signed out.');
+          $('.errorMsg').empty()
+            $('#page-google-sign').show()
+            $('#page-login').show()
+            $('#login').show()
+            $('#login-status').text("belum login")
+            $('#logout').hide()
+            $('section').hide() 
+          
         });
       }
 
@@ -115,7 +123,19 @@ $(document).ready(function(){
         .done(function(res){
             console.log(res)
             const elFindById = $('#by-id')
-            let dataFindById = '';
+            let dataFindById = `
+            <tr>
+            <th> ID </th>
+            <th> Username </th>
+            <th> Title </th>
+            <th> Description </th>
+            <th> Status </th>
+            <th> Due date </th>
+            <th> Edit </th>
+            <th> Delete </th>
+            <tr>
+            
+            `;
 
             res.forEach((el)=>{
                 dataFindById +=  `<tr>
@@ -166,7 +186,18 @@ $(document).ready(function(){
         .done(function(res){
             console.log(res)
             const elFindAll = $('#findAll')
-            let dataFindAll = '';
+            let dataFindAll = `
+            <tr>
+            <th> ID </th>
+            <th> Username </th>
+            <th> Title </th>
+            <th> Description </th>
+            <th> Status </th>
+            <th> Due date </th>
+            <th> Edit </th>
+            <th> Delete </th>
+            <tr>
+            `;
 
             res.forEach((el)=>{
             dataFindAll +=  `<tr>
@@ -215,7 +246,18 @@ $(document).ready(function(){
         })
         .done(function(res){
             const elMyTodos = $('#mytodos')
-            let myTodos = '';
+            let myTodos = `
+            <tr>
+            <th> ID </th>
+            <th> Username </th>
+            <th> Title </th>
+            <th> Description </th>
+            <th> Status </th>
+            <th> Due date </th>
+            <th> Edit </th>
+            <th> Delete </th>
+            <tr>
+            `;
             res.forEach((el)=>{
             myTodos +=  `<tr>
                             <td>${el.id}</td>
@@ -391,13 +433,6 @@ $(document).ready(function(){
     });
 
 
-    // $.ajax({
-    //         method:"get",
-    //         url: "http://ron-swanson-quotes.herokuapp.com/v2/quotes",
-    //     })
-    //     .done(function(res){
-    //         console.log(res.data)
-    //     })
     
     }
 

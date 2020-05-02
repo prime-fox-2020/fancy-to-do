@@ -1,3 +1,67 @@
 table, th, td {
     border: 1px solid black;
   }
+
+  body {
+    background-color: #3a4a58;
+    color: #8c8c8c;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    padding: 15px;
+    margin: 0;
+  }
+  
+  login-status
+
+  #login-status {
+    text-align: right;
+    
+  }
+
+  #logout{
+    position: static;
+    border: 3px solid #73AD21;
+  }
+
+  #my-info {
+    text-align: right;
+    padding-right: 400px;
+  }
+
+
+  table {
+    width: 80%;
+    border-spacing: 0;
+  }
+
+
+  td {
+    text-align: center;
+    padding: 10px 15px;
+  }
+
+  th {
+    text-align: center;
+    padding: 10px 15px;
+  }
+  
+  .tm-text-left { text-align: left; }
+  
+  th {
+    color: #333333;
+    font-weight: 400;
+    font-size: 1.2rem;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  tr:nth-child(odd) { background-color: #c0c0c0; }
+  
+
+
+  p {
+    font-size: 3rem;
+    line-height: 3;
+  }
+  
