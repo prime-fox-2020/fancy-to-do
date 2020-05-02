@@ -1,6 +1,4 @@
 $(document).ready(function(){
-    $('#greetings').css('color','red')
-    $('.use-class').css('color','blue')
 
 
     $(document).ready(()=>{
