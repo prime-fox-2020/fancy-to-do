@@ -70,7 +70,7 @@ class TodosController {
       return Todo.destroy({where: {id}})
     })
     .then(result => {
-      res.status(200).json({todo, message: `Todo with ID ${id} successfully deleted`})
+      res.status(204).json({todo, message: `Todo with ID ${id} successfully deleted`})
     })
     .catch(err => next(err))
   }
