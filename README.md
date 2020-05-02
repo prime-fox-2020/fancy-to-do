@@ -8,6 +8,13 @@ Create fancy to do app, using express, jquery, ajax
 
 > Get all todos
 
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
 _Request Body_
 ```
 not needed
@@ -46,6 +53,13 @@ _response (500 - Internal Server Error)_
 ### GET /todos/:id
 > Get todos by id
 
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
 _Request Body_
 ```
 not needed
@@ -81,6 +95,13 @@ _response (500 - Internal Server Error)_
 
 ### POST /todos
 > Create new todos
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
 
 _Request Body_
 ```
@@ -122,6 +143,13 @@ _response (500 - Internal Server Error)_
 
 ### PUT /todos/:id
 > Update todos by id
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
 
 _Request Body_
 ```
@@ -168,6 +196,13 @@ _response (500 - Internal Server Error)_
 ### DELETE /todos/:id
 > Get todos by id
 
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
 _Request Body_
 ```
 not needed
@@ -183,6 +218,106 @@ _response (200)_
   "due_date": "<todos due_date>",
   "createdAt": "2020-04-27T10:14:40.744Z",
   "updatedAt": "2020-04-27T10:14:40.744Z"
+}
+```
+
+_response (404 - Not Found)_
+```
+{
+  "error": "not found"
+}
+```
+
+_response (500 - Internal Server Error)_
+```
+{
+  <error message>
+}
+```
+---
+
+### Register /register
+> User Register
+
+_Request Body_
+```
+{
+	"email": "<your email>",
+	"password": "<your password>"
+}
+```
+
+_response (201 - Created)_
+```
+{
+  "id": 1,
+	"email": "<your email>",
+	"password": "<your password>"
+}
+```
+
+_response (404 - Not Found)_
+```
+{
+  "error": "not found"
+}
+```
+
+_response (500 - Internal Server Error)_
+```
+{
+  <error message>
+}
+```
+---
+
+### Login /login
+> User login
+
+_Request Body_
+```
+{
+	"email": "<your email>",
+	"password": "<your password>"
+}
+```
+
+_response (201 - Created)_
+```
+{
+  "access_token": "<generated access_token>"
+}
+```
+
+_response (404 - Not Found)_
+```
+{
+  "error": "not found"
+}
+```
+
+_response (500 - Internal Server Error)_
+```
+{
+  <error message>
+}
+```
+---
+
+### Google Sign-In /google-signin
+> User Sign-In with google account
+
+_Request Body_
+```
+{
+	"idToken": "<user idToken>"
+}
+```
+
+_response (201 - Created)_
+```
+{
+  "access_token": "<generated access_token>"
 }
 ```
 

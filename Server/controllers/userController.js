@@ -88,6 +88,7 @@ class UserController {
       }
     })
     .catch(err => {
+      next();
       console.log(err);
     })
   }
