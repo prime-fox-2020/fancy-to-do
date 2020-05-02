@@ -59,6 +59,7 @@ class TodoController{
     static update(req, res, next){
         const { id } = req.params;
         const updateTodo = req.body;
+        console.log(req);
 
         Todo.update(updateTodo, {
             where: { id }
@@ -79,6 +80,7 @@ class TodoController{
 
     static delete(req, res, next){
         const id = req.params.id;
+        console.log(id)
 
         Todo.destroy({ where: { id } })
         .then(() => {

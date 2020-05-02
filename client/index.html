@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./style.css">
-    <link type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
     <title>FANCY TODO APP</title>
 </head>
 
@@ -80,23 +81,35 @@
     <div id="home">
         <nav class="navbar navbar-light bg-light justify-content-between">
             <form id="logout" class="form-inline">
-                <button onclick="signOut()" class="btn btn-outline-danger my-2 my-sm-0" type="submit">LOGOUT</button on>
+                <button style="width: auto;" onclick="signOut()" class="btn btn-outline-danger my-2 my-sm-0" type="submit">LOGOUT</button on>
             </form>
         </nav>
 
         <h2 class="text-center">RYZ TODO APP</h2>
+        <!-- <div id="notcomp">
+            <h3>Not Completed</h3>
+            
+            <div id="task">
+                task
+                <i class="fa fa-trash"></i>
+                <i class="fa fa-check"></i>
+            </div>
+        </div>
 
-        <ul class="list-group">
+        <div id="comp">
+            <h3>Completed</h3>
+            task
+                <i class="fa fa-trash"></i>
+        </div> -->
+        
+        <!--    
+        <button id="show_data" class="btn btn-outline-info">SHOW DATA</button>
+        <ul id="list_todo" class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                Cras justo odio
-                <span class="badge badge-primary badge-pill"><i class="fa fa-check"></ili>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Dapibus ac facilisis in
-                <span class="badge badge-primary badge-pill"><i class="fa fa-check"></i></span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                Morbi leo risus
-                <span class="badge badge-primary badge-pill"><i class="fa fa-check"></i></span>
+                PERATAMA
+                <span class="badge badge-primary badge-pill">
+                    <i class="fa fa-check"></i>
+                </span>
             </li>
         </ul>
         <div class="input-group mb-3">
@@ -107,6 +120,17 @@
                     <button id="input_data" class="btn btn-outline-secondary" type="button">Button</button>
                 </div>
             </form>
+        </div> -->
+        <div id="container">
+            <div class="notcomp">
+                <h3>Not Completed</h3>
+    
+    
+            </div>
+    
+            <div class="comp">
+                <h3>Completed</h3>
+            </div>
         </div>
     </div>
 
@@ -124,4 +148,4 @@
     <script src="./index.js"></script>
 </body>
 
-</html>
+</html> -->
