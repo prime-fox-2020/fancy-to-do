@@ -94,7 +94,7 @@ _Response (400 - Bad Request)_
 | URL              | /todo                                                                                                                           |   |
 | Method           | GET                                                                                                                             |   |
 | URL Parameter    | -                                                                                                                               |   |
-| Success Response | Code:200 Content: {            id:            title:            description:            status:            due_date:          } |   |
+| Success Response | Code:200 Content: {            id:  <br>          title:    <br>        description:    <br>        status: <br>           due_date: <br>         } |   |
 | Error Response   |  Code: 500 Content: { "message" : "error message"}                                                                              |   |
 | Error Response   |                                                                                                                                 |   |
 |  
