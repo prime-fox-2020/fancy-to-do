@@ -39,16 +39,16 @@ $(document).ready(function() {
             }
         })
         .done((response) => {
-            $('#name-register').val('')
-            $('#email-register').val("")
-            $('#password-register').val("")
             console.log(`sukses register email baru >>> ${response}`)
             check()
         })
         .fail((response) => {
-            console.log(`gagal register email >>> ${response}`)
+            console.log(`gagal register email >>> ${response.responseJSON}`)
         })
         .always((response) => {
+            $('#name-register').val('')
+            $('#email-register').val("")
+            $('#password-register').val("")
             console.log(`always >>> ${response}`)
         })
     })
@@ -73,15 +73,15 @@ $(document).ready(function() {
             localStorage.setItem('access_token', response.access_token)
             localStorage.setItem('name', response.name)
             console.log(localStorage)
-            $('#email-login').val('')
-            $('#password-login').val('')
             check()
         })
         .fail((response) => {
             console.log(response)
-            console.log(`Login failed >>> ${response}`)
+            console.log(`Login failed >>> ${response.responseJSON}`)
         })
         .always((response) => {
+            $('#email-login').val('')
+            $('#password-login').val('')
             console.log(`always >> ${response}`)
         })
     })
@@ -107,16 +107,73 @@ $(document).ready(function() {
             }
         })
         .done((response) => {
-            $('#title-add').val('')
-            $('#description-add').val('')
-            $('#due_date-add').val('')
             console.log(`Sukses tambah todo >>> ${response}`)
             showTodo()
         })
         .fail((response) => {
-            console.log(`Failed tambah todo >>> ${response}`)
+            console.log(`Failed tambah todo >>> ${response.responseJSON}`)
+        })
+        .always(()=>{
+            $('#title-add').val('')
+            $('#description-add').val('')
+            $('#due_date-add').val('')
         })
     })
+
+    $('#edit-todo').submit((e) => {
+        e.preventDefault()
+        const token = localStorage.getItem('access_token')
+        const id = $('#id-edit').val()
+        const newTitle = $('#title-edit').val()
+        const newDescription = $('#description-edit').val()
+        const newDueDate = $('#due_date-edit').val()
+
+        $.ajax({
+            url : 'http://localhost:3000/todo/' + id,
+            type : 'PUT',
+            data : {
+                title : newTitle,
+                description : newDescription,
+                due_date : newDueDate
+            },
+            headers : {
+                access_token : token
+            }
+        })
+        .done((response) => {
+            console.log('Data sukses di edit >>>' + response)
+            check()
+        })
+        .fail((response) => {
+            console.log('Data failed to edit >>> ' + response.responseJSON)
+        })
+        .always((response) => {
+            console.log(response)
+        })
+    })
+
+    $('#delete-todo').submit((e) => {
+        e.preventDefault()
+        const token = localStorage.getItem('access_token')
+        const id = $('#delete-id').val()
+
+        $.ajax({
+            url : 'http://localhost:3000/todo/' + id,
+            type : 'DELETE',
+            headers : {
+                access_token : token
+            }
+        })
+        .done((response) => {
+            console.log(`Data has been deleted >>> ${response}`)
+            $('#deleteModal').modal('hide')
+            check()
+        })
+        .fail((response) => {
+            console.log(response)
+        })
+    })
+    
 });
 
 function showTodo(){
@@ -143,7 +200,9 @@ function showTodo(){
             <td> ${response[i].description} </td>
             <td> ${status} </td>
             <td> ${response[i].due_date} </td>
-            <td> <button onclick="deleteTodo(${response[i].id})" >DELETE</button> </td>
+            <td> <button onclick="listen(${response[i].id})">LISTEN</button>
+            <button onclick="showEdit(${response[i].id})">EDIT</button>
+            <button onclick="confirmDelete(${response[i].id})" >DELETE</button> </td>
             </tr>
             `
             $('#todo-body').append(new_row)
@@ -151,38 +210,86 @@ function showTodo(){
         console.log(response)
     })
     .fail((response) => {
-        console.log(`Failed data >>> ${response}`)
+        console.log(`Failed data >>> ${response.responseJSON}`)
     })
 }
 
-function deleteTodo(id){
+function showEdit(id){
     const token = localStorage.getItem('access_token')
     $.ajax({
         url : 'http://localhost:3000/todo/' + id,
-        type : 'DELETE',
+        type : 'GET',
         headers : {
             access_token : token
         }
     })
     .done((response) => {
-        if(!confirm('Do you want to delete this?')){
-            return false
-        }
-        console.log(`Data has been deleted >>> ${response}`)
+        $('#add-todo-page').hide()
+        $('#edit-todo-page').show()
+        $('#id-edit').val(response.id)
+        $('#title-edit').val(response.title)
+        $('#description-edit').val(response.description)
+        $('#due_date-edit').val(response.due_date)
     })
     .fail((response) => {
-        console.log(response)
+        console.log('Failed to get data >>> ' + response.responseJSON)
+    })
+}
+
+function listen(id){
+    const token = localStorage.getItem('access_token')
+    $.ajax({
+        url : 'http://localhost:3000/todo/' + id,
+        type : 'GET',
+        headers : {
+            access_token : token
+        }
+    })
+    .done((response) => {
+        listenVoice(response)
+    })
+    .fail((response) => {
+        console.log('Failed to get data >>> ' + response.responseJSON)
+    })
+}
+
+function listenVoice(data) {
+    $.ajax({
+        type : 'GET',
+        url : "http://localhost:3000/voice/" + data.description
+    })
+    .done((response) => {
+        new Audio(response.url).play()
+    })
+    .fail((response) => {
+        console.log('Failed to get data >>> ' + response.responseJSON)
+    })
+}
+
+function confirmDelete(id){
+    const token = localStorage.getItem('access_token')
+    $.ajax({
+        url : 'http://localhost:3000/todo/' + id,
+        type : 'GET',
+        headers : {
+            access_token : token
+        }
+    })
+    .done((response) => {
+        $('#deleteModal').modal('show')
+        $('#delete-id').val(response.id)
+    })
+    .fail( (response) => {
+        console.log('Failed to get data >>> ' + response.responseJSON)
     })
 }
 
 function onSignIn(googleUser){
     var google_name = googleUser.getBasicProfile().getName();
     let id_token = googleUser.getAuthResponse().id_token;
-    // console.log('ID Token : ' + id_token)
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log(google_name);
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+    // console.log(google_name);
+
     $.ajax({
         url : 'http://localhost:3000/user/googleSignIn',
         type : "POST",
@@ -199,7 +306,7 @@ function onSignIn(googleUser){
     })
     .fail((response) => {
         console.log('Failed Login >>> ')
-        console.log(response)
+        console.log(response.responseJSON)
     })
 }
 

@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-signin-client_id" content="386226409831-epg15tseuckvaqr9o6vb46hv83qabgsh.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" 
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+      crossorigin="anonymous">
+    <!-- <script src='jquery.voicerss-tts.min.js'></script> -->
+    
 
-    <title>Demo Dulu</title>
+    <title>Fancy Todo App</title>
 </head>
 <body>
         
@@ -48,19 +54,19 @@
         <p>Halaman Add Todo</p>
         <form id='add-todo'>
             <div>
-                <label>Title</label>
+                <label>Title :</label> <br>
                 <input type="text" id='title-add' placeholder="e.g : Menanam Sayur">
             </div>
             <div>
-                <label>Description</label>
+                <label>Description :</label> <br>
                 <input type="text" id='description-add' placeholder="e.g: Menanan sayur di kebun">
             </div>
             <div>
-                <label>Due Date</label>
+                <label>Due Date :</label> <br>
                 <input type="date" id='due_date-add' placeholder="e.g: YYYY-MM-DD">
             </div>
             <div>
-                <button type="submit">Add Todo</button>
+               <br> <button type="submit">Add Todo</button>
             </div>
         </form>
 
@@ -70,19 +76,23 @@
         <p>Halaman Edit Todo</p>
         <form id='edit-todo'>
             <div>
-                <label>Title</label>
+                <input type="hidden" id='id-edit'>
+            </div>
+            <div>
+                <label>Title :</label> <br>
                 <input type="text" id='title-edit' placeholder="e.g : Menanam Sayur">
             </div>
             <div>
-                <label>Description</label>
+                <label>Description :</label> <br>
                 <input type="text" id='description-edit' placeholder="e.g: Menanan sayur di kebun">
             </div>
             <div>
-                <label>Due Date</label>
+                <label>Due Date :</label> <br>
                 <input type="date" id='due_date-edit' placeholder="e.g: YYYY-MM-DD">
             </div>
             <div>
-                <button type="submit">Edit Todo</button>
+                <br> <button type="submit">Edit Todo</button>
+                <button type="button" onclick="check()">Cancel</button>
             </div>
         </form>
 
@@ -106,8 +116,35 @@
         </table>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.0.min.js" 
-    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" 
+    <div id='deleteModal' class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Delete Data</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure to delete this?</p>
+            </div>
+            <div class="modal-footer">
+                <form id="delete-todo">
+                    <input type="hidden" id="delete-id">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+      <script src="https://code.jquery.com/jquery-3.5.0.min.js" 
+      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" 
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" 
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" 
     crossorigin="anonymous"></script>
     <script src="index.js"></script>
 </body>
