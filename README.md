@@ -5,16 +5,16 @@ Create fancy to do app, using express, jquery, ajax
 ### GET/todos
 _Get all Todo, created by the user logged in_ 
 #### Request Header
-    >{
-    >   "Content-Type": "application/x-www-form-urlencoded"
-    >   "access-token" : "your access_token"
-    >}
-
-- Request Body      
-  None
-- Response(200)
-[
     {
+       "Content-Type": "application/x-www-form-urlencoded"
+       "access-token" : "your access_token"
+    }
+
+#### Request Body      
+  None
+#### Response(200)
+> [
+>   {
         "id": 14,
         "title": "clean bathroom",
         "description": "clean the bathroom in first floor",
@@ -44,12 +44,12 @@ _Get all Todo, created by the user logged in_
         "updatedAt": "2020-04-28T11:11:45.780Z",
         "UserId": "3"
     }
-]
+> ]
 
-- Response(500)
-{
+#### Response(500)
+> {
     "errorMessage": "Unknown Error"
-}
+> }
 
 
 ### POST/todos
