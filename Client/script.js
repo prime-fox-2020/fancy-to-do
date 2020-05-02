@@ -53,7 +53,7 @@ function showTodo(todos) {
 
   let list = `
   <h1 class="mt-3">Todo List</h1>
-  <button class="btn btn-primary" id="add" data-toggle="modal" data-target="#add-todo">Add</button>
+  <button class="btn btn-primary" id="add" data-toggle="modal" data-target="#add-todo">Add Todo</button>
   <table class="table mt-3">
   <thead class="thead-dark">
     <tr>
@@ -78,6 +78,7 @@ function showTodo(todos) {
       <td>
         <button class="btn btn-success" data-id="${id}" id="edit">Edit</button>   
         <button class="btn btn-danger" data-id="${id}" id="delete">Delete</button>
+        <button class="btn btn-info" data-id="${id}" id="showQR">Show QR-Code</button>
     </tr>
     `;
   })
@@ -397,7 +398,6 @@ function onSignIn(googleUser) {
     localStorage.setItem('access_token', data.access_token);
     console.log(localStorage);
     renderTodo();
-    console.log(data);
   })
   .fail(err => {
     console.log('error', err);
@@ -406,3 +406,54 @@ function onSignIn(googleUser) {
     console.log('Google signin complete');
   })
 }
+
+//show qr code, 3rd party api
+$('.container').on('click', '[id=showQR]', el => {
+  const id = el.target.dataset.id;
+  const todo = {
+    title: $(`#title${id}`)[0].textContent,
+    description: $(`#description${id}`)[0].textContent,
+    status: $(`#status${id}`)[0].textContent,
+    due_date: $(`#due_date${id}`)[0].textContent
+  }
+
+  $('#qrCode').replaceWith(`
+  <div class="modal fade" id="qrCode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Scan this QR-Code!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img id="qrCode-img" alt="qr-code onload">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `);
+  $('#qrCode').modal('show');
+  
+  $.ajax({
+    url: `http://localhost:3000/qr`,
+    type: 'POST',
+    contentType: "application/json;charset=utf-8",
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    },
+    data: JSON.stringify(todo)
+  })
+  .done(res => {
+    $('#qrCode-img').attr('src', res.url);
+    console.log(res);
+  })
+  .fail(err => {
+    console.log('ada error ',err);
+  })
+  
+})

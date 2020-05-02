@@ -1,8 +1,8 @@
 require('dotenv').config();
 const { User } = require('../models');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const {OAuth2Client} = require('google-auth-library');
+const generateToken = require('../helpers/generateToken');
+const comparePassword = require('../helpers/comparePassword');
 
 const CLIENT_ID = process.env.CLIENT_ID;
 
@@ -34,15 +34,14 @@ class UserController {
       where: {email}
     })
     .then(user => {
-      if (!user || !bcrypt.compareSync(password, user.password)) {
+      if (!user || !comparePassword(password, user)) {
         throw errorMessage;
       }
       
       return user;
     })
     .then(user => {
-      const { id, email } = user;
-      const access_token = jwt.sign({id, email}, process.env.secretKey);
+      const access_token = generateToken(user);
       res.status(201).json({ access_token });
     })
     .catch(err => {
@@ -56,6 +55,7 @@ class UserController {
   static googleSignIn(req, res) {
     let userid = null;
     let thisEmail = null;
+    let access_token = null;
     const { idToken } = req.body;
     const client = new OAuth2Client(CLIENT_ID);
     client.verifyIdToken({
@@ -71,8 +71,7 @@ class UserController {
     })
     .then(user => {
       if (user) {
-        const { id, email } = user;
-        const access_token = jwt.sign({id, email}, process.env.secretKey);
+        access_token = generateToken(user);
         res.status(201).json({ access_token });
       } else {
         return User.create({
@@ -81,10 +80,12 @@ class UserController {
         })
       }
     })
-    .then(newUser => {
-      const { id, email } = newUser;
-      const access_token = jwt.sign({id, email}, process.env.secretKey);
-      res.status(201).json({ access_token });
+    .then(() => {
+      if (!access_token) {
+        const user = {id: null, email: thisEmail}
+        access_token = generateToken(user);
+        res.status(201).json({ access_token });
+      }
     })
     .catch(err => {
       console.log(err);
