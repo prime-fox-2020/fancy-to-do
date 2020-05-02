@@ -1,4 +1,5 @@
 const TodoModel = require('../models').Todo
+const axios = require("axios")
 
 class Todos{
     static getTodos(req, res, next){
@@ -7,7 +8,7 @@ class Todos{
             where: {UserId: dataUserId}
         })
         .then( data=>{
-            res.status(200).json(data)
+            res.status(200).json({data: data})
         })
         .catch( err=>{
             console.log(err)
@@ -50,9 +51,10 @@ class Todos{
     static getTodosId(req, res, next){
         TodoModel.findByPk(Number(req.params.id))
         .then( data=>{
-            if(data == 1){
+            console.log(data)
+            if(data){
                 res.status(200).json({
-                    todo: data
+                    data
                 })
             } else {
                 next({name: 'DATA_NOT_FOUND'})
@@ -115,6 +117,30 @@ class Todos{
         })
     }
 
+    static remindMe(req, res, next){
+        TodoModel.findByPk(Number(req.params.id))
+        .then(data=>{
+            const message = `Your due date for task '${data.title}' is ${data.due_date}`
+            return axios({
+                "method":"POST",
+                "url":"https://simplemailsender.p.rapidapi.com/SendMails/Send",
+                "headers":{
+                "x-rapidapi-host":"simplemailsender.p.rapidapi.com",
+                "x-rapidapi-key":"78cfb33dcbmsh7404f7edb93e6c2p199944jsn7115cac25fab"
+                },"data":{
+                Correo_Delivery: req.userData.email,
+                Mensjae: message
+                }
+            })
+        })
+        .then( response=>{
+            res.status(200).json('mail sent')
+        })
+        .catch( err=>{
+            console.log(err, 'njayyy')
+            next(err)
+        })
+    }
 }
 
 module.exports = Todos

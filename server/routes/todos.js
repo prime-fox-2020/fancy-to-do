@@ -15,7 +15,6 @@ const auth = (req, res, next) => {
     try {
         const decoded = jwt.verify(access_token, secretKey)
         req.userData = decoded
-        console.log('awaw')
         next()
     } catch(err){
         next(err)
@@ -45,6 +44,7 @@ const author = (req, res, next) =>{
 router.get('/', auth, todosControl.getTodos)
 router.post('/', auth, todosControl.postTodos)
 router.get('/:id', auth,  todosControl.getTodosId)
+router.post('/:id/reminder', auth, author, todosControl.remindMe)
 router.put('/:id', auth, author, todosControl.todosUp)
 router.delete('/:id', auth, author, todosControl.todosDel)
 
