@@ -300,7 +300,10 @@ _Request Header_
 
 _Request Body_
 ```
-not needed
+{
+	"email": email that you registered before to login,
+	"password": password that you registered before to login
+}
 ```
 
 _Response (200)_
@@ -331,15 +334,14 @@ _Response (400 - Bad Request)_
 
 _Request Header_
 ```
-not needed
+{
+  "Authorization": "<your Client ID>"
+}
 ```
 
 _Request Body_
 ```
-{
-	"email": email which you already register before to login,
-	"password": password which you already register before to login
-}
+not needed
 ```
 
 _Response (200)_
