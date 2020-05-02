@@ -268,7 +268,7 @@ function getTodos() {
                 <td>${todo[i].description}</td>
                 <td>${todo[i].status}</td>
                 <td>${todo[i].due_date}</td>
-                <td><a class="btn btn-danger btn-sm" href="#" role="button" onclick="getTodoById(${todo[i].id})">Edit</a> <a class="btn btn-danger btn-sm" href="#" role="button" onclick="deleteTodo(${todo[i].id})">Delete</a></td>
+                <td><a class="btn btn-primary" href="#" role="button" onclick="getTodoById(${todo[i].id})">Edit</a> <a class="btn btn-danger btn-sm" href="#" role="button" onclick="deleteTodo(${todo[i].id})">Delete</a></td>
             </tr>`
             $('#theTodos tbody').append(new_row)
         }
@@ -321,8 +321,8 @@ function getTodoById(id) {
             <option value="true">True</option>
         </select>
         <label for="">Due Date</label>
-        <input type="text" name="due_date" id="edit-due_date" value="${todo.due_date}">
-        <button type="submit">Save</button>
+        <input type="date" name="due_date" id="edit-due_date" value="${todo.due_date}">
+        <button class="btn btn-primary" type="submit">Save</button>
         <a class="btn btn-danger btn-sm" href="#" role="button" onclick="cancelEdit()">Cancel</a>
         `
         $('#edit-form').append(newForm)
