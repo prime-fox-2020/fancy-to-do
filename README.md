@@ -191,7 +191,7 @@ _Response (400 - Bad Request)_
 ```
 ---
 
-### GET /todos/ :id
+### DELETE /todos/ :id
 
 > Delete project by id 
 
