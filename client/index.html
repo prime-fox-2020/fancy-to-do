@@ -16,16 +16,15 @@
       z-index: -1;
       width: -webkit-fill-available;
     }
-    .add-todo {
+    .add-todo, .search-movies, .showTodos {
       margin-top: 3rem;
       margin-bottom: 1rem;
     }
+    .search-movies, .showTodos {
+      margin-left: 3rem;
+    }
     #loginForm, #registerForm {
       padding-top: 3rem;
-      /* display: flex;
-      align-items: center;
-      justify-items: center;
-      height: -webkit-fill-available; */
     }
     #buttonLogin:hover, #buttonRegister:hover {
       cursor: pointer;
@@ -60,6 +59,9 @@
     .todo-completed {
       text-decoration: line-through;
     }
+    .formTodo-submit {
+      margin-left: 3rem;
+    }
   </style>
 </head>
 <body>
@@ -67,7 +69,7 @@
     <div class="nav-wrapper container">
       <a href="#" class="brand-logo">Todo App</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li id="logoutButton"><a href="./logout">Logout</a></li>
+        <li id="logoutButton" style="display: none;"><a class="btn-flat white"><i class="material-icons right">subdirectory_arrow_right</i>Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -77,7 +79,7 @@
   <!-- START LOGIN FORM -->
 
   <div id="loginForm" class="container" style="display: none;">
-    <div id="loginError" class="row">
+    <div id="loginError" class="row" style="display: none;">
       <div class="col s10 push-s1">
         <div class="card-panel red darken-2">
           <span id="loginErrorText" class="white-text">
@@ -103,7 +105,7 @@
             <label for="userPasswordLogin">Password</label>
           </div>
           <div class="input-field col s5 push-s1">
-            <input id="buttonLogin" type="submit" class="waves-effect waves-light black-text btn" value="Login"></input>
+            <button id="buttonLogin" type="submit" class="waves-effect waves-light black-text btn">Login</button>
           </div>
           <div class="input-field col s5 push-s1">
             <div class="g-signin2 right" data-onsuccess="onSignIn"></div>
@@ -123,7 +125,7 @@
   <!-- START REGISTER FORM -->
 
   <div id="registerForm" class="container" style="display: none;">
-    <div id="registerError" class="row">
+    <div id="registerError" class="row" style="display: none;">
       <div class=" col s10 push-s1">
         <div class="card-panel red darken-2">
           <span id="registerErrorText" class="white-text">
@@ -159,7 +161,7 @@
             <label for="userPasswordRegister">Password</label>
           </div>
           <div class="input-field col s5 push-s1" style="margin-left: 3rem;">
-            <input type="submit" value="Register" id="buttonRegister" class="waves-effect waves-light black-text btn-large"></input>
+            <button type="submit" id="buttonRegister" class="waves-effect waves-light black-text btn-large">Register</button>
           </div>
           <div class="input-field col s5 pull-s1" style="margin-right: 3rem;">
             <a id="buttonLoginForm" class="waves-effect waves-light black-text light-blue lighten-2 btn-large right">Login</a>
@@ -175,6 +177,7 @@
   <div id="dashboardSection" class="container" style="display: none;">
     <div class="row">
       <a class="add-todo waves-effect waves-light red btn-large"><i class="material-icons left">playlist_add</i>Add Todo</a>
+      <a class="search-movies waves-effect waves-light red btn-large right"><i class="material-icons left">local_movies</i>Search Movies</a>
       <div class="card">
         <div class="card-content">
           <ul id="todosParent" class="collapsible">
@@ -193,7 +196,38 @@
   </div>
 
   <!-- END DASHBOARD -->
+  <!-- START MOVIES -->
+
+  <div id="moviesSection" class="container" style="display: none;">
+    <div class="row">
+      <a class="add-todo waves-effect waves-light red btn-large"><i class="material-icons left">playlist_add</i>Add Todo</a>
+      <a class="showTodos waves-effect waves-light red btn-large right"><i class="material-icons left">view_list</i>Show Todos</a>
+      <a class="search-movies waves-effect waves-light red btn-large right"><i class="material-icons left">local_movies</i>Search Movies</a>
+      <div class="card">
+        <div class="card-content">
+          <div id="moviesParent" class="row">
+            <div class="card no-movie-found" style="display: none;">
+              <div class="card-content">
+                <span class="card-title">Movie not found base on your query</span>
+                <p>Click button below to search another movie</p>
+                <a class="search-movies waves-effect waves-light red btn-large"><i class="material-icons left">local_movies</i>Search Movies</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- END MOVIES -->
   <!-- MODALS -->
+
+  <!-- Loading -->
+  <div class="loading modal transparent">
+    <div class="progress">
+      <div class="indeterminate"></div>
+    </div>
+  </div>
 
   <!-- Add Todo -->
   <div id="add-todo" class="modal">
@@ -245,15 +279,39 @@
         </div><br />
         
         <div class="input-field col s6">
-          <i class="material-icons">submit</i>
-          <input type="submit" class="waves-effect waves-light red text-white btn-large" value="Submit">
-        </div><br />
+          <button type="submit" class="formTodo-submit waves-effect waves-light red btn-large"><i class="material-icons left">send</i>Submit</button>
+        </div>
 
       </form>
     </div>
-    <div class="modal-footer">
+    <!-- <div class="modal-footer">
       
+    </div> -->
+  </div>
+
+  <!-- Search Movies -->
+  <div id="movieFormModal" class="modal">
+    <div class="modal-content">
+      <div class="form-movie-title"><h5>Search Movie</h5></div>
+      <form id="searchMovieForm" action="">
+        <div class="row">
+          <div class="col s12">
+            Movie Title:
+            <div class="input-field inline">
+              <input id="inputMovieTitle" type="text" placeholder="Movie Title">
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-field col s6">
+          <button type="submit" class="formTodo-submit waves-effect waves-light red btn-large"><i class="material-icons left">search</i>Submit</button>
+        </div>
+
+      </form>
     </div>
+    <!-- <div class="modal-footer">
+      
+    </div> -->
   </div>
 
    <!-- MODALS END -->
@@ -263,6 +321,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
   <!--JavaScript at end of body for optimized loading-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="./script.js"></script>
+  <script src="./js/script.js"></script>
 </body>
 </html>

@@ -34,7 +34,22 @@ class TodosController {
   static updateOne(req, res, next) {
     const {id} = req.params
     const {title, description, due_date, status} = req.body
-    const newObj = {title, description,due_date, status, UserId: req.user.id}
+    const newObj = {title, description,due_date, status}
+
+    Todo.update(newObj, {where: {id}})
+    .then(result => {
+      return Todo.findByPk(id)
+    })
+    .then(result => {
+      res.status(200).json(result)
+    })    
+    .catch(err => next(err))
+  }
+
+  static patchStatus(req, res, next) {
+    const {id} = req.params
+    const {status} = req.body
+    const newObj = {status}
 
     Todo.update(newObj, {where: {id}})
     .then(result => {

@@ -1,8 +1,5 @@
 const serverTodo = 'http://localhost:3000'
-$(document).ready(function() {
-  $('#registerForm').hide()
-  $('#loginError').hide()
-  $('#registerError').hide()
+$(document).ready(() => {
   $('.collapsible').collapsible()
   $('.modal').modal()
   $('.datepicker').datepicker()
@@ -10,21 +7,19 @@ $(document).ready(function() {
   if (localStorage.access_token) {
     $('#logoutButton').show()
     $('#dashboardSection').show()
-    $('#loginForm').hide()
     getTodos()
   } else {
     $('#loginForm').show()
-    $('#logoutButton').hide()
   }
 
-  $('#userLoginForm' ).on('submit', function( event ) {
+  $('#userLoginForm').on('submit', (event) => {
     event.preventDefault()
     const email = $('#userEmailLogin').val()
     const password = $('#userPasswordLogin').val()
     userLogin(email, password)
   })
   
-  $('#userRegisterForm' ).on('submit', function( event ) {
+  $('#userRegisterForm').on('submit', (event) => {
     event.preventDefault()
     const user = {}
     user.first_name = $('#first_name').val()
@@ -34,47 +29,60 @@ $(document).ready(function() {
     userRegister(user)
   })
   
-  $('#buttonLoginForm' ).on('click', function( event ) {
+  $('#buttonLoginForm').on('click', (event) => {
     event.preventDefault()
     $('#loginForm').show()
     $('#registerForm').hide()
+    $('#registerError').hide()
+    $('#registerErrorText').val('')
   });
   
-  $('#buttonRegisterForm' ).on('click', function( event ) {
+  $('#buttonRegisterForm').on('click', (event) => {
     event.preventDefault()
     $('#loginForm').hide()
     $('#registerForm').show()
+    $('#loginError').hide()
+    $('#loginErrorText').val('')
   })
   
-  $('#logoutButton' ).on('click', function( event ) {
+  $('#logoutButton').on('click', (event) => {
     event.preventDefault()
     userLogout()
     M.toast({html: 'See ya!'})
   })
 
-  $('#todosParent').on('click', '.todo-delete', function (event) {
+  $('#todosParent').on('click', '.todo-delete', function(event) {
     event.preventDefault()
     const todo = $(this).parent()
-    let lanjutkan = window.confirm('Are you sure want to delete?')
 
+    let lanjutkan = window.confirm('Are you sure want to delete?')
     if (lanjutkan) deleteTodo(todo)
   })
 
-  $('#todosParent').on('click', '.todo-edit', function (event) {
+  $('#todosParent').on('click', '.todo-edit', function(event) {
     event.preventDefault()
     const todo = $(this).parent()
+    
+    resetForm()
     editTodo(todo)
+  })
+
+  $('#todosParent').on('click', '.todo-status', function(event) {
+    event.preventDefault()
+    const todo = $(this).parent()
+  
+    updateStatus(todo)
   })
 
   $('#dashboardSection').on('click', '.add-todo', (event) => {
     event.preventDefault()
     $('.form-edit-todo').html('<h5>Add new todo</h5>')
-    $('.form-method-todo').val('add')
+    resetForm()
     $('#add-todo').modal('open')
   })
 
-  $('#addNewTodo').on('submit', function (event) {
-    const formMethod = $('.form-method-todo').val()
+  $('#addNewTodo').on('submit', (event) => {
+    const formMethod = $('.form-method-todo').val() || 'add'
     const newTodo = {}
     event.preventDefault()
 
@@ -92,7 +100,82 @@ $(document).ready(function() {
     }
   })
 
+  $('.showTodos').on('click', (event) => {
+    event.preventDefault()
+
+    $('#dashboardSection').show()
+    $('#moviesSection').hide()
+  })
+
+
+  $('.search-movies').on('click', (event) => {
+    event.preventDefault()
+    // resetMovieForm()
+    $('#movieFormModal').modal('open')
+  })
+
+  $('#searchMovieForm').on('submit', (event) => {
+    event.preventDefault()
+    const query = $('#inputMovieTitle').val()
+    $('#movieFormModal').modal('close')
+    $('.loading').modal('open')
+
+    $.ajax({
+      method: 'GET',
+      url: serverTodo + '/movies',
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      },
+      data: {
+        query
+      }
+    })
+    .done(response => {
+      console.log(response)
+      $('#dashboardSection').hide()
+      $('#moviesSection').show()
+      if (response.length) {
+        response.forEach(item => {
+          let list = `
+          <div class="col s12 m6">
+          <p class="flow-text">${item.movie.title}</p>
+            <div class="card horizontal">
+              <div class="card-image">
+                <img src="http://img.omdbapi.com/?apikey=70a7913d&i=${item.movie.ids.imdb}" alt="${item.movie.title}">
+              </div>
+              <div class="card-stacked">
+                <div class="card-content">
+                  <h5>${item.movie.tagline}</h5>
+                  <p>${item.movie.overview}</p>
+                </div>
+                <div class="card-action">`
+          item.movie.homepage ? list += `<a href="${item.movie.homepage}">Official Website</a>` : list += ''
+          list += `
+                </div>
+              </div>
+            </div>
+          </div>
+          `
+          $('#moviesParent').append(list)
+        })
+      } else {
+        $('.no-movie-found').show()
+      }
+      $('.loading').modal('close')
+    })
+    .fail(err => {
+      console.log(err)
+    })
+  })
 })
+
+function resetForm() {
+  $('.form-method-todo').val('')
+  $('#titleTodo').val('')
+  $('#descriptionTodo').val('')
+  $('[name=statusTodo][value=active]').prop('checked', true)
+  $('[name=due_dateTodo]').val('')
+}
 
 function userLogout() {
   localStorage.removeItem('access_token')
@@ -101,7 +184,9 @@ function userLogout() {
   $('#logoutButton').hide()
   $('#loginError').hide()
   $('#dashboardSection').hide()
+  $('#moviesSection').hide()
   clearTodos()
+  clearMovies()
 }
 
 function userLogin(email, password) {
@@ -158,6 +243,10 @@ function userRegister({first_name, last_name, email, password}) {
 
 function clearTodos() {
   $('#todosParent').children('.card-image').remove()
+}
+
+function clearMovies() {
+  $('#moviesParent').children('.col.s12').remove()
 }
 
 function getTodos() {
@@ -246,6 +335,7 @@ function addTodo(obj) {
     $('.modal').modal('close')
     clearTodos()
     getTodos()
+    resetForm()
     M.toast({html: 'New todo added successfully :)'})
   })
   .fail(err => {
@@ -271,10 +361,10 @@ function updateTodo(obj) {
     }
   })
   .done(response => {
-    console.log(response)
     $('.modal').modal('close')
     clearTodos()
     getTodos()
+    resetForm()
     M.toast({html: 'Your todo item updated successfully :)'})
   })
   .fail(err => {
@@ -310,9 +400,47 @@ function editTodo(node) {
   })
 }
 
+function updateStatus(node) {
+  const id = node.attr('data-id')
+  let status = node.children().eq(0)[0].innerText
+  status === 'check_box' ? status = 'active' : status = 'completed'
+  
+  $.ajax({
+    method: 'PATCH',
+    url: serverTodo + '/todos/' + id,
+    headers: {
+      access_token: localStorage.access_token
+    },
+    data: {
+      status
+    }
+  })
+  .done(response => {
+    if (status === 'active') {
+      node.find('i')[0].innerText = 'check_box_outline_blank'
+      node.find('i').removeClass('material-icons')
+      node.find('i').addClass('material-icons')
+      node.find('.collapsible-header').removeClass('todo-completed')
+      node.find('.collapsible-body').removeClass('todo-completed')
+    } else {
+      node.find('i')[0].innerText = 'check_box'
+      node.find('i').removeClass('material-icons')
+      node.find('i').addClass('material-icons')
+      node.find('.collapsible-header').addClass('todo-completed')
+      node.find('.collapsible-body').addClass('todo-completed')
+      // node.children().eq(0).innerHTML = '<i class="material-icons" style="color: black; font-size: 2.5rem;">check_box</i>'
+    }
+    console.log(node.find('i'))
+  })
+  .fail(err => {
+    console.log(err)
+  })
+  console.log(status)
+}
+
 function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token
-  googleLogin(id_token)
+  if (!localStorage.getItem('access_token')) googleLogin(id_token)
 }
 
 function googleLogin(id_token) {
@@ -325,11 +453,11 @@ function googleLogin(id_token) {
   })
   .done(response => {
     localStorage.setItem('access_token', response.access_token)
+    getTodos()
     $('#loginError').hide()
     $('#loginForm').hide()
     $('#logoutButton').show()
     $('#dashboardSection').show()
-    getTodos()
     M.toast({html: 'Hey! Welcome!'})
   })
   .fail(err => {

@@ -15,6 +15,7 @@ router.param('id', authorization)
 router.route('/:id')
   .get(Controller.getOne)
   .put(Controller.updateOne)
+  .patch(Controller.patchStatus)
   .delete(Controller.removeOne)
 
 module.exports = router
