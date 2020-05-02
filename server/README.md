@@ -3,19 +3,18 @@ Create fancy to do app, using express, jquery, ajax
 
 ## Endpoints
 ### GET/todos
-_Get all Todo, created by the user logged in_ 
-#### Request Header
+> Get all Todo, created by the user logged in 
+- Request Header
     {
-       "Content-Type": "application/x-www-form-urlencoded"
-       "access-token" : "your access_token"
+        "Content-Type": "application/x-www-form-urlencoded"
+        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
     }
 
-#### Request Body      
+- Request Body      
   None
-#### Response(200)
-````
+- Response(200)
 [
-   {
+    {
         "id": 14,
         "title": "clean bathroom",
         "description": "clean the bathroom in first floor",
@@ -45,26 +44,22 @@ _Get all Todo, created by the user logged in_
         "updatedAt": "2020-04-28T11:11:45.780Z",
         "UserId": "3"
     }
- ]
-````
-#### Response(500)
-````
+]
+
+- Response(500)
 {
     "errorMessage": "Unknown Error"
 }
-````
+
 
 ### POST/todos
-_Create a New Todo_
-#### Request Headers 
- ````   
+> Create a New Todo
+- Request Headers 
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "your access token"
+        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
     }
-  ````  
-#### Request Body
-````
+- Request Body
 {
     "title" : "buy milk"
     "description" : "buy milk to make cake"
@@ -95,22 +90,18 @@ _Create a New Todo_
 {
     "errorMessage": "Validation Error"
 }
-````
+
 ###  GET/todos/:id
-_Get a specific Todo by ID , created by the user that's logged in._
-#### Request Headers
-````    
+> Get a specific Todo by ID , created by the user that's logged in.
+- Request Headers
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "your access token"
+        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
     }
-````
-#### Request Body
- ````
+- Request Body
   None
-````
-#### Response(200)
-````
+
+- Response(200)
 {
     "id": 16,
     "title": "make lunch",
@@ -121,130 +112,69 @@ _Get a specific Todo by ID , created by the user that's logged in._
     "updatedAt": "2020-04-28T11:00:29.591Z",
     "UserId": "3"
 }
-````
-#### Response(500)
-````
+- Response(500)
 {
     "errorMessage": "Unknown Error"
 }
-````
-#### Response(404)
-````
+- Response(404)
 {
     "errorMessage": "Data not Found"
 }
-````
+
 
 
 ### POST/todos/:id
-_Edit a specific todo by id_ 
-#### Request Headers 
-   ````
-   {
+> Edit a specific todo by id 
+- Request Headers 
+    {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "your access token"
+        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
     }
-````
-#### Request Body
-````
+
+- Request Body
 {
     "title" : "buy milk"
     "description" : "buy milk to make cake"
     "status" : "true"
     "due_date" : "2020-08-04"
 }
-````
-#### Response (200)
-````
+- Response (200)
 [
     1
 ]
-````
-#### Response (500)
-````
+- Response (500)
 {
     "errorMessage": "Unknown Error"
 }
-````
-#### Response(404)
-````
+- Response(404)
 {
     "errorMessage": "Data not Found"
 }
-````
-#### Response(400)
-````
+
+- Response(400)
 {
     "errorMessage": "Validation Error"
 }
-````
 ### DELETE/todos/:id
-_Delete a specific todo_
-#### Request Headers 
-````
+> Delete a specific todo
+- Request Headers 
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "your access token"
+        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
     }
-````
-#### Request Body
-````
-None
-````
 
-#### Response(200)
-````
+- Request Body
+  None
+
+- Response(200)
 [
     1
 ]
-````
-#### Response(500)
-````
+- Response(500)
 {
     "errorMessage": "Unknown Error"
 }
-````
-#### Response(404)
-````
+- Response(404)
 {
     "errorMessage": "Data not Found"
 }
-````
-### GET/qr
-_Generate a QR Code for the todo list_
-#### Response(200)
-````
-{
-    "result": {
-        "shorturl": "https://qrd.by/an63hg",
-        "qr": "https://qrd.by/i/an63hg",
-        "url": "0",
-        "title": "",
-        "description": "",
-        "creationdate": "2020-05-02 12:51:46",
-        "image": "",
-        "gps": "",
-        "sms": "0",
-        "notify": "",
-        "medium": "",
-        "folder": "",
-        "location": {
-            "address": "",
-            "lng": "",
-            "lat": ""
-        }
-    }
-}
-````
-#### Response (500)
-````
-{
-    "errorMessage": "Unknown Error"
-}
-````
-#### Response(404)
-````
-{
-    "errorMessage": "Data not Found"
-}
-````
