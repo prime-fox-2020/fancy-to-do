@@ -17,9 +17,9 @@ const authentication = (respond,request,next)=>{
         next()
     } catch (err) {
         console.log(err)
-         next({
-             name: 'Authentication Failed!'
-         })
+        // next({
+        //     name: 'Authentication Failed!'
+        // })
     }
 }
 

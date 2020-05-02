@@ -1,6 +1,8 @@
 const express = require('express')
 const routes = express.Router()
 const todoController = require('../controllers/todoController.js')
+const jwt=require('jsonwebtoken')
+const secretKey="rahasia"
 
 const { Todo } = require('../models')
 const authentication = (request, respond, next) => {
