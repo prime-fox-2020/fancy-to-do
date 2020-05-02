@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   }, { sequelize });
   User.associate = function(models) {
     User.hasMany(models.Todo)
+    User.belongsToMany(models.Project, { through : models.Project_User})
   };
   User.beforeCreate( (instance, options) => {
     const hash = hashPassword(instance.password)

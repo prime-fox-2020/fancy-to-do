@@ -14,13 +14,6 @@ class TodosController{
     }
 
     static read(req, res, next){
-        // User.findByPk(req.userData.id, {include: [{ model: Todo}]})
-        // .then(data => {
-        //     res.status(200).json(data.Todos)
-        // })
-        // .catch(err => {
-        //     next(err)
-        // })
         Todo.findAll()
         .then(data => {
             res.status(200).json(data)

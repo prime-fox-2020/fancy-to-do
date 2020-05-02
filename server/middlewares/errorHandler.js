@@ -45,6 +45,10 @@ const errorHandler = (err, req, res, params) => {
         statusCode = 400
         errorCode = 'EMAIL_NOT_FOUND'
         message = 'Please use your valid email'
+    } else if(err.name === 'NOT_A_MEMBER'){
+        statusCode = 400
+        errorCode = 'NOT_A_MEMBER'
+        message = 'You are not member of this project'
     }
     
     res.status(statusCode).json({errorCode, message})

@@ -8,7 +8,12 @@
     <title>Todo App</title>
 </head>
 <body>
-  <div class="container-fluid pr-5 pt-3 text-right signout-project-menu"><a href="#" onclick="" style="margin-right: 25px;">Project</a><a href="" onclick="signOut();">Sign out</a></div>
+  <div class="container-fluid pr-5 pt-3 text-right signout-project-menu">
+    <a onclick="goToTodo()" style="margin-right: 25px; color: cornflowerblue;">Todo</a>
+    <a onclick="goToProject()" style="margin-right: 25px; color: cornflowerblue;">Project</a>
+    <a onclick="signOut();" style="color: cornflowerblue;">Sign out</a>
+  </div>
+
   <div class="container p-5" id="signin-form"> 
     <h2>Sign in</h2>
     <form>
@@ -105,6 +110,51 @@
         </div>
       </div>
   </div>
+
+  <div class="container-fluid p-5" id= "projectSection">
+    <h2>Project List</h2>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Due date</th>
+        </tr>
+      </thead>
+      <tbody id="projectBodyData">
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-3">
+        <form id="addProject" style="border: 1px solid black; padding: 10px; border-radius: 10px;">
+          <div class="form-group">
+            <label for="">Project</label>
+            <input type="text" class="form-control" id="addProjectName" placeholder="Enter project name">
+          </div>
+          <div class="form-group">
+              <label for="">Due date</label>
+              <input type="date" class="form-control" id="addProjectDate">
+          </div>
+          <p class="alert-project text-danger"></p>
+          <button type="submit" class="btn btn-primary">Add project</button>
+        </form> 
+      </div>
+      <div class="col-6"></div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-5" id="todoProjectSection">
+    <h2 id="todoProjectName" class="mb-3"></h2>
+    <h6>Todo list :</h6>
+    <ul class="list-group" id="todoProjectBody">
+    </ul>
+    <p class="alert-todoproject text-danger"></p>
+    <form id="addTodoProject">
+      <input type="text" placeholder="Todo project" id="todoTitleProject">
+      <input type="number" id="todoProjectId" hidden>
+      <input type="submit" name="" id="">
+    </form>
+  </div>
+
   <script
   src="https://code.jquery.com/jquery-3.5.0.min.js"
   integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="

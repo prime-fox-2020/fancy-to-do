@@ -19,7 +19,7 @@ $(document).ready( () => {
             url: "http://localhost:3000/register",
             data: {email, password}
         })
-        .done( data =>{
+        .done( () =>{
             $("#signUpEmail").val("")
             $("#signUpPassword").val("")
             toggleSignIn()
@@ -42,6 +42,7 @@ $(document).ready( () => {
             $(".signout-project-menu").show()    
             toggleYourListTodo()
             getTodos()
+            getProjects()
         })
         .fail( response => {
             $(".alert-signin").text(response.responseJSON.message)
@@ -134,6 +135,57 @@ $(document).ready( () => {
             $(".alert-edit").text(response.responseJSON.message)
         })
     })
+    $('#addProject').submit( e => {
+        e.preventDefault()
+        const name = $('#addProjectName').val()
+        const due_date = $('#addProjectDate').val()
+        console.log()
+        $.ajax({
+            method: "POST",
+            url : "http://localhost:3000/projects",
+            data : {name, due_date},
+            headers: {
+                'access_token' : localStorage.getItem('access_token')
+            }
+        })
+        .done( data => {
+            const date = data.due_date.substring(0,10).split('-').reverse().join('/')
+            const addedProject = `<tr> 
+                <td><a onclick="seeDetailProject(${data.id})">${data.name}</a></td>
+                <td>${date}</td>
+            </tr>`
+            $(".alert-project").text("")
+            $('#addProjectName').val("")
+            $('#addProjectDate').val("")
+            $('#projectBodyData').append(addedProject)
+        })
+        .fail( response => {
+            $(".alert-project").text(response.responseJSON.message)
+            $(".alert-project").show()
+        })
+    })
+    $('#addTodoProject').submit( e => {
+        e.preventDefault()
+        const title = $('#todoTitleProject').val()
+        const id = $('#todoProjectId').val()
+        $.ajax({
+            method: "POST",
+            url : "http://localhost:3000/projects/" + id,
+            data : {title},
+            headers: {
+                'access_token' : localStorage.getItem('access_token')
+            }
+        })
+        .done( data => {
+            const addedTodoProject = `<li class="list-group-item" data-id="${data.id}"> ${data.title}</li>`
+            $('#todoTitleProject').val("")
+            $(".alert-todoproject").text("")
+            $('#todoProjectBody').append(addedTodoProject)            
+        })
+        .fail( response => {
+            $(".alert-todoproject").text(response.responseJSON.message)
+        })
+    })
 })
 
 function setUp(){
@@ -142,6 +194,8 @@ function setUp(){
     $("#yourListTodo").hide()
     $(".todo-edit").hide()
     $(".signout-project-menu").hide()    
+    $("#projectSection").hide()
+    $("#todoProjectSection").hide()
 }
 
 function toggleSignIn(){
@@ -188,7 +242,6 @@ function getTodos(){
         }
     })
     .done( data => {
-        console.log('Get todos')
         let todos = ``
         for(let i = 0; i < data.length; i++){
             const date = data[i].due_date.substring(0,10).split('-').reverse().join('/')
@@ -209,6 +262,51 @@ function getTodos(){
             </div>`
         }
         $('#column-todo').html(todos)   
+    })
+}
+
+function getProjects(){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:3000/projects",
+        headers: {
+            'access_token' : localStorage.getItem('access_token')
+        }
+    })
+    .done( data => {
+        let projects = ``
+        for(let i = 0; i < data.length; i++){
+            const date = data[i].due_date.substring(0,10).split('-').reverse().join('/')
+            projects += `<tr> 
+                <td><a onclick="seeDetailProject(${data[i].id})">${data[i].name}</a></td>
+                <td>${date}</td>
+            </tr>`
+        }
+        $('#projectBodyData').html(projects)   
+    })
+}
+
+function seeDetailProject(id){
+    $('#todoProjectId').val(id)
+    $('#todoTitleProject').val("")
+    $(".alert-todoproject").text("")
+    const token = localStorage.getItem('access_token')
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/projects/" + id,
+        headers: {
+            'access_token' : token
+        }
+    })
+    .done( projects => {        
+        let addTodoProjects = ``
+        for(let i = 0; i < projects.TodoProjects.length; i++){
+            addTodoProjects += `<li class="list-group-item" data-id="${projects.TodoProjects[i].id}"> ${projects.TodoProjects[i].title}</li>`
+        }
+        $('#todoProjectName').text(projects.name)
+        $('#todoProjectBody').html(addTodoProjects)
+        $("#projectSection").hide()
+        $("#todoProjectSection").show()
     })
 }
 
@@ -314,6 +412,22 @@ function updateTodo(id, status, title){
     })    
 }
 
+function goToTodo(){
+    setUp()
+    $(".alert-todoproject").text("")
+    $(".signout-project-menu").show()    
+    toggleYourListTodo()
+}
+
+function goToProject(){
+    $("#projectSection").show()
+    $("#signup-form").hide()
+    $("#signin-form").hide()
+    $("#yourListTodo").hide()
+    $(".todo-edit").hide()
+    $("#todoProjectSection").hide()
+}
+
 function onSignIn(googleUser) {
     const id_token = googleUser.getAuthResponse().id_token
     $.ajax({
@@ -326,6 +440,7 @@ function onSignIn(googleUser) {
         toggleYourListTodo()
         $(".signout-project-menu").show()    
         getTodos()
+        getProjects()
     })
 }
 

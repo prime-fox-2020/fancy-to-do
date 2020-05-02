@@ -2,34 +2,20 @@
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
-  class Todo extends Model{}
-
-  Todo.init({
-    title: {
+  class Project extends Model{}
+  Project.init({
+    name: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'Title is required'
+          msg: 'Name is required'
         },
         notNull: {
-          msg: 'Title is required'
+          msg: 'Name is required'
         },
       }
     },
-    description: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: 'Description is required'
-        },
-        notNull: {
-          msg: 'Description is required'
-        },
-      }
-    },
-    status: DataTypes.BOOLEAN,
     due_date: {
       type: Sequelize.DATE,
       allowNull: true,
@@ -49,16 +35,11 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       }
-    },
-    imageurl : DataTypes.STRING
-  }, { sequelize });
-  Todo.associate = function(models) {
-    Todo.belongsTo(models.User)
-  };
-  Todo.beforeCreate( (instance, options) => {
-    if(instance.status == null){
-      instance.status = false
     }
-  })
-  return Todo;
+  }, { sequelize });
+  Project.associate = function(models) {
+    Project.hasMany(models.TodoProject)
+    Project.belongsToMany(models.User, { through: models.Project_User })
+  };
+  return Project;
 };
