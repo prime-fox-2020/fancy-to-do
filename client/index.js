@@ -16,7 +16,9 @@ $(document).ready(function(){
             $('#logout').show()
             $('#page-todos').show()
             $('#page-findAll').show()
+            $('#page-vue').show()
             findAllTodos()
+            thisData()
           }
         $('#credential').submit(function(e){
             e.preventDefault()
@@ -57,9 +59,6 @@ $(document).ready(function(){
         
 
     })
-
-
-
 
 
     function log_in(){
@@ -298,7 +297,27 @@ $(document).ready(function(){
             headers: { access_token: localStorage.getItem('access_token')},
         })
         .done(function(res){
+           
             addButton(res)
+        })
+        .fail(function(err){
+                    
+        })
+        .always(function(){
+            
+        })
+
+    }
+
+    function thisData(){
+        $.ajax({
+            type: 'GET',
+            url : 'http://localhost:3000/users/info',
+            headers: { access_token: localStorage.getItem('access_token')},
+        })
+        .done(function(res){
+            let elMyInfo = $('#my-info')
+            elMyInfo.text(`sebagai ${res.username}`)
         })
         .fail(function(err){
                     

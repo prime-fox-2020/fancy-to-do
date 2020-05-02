@@ -5,11 +5,13 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width , initial-scale=1.0">
 
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
             <meta name="google-signin-scope" content="profile email">
             <meta name="google-signin-client_id" content="296871087286-hmm6icohb03nnd1a7g4jki3o16o15ngj.apps.googleusercontent.com">
             <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
             <link rel="stylesheet" href="really-simple-jquery-dialog.css">
             <title>Home</title>
         </head>
@@ -18,6 +20,10 @@
 
         <p1 id = 'login-status'> loginstatus</p1>
         <button id = 'logout'> Logout</button>
+        <div id = 'my-info'>
+            <p1 id = my-info-table>test</p1>
+            
+        </div>
 
         <section id = 'page-login'>
             <div class = 'page-login'>
@@ -30,6 +36,15 @@
                 <input type = 'submit'>
                 </form>
             </div>
+        </section>
+
+        <section id = page-vue>
+            <div id='app-vue'>
+                <br>
+                <p>Quotes of the day</p><p>{{status}}</p>
+                
+            </div>
+    
         </section>
 
         <section id = 'page-todos'>
@@ -78,6 +93,7 @@
             <div id = 'adding-pop-up'></div>
         </section>
 
+        <br>
         <section id = page-google-sign>
         <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
         <script	
@@ -100,6 +116,40 @@
                 }
         </script>
         </section>
+
+    <script>
+        var vm = new Vue({
+            el: '#app-vue',
+            data:{
+                status:''
+            },
+            created : function(){
+                this.loadQuote();
+            },
+            methods:{
+                loadQuote: function(){
+                    this.status = 'Fetching'
+                    var vm=this;
+                    axios.get (`http://ron-swanson-quotes.herokuapp.com/v2/quotes`)
+                    .then(res=>{
+                        vm.status = res.data[0];
+                    })
+                    .catch(err=>{
+                        vm.status = err
+                    })
+                }
+
+            }
+        })
+
+
+
+
+
+
+
+    </script>
+
 
 
         <script			  
