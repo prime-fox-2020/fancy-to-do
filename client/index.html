@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="google-signin-client_id" content="534456892991-c0liakb5bv5dbkr969flb9mkk5ikaec0.apps.googleusercontent.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style type="text/css">
+    .content-wrapper-before {
+      height: 185px;
+      position: absolute;
+      z-index: -1;
+      width: -webkit-fill-available;
+    }
+    .add-todo, .search-movies, .showTodos {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+    .search-movies, .showTodos {
+      margin-left: 3rem;
+    }
+    #loginForm, #registerForm {
+      padding-top: 3rem;
+    }
+    #buttonLogin:hover, #buttonRegister:hover {
+      cursor: pointer;
+    }
+    .todo-status {
+      left: 15px; 
+      top: 25px;
+      right: unset !important;
+      bottom: unset !important;
+      background-color: transparent;
+      border-radius: unset;
+      color: silver;
+      box-shadow: none;
+    }
+    .todo-status:hover {
+      background-color: transparent;
+      box-shadow: none;
+    }
+    .todo-icon {
+      color: black;
+    }
+    .todo-delete {
+      right: 20px !important;
+      top: 20px;
+      border-radius: unset;
+    }
+    .todo-edit {
+      right: 70px !important;
+      top: 20px;
+      border-radius: unset;
+    }
+    .todo-completed {
+      text-decoration: line-through;
+    }
+    .formTodo-submit {
+      margin-left: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="red">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo">Todo App</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li id="logoutButton" style="display: none;"><a class="btn-flat white"><i class="material-icons right">subdirectory_arrow_right</i>Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="content-wrapper-before blue-grey lighten-5"></div>
+
+  <!-- START LOGIN FORM -->
+
+  <div id="loginForm" class="container" style="display: none;">
+    <div id="loginError" class="row" style="display: none;">
+      <div class="col s10 push-s1">
+        <div class="card-panel red darken-2">
+          <span id="loginErrorText" class="white-text">
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form id="userLoginForm" class="col s10 push-s1 m8 push-m2 l6 push-l3 grey lighten-5 hoverable">
+        <div class="row">
+          <div class="input-field col s10 push-s1">
+            <h4>Login Form</h4>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">email</i>
+            <input id="userEmailLogin" name="email" type="email" class="validate">
+            <label for="userEmailLogin">Email</label>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">lock</i>
+            <input name="password" id="userPasswordLogin" type="password" class="validate">
+            <label for="userPasswordLogin">Password</label>
+          </div>
+          <div class="input-field col s5 push-s1">
+            <button id="buttonLogin" type="submit" class="waves-effect waves-light black-text btn">Login</button>
+          </div>
+          <div class="input-field col s5 push-s1">
+            <div class="g-signin2 right" data-onsuccess="onSignIn"></div>
+          </div>
+          <div class="progress col s10 push-s1">
+            <div class="determinate" style="width: 100%"></div>
+          </div>
+          <div class="input-field col s10 push-s1 m5 push-m1">
+            <a id="buttonRegisterForm" class="waves-effect waves-light black-text light-blue lighten-2 btn">Register</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- END LOGIN FORM -->
+  <!-- START REGISTER FORM -->
+
+  <div id="registerForm" class="container" style="display: none;">
+    <div id="registerError" class="row" style="display: none;">
+      <div class=" col s10 push-s1">
+        <div class="card-panel red darken-2">
+          <span id="registerErrorText" class="white-text">
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <form action="" id="userRegisterForm" class="col s8 push-s2 grey lighten-5 hoverable">
+        <div class="row">
+          <div class="input-field col s10 push-s1">
+            <h4>Register Form</h4>
+          </div>
+          <div class="input-field col s5 push-s1">
+            <i class="material-icons prefix">person</i>
+            <input id="first_name" name="first_name" type="text" class="validate">
+            <label for="first_name">First Name</label>
+          </div>
+          <div class="input-field col s5 push-s1">
+            <i class="material-icons prefix"></i>
+            <input id="last_name" name="first_name" type="text">
+            <label for="last_name">Last Name</label>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">email</i>
+            <input id="userEmailRegister" name="email" type="email" class="validate">
+            <label for="userEmailRegister">Email</label>
+          </div>
+          <div class="input-field col s10 push-s1">
+            <i class="material-icons prefix">lock</i>
+            <input name="password" id="userPasswordRegister" type="password" class="validate">
+            <label for="userPasswordRegister">Password</label>
+          </div>
+          <div class="input-field col s5 push-s1" style="margin-left: 3rem;">
+            <button type="submit" id="buttonRegister" class="waves-effect waves-light black-text btn-large">Register</button>
+          </div>
+          <div class="input-field col s5 pull-s1" style="margin-right: 3rem;">
+            <a id="buttonLoginForm" class="waves-effect waves-light black-text light-blue lighten-2 btn-large right">Login</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- END REGISTER FORM -->
+  <!-- START DASHBOARD -->
+
+  <div id="dashboardSection" class="container" style="display: none;">
+    <div class="row">
+      <a class="add-todo waves-effect waves-light red btn-large"><i class="material-icons left">playlist_add</i>Add Todo</a>
+      <a class="search-movies waves-effect waves-light red btn-large right"><i class="material-icons left">local_movies</i>Search Movies</a>
+      <div class="card">
+        <div class="card-content">
+          <ul id="todosParent" class="collapsible">
+            <li class="no-todo-found">
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">You dont have any item.</span>
+                  <p>Click button above to add your first "To do" item.</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- END DASHBOARD -->
+  <!-- START MOVIES -->
+
+  <div id="moviesSection" class="container" style="display: none;">
+    <div class="row">
+      <a class="add-todo waves-effect waves-light red btn-large"><i class="material-icons left">playlist_add</i>Add Todo</a>
+      <a class="showTodos waves-effect waves-light red btn-large right"><i class="material-icons left">view_list</i>Show Todos</a>
+      <a class="search-movies waves-effect waves-light red btn-large right"><i class="material-icons left">local_movies</i>Search Movies</a>
+      <div class="card">
+        <div class="card-content">
+          <div id="moviesParent" class="row">
+            <div class="card no-movie-found" style="display: none;">
+              <div class="card-content">
+                <span class="card-title">Movie not found base on your query</span>
+                <p>Click button below to search another movie</p>
+                <a class="search-movies waves-effect waves-light red btn-large"><i class="material-icons left">local_movies</i>Search Movies</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- END MOVIES -->
+  <!-- MODALS -->
+
+  <!-- Loading -->
+  <div class="loading modal transparent" style="box-shadow: none;">
+    <div class="progress"  style="margin-top: 50vh;">
+      <div class="indeterminate"></div>
+    </div>
+  </div>
+
+  <!-- Add Todo -->
+  <div id="add-todo" class="modal">
+    <div class="modal-content">
+      <div class="form-edit-todo">{{title}}</div><br />
+      <form id="addNewTodo" action="">
+        <div class="form-method-todo" style="display: none;"></div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">short_text</i>
+          <input name="titleTodo" id="titleTodo" type="text" class="validate">
+          <label for="titleTodo">Title</label>
+        </div>
+        
+        <div class="input-field col s6">
+          <i class="material-icons prefix">wrap_text</i>
+          <textarea name="descriptionTodo" id="descriptionTodo" class="materialize-textarea"></textarea>
+          <label for="descriptionTodo">Description</label>
+        </div><br />
+        
+        <div class="input-field col s6" style="padding-left: 3rem;">
+          <p>
+            <label>
+              <span style="font-size: 16px;">Status</span>
+            </label>
+          </p>
+          <p>
+            <label>
+              <input value="active" name="statusTodo" type="radio" checked />
+              <span>Active</span>
+            </label>
+          </p>
+          <p>
+            <label>
+              <input value="completed" name="statusTodo" type="radio" />
+              <span>Completed</span>
+            </label>
+          </p>
+          <p>
+            <label>
+              <input value="pastdue" name="statusTodo" type="radio"  />
+              <span>Past Due</span>
+            </label>
+          </p>
+        </div><br />
+
+        <div class="input-field col s6">
+          <i class="material-icons prefix">date_range</i>
+          <input value="" type="text" name="due_dateTodo" class="datepicker">
+        </div><br />
+        
+        <div class="input-field col s6">
+          <button type="submit" class="formTodo-submit waves-effect waves-light red btn-large"><i class="material-icons left">send</i>Submit</button>
+        </div>
+
+      </form>
+    </div>
+    <!-- <div class="modal-footer">
+      
+    </div> -->
+  </div>
+
+  <!-- Search Movies -->
+  <div id="movieFormModal" class="modal">
+    <div class="modal-content">
+      <div class="form-movie-title"><h5>Search Movie</h5></div>
+      <form id="searchMovieForm" action="">
+        <div class="row">
+          <div class="col s12">
+            Movie Title:
+            <div class="input-field inline">
+              <input id="inputMovieTitle" type="text" placeholder="Movie Title">
+            </div>
+          </div>
+        </div>
+        
+        <div class="input-field col s6">
+          <button type="submit" class="formTodo-submit waves-effect waves-light red btn-large"><i class="material-icons left">search</i>Submit</button>
+        </div>
+
+      </form>
+    </div>
+    <!-- <div class="modal-footer">
+      
+    </div> -->
+  </div>
+
+   <!-- MODALS END -->
+  
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- JQUERY -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+  <!--JavaScript at end of body for optimized loading-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+</html>
