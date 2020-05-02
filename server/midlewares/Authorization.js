@@ -7,10 +7,10 @@ function authorization (req, res, next) {
     Todo.findByPk(Number(req.params.id))
     .then(data => {
         if (!data) {
-            next({name: 'Data Not Found'})
+            next({name: 'LoginValidationError'})
         }
         else if (data.UserId !== userId) {
-            next({name: 'Forbidden Access'})
+            next({name: 'UNAUTHORIZED'})
         }
         else {
             next()
