@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="1080333414805-a2tjtrl9nqvmqhmd09rrnd7t1q85lgsb.apps.googleusercontent.com">
+    <title>Fancy Todo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- navbar (#main-navbar) -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Todo App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">My Todos</a>
+                </li>
+                <li>
+                    <button type="button" onclick="addTodos();" class="btn btn-dark">Add Todo</button>
+                </li>
+            </ul>
+            <form id="logout" class="form-inline my-2 my-lg-0">
+                <button onclick="signOut();" class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- form login / register (#login-form) -->
+    <form style="padding: 2% 30%;" id="login-form">
+        <h1 id="form-title">Login To Todo App</h1>
+        <div class="alert alert-danger" role="alert">
+            A simple danger alert—check it out!
+        </div>
+        <div class="alert alert-success" role="alert">
+            A simple danger alert—check it out!
+        </div>
+        <div class="form-group">
+            <label for="input-email">Email address</label>
+            <input type="email" class="form-control" id="input-email" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="input-password">Password</label>
+            <input type="password" class="form-control" id="input-password">
+        </div>
+        <button type="submit" class="btn btn-primary" id="login-submit">Submit</button><br><br>
+        <a type="button" id="register-button">Don't have an account? Register here</a>
+        <p>Or Sign In with Google</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </form>
+    
+    <!-- input data (#input-data) -->
+    <form style="padding: 2% 30%;" id="input-data">
+        <h1 id="form-input-title">Add New Todo</h1>
+        <div class="alert alert-danger" role="alert">
+            A simple danger alert—check it out!
+        </div>
+        <div class="alert alert-success" role="alert">
+            A simple danger alert—check it out!
+        </div>
+        <div class="form-group">
+            <label for="title">title</label>
+            <input type="text" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Todo's title">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" id="description" placeholder="Description">
+        </div>
+        <div class="form-group">
+            <label for="due-date">Due Date</label>
+            <input type="date" class="form-control" id="due-date">
+        </div>
+        <button type="submit" class="btn btn-primary" id="input-submit">Submit</button>
+        <button type="button" class="btn btn-danger" id="cancel">Cancel</button>
+        <input type="text" id="id" style="visibility: hidden;">
+    </form>
+
+    <!-- Table for show all todo (#show-data) -->
+    <div id="show-data">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="todos">
+            </tbody>
+        </table>
+    </div>
+    <script src="http://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
