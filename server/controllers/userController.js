@@ -17,15 +17,11 @@ class UserController{
         })
         .catch(err => {
             next(err)
-            // res.status(500).json({
-            //     message : err.message || `Internal Server Error`
-            // })
         })
     }
 
     static login(req,res, next){
         const { email, password } = req.body
-        const errorMessage = {status : 400 , message : `Invalid Email/Password`}
 
         User.findOne({
             where : {email}
@@ -33,7 +29,6 @@ class UserController{
         .then(user => {
             if(!user || !comparePassword(password, user.password)){
                 next({name : 'Invalid Email/Password'})
-                // throw errorMessage
             }
             return user
         })
@@ -44,17 +39,10 @@ class UserController{
         })
         .catch(err => {
             next(err)
-            // if(err.status){
-            //     res.status(err.status).json({message:err.message})
-            // }
-            // res.status(500).json({
-            //     message : err.message || `Internal Server Error`
-            // })
         })
     }
 
     static googleSignIn(req,res, next){
-        console.log(CLIENT_ID)
         const { id_token, g_name } = req.body
         let currentEmail
         client.verifyIdToken({

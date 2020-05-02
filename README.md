@@ -1,7 +1,106 @@
 # fancy-to-do
 Create fancy to do app, using express, jquery, ajax
+Additional api : VoiceRSS and Google Sign In
 
 ## RESTful Endpoints
+
+### POST /user/register
+> Register new user
+
+_Request Header_
+```
+None
+```
+
+_Request Body_
+```
+{
+    "name" : <name to insert here>,
+    "email" : <email to insert here>,
+    "password" : <password to insert here>
+}
+```
+_Response (201)_
+```
+{
+    "message" : "new email has been registered"
+}
+```
+_Response (500)_
+```
+{
+    "message" : "Invalid Email Or Password"
+}
+```
+
+### POST /user/login
+> Login user
+
+_Request Header_
+```
+None
+```
+
+_Request Body_
+```
+{
+    "email" : <email to insert here>,
+    "password" : <password to insert here>
+}
+```
+_Response (200)_
+```
+{
+    "access_token" : <your private access token>,
+    "name" : <your registered name>
+}
+```
+_Response (400)_
+```
+{
+    "message" : "Invalid Email Or Password"
+}
+```
+_Response (500)_
+```
+{
+    "message" : "Internal Server Error"
+}
+```
+### POST /user/googleSignIn
+> Login user
+
+_Request Header_
+```
+None
+```
+
+_Request Body_
+```
+{
+    "id_token" : <generated google token>,
+    "g_name" : <generated google name>
+}
+```
+_Response (200)_
+```
+{
+    "access_token" : <your private access token>,
+    "name" : <your registered google name>
+}
+```
+_Response (400)_
+```
+{
+    "message" : "Invalid Token"
+}
+```
+_Response (500)_
+```
+{
+    "message" : "Internal Server Error"
+}
+```
 
 ### GET /todo
 > Get all todo in list
@@ -89,16 +188,6 @@ _Response (400 - Bad Request)_
 }
 ```
 
-| Title            | Get all Todo List                                                                                                               |   |
-|------------------|---------------------------------------------------------------------------------------------------------------------------------|---|
-| URL              | /todo                                                                                                                           |   |
-| Method           | GET                                                                                                                             |   |
-| URL Parameter    | -                                                                                                                               |   |
-| Success Response | Code:200 Content: {            id:  <br>          title:    <br>        description:    <br>        status: <br>           due_date: <br>         } |   |
-| Error Response   |  Code: 500 Content: { "message" : "error message"}                                                                              |   |
-| Error Response   |                                                                                                                                 |   |
-|  
-
 ### GET /todo/:id
 > Get todo from certain id
 
@@ -130,14 +219,18 @@ _Response (200)_
     }
 ]
 ```
-
+_Response (403)_
+```
+{
+    "message" : "Forbidden Access"
+}
+```
 _Response (404)_
 ```
 {
     "message" : "<data not found>"
 }
 ```
-
 _Response (500)_
 ```
 {
@@ -179,14 +272,18 @@ _Response (200)_
     }
 ]
 ```
-
+_Response (403)_
+```
+{
+    "message" : "Forbidden Access"
+}
+```
 _Response (404)_
 ```
 {
     "message" : "<data not found>"
 }
 ```
-
 _Response (500)_
 ```
 {
@@ -219,14 +316,18 @@ _Response (200)_
     }
 ]
 ```
-
+_Response (403)_
+```
+{
+    "message" : "Forbidden Access"
+}
+```
 _Response (404)_
 ```
 {
     "message" : "<data not found>"
 }
 ```
-
 _Response (500)_
 ```
 {
@@ -234,3 +335,38 @@ _Response (500)_
 }
 ```
 
+### GET /voice/:string
+> Get voice url from voice rss API
+
+_Request Header_
+```
+{
+    "access_token" = "<your access token>"
+}
+```
+
+_Request Body_
+```
+{
+    "string" : <Fetched data from todo description>,
+}
+```
+
+_Response (200)_
+```
+[
+    "url" : <audio url from voice rss>
+]
+```
+_Response (404)_
+```
+{
+    "message" : "<data not found>"
+}
+```
+_Response (500)_
+```
+{
+    "message" : "<error message>"
+}
+```
