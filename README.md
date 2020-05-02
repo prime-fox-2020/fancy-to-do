@@ -89,6 +89,16 @@ _Response (400 - Bad Request)_
 }
 ```
 
+| Title            | Get all Todo List                                                                                                               |   |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------|---|
+| URL              | /todo                                                                                                                           |   |
+| Method           | GET                                                                                                                             |   |
+| URL Parameter    | -                                                                                                                               |   |
+| Success Response | Code:200 Content: {            id:            title:            description:            status:            due_date:          } |   |
+| Error Response   |  Code: 500 Content: { "message" : "error message"}                                                                              |   |
+| Error Response   |                                                                                                                                 |   |
+|  
+
 ### GET /todo/:id
 > Get todo from certain id
 
