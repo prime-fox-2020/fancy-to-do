@@ -14,6 +14,9 @@ function errorHandler (err , req , res , next){
         errorCode = 'Invalid_ID'
         msg = 'Data not found'
         res.status(statuscode).json({errCode,msg})
+    }else{
+        msg = 'Internal Server Error'
+        res.status(statuscode).json({errorCode,msg})
     }
     
 
