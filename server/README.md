@@ -1,8 +1,11 @@
 # fancy-to-do
 ```
-Create fancy to do app, using express, jquery, ajax
+Create fancy to do app, using express, jquery, ajax, axios
 * RESTful endpoint for Todo List's CRUD operation
 * JSON formatted response
+* Web Server response
+* Getting a Charity List if you want to add a Fund Raising Todo in this app via Charity 3rd API
+* Able to send a new Todo to your email right away via #rd API SIMPLE MAIL after you've created you own Todo List
 ```
 
 # USAGE
@@ -518,3 +521,39 @@ _Response (500)_
   "message": "Error undescribable"
 }
 ```
+
+### POST/simplemailsender.p.rapidapi.com/SendMails/Send
+
+>Sending success notice to User's email
+
+_Request Header_
+```
+{
+"x-rapidapi-host":"simplemailsender.p.rapidapi.com",
+"x-rapidapi-key":<User's API key>
+}
+```
+
+_Request Body_
+```
+{
+	Correo_Delivery : User's email,
+  Mensjae : `You have successfully added a new todo`
+}
+```
+
+_Response(200)_
+```
+You will receive a successfully added response/notice that sounds like: `You have successfully added a new todo`
+```
+
+_Response (500)_
+```
+{
+  "Error": "UNKWON_ERROR",
+  "message": "Error undescribable"
+}
+```
+
+
+
