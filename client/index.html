@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="google-signin-client_id" content="633919175163-dsevg4rtbknpe1v5f98ksjb62m37hjc9.apps.googleusercontent.com">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <style media="screen">
+      thead {color: purple; border: solid 4px purple; background-color: pink}
+    </style>
+  </head>
+  <body>
+
+    <div class="element" id="login">
+      <h1>Login</h1>
+      <form id="loginForm"  >
+        <label for="">Email</label>
+          <input type="text" id="iLE" placeholder="your email"> <br>
+        <label for="">Password</label>
+          <input type="password" id="iLP" placeholder="your password"> <br>
+          <input type="submit" value="Login">
+      </form>
+      <a id="sRegisBtn" onclick="register()" href="#">New here ?</a>
+    </div>
+
+    <div class="element" id="register">
+      <h1>Create Account</h1>
+      <form id="registerForm"  >
+        <label for="">Email</label>
+          <input type="text" id="iRE" placeholder="your email"> <br>
+        <label for="">Password</label>
+          <input type="password" id="iRP" placeholder="your password"> <br>
+          <input type="submit" value="Register">
+      </form>
+      <a id="sLogBtn" onclick="login()" href="#">Old here ?</a>
+    </div>
+
+    <div class="element" id="todos">
+      <h2>Add todos</h2>
+      <form class="" >
+        <label for="">Title</label>
+          <input type="text" id="input-Title" placeholder="what are you going to do ?"> <br>
+        <label for="">Description</label>
+          <input type="text" id="input-Description" placeholder="get a little bit more detail"> <br>
+        <label for="">Status</label>
+        <select id="input-Status" placeholder="status of todo">
+          <option value="" selected disabled>--Status--</option>
+          <option value="true">Done</option>
+          <option value="false">Not yet</option>
+        </select> <br>
+        <label for="">Due date</label>
+          <input type="date" id="input-Due_date" placeholder="your deadline"> <br>
+          <button type="submit" name="addBtn">Add</button>
+      </form>
+      <h2>List todos</h2>
+      <table class="table">
+        <thead class="thead">
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Due date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="element" id="edit">
+      <h2>Edit todo</h2>
+      <form class="" id="editTodo">
+
+      </form>
+    </div>
+
+
+<div class="modal element" tabindex="-1" role="dialog" id="modalDelete">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Confirmation</h5>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure want to delete this ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal()" data-dismiss="modal">Cancel</button>
+        <button type="button" onclick="deleteTodo()" class="btn btn-primary">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal element" tabindex="-1" role="dialog" id="modalError">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Error</h5>
+        <button type="button" class="close" onclick="closeModal()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Something went wrong !</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal element" tabindex="-1" role="dialog" id="modalSucces">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Succes</h5>
+        <button type="button" class="close" onclick="closeModal()" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <div class="g-signin2 element" id="googleSignIn" data-onsuccess="onSignIn"></div>
+    <a class="element" id="logout" href="#" onclick="signOut();">Sign out</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js">
+
+    </script>
+
+    <script src="index.js">
+
+    </script>
+  </body>
+</html>
