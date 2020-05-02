@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To Dos App</title>
+    <meta charset="utf8">
+    <script src="http://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous">
+        </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="navbar">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">TODOs</a>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-primary" id="logout-btn" href="/logout" role="button">Logout</a>
+            </form>
+        </nav>
+    </div>
+    <center>
+        <div id="login-page">
+            <div id="greetings">
+                <h1>Welcome To The TODOs App</h1>
+                <p><i>"What do you want to to today?"</i></p>
+            </div><br><br>
+            <div id="login">
+                <h5>Login</h5>
+                <label for="login-form-email">Email Address</label><br>
+                <input type="text" id="login-form-email" placeholder="E.g sample@email.com"><br>
+                <label for="login-form-pass">Password</label><br>
+                <input id="login-form-pass" type="password" placeholder="Your password"><br><br>
+                <button id="login-form-btn" type="submit">Login</button><br>
+                <button id="register-go">Register</button>
+            </div>
+            <div id="login-fail">
+                <p>Your email/password is invalid</p>
+                <button id="login-back-btn">Back To Homepage</button>
+            </div>
+            <div id="register">
+                <h5>Register An Account</h5>
+                <div id="register-form">
+                    <label for="register-form-email">Email Address</label><br>
+                    <input type="text" id="register-form-email" placeholder="E.g sample@email.com"><br>
+                    <label for="register-form-pass">Password</label><br>
+                    <input type="password" id="register-form-pass" placeholder="Your password"><br><br>
+                    <button id="register-form-btn" type="submit">Register</button>
+                </div>
+            </div>
+            <div id="register-success">
+                <p>You have registered an account!</p>
+                <button id="register-back-btn">Back To Homepage</button>
+            </div>
+        </div>
+        <div class="todos-page" id="todos-page">
+            <div id="greetings-todos">
+                <h1>Welcome Back</h1>
+                <p><i>"Have you done what you needed to do?"</i></p>
+            </div><br>
+
+            <table>
+                <thead class="table-info">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="todos">
+
+                </tbody>
+            </table><br>
+
+            <h5>Do Something New!</h5>
+            <input type="text" name="title" id="title" placeholder="Title">
+            <input type="text" name="description" id="description" placeholder="Description">
+            <input type="text" name="due_date" id="due_date" placeholder="Due Date"><br>
+            <button id="add-btn">Let's Do It!</button><br>
+
+            <div id="3rd-p-api"></div>
+        </div>
+
+    </center>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
