@@ -186,6 +186,28 @@ $(document).ready( () => {
             $(".alert-todoproject").text(response.responseJSON.message)
         })
     })
+    $('#addNewMember').submit( e => {
+        e.preventDefault()
+        const email = $('#inviteEmailMember').val()
+        const id = $('#todoProjectId').val()
+        $.ajax({
+            method: "POST",
+            url : `http://localhost:3000/projects/${id}/invite`,
+            data : {email},
+            headers: {
+                'access_token' : localStorage.getItem('access_token')
+            }
+        })
+        .done( () => {
+            $(".alert-member-no").text("")
+            $('#inviteEmailMember').val("")
+            $(".alert-member-ok").text('Success added new member')
+        })
+        .fail( response => {
+            $(".alert-member-ok").text("")
+            $(".alert-member-no").text(response.responseJSON.message)
+        })
+    })
 })
 
 function setUp(){
@@ -303,6 +325,8 @@ function seeDetailProject(id){
         for(let i = 0; i < projects.TodoProjects.length; i++){
             addTodoProjects += `<li class="list-group-item" data-id="${projects.TodoProjects[i].id}"> ${projects.TodoProjects[i].title}</li>`
         }
+        $(".alert-member-ok").text("")
+        $(".alert-member-no").text("")
         $('#todoProjectName').text(projects.name)
         $('#todoProjectBody').html(addTodoProjects)
         $("#projectSection").hide()

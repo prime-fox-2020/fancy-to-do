@@ -144,6 +144,8 @@
 
   <div class="container-fluid p-5" id="todoProjectSection">
     <h2 id="todoProjectName" class="mb-3"></h2>
+    <p class="alert-member-ok text-success"></p>
+    <p class="alert-member-no text-danger"></p>
     <h6>Todo list :</h6>
     <ul class="list-group" id="todoProjectBody">
     </ul>
@@ -152,7 +154,11 @@
       <input type="text" placeholder="Todo project" id="todoTitleProject">
       <input type="number" id="todoProjectId" hidden>
       <input type="submit" name="" id="">
-    </form>
+    </form><br>
+    <form id="addNewMember">
+      <input type="text" id="inviteEmailMember" placeholder="Enter email">
+      <button type="submit">Add member</button>
+    </form> 
   </div>
 
   <script

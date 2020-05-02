@@ -1,3 +1,4 @@
+const { User } = require('../models')
 const { Project } = require('../models')
 const { Project_User } = require('../models')
 const { TodoProject } = require('../models')
@@ -95,6 +96,40 @@ class ProjectController{
         } )
         .catch( err => {
             next(err)
+        })
+    }
+
+    static invite(req, res, next){
+        const {email} = req.body
+        const checkedError = -1
+        Project_User.findAll({ where: { ProjectId : req.params.id} })
+        .then( data => {
+            let flag = false
+            for(let i = 0 ; i < data.length; i++){
+                if(data[i].UserId == req.userData.id){
+                    flag = true
+                    break
+                }
+            }
+            if(flag){
+                return User.findAll({ where: { email }})
+            } else {
+                next({name: 'NOT_A_MEMBER'})
+                return
+            }
+        })
+        .then( user => {
+            const id = user[0].id
+            return Project_User.create({
+                UserId : id,
+                ProjectId : req.params.id
+            }) 
+        })
+        .then( () => {
+            res.status(200).json({message: 'Success adding new member'})
+        })
+        .catch( err => {
+            next({name: "NO_EMAIL_REGISTERED"})
         })
     }
 }

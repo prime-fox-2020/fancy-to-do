@@ -6,6 +6,7 @@ router.use(authentication)
 
 router.get('/', ProjectController.page)
 router.get('/:id', ProjectController.findOne)
+router.post('/:id/invite', ProjectController.invite)
 router.post('/:id', ProjectController.addTodo)
 router.post('/', ProjectController.create)
 router.delete('/:id', ProjectController.deleteProjectTodo)
