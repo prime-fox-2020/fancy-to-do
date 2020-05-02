@@ -83,16 +83,8 @@ class UserController {
       })
     })
     .then(data=>{
-      // console.log(data);
       if (data){
         return data
-        // let user = {id : data.id, email : data.email}
-        // let token = generateToken(user)
-        // return res.status(200).json({
-        //   id : user.id,
-        //   email: user.email,
-        //   access_token : token
-        // })
       } else {
         return User.create({
           email : email,
@@ -113,6 +105,7 @@ class UserController {
       next(err)
     })
   }
+
 }
 
 

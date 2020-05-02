@@ -29,6 +29,11 @@ $(document).ready(function() {
         $('#status').val('');
         $('#due_date').val('');
         getTodos()
+        Swal.fire({
+          icon: 'success',
+          title: 'Congrats...',
+          text: 'Success Add Todos',
+        })
       })
       .fail(function(response){
         const err = response.responseJSON.message
@@ -77,8 +82,6 @@ $(document).ready(function() {
           text: response.responseJSON.message,
         })
         checkStorage()
-        // $('#errorlogin').show()
-        // $("#errorlogin").text(response.responseJSON.message)
         $('#passwordlogin').val('');
         $('#emaillogin').val('');
         $('#errorregis').hide()
@@ -136,21 +139,7 @@ $(document).ready(function() {
 
     $('#logoutform').submit(function(e) {
       e.preventDefault();
-        localStorage.clear();
-        checkStorage();
-        $('#loginbox').show();
-        $('#title').val("");
-        $('#description').val("");
-        $('#status').val("");
-        $('#due_date').val("");
-        $('#errorregis').hide()
-        $('#errorlogin').hide()
-
-        //googleSign Out
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function() {
-        console.log('User signed out.');
-        });
+      $('#logoutModal').modal('show')
     })
 
 });
@@ -176,40 +165,45 @@ function showRegister(e) {
 }
 
 function getTodos() {
-    const token = localStorage.getItem('access_token');
-  	$.ajax({
-          url: 'http://localhost:3000/todos',
-          type: 'GET',
-          headers:{
-            access_token : token
+  const token = localStorage.getItem('access_token');
+  $.ajax({
+        url: 'http://localhost:3000/todos',
+        type: 'GET',
+        headers:{
+          access_token : token
+        }
+    })
+    .done(function(response) {
+      $('#get-todo tbody').empty(); 
+  	  for (let i = 0; i < response.length; i++) {
+        let dudet = ''
+        for(let j = 0; j < response[i].due_date.length; j++){
+          if(dudet.length !== 10){
+            dudet += response[i].due_date[j]
           }
-      })
-      .done(function(response) {
-        $('#get-todo tbody').empty(); 
-  		for (let i = 0; i < response.length; i++) {
-  		  $new_row = `
-            <tr>
-            <td>${response[i].title}</td>
-            <td>${response[i].description}</td>
-            <td>${response[i].status}</td>
-            <td>${response[i].due_date}</td>
-            <td><button type="submit" class="btn btn-primary mb-2" onclick="editForm(${response[i].id})">Edit</button>
-            <button type="submit" class="btn btn-danger mb-2" role="button" onclick="confirmDelete(${response[i].id})">Delete</button></td>
-            </tr>`;
-  			$('#get-todo tbody').append($new_row);
-          }
-      })
-      .fail(function(response){
-          console.log('gagal get todos', response)
-      })
-    }
+        }
+  	  $new_row = `
+          <tr>
+          <td>${response[i].title}</td>
+          <td>${response[i].description}</td>
+          <td>${response[i].status}</td>
+          <td>${dudet}</td>
+          <td><button type="submit" class="btn btn-primary mb-2" onclick="editForm(${response[i].id})">Edit</button>
+          <button type="submit" class="btn btn-danger mb-2" role="button" onclick="confirmDelete(${response[i].id})">Delete</button></td>
+          </tr>`;
+  		$('#get-todo tbody').append($new_row);
+        }
+    })
+    .fail(function(response){
+        console.log('gagal get todos', response)
+    })
+}
 
-  function checkStorage() {
+function checkStorage() {
     if(localStorage.access_token) {
       $('#regisbox').hide();
       $('#loginbox').hide();
       $('.notlogged-in').hide();
-      // $('.logged-in').show();
       $('.afterlogin').show();
       $('#edit-todo').hide();
       getTodos();
@@ -218,159 +212,158 @@ function getTodos() {
       $('#regisbox').hide();
       $('.afterlogin').hide();
       $('.notlogged-in').show();
-      // $('.logged-in').hide();
     }
-  }
+}
 
-  function confirmDelete(id) {
-    // const token = localStorage.getItem('access_token');
-    // $.ajax({
-    //   method: 'GET',
-    //   url: `http://localhost:3000/todos/${id}`,
-    //   headers: {
-    //     access_token : token
-    //   }
-    // })
-      // .done(response => {
-        // console.log(response);
-        $('#deleteModal').modal('show');
-        $('#delete-id').val(id);
-        // $('.modal-body').val(`"${response.title}" ?`);
-      // })
-      // .fail(err => {
-      //   console.log(err);
-      // });
-  }
+function confirmDelete(id) {
+  $('#deleteModal').modal('show');
+  $('#delete-id').val(id);
+}
 
 
-  function deleteTodo(event) {
-    const token = localStorage.getItem('access_token');
-    const id = $('#delete-id').val();
-  
-    $.ajax({
-      method: 'DELETE',
-      url: `http://localhost:3000/todos/${id}`,
-      headers: {
-        access_token : token
-      }
-    })
-    .done(response => {
-      $('#deleteModal').modal('hide');
-      getTodos()
-    })
-    .fail(err => {
-      console.log(err);
-    });
-  }
+function deleteTodo(event) {
+  const token = localStorage.getItem('access_token');
+  const id = $('#delete-id').val();
 
-  function editForm(value){
-    const token = localStorage.getItem('access_token');
-    $.ajax({
-      method: 'GET',
-      url: `http://localhost:3000/todos/${value}`,
-      headers: {
+  $.ajax({
+    method: 'DELETE',
+    url: `http://localhost:3000/todos/${id}`,
+    headers: {
       access_token : token
     }
   })
+  .done(response => {
+    $('#deleteModal').modal('hide');
+    Swal.fire({
+      icon: 'success',
+      title: 'Congrats...',
+      text: 'Success Delete Todos',
+    })
+    getTodos()
+  })
+  .fail(err => {
+    console.log(err);
+  });
+}
+
+function editForm(value){
+  const token = localStorage.getItem('access_token');
+  $.ajax({
+    method: 'GET',
+    url: `http://localhost:3000/todos/${value}`,
+    headers: {
+    access_token : token
+  }
+  })
+  .done(response => {
+    $('#edit-todo').show();
+    $('#add-todo').hide();
+    $('#edit-id').val(response.id);
+    $('#edit-title').val(response.title);
+    $('#edit-description').val(response.description);
+    $('#edit-status').val(response.status);
+    $('#edit-due_date').val(response.due_date);
+  })
+  .fail(err => {
+    console.log(err);
+  });
+}
+
+function edit(e){
+  e.preventDefault();
+  const token = localStorage.getItem('access_token');
+  const id = $('#edit-id').val();
+  const title = $('#edit-title').val();
+  const description = $('#edit-description').val();
+  const status = $('#edit-status').val();
+  const due_date = $('#edit-due_date').val();
+
+  $.ajax({
+    method: 'PUT',
+    url: `http://localhost:3000/todos/${id}`,
+    headers: {
+      access_token : token
+    },
+    data: {
+      title,
+      description,
+      status,
+      due_date
+    } 
+  })
     .done(response => {
+      e.preventDefault();
       $('#edit-todo').show();
       $('#add-todo').hide();
-      $('#edit-id').val(response.id);
-      $('#edit-title').val(response.title);
-      $('#edit-description').val(response.description);
-      $('#edit-status').val(response.status);
-      $('#edit-due_date').val(response.due_date);
-    })
-    .fail(err => {
-      console.log(err);
-    });
-
-  }
-
-  function edit(e){
-    e.preventDefault();
-    const token = localStorage.getItem('access_token');
-    const id = $('#edit-id').val();
-    const title = $('#edit-title').val();
-    const description = $('#edit-description').val();
-    const status = $('#edit-status').val();
-    const due_date = $('#edit-due_date').val();
-  
-    $.ajax({
-      method: 'PUT',
-      url: `http://localhost:3000/todos/${id}`,
-      headers: {
-        access_token : token
-      },
-      data: {
-        title,
-        description,
-        status,
-        due_date
-      } 
-    })
-      .done(response => {
-        e.preventDefault();
-        $('#edit-todo').show();
-        $('#add-todo').hide();
-        getTodos()
-        $('#edit-id').val('');
-        $('#edit-title').val('');
-        $('#edit-description').val('');
-        $('#edit-status').val('');
-        $('#edit-due_date').val('');
-        $('#errorEdit').hide();
+      getTodos()
+      $('#edit-id').val('');
+      $('#edit-title').val('');
+      $('#edit-description').val('');
+      $('#edit-status').val('');
+      $('#edit-due_date').val('');
+      $('#errorEdit').hide();
+      Swal.fire({
+        icon: 'success',
+        title: 'Congrats...',
+        text: 'Success Edit Todos',
       })
-      .fail(response => {
-        const err = response.responseJSON.message
-        let errMessage = ''
-        for(let i = 0; i < err.length; i++){
-          errMessage += err[i]+','
-        }
-        errMessage = errMessage.split(',').join('<br />')
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          html: errMessage
-        })
-      });
-  }
-
-  function onSignIn(googleUser) {
-    var id_token = googleUser.getAuthResponse().id_token;
-    $.ajax({
-      method: 'POST',
-      url: 'http://localhost:3000/users/google-login',
-      headers: {
-        id_token: id_token
+    })
+    .fail(response => {
+      const err = response.responseJSON.message
+      let errMessage = ''
+      for(let i = 0; i < err.length; i++){
+        errMessage += err[i]+','
       }
-    })
-    .done(response => {
-      console.log(response);
-      localStorage.setItem('access_token', response.access_token);
-      $('#passwordlogin').val('');
-      $('#emaillogin').val('');
-      checkStorage()
-    })
-    .fail(err => {
-      console.log(err); 
+      errMessage = errMessage.split(',').join('<br />')
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        html: errMessage
+      })
     });
-  
-  }
+}
 
-  // $("#logout").on("click", function() {
-  //   swal({
-  //   title: 'Logga ut?',
-  //   type: 'warning',
-  //   showCancelButton: true,
-  //   confirmButtonColor: '#3085d6',
-  //   cancelButtonColor: '#d33',
-  //   confirmButtonText: 'OK',
-  //   closeOnConfirm: true,
-  //   closeOnCancel: true
-  //  }).then((result) => { 
-  //     if (result.value===true) { 
-  //        $('#logoutform').submit() // this submits the form 
-  //     } 
-  //  }) 
-// })   
+function onSignIn(googleUser) {
+  var id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:3000/users/google-login',
+    headers: {
+      id_token: id_token
+    }
+  })
+  .done(response => {
+    localStorage.setItem('access_token', response.access_token);
+    $('#passwordlogin').val('');
+    $('#emaillogin').val('');
+    checkStorage()
+  })
+  .fail(err => {
+    console.log(err); 
+  });
+
+}
+
+function logout() {
+    $('#logoutModal').modal('hide')
+    localStorage.clear();
+    checkStorage();
+    $('#loginbox').show();
+    $('#title').val("");
+    $('#description').val("");
+    $('#status').val("");
+    $('#due_date').val("");
+    $('#errorregis').hide()
+    $('#errorlogin').hide()
+    Swal.fire({
+      icon: 'success',
+      title: 'Congrats...',
+      text: 'Success Logout',
+    })
+
+    //googleSign Out
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function() {
+    console.log('User signed out.');
+    });
+}

@@ -1,4 +1,5 @@
-const {Todo} = require('../models')
+const {Todo, User} = require('../models')
+const axios = require('axios')
 
 class TodosController{
   static addTodos(req,res,next){
@@ -14,6 +15,25 @@ class TodosController{
       res.status(201).json({
         todo : todo,
         message : 'successfully added'
+      })
+      return Todo.findAll({
+        where : {UserId: req.userData.id},
+        include: [{model:User}]
+      })
+    })
+    .then(data=>{
+      let email = data[0].dataValues.User.dataValues.email
+      axios({
+        method:"POST",
+        url:"https://simplemailsender.p.rapidapi.com/SendMails/Send",
+        headers:{
+            "x-rapidapi-host":"simplemailsender.p.rapidapi.com",
+            "x-rapidapi-key":"4e0e3fc803mshecdbceee149660bp1f41c7jsnd56619c29ad2"
+        },
+        data:{
+            Correo_Delivery : email,
+            Mensjae : `You add new Todo's at Elvan's Fancy Todo`
+        }
       })
     })
     .catch(err=>{

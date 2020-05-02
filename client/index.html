@@ -4,51 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-signin-client_id" content="102591629788-fu8lddvumv5kll70ppqqr0u2o1f4iqd7.apps.googleusercontent.com">
+  <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet" type='text/css'>
   <title>To do App</title>
+  <style>
+    body{
+      font-family: 'Manrope';
+      font-size: 22px;
+    }
+    .navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+    }
+  </style>
 </head>
 <body>
 
   <!-- <h1 style="text-align: center;border-bottom: 1px solid black;">Todo App</h1> -->
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">FancyTodo-Client</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item notlogged-in">
-        <a class="nav-link" href="#formLogin" onclick="showLogin(event)">Login</a>
-      </li>
-      <li class="nav-item notlogged-in">
-        <a class="nav-link" href="#formRegister" onclick="showRegister(event)">Register</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+    <a class="navbar-brand" href="#" >Elvan's Portofolio</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav navbar-center">
+          <li class="nav-item notlogged-in"><a class="nav-link" href="#formLogin" onclick="showLogin(event)">Login&nbsp;</a></li>
+          <li class="nav-item notlogged-in"><a class="nav-link" href="#" >Fancy Todo&nbsp;</a></li>
+          <li class="nav-item notlogged-in"><a class="nav-link" href="#formRegister" onclick="showRegister(event)">Register</a></li>
+        </ul>
+      </div>
+  </nav>
 
 
   <!-- LOGIN -->
   <div id="loginbox" class="allbox" style="text-align: center;">
     <form id="loginform" style="margin: auto;">
       <h3 style="margin: 3% 50%;">LOGIN</h3>
-      <!-- error case -->
-      <p id='errorlogin' style="margin: auto; color: red;"></p>
       <div class="form-row align-items-center" style="margin: 3% 45%; width: 25%;">
         <div class="col-auto">
           <input type="text" id="emaillogin" class="form-control mb-2" placeholder="Email">
-        </div>
-        <div class="col-auto">
           <input type="password" id="passwordlogin" class="form-control mb-2" placeholder="Password">
-        </div>
-        <div class="col-auto">
           <button type="submit" class="btn btn-primary mb-2">login</button>
-          <br>
+          <div class="g-signin2" data-onsuccess="onSignIn" style="margin: 2% 25%"></div>
+          <button type="button" class="btn btn-white btn-rounded mr-md-3 z-depth-1a waves-effect waves-light">
+            <i class="fab fa-facebook-f blue-text text-center">
+                <fb:login-button 
+                  scope="public_profile,email"
+                  onlogin="checkLoginState();">
+                </fb:login-button></i>
+          </button>
         </div>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
       </div>
     </form>
   </div>
@@ -58,122 +63,133 @@
   <div id="regisbox" class="allbox" style="text-align: center;">
     <form id="regisform" style="margin: auto;">
       <h3 style="margin: 3% 50%;">REGISTER</h3>
-      <!-- error case -->
-      <p id='errorregis' style="text-align: center; color: red;"></p>
       <div class="form-row align-items-center" style="margin: 3% 45%; width: 25%;">
         <div class="col-auto">
           <input type="text" id="emailregis" class="form-control mb-2" placeholder="Email">
-        </div>
-        <div class="col-auto">
           <input type="password" id="passwordregis" class="form-control mb-2" placeholder="Password">
-        </div>
-        <div class="col-auto">
           <button type="submit" class="btn btn-info mb-2">Register</button>
-          <!-- <button type="submit" class="btn btn-primary mb-2">login</button> -->
         </div>
       </div>
     </form>
   </div>
     
     
-      <!-- LOG OUT -->
-      <div id="logoutbox" class="allbox afterlogin">
-        <form id="logoutform">
-          <div class="col-auto" style="margin: 3% 45%;">
-            <button type="submit" class="btn btn-warning mb-2">Log out</button>
-          </div>
-        </form>
+  <!-- LOG OUT -->
+  <div id="logoutbox" class="allbox afterlogin">
+    <form id="logoutform">
+      <div class="col-auto" style="margin: 3% 45%;">
+        <button type="submit" class="btn btn-warning mb-2">Log out</button>
       </div>
-      
-      <!-- FORM ADD TODO -->
-        <div id="add-todo" class="allbox afterlogin">
-          <form id="add-todo-form">
-            <p id='erroradd' style="text-align: center; line-height: 50px; color: red;"></p>
-            <div class="form-row align-items-center" style="width: 70%;margin: 3% 15%;">
-              <div class="col-md-6">
-                <input type="text" id="title" class="form-control mb-2" placeholder="Title">
-              </div>
-              <div class="col-md-6">
-                <input type="text" id="description" class="form-control mb-2" placeholder="Description">
-              </div>
-              <div class="col-md-6">
-                <input type="text" id="status" class="form-control mb-2" placeholder="Status">
-              </div>
-              <div class="col-md-6">
-                <input type="date" id="due_date" class="form-control mb-2" placeholder="Due date">
-              </div>
-              <div class="col-auto">
-                <button type="submit" class="btn btn-info mb-2">Tambah Todo</button>
-              </div>
-            </div>
-          </form>
-        </div> 
-        
-        <!-- EDIT TODO -->
-        <div id="edit-todo" class="allbox afterlogin">
-          <form onsubmit="edit(event)" id="edit-todo-form">
-            <p id='erroredit' style="text-align: center; line-height: 50px; color: red;"></p>
-            <div class="form-row align-items-center" style="width: 70%;margin: 3% 15%;">
-              <div class="col-md-6">
-                <input type="hidden" id="edit-id" value="">
-                <input type="text" id="edit-title" class="form-control mb-2" placeholder="Title">
-              </div>
-              <div class="col-md-6">
-                <input type="text" id="edit-description" class="form-control mb-2" placeholder="Description">
-              </div>
-              <div class="col-md-6">
-                <input type="text" id="edit-status" class="form-control mb-2" placeholder="Status">
-              </div>
-              <div class="col-md-6">
-                <input type="text" id="edit-due_date" class="form-control mb-2" placeholder="Due date">
-              </div>
-              <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-2">Submit Edit</button>
-                <button type="button" class="btn btn-info mb-2" onclick="showAdd(event)">Add Todo</button>
-              </div>
-            </div>
-          </form>
-          <div class="col-auto">
-          </div>
-        </div> 
-        
-        <!-- LIST TODO -->
-        <div id="get-todo" class="allbox afterlogin">
-          <table class="table" style="width: 70%; margin: 3% auto;">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Status</th>
-                <th scope="col">Due Date</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              </tbody>
-            </table>
-          </div>
+    </form>
+  </div>
+  
+  <!-- FORM ADD TODO -->
+  <div id="add-todo" class="allbox afterlogin">
+    <form id="add-todo-form">
+      <p id='erroradd' style="text-align: center; line-height: 50px; color: red;"></p>
+      <div class="form-row align-items-center" style="width: 70%;margin: 3% 15%;">
+        <div class="col-md-6">
+          <input type="text" id="title" class="form-control mb-2" placeholder="Title">
         </div>
+        <div class="col-md-6">
+          <input type="text" id="description" class="form-control mb-2" placeholder="Description">
+        </div>
+        <div class="col-md-6">
+          <input type="text" id="status" class="form-control mb-2" placeholder="Status">
+        </div>
+        <div class="col-md-6">
+          <input type="date" id="due_date" class="form-control mb-2" placeholder="Due date">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-info mb-2">Tambah Todo</button>
+        </div>
+      </div>
+    </form>
+  </div> 
+        
+  <!-- EDIT TODO -->
+  <div id="edit-todo" class="allbox afterlogin">
+    <form onsubmit="edit(event)" id="edit-todo-form">
+      <p id='erroredit' style="text-align: center; line-height: 50px; color: red;"></p>
+      <div class="form-row align-items-center" style="width: 70%;margin: 3% 15%;">
+        <div class="col-md-6">
+          <input type="hidden" id="edit-id" value="">
+          <input type="text" id="edit-title" class="form-control mb-2" placeholder="Title">
+        </div>
+        <div class="col-md-6">
+          <input type="text" id="edit-description" class="form-control mb-2" placeholder="Description">
+        </div>
+        <div class="col-md-6">
+          <input type="text" id="edit-status" class="form-control mb-2" placeholder="Status">
+        </div>
+        <div class="col-md-6">
+          <input type="text" id="edit-due_date" class="form-control mb-2" placeholder="Due date">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-2">Submit Edit</button>
+          <button type="button" class="btn btn-info mb-2" onclick="showAdd(event)">Add Todo</button>
+        </div>
+      </div>
+    </form>
+  </div> 
+  
+  <!-- LIST TODO -->
+  <div id="get-todo" class="allbox afterlogin">
+    <table class="table" style="width: 70%; margin: 3% auto;">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Status</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-        <!-- MODAL DELETE -->
-        <div id="deleteModal" class="modal fade" tabindex="-1">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Confirmation</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body">
-                  <p>Do you want to Delete this todos?</p>
-              </div>
-              <div class="modal-footer">
-                  <input type="hidden" id="delete-id" value="">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <button onclick="deleteTodo()" type="submit" class="btn btn-danger">Delete</button>
-              </div>
-              </div>
-          </div>
+  <!-- MODAL DELETE -->
+  <div id="deleteModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
+        <div class="modal-body">
+          <p>Do you want to Delete this todos?</p>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" id="delete-id" value="">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button onclick="deleteTodo()" type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Logout -->
+  <div id="logoutModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure want to log out?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button onclick="logout()" type="submit" class="btn btn-danger">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>

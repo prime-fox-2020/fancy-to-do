@@ -6,6 +6,7 @@ My fancy to do App is an application to manage your task. This app has :
 * SPA based, Fast and Responsive
 * Google Sign-in
 * 3rd party API send user an email when register completed
+* 3rd party API send user an email when Add new Todo's
 * JSON formatted response
 
 # URL
@@ -84,7 +85,7 @@ not needed
 _Response (200)_
 ```
 {
-  "id": 1,
+  "id": "<todos id>,
   "name": "<todos name>",
   "description": "<todos description>",
   "status": "<todos status>",
@@ -175,7 +176,7 @@ _Request Header_
 _Request Body_
 ```
 {
-  "id": 1,
+  "id": "<todos id>",
   "name": "<todos previous name>",
   "description": "<todos previous description>",
   "status": "<todos previous status>",
@@ -186,7 +187,7 @@ _Request Body_
 _Response (200)_
 ```
 {
-  "id": 1,
+  "id": "<todos id>",
   "name": "<todos updated name>",
   "description": "<todos updated description>",
   "status": "<todos updated status>",
