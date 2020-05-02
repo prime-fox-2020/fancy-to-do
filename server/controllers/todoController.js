@@ -1,4 +1,5 @@
-const { Todo } = require('../models');
+const { Todo, User } = require('../models');
+const axios = require('axios')
 
 class TodoController {
 	static create(req, res, next) {
@@ -14,26 +15,30 @@ class TodoController {
 			.then((data) => {
 				res.status(201).json({
 					todo: data
-				});
+				})
+				return Todo.findAll({
+					where : {UserId: req.userData.id},
+					include: [{model:User}]
+				})
 			})
+			.then(data=>{
+				let email = data[0].dataValues.User.dataValues.email
+				axios({
+					method:"POST",
+					url:"https://simplemailsender.p.rapidapi.com/SendMails/Send",
+					headers:{
+							"x-rapidapi-host":"simplemailsender.p.rapidapi.com",
+							"x-rapidapi-key":process.env.API_KEY_EMAIL
+					},
+					data:{
+							Correo_Delivery : email,
+							Mensjae : `You have successfully added a new todo`
+					}
+				})
+			})
+			
 			.catch((err) => {
-				// let arr = [];
-				
-				// if(err.errors){
-				// 	for (let i = 0; i < err.errors.length; i++) {
-				// 		arr.push(err.errors[i].message);
-				// 	}
-
-				// }
-				// if (arr.length > 0) {
-				// 	res.status(400).json({
-				// 		error: arr.join(',')
-				// 	});
-				// } else {
-				// 	res.status(500).json({
-				// 		error: err
-				// 	});
-				// }
+			
 				next(err)
 			});
 	}

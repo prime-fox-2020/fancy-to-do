@@ -36,7 +36,8 @@ $(document).ready(function() {
        
 			})
 			.fail(function(response) {
-       
+				$('.input-email-log-in').val('');
+				$('.input-password-log-in').val('');
 				Swal.fire({
 					icon: 'error',
 					title: 'Oops...',
@@ -82,6 +83,9 @@ $(document).ready(function() {
 				cek();
 			})
 			.fail(function(response) {
+				$('.input-email-register').val('');
+				$('.input-password-register').val('');
+				$('.input-name-register').val('');
         console.log('gagal register', response);
         // let error = ''
         // for (let i = 0; i < response.responseJSON.message.length; i++) {
