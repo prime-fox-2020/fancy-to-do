@@ -1,65 +1,145 @@
-<html lang="en">
-  <head>
+<html>
+    <head >  
       <title>Fancy Todo</title>
-      <meta name="google-signin-client_id" content="554039684184-2n139m80ct7h9iv8bgk5oradj8p3orm9.apps.googleusercontent.com">
+      <!-- <link href="style.css" type="text/css" rel="stylesheet"> -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="container">
-          <!-- ini untuk form login -->
-    <form id="id_login" action="index.html">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp">
+      <meta name="google-signin-client_id" content="554039684184-2n139m80ct7h9iv8bgk5oradj8p3orm9.apps.googleusercontent.com">
+    </head>
+    <body style="background-color: rgb(223, 128, 159);">
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" id="nav-todos" href="">Todos<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <a class="nav-link" id="nav-register" href="">Register</a>
+            <a class="nav-link" id="nav-login" href="">Login</a>
+		      	<a class="nav-link" href="#" id="nav-logout" onclick="logOut()">Logout</a>
+            <!-- <a id="signOut" href="#" onclick="signOut();">Sign out</a> -->
         </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="passwordLogin">
+      </nav>
+
+      <div class="container">
+
+        <!-- LOGIN -->
+        <div class="loginForm">
+          <form id="id_login" action="index.html" method="POST">
+            <h2 style="text-align: center;">LOGIN</h2>
+            <div class="form-group">
+              <label >Email address</label>
+              <input type="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="email@...">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" id="passwordLogin">
+            </div>
+            <button type="submit" id = "btnLogin" class="btn btn-primary">Login</button><br>
+            <div id="signInGoogle" class="g-signin2" data-onsuccess="onSignIn"></div>
+          </form>
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <!-- Registrasi -->
-    <form class ="" style = "display:none" id="regis">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="emailRegis" aria-describedby="emailHelp">
+
+        <!-- Registrasi -->
+        <div class="registrasiForm">
+          <form id="id_regis" action="index.html" method="POST">
+            <h2 style="text-align: center;">Registrasi</h2>
+            <div class="form-group">
+              <label >Email address</label>
+              <input type="email" class="form-control" id="emailRegis" placeholder="email@...">
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" id="passwordRegis">
+            </div>
+            <button type="submit" class="btn btn-primary" id="btnRegis">Submit</button><br>
+            <div id="signInGoogle" class="g-signin2" data-onsuccess="onSignIn"></div>
+          </form>
         </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="passwordRegis">
+
+        <!-- ADD TODO -->
+        <div class="addForm">
+          <form id="addTodo" action="index.html">
+            <h2 style="text-align: center;">Add New Todo</h2>
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" class="form-control" id="description">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <input type="text" class="form-control" id="status">
+            </div>
+            <div class="form-group">
+                <label>Due Date</label>
+                <input type="date" class="form-control" id="due_date">
+            </div>
+            <button type="submit" id="btnLogin" class="btn btn-primary">Submit</button>
+          </form>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <!-- Add Todo -->
-    <form style = "display:none" id="addTodo">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
+        
+        <!-- LIST TODO -->
+        <div id="getTodo">
+          <h2 style="text-align: center;">List Todo</h2>
+          <div class="d-flex justify-content-left">
+            <button class="btn btn-primary" id="btnAddTodo">Add Todo</button>
+          </div>
+          <table class="table">
+            <thead class="table-info">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="todos">
+
+            </tbody>
+          </table>
         </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Description</label>
-          <input type="password" class="form-control" id="description">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Status</label>
-            <input type="password" class="form-control" id="status">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Due Date</label>
-            <input type="password" class="form-control" id="due_date">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    
-    <a href="#" onclick="signOut();">Sign out</a>
-    </div>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script 
-        src="https://code.jquery.com/jquery-3.5.0.min.js" 
-        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" 
-        crossorigin="anonymous"
-    ></script>
-    <script src="index.js"></script>
-  </body>
+
+        <!-- UPDATE TODO -->
+        <div class="updateForm">
+          <form id="updateTodo" action="index.html" method="POST">
+            <h2 style="text-align: center;">Edit Todo</h2>
+            <div class="form-group">
+              <label>Id</label>
+              <div id="updateId"></div>
+            </div>
+            <div class="form-group">
+              <label>Title</label>
+              <div id="updateTitle"></div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <div id="updateDescription"></div>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <div id="updateStatus"></div>
+            </div>
+            <div class="form-group">
+                <label>Due Date</label>
+                <div id="updateDue_date"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+          </form>
+        </div> 
+        
+      </div>
+      
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <script 
+          src="https://code.jquery.com/jquery-3.5.0.min.js" 
+          integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" 
+          crossorigin="anonymous"
+      ></script>
+      <script src="index.js"></script>
+
+    </body>
 </html>

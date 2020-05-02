@@ -6,5 +6,4 @@ const userRoute = require('./userRoute')
 route.use('/users', userRoute)
 route.use('/todos', todoRoute)
 
-
 module.exports = route

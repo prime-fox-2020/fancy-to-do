@@ -1,4 +1,6 @@
+const fs = require('fs')
 const { Todo } = require('../models')
+const { createEvent, authorize, } = require('../helpers/googleapis')
 
 class TodoController {
     static findAll(req, res, next) {
@@ -12,35 +14,44 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch( err => {
-            //res.status(500).json(err)
             next(err)
         })
     }
 
     static addTodo(req, res, next) {
-        let data = req.body
 
-        let newTodo = {
-            title : data.title,
-            description : data.description,
-            status : data.status,
-            due_date : data.due_date,
-            UserId : req.userData.id,
-            createdAt: new Date(),
-            updatedAtd : new Date()
-        }
-        Todo.create(newTodo)
-        .then( data => {
-            if(!data) {
-                res.status(400).json({message : 'invalid input'})
-            } else {
-                res.status(201).json(data)
+        fs.readFile("credentials.json", (err, content) => {
+            if (err) next(err)
+            
+            let data = req.body
+
+            let calendarData = {
+                title : data.title,
+                description : data.description,
+                status : data.status,
+                due_date : data.due_date,
+                email : req.userData.email,
             }
-        })
-        .catch(err => {
-            //res.status(500).json(err)
-            next(err)
-        })
+    
+            let newTodo = {
+                title : data.title,
+                description : data.description,
+                status : data.status,
+                due_date : data.due_date,
+                UserId : req.userData.id,
+                createdAt: new Date(),
+                updatedAtd : new Date()
+            }
+            Todo.create(newTodo)
+                .then( data => {
+                    authorize(JSON.parse(content), res, calendarData, createEvent);
+                })
+                .catch(error => {
+                    console.log(error)
+                    next(error)
+                })
+          });
+
     }
 
     static findByPk(req, res, next) {
@@ -55,7 +66,6 @@ class TodoController {
             }
         })
         .catch(err => {
-            //res.send(500).json(err)
             next(err)
         })
     }
@@ -68,7 +78,8 @@ class TodoController {
             title : data.title,
             description : data.description,
             status : data.status,
-            due_date : data.due_date
+            due_date : new Date(data.due_date),
+
         }
 
         Todo.update(newTodo, {
@@ -77,14 +88,9 @@ class TodoController {
             }
         })
         .then(data => {
-            if(!data) {
-                next({name: `data not found`})
-            } else {
-                res.status(200).json(data)
-            }
+            res.status(200).json(data)
         })
         .catch( err => {
-            //res.status(500).json(err)
             next(err)
         })
     }
@@ -100,14 +106,12 @@ class TodoController {
         })
         .then( data => {
             if(!data) {
-                //res.status(404).json({message: `data not found`})
                 next({name: `data not found`})
             } else {
                 res.status(200).json(data)
             }
         })
         .catch( err => {
-            //res.status(500).json(err)
             next(err)
         })
     }

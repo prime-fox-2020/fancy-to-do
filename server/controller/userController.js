@@ -8,6 +8,8 @@ const client = new OAuth2Client(CLIENT_ID);
 class UserController {
     static registrasi (req, res) {
         const { email, password } = req.body
+        console.log({email, password})
+
         User.create({
             email, 
             password
@@ -46,21 +48,7 @@ class UserController {
         })
     }
 
-    // async function verify() {
-    //     const ticket = await client.verifyIdToken({
-    //         idToken: token,
-    //         audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-    //         // Or, if multiple clients access the backend:
-    //         //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-    //     });
-    //     const payload = ticket.getPayload();
-    //     const userid = payload['sub'];
-    //     // If request specified a G Suite domain:
-    //     //const domain = payload['hd'];
-    //     }
-    //     verify().catch(console.error);
 
-    //{access_token}
     static googleSign(req, res) {
         const token = req.body.id_token
         let currentEmail = null
@@ -71,30 +59,33 @@ class UserController {
         })
         .then((ticket) => {
             const payload = ticket.getPayload();
-            const userid = payload['email'];
+            const email = payload['email'];
 
+            currentEmail = email
             return User.findOne({
-                where : { email : currentEmail }
+                where : { email : email }
             })
         })
         .then(user => {
+            console.log('user', user)        
             if(user) {
                 const access_token = generateToken(user)
                 res.status(200).json(access_token)
-                return
+                //return
             } else {
-                return User.create({
+                console.log(currentEmail)
+                User.create({
                     email : currentEmail,
                     password: "randomPassword"
+                }).then(newUser => {
+                    console.log(newUser)
+                    const access_token = generateToken(newUser)
+                    res.status(200).json(access_token)
                 })
             }
         })
-        .then(newUser => {
-            const access_token = generateToken(newUser)
-            res.status(200).json(access_token)
-        })
         .catch(err => {
-            console.log(err)
+            res.status(500).json(err)
         })
     }
 }
