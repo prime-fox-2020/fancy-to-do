@@ -45,7 +45,8 @@ _Response (200)_
 _Response (500 - Internet Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 
@@ -87,14 +88,24 @@ _Response (201 - Created)_
 _Response (400 - Bad Request)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"VALIDATION_ERROR"
+  "message": "Title is required, description is required,status is required,due_date is required"
+}
+```
+
+_Response (404 - Not Found)_
+```
+{
+  "errorCode":"TOKEN_NOT_FOUND"
+  "message":"token not found"
 }
 ```
 
 _Response (500 - Internet Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 ---
@@ -130,7 +141,28 @@ _Response (200)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"DATA_NOT_FOUND"
+  "message":"Data not found"
+},
+{
+  "errorCode":"TOKEN_NOT_FOUND"
+  "message":"token not found"
+}
+```
+
+_Response (403)_
+```
+{
+  "errorCode":"FORBIDDEN_ACCESS"
+  "message":"Forbidden Access"
+}
+```
+
+_Response (500 - Internet Server Error)_
+```
+{
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 ---
@@ -172,21 +204,28 @@ _Response (201 - Created)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"DATA_NOT_FOUND"
+  "message":"Data not found"
+},
+{
+  "errorCode":"TOKEN_NOT_FOUND"
+  "message":"token not found"
+}
+```
+
+_Response (403)_
+```
+{
+  "errorCode":"FORBIDDEN_ACCESS"
+  "message":"Forbidden Access"
 }
 ```
 
 _Response (500 - Internet Server Error)_
 ```
 {
-  "message": "<returned error message>"
-}
-```
-
-_Response (400 - Bad Request)_
-```
-{
-  "message": "<returned error message>"
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 ---
@@ -223,14 +262,28 @@ _Response (200)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"DATA_NOT_FOUND"
+  "message":"Data not found"
+},
+{
+  "errorCode":"TOKEN_NOT_FOUND"
+  "message":"token not found"
+}
+```
+
+_Response (403)_
+```
+{
+  "errorCode":"FORBIDDEN_ACCESS"
+  "message":"Forbidden Access"
 }
 ```
 
 _Response (500 - Internet Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 ---
@@ -275,14 +328,28 @@ _Response (200)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"DATA_NOT_FOUND"
+  "message":"Data not found"
+},
+{
+  "errorCode":"NEED_ARGUMENT"
+  "message":"data and salt arguments required"
 }
 ```
 
 _Response (400 - Bad Request)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"VALIDATION_ERROR"
+  "message": "Email is required, Password is required"
+}
+```
+
+_Response (500 - Internet Server Error)_
+```
+{
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 ---
@@ -316,14 +383,24 @@ _Response (200)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"INVALID_ID"
+  "message":"Invalid Email/Password"
 }
 ```
 
 _Response (400 - Bad Request)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"NEED_ARGUMENT"
+  "message":"data and salt arguments required"
+}
+```
+
+_Response (500 - Internet Server Error)_
+```
+{
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 ---
@@ -384,7 +461,8 @@ _Response (200)_
 _Response (500 - Internet Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "errorCode":"UNKNOWN_ERROR"
+  "message":"Internal Server Error"
 }
 ```
 ---
