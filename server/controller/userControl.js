@@ -51,7 +51,7 @@ class Control {
                 }
             })
             .then(data => {
-                if(!data && !(bcrypt.compareSync(password, data.password))){
+                if(!data || !(bcrypt.compareSync(password, data.password))){
                     next({name: 'LoginValidationError'})
                 }
                 else{
