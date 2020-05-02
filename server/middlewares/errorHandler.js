@@ -1,7 +1,7 @@
 function errorHandler(err,req,res, next){
   let statusCode = 500;
   let errorCode = "UNKNOWN_ERROR"
-  let message;
+  let message = 'Error undescribable'
   console.log(err.name, '-----ini error')
  
 
@@ -21,7 +21,7 @@ function errorHandler(err,req,res, next){
     message = "Data not found"
   }else if(err.name == 'JsonWebTokenError'){
     statusCode = 401
-    errorCode = 'User_NOT_AUTHENTICATED'
+    errorCode = 'USER_NOT_AUTHENTICATED'
     message = "Invalid User"
   }else if(err.name == 'Forbidden access'){
     statusCode = 403
@@ -33,7 +33,7 @@ function errorHandler(err,req,res, next){
     message = "Reffernce error"
   }else if(err.name == 'Login Error'){
     statusCode = 400
-    errorCode = 'Validation Error'
+    errorCode = 'VALIDATION_ERROR'
     message = "Invalid Name/Password"
   }
 

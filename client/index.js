@@ -19,7 +19,7 @@ $(document).ready(function() {
 		console.log(password);
 
 		$.ajax({
-			url: 'http://localhost:3000/users/login',
+			url: 'http://localhost:3000/login',
 			type: 'POST',
 			data: {
 				email: email,
@@ -30,7 +30,8 @@ $(document).ready(function() {
         console.log(response)
 				console.log('sukses log-in', response.access_token);
 				localStorage.setItem('access_token', response.access_token);
-
+				$('.input-email-log-in').val('');
+				$('.input-password-log-in').val('');
         cek();
        
 			})
@@ -65,7 +66,7 @@ $(document).ready(function() {
 		console.log(passwordRegis);
 
 		$.ajax({
-			url: 'http://localhost:3000/users/register',
+			url: 'http://localhost:3000/register',
 			type: 'POST',
 			data: {
 				email: emailRegis,
@@ -75,7 +76,9 @@ $(document).ready(function() {
 		})
 			.done(function(response) {
 				console.log('sukses register', response);
-
+				$('.input-email-register').val('');
+				$('.input-password-register').val('');
+				$('.input-name-register').val('');
 				cek();
 			})
 			.fail(function(response) {
@@ -345,7 +348,7 @@ function editTodo(id) {
 	console.log(id_token)
 	$.ajax({
 		method: 'POST',
-		url: 'http://localhost:3000/users/google-sign-in',
+		url: 'http://localhost:3000/google-sign-in',
 		data: {'id_token': id_token}
 		
 
@@ -358,5 +361,9 @@ function editTodo(id) {
 	.fail(err=>{
 		console.log(err, 'errorr sign-in')
 	})
+
+
+
+
 }
 

@@ -1,18 +1,15 @@
-const SECRETKEY = process.env.SECRETKEY;
-const jwt = require('jsonwebtoken');
+const verify = require('../helper/jwt-verify')
 
 const authentication = (req, res, next) => {
 	const { access_token } = req.headers;
 
 	if (!access_token) {
-		// res.status(404).json({
-		// 	error: 'User not found'
-		// });
+	
 		next({name: 'DATA_NOT_FOUND'})
 	}
 
 	try {
-		const decoded = jwt.verify(access_token, SECRETKEY);
+		const decoded = verify(access_token);
 		console.log(decoded);
 		req.userData = decoded;
 

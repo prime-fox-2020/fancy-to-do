@@ -1,36 +1,23 @@
-const {Todo} = require('../models')
+const { Todo } = require('../models');
 
-const authorization = (req,res,next)=>{
-const id = req.params.id
-// console.log(req.params)
-const userId = Number(req.userData.id)
+const authorization = (req, res, next) => {
+	const id = req.params.id;
 
-Todo.findByPk(Number(id))
+	const userId = Number(req.userData.id);
 
-.then(todo=>{
+	Todo.findByPk(Number(id))
+		.then((todo) => {
+			if (!todo) {
+				next({ name: 'DATA_NOT_FOUND' });
+			} else if (Number(todo.UserId) !== userId) {
+				next({ name: 'Forbidden access' })
+			} else {
+				next()
+			}
+		})
+		.catch((err) => {
+			next(err)
+		})
+};
 
-  if(!todo){
-    // res.status(404).json({
-    //   error: 'Todo not found'
-    // })
-    next({name: 'DATA_NOT_FOUND'})
-}else if(Number(todo.UserId) !== userId){
-  // res.status(403).json({
-  //   error: 'Forbidden access'
-  // })
-  next({name: 'Forbidden access'})
-}else{
-
-  next()
-}
-})
-  .catch(err=>{
-   
-    // res.status(500).json({
-    //   err: err
-    // })
-    next(err)
-  })
-}
-
-module.exports = authorization
+module.exports = authorization;
