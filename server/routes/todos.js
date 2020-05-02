@@ -7,7 +7,7 @@ const secretKey = 'bebas'
 
 //Middleware functions
 const authentication = (req, res, next) => {
-    console.log("Authtentication checked!")
+    console.log("Authentication checked!")
     const { access_token } = req.headers
     if (!access_token) {
         res.status(404).json({
@@ -51,7 +51,7 @@ const authorization = (req, res, next) => {
 }
 
 
-
+// ToDoRoute.get('/all',  ToDoController.allList)
 ToDoRoute.get('/', authentication ,ToDoController.list)
 ToDoRoute.get('/:id', authentication ,ToDoController.find)
 ToDoRoute.post('/', authentication ,ToDoController.addTodo)

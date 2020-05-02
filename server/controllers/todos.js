@@ -1,6 +1,16 @@
 const { Todo } = require('../models')
 
 class ToDoController {
+    static allList(req,res){
+        //Menerima dr middleware
+        Todo.findAll()
+        .then(todo => {
+            res.status(200).json(todo)
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
     static list(req,res){
         //Menerima dr middleware
         const getId = req.userData.id
@@ -13,10 +23,10 @@ class ToDoController {
             res.status(200).json(todo)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
-    static find(req,res){
+    static find(req,res,next){
         let getId = req.params.id
         
         Todo.findOne({
@@ -26,19 +36,19 @@ class ToDoController {
         })
         .then(todo => {
             if(!todo ){
-                res.status(404).json({
-                    message : "Todo not found!"
+                next({
+                    name : "Not_Found"
                 })
             }else{
                 res.status(200).json(todo)
             }
         })
         .catch(err => {
+            next(err)
             res.status(500).json(err)
-            res.send(err)
         })
     }
-    static addTodo(req,res){
+    static addTodo(req,res,next){
         let form = req.body
         let userId = req.userData.id
         
@@ -53,10 +63,10 @@ class ToDoController {
             res.status(201).json(todo)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
-    static updateTodo(req,res){
+    static updateTodo(req,res,next){
         let getId = req.params.id
         let form = req.body
         Todo.update({
@@ -71,8 +81,8 @@ class ToDoController {
         })
         .then(todo => {
              if(!todo ){
-                res.status(404).json({
-                    message : "Todo not found!"
+                next({
+                    name : "Not_Found"
                 })
             }else{
                 res.status(200).json(todo)
@@ -80,10 +90,10 @@ class ToDoController {
             res.status(201).json(todo)
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
-    static deleteTodo(req,res){
+    static deleteTodo(req,res,next){
         let getId =  req.params.id
         Todo.destroy({
             where : {
@@ -92,8 +102,8 @@ class ToDoController {
         })
         .then(todo =>{
              if(!todo ){
-                res.status(404).json({
-                    message : "Todo not found!"
+                next({
+                    name : "Not_Found"
                 })
             }else{
                 res.status(200).json(todo)
@@ -101,7 +111,7 @@ class ToDoController {
             res.status(200).json(todo)   
         })
         .catch(err =>{
-            res.status(500).json(err)
+            next(err)
         })
     }
 }
