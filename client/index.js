@@ -1,4 +1,3 @@
-// import { json } from "express";
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
 
@@ -136,23 +135,6 @@ $(document).ready(function () {
             })
     })
 
-    // $('input').keypress(function (event) {
-    //     if (event.which === 13) {
-    //         var todoText = $(this).val();
-    //         $(this).val("");
-    //         $('ul').append('<li>' + todoText + '<span><i class="fa fa-trash"</i></span>');
-    //     }
-    // });
-    // $('ul').on('click', "span", function (event) {
-    //     $(this).parent().fadeOut(500, function () {
-    //         $(this).remove();
-    //     });
-    //     event.stopPropagation();
-    // });
-    // $('ul').on('click', 'li', function () {
-    //     $(this).toggleClass('done');
-    // });
-
     function getDatas() {
         $.ajax({
             type: 'GET',
@@ -180,7 +162,7 @@ $(document).ready(function () {
                         let p = $(this).parent();
                         // $.ajax({
                         //     type: 'PUT',
-                            
+
                         // })
 
                         p.fadeOut(function () {
@@ -194,31 +176,79 @@ $(document).ready(function () {
                         // console.log($(this).parent())
                     })
 
-                    task.append(edit, del, check);
-                    $(".notcomp").append(task);
+                    if (todo.status === 'completed') {
+                        task.append(edit, del)
+                        $(".comp").append(task)
+                    } else {
+                        task.append(edit, del, check);
+                        $(".notcomp").append(task);
+                    }
                 });
-
             }
         })
-
     }
+    getDatas();
 
-    // function deleteData(id, p) {
-    //     $.ajax({
-    //         type: 'DELETE',
-    //         url: `http://localhost:3000/todos/${id}`,
-    //         data: { access_token },
-    //         success: function (msg) {
-    //             console.log('DELETED')
-    //             console.log(msg)
-    //             p.fadeOut(function () {
-    //                 p.remove();
-    //             });
-    //         }
-    //     })
-    // }
-    getDatas()
-    // .done(function (msg) {
-    // })
+    $("#submit_add_todo").click(function (e) {
+        e.preventDefault();
+
+        const data = {
+            title: $("#title").val(),
+            description: $("#description").val(),
+            status: "uncomplete",
+            due_date: "2020-01-01",
+            access_token
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:3000/todos',
+            dataType: 'json',
+            data,
+            success: function (msg) {
+                console.log(msg)
+                const task = $("<div class='task'></div>").text(`${msg.title}`);
+                const del = $("<i class='fa fa-trash'></i>").click(function () {
+                    let p = $(this).parent();
+
+                    $.ajax({
+                        type: 'DELETE',
+                        url: `http://localhost:3000/todos/${msg.id}`,
+                        data: { access_token }
+                    })
+                        .done(function () {
+                            p.fadeOut(function () {
+                                p.remove();
+                            });
+                        })
+                });
+
+                const check = $("<i class='fa fa-check'></i>").click(function () {
+                    let p = $(this).parent();
+                    // $.ajax({
+                    //     type: 'PUT',
+
+                    // })
+
+                    p.fadeOut(function () {
+                        $(".comp").append(p);
+                        p.fadeIn();
+                    });
+                    $(this).remove();
+                });
+
+                const edit = $("<i id='edit' class='fa fa-edit'></i>").click(function () {
+                    // console.log($(this).parent())
+                })
+
+                task.append(edit, del, check);
+
+                $(".notcomp").append(task);
+
+                $("#title").val("")
+                $("#description").val("")
+            }
+        })
+    })
 
 })

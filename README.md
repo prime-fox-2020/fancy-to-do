@@ -1,5 +1,5 @@
-# Ryz Todo App
-Ryz Todo App is an application to list and check your activity. This app has : 
+# Fancy Todo App
+Fancy Todo App is an application to list and check your activity. This app has : 
 * RESTful endpoint for asset's CRUD operation
 * JSON formatted response
 * Using Express, jQuery, and Ajax

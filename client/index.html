@@ -81,56 +81,40 @@
     <div id="home">
         <nav class="navbar navbar-light bg-light justify-content-between">
             <form id="logout" class="form-inline">
-                <button style="width: auto;" onclick="signOut()" class="btn btn-outline-danger my-2 my-sm-0" type="submit">LOGOUT</button on>
+                <button style="width: auto;" onclick="signOut()" class="btn btn-outline-danger my-2 my-sm-0"
+                    type="submit">LOGOUT</button on>
             </form>
         </nav>
 
-        <h2 class="text-center">RYZ TODO APP</h2>
-        <!-- <div id="notcomp">
-            <h3>Not Completed</h3>
-            
-            <div id="task">
-                task
-                <i class="fa fa-trash"></i>
-                <i class="fa fa-check"></i>
-            </div>
-        </div>
-
-        <div id="comp">
-            <h3>Completed</h3>
-            task
-                <i class="fa fa-trash"></i>
-        </div> -->
-        
-        <!--    
-        <button id="show_data" class="btn btn-outline-info">SHOW DATA</button>
-        <ul id="list_todo" class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                PERATAMA
-                <span class="badge badge-primary badge-pill">
-                    <i class="fa fa-check"></i>
-                </span>
-            </li>
-        </ul>
-        <div class="input-group mb-3">
-            <form id="add_todo">
-                <input id="input_todo" type="text" class="form-control" placeholder="Recipient's username"
-                    aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <button id="input_data" class="btn btn-outline-secondary" type="button">Button</button>
-                </div>
-            </form>
-        </div> -->
+        <h2 class="text-center">FANCY TODO APP</h2>
         <div id="container">
             <div class="notcomp">
                 <h3>Not Completed</h3>
-    
-    
+
+
             </div>
-    
+
             <div class="comp">
                 <h3>Completed</h3>
             </div>
+        </div>
+
+        <div id="add_todo">
+            <form>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title"
+                        placeholder="Eat">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description"
+                        placeholder="as much as i can">
+                </div>
+
+                <button id="submit_add_todo" type="submit">ADD</button>
+            </form>
         </div>
     </div>
 
