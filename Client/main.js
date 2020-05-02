@@ -9,6 +9,7 @@ $(document).ready(function(){
         $('#field-register').show()
         $('#field-todos').hide()
         $('#field-add-todo').hide()
+        $('#field-edit-todo').hide()
         $('#field-holidays').hide()
     } else {
         showTodos()
@@ -75,7 +76,136 @@ $(document).ready(function(){
         $('#field-holidays').hide()
     })
 
+    $('#nav-logout').click(function(e){
+        e.preventDefault()
+        $('#success').empty()
+        $('#error').empty()
+        $('#field-add-todo').hide()
+        $('#field-edit-todo').hide()
+        $('#field-todos').hide()
+        $('#field-logout').hide()
+        $('#field-login').hide()
+        $('#field-holidays').hide()
+        logout()
+    })
 });
+
+
+
+$('#register').submit(function(e){
+    e.preventDefault()
+
+    let data = {
+        username: $('#register_username').val(),
+        email: $('#register_email').val(),
+        password: $('#register_password').val(),
+    }
+    
+    $.ajax({
+        url: 'http://localhost:3000/users/register',
+        method: 'POST',
+        data: data,
+    })
+    .done(register => {
+        $('#success').empty()
+        $('#error').empty()
+        $('#reqgister_username').val('')
+        $('#register_email').val('')
+        $('#register_password').val('')
+
+        $('#field-register').hide()
+        $('#field-login').show()
+        $('#field-add-todo').hide()
+        $('#field-edit-todo').hide()
+        $('#field-holidays').hide()
+
+        $('#success').append(`<div class="alert alert-success" role="alert">You have successfully registered</div>`)
+    })
+    .fail(err => {
+        console.log(err)
+        $('#error').empty()
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
+    })
+})
+
+
+$('#login').submit(function(e){
+    e.preventDefault()
+
+    let data = {
+        email: $('#login_email').val(),
+        password: $('#login_password').val()
+    }
+
+    $.ajax({
+        url: 'http://localhost:3000/users/login',
+        method: 'POST',
+        data: data
+    })
+        .done(login => {
+            $('#login_email').val('')
+            $('#login_password').val('')
+            $('#success').empty()
+            $('#error').empty()
+
+            $('#nav-login').hide()
+            $('#nav-register').hide()
+            $('#nav-todos').show()
+            $('#nav-holidays').show()
+            $('#nav-logout').show()
+            $('#field-register').hide()
+            $('#field-login').hide()
+            showTodos()
+            $('#field-todos').show()
+            $('#field-add-todo').hide()
+            $('#field-edit-todo').hide()
+            $('#field-holidays').hide()
+
+            localStorage.setItem('acces_token', login.acces_token)
+
+            $('#success').append(`<div class="alert alert-success" role="alert">You have successfully logged in</div>`)
+        })
+        .fail(err => {
+            $('#error').empty()
+            $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
+        })
+    
+}) 
+
+
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url: 'http://localhost:3000/users/google-signin',
+        method: 'POST',
+        data: {
+            id_token: id_token
+        }
+    })
+    .done(data => {
+
+        $('#success').empty()
+        $('#error').empty()
+        $('#nav-login').hide()
+        $('#nav-register').hide()
+        $('#nav-todos').show()
+        $('#nav-holidays').show()
+        $('#nav-signout').show()
+        $('#field-register').hide()
+        $('#field-login').hide()
+        showTodos()
+        $('#field-todos').show()
+        $('#field-addTodo').hide()
+        $('#field-editTodo').hide()
+        $('#field-holidays').hide()
+
+        localStorage.setItem('acces_token', data.acces_token)
+    })
+    .fail(err => {
+        console.log(err)
+    })
+}
+
 
 
 function showTodos(){
@@ -83,7 +213,7 @@ function showTodos(){
     // console.log(token)   
     $.ajax({
         url: 'http://localhost:3000/todos',
-        type: 'GET',
+        method: 'GET',
         headers: {
             "acces_token": token
         },
@@ -99,7 +229,7 @@ function showTodos(){
             } else {
                 tempStatus = 'Done'
             }
-            
+
             $new_row = `
             <tr>
                 <td scope="col">${el.title}</td>
@@ -110,7 +240,7 @@ function showTodos(){
                     <a onclick="editTodo(${el.id})"><button class="btn btn-success" type="submit">Edit</button></a>
                     <a onclick="deleteTodo(${el.id})"><button class="btn btn-danger" type="submit">Delete</button></a>
                 </td>
-            <tr>
+            </tr>
         `
             $('#todos').append($new_row)
         });
@@ -133,7 +263,7 @@ $('#add-todo').submit(function(e){
 
     $.ajax({
         url: 'http://localhost:3000/todos',
-        type: 'POST',
+        method: 'POST',
         data: data,
         headers: {
             'acces_token': token
@@ -155,9 +285,8 @@ $('#add-todo').submit(function(e){
         $('#success').append(`<div class="alert alert-success" role="alert"> Todo with title ${newTodo.title} has been added </div>`)
     })
     .fail(err => {
-        console.log(data)
-        $('#error').empty()
-        $('#error').append(`<div class="alert alert-danger" role="alert"> Data yang Anda isi Salah </div>`)
+        console.log(err)
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
 })
 
@@ -205,7 +334,7 @@ function editTodo(id){
     })
     .fail(err => {
         $('#error').empty()
-        $('#error').append(`<div class="alert alert-danger" role="alert">Failed to get todos from server</div>`)
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
     })
 }
 
@@ -251,9 +380,8 @@ $('#edit-todo').submit(function(e){
     })
     .fail(err => {
         $('#error').empty()
-        console.log(data)
         console.log(err)
-        $('#error').append(`<div class="alert alert-danger" role="alert">Incorrect data</div>`)
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
 })
 
@@ -279,7 +407,7 @@ function deleteTodo(id){
     })
     .fail(err => {
         $('#error').empty()
-        $('#error').append(`<div class="alert alert-danger" role="alert">Error delete</div>`)
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
     })
 }
 
@@ -288,7 +416,7 @@ function showHolidays(){
     // console.log(token)
     $.ajax({
         url: 'http://localhost:3000/todos/holidays',
-        type: 'GET',
+        method: 'GET',
         headers: {
             "acces_token": token
         },
@@ -313,4 +441,31 @@ function showHolidays(){
     .fail(err => {
         console.log(err);
     })
+}
+
+
+function logout() {
+
+    var auth2 = gapi.auth2.getAuthInstance();
+    if (auth2) {
+        auth2.signOut().then(function() {
+            console.log('signed out');
+        });
+    }
+
+    localStorage.removeItem('token')
+    localStorage.clear()
+    $('#success').empty()
+    $('#nav-login').show()
+    $('#nav-register').show()
+    $('#nav-todos').hide()
+    $('#nav-holidays').hide()
+    $('#nav-logout').hide()
+    $('#field-login').show()
+    $('#field-todos').hide()
+    $('#field-add-todo').hide()
+    $('#field-edit-todo').hide()
+    $('#field-holidays').hide()
+
+    $('#success').append(`<div class="alert alert-success" role="alert">You have successfully logged out</div>`)
 }

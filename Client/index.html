@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="google-signin-client_id" content="594361692911-nnbdl0r0gilmhodjqijahqchvpgqb28t.apps.googleusercontent.com">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Fancy To Do</title>
 </head>
@@ -54,9 +55,13 @@
                         </div>
                         <div class="form-group">
                             <label for="password-register">Password</label>
-                            <input type="password" class="form-control" id="register_password" placeholder="password" required>
+                            <input type="password" class="form-control" id="register_password" placeholder="password">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
+
+                        <br>
+                        <small id="emailHelp" class="form-text text-muted">Or sign in/up with Google Account</small>
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </form>
                 </div>
             </div>
@@ -74,9 +79,13 @@
                     </div>
                     <div class="form-group">
                         <label for="password-login">Password</label>
-                        <input type="password" class="form-control" id="login_password" placeholder="password" required>
+                        <input type="password" class="form-control" id="login_password" placeholder="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <br>
+                    <small id="emailHelp" class="form-text text-muted">Or sign in/up with Google Account</small>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 </form>
             </div>
 
@@ -112,7 +121,7 @@
                 <form id="add-todo" action="index.html" method="POST">
                     <div class="form-group">
                         <label for="title-todo">Title</label>
-                        <input type="text" class="form-control" id="add-title" placeholder="title" autofocus required>
+                        <input type="text" class="form-control" id="add-title" placeholder="title" autofocus>
                     </div>
                     <div class="form-group">
                         <label for="description-todo">Description</label>
@@ -120,7 +129,7 @@
                     </div>
                     <div class="form-group">
                         <label for="duedate-todo">Due Date</label>
-                        <input type="date" class="form-control" id="add-due_date" required>
+                        <input type="date" class="form-control" id="add-due_date">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -138,29 +147,21 @@
                         <label for="title-todo">Title</label>
                         <div id="edit-title">
                         </div>
-                        <!-- <input type="text" class="form-control" id="edit-title" placeholder="title" autofocus required> -->
                     </div>
                     <div class="form-group">
                         <label for="description-todo">Description</label>
                         <div id="edit-description">
                         </div>
-                        <!-- <input type="text" class="form-control"  placeholder="description"> -->
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Status</label>
                         <div id="edit-status">
                         </div>
-                        <!-- <select class="form-control" id="exampleFormControlSelect1" >
-                            <option selected disabled>Choose</option>
-                            <option value="true">Done</option>
-                            <option value="false">Undone</option>
-                        </select> -->
                     </div>
                     <div class="form-group">
                         <label for="duedate-todo">Due Date</label>
                         <div id="edit-due_date">
                         </div>
-                        <!-- <input type="date" class="form-control" id="edit-due_date"> -->
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -189,9 +190,13 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
     
     <script src="main.js"></script>
 </body>

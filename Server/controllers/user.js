@@ -1,6 +1,9 @@
 const { User } = require('../models')
 const generateToken = require('../helpers/generateToken')
 const matchPassword = require('../helpers/matchPassword')
+const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = process.env.CLIENT_ID
+const client = new OAuth2Client(CLIENT_ID);
 
 class UserController {
     static register(req, res, next){
@@ -45,6 +48,50 @@ class UserController {
             res.status(200).json({ acces_token })
         })
         .catch(err => {
+            next(err)
+        })
+    }
+
+    static googleSign(req, res, next){
+        const token = req.body.id_token
+        let currentEmail = null
+        let currentUsername = null
+
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        })
+        .then(ticket => {
+            const payload = ticket.getPayload()
+            console.log(payload)
+            currentEmail = payload['email']
+            currentUsername = payload['given_name']
+            console.log(currentUsername)
+
+            return User.findOne({
+                where: { email: currentEmail }
+            })
+        })
+        .then(user => {
+            if(user){
+                const acces_token = generateToken(user)
+                res.status(200).json({acces_token})
+            } else {
+                return User.create({
+                    username: currentUsername,
+                    email: currentEmail,
+                    password: 'qwerty'
+                })
+            }
+        })
+        .then(newUser => {
+            const acces_token = generateToken(newUser)
+            res.status(200).json({ acces_token })
+        })
+        .catch(err => {
+            console.log(err)
             next(err)
         })
     }

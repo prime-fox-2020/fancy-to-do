@@ -3,7 +3,7 @@ const errHandler = (err, req, res, next) => {
     let errors = []
     if(err.name === 'SequelizeValidationError'){
         err.errors.forEach(el => {
-            errors.push({message: el.message})
+            errors.push(el.message)
         });
         status = 400
     } else if(err.message) {
