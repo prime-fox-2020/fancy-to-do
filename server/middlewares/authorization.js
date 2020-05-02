@@ -1,0 +1,23 @@
+const { Todo } = require('../models')                  // author proced
+
+const authorization = (req, res, next) => {
+    const { id } = req.params
+
+    Todo.findByPk(id)
+    .then( todoUser =>{
+        if (!todoUser) {
+            res.status(404).json({error: 'user not found'})
+        } else if (todoUser.UserId != req.userData.id) {
+            res.status(403).json({error: 'Forbidden user access'})
+        } else if (todoUser.UserId == req.userData.id) {
+            // if user are authorized, next to TodoController
+            next()                                     
+        }
+    })
+    .catch( err =>{
+        res.status(500).json({message: err.message || 'internal error server'})
+    })
+    
+}
+
+module.exports = { authorization }

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="383035084667-mgj86iu80a39a3cbgekmdlsfosphlhuc.apps.googleusercontent.com">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>My Fancy Todo App</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <nav class="nav justify-content-center nav nav-pills">
+            <h1 class="nav-link active">Fancy Todo Application</h1>
+        </nav>
+        <h6 class="text-center" id="greet" >~Be Productive Akhy~</h6>
+        
+        
+        <!-- Register Todo -->
+        <div class="app" id="register">
+            <h1>Register</h1>
+
+            <form id="register-form">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email-register" placeholder="e.g: example@mail.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password-register" placeholder="e.g: input your password">
+                </div>
+
+                <!-- id="btn-register" -->
+                <button class="btn btn-success" type="submit" >Register</button> | 
+                <button class="btn btn-primary" id="btn-gotologin"> To Log in</button><br><br>
+                
+                <h5>Psst!  I'm right here,</h5><br>
+                <!-- GOOGLE SIGNIN BUTTON -->
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+            </form>
+        </div>
+      
+        <!-- Login Todo -->
+        <div class="app" id="login">
+            <h1>Login</h1>
+        
+            <form id="login-form">
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email-login"  placeholder="e.g: example@mail.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password-login" placeholder="e.g: <input password>">
+                </div>
+
+                <!-- id="btn-login"  -->
+                <button class="btn btn-success" type="submit">Log in</button> | 
+                <button class="btn btn-primary" id="btn-gotoregister"> To Register</button><br><br>
+                
+                <h5>Familiar with this?</h5><br>
+                <!-- GOOGLE SIGNIN BUTTON -->
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </form>
+
+        </div>
+
+        <!-- Add Todo -->
+        <div class="app" id="add">
+            <h1>Add Todo</h1>
+            <form id="add-form" >
+                
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="add-title" placeholder="e.g: Learning">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="add-description" placeholder="e.g: Astrology">
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="text" class="form-control" id="add-due_date" placeholder="YYYY-MM-DD">
+                </div>
+
+                <button type="submit" class="btn btn-success">Create</button>
+                <button class="btn btn-danger list" id='btn-list-from-add'>Cancel</button><!--backtollist-->
+            
+            </form>
+        </div>
+      
+        <!-- Edit Todo -->
+        <div class="app" id="edit">
+            <h1>Edit Todo</h1>
+            <form id="edit-form">
+
+            </form>
+        </div>
+
+        <!-- Find A Todo -->
+        <div class="app" id="findatodo">
+            <form id="findatodo-form">
+
+            </form>
+            
+        </div>
+
+        <!-- Show Todo -->
+        <div class="app" id="todolist">
+            <h1 >Todo list</h1>
+
+            <button class="btn btn-primary" id='btn-add'>Add Todo</button>
+
+            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <button class="btn btn-info logout float-right" id="btn-logout">Fancy Log Out</button>
+                <button href="#" class="btn btn-primary logout float-right" onclick="signOut();">Google Log Out</button>
+            </div><br><br>
+            
+            <table class="table table-striped" id="table-todo">
+
+                <thead>
+                    <tr>
+                        <!-- <th scope="col">Mark</th> -->
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <!-- <th scope="col">Description</th> -->
+                        <th scope="col">Status</th>
+                        <th scope="col">Due Date</th>
+                        <!-- <th scope="col">User ID</th> -->
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+
+            </table>
+        </div>
+        
+      
+    </div>
+    
+    <!-- Google Oauth Script-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+    <!-- CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+    <!-- Sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    
+    <!-- Scripts -->
+    <script src="./scripts/parts.js"></script>
+    <script src="./scripts/docReady.js"></script>
+   
+
+</body>
+</html>
