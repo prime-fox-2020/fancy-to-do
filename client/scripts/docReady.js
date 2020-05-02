@@ -17,6 +17,7 @@ $(document).ready(function(){
     $(document).on("submit", "#login-form", function(event) {
     // $('#login-form').submit(function (event) {
         event.preventDefault()
+        console.log('>>> Login button click')
         loginUser()
     })
     $('#btn-gotologin').click(function(e){
@@ -29,6 +30,7 @@ $(document).ready(function(){
     // $('#register-form').submit(function (event) {
         event.preventDefault()
         registerUser()
+       
     })
     $('#btn-gotoregister').click(function(e){
         e.preventDefault();

@@ -7,10 +7,15 @@ function onSignIn(googleUser) {
     $.ajax({
         method: "POST",
         url: "http://localhost:3000/users/google-signin",
-        data: { id_token }
+        data: { id_token },
+        success: function(data){
+            localStorage.setItem("access_token", data.access_token)
+            $(".app").hide()
+            showTodo()
+            $("#todolist").show();
+        }
     })
     .done(function(data){
-        localStorage.setItem('access_token', data.access_token)
         console.log('mausuk atoken Google')
     })
 
@@ -21,7 +26,7 @@ function onSignIn(googleUser) {
     // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
-function signOut(e) {
+function signOut() {
     Swal.fire({
         title: 'Logging out now?',
         text: "You might have to Google sign in again to enter this page",
@@ -32,6 +37,7 @@ function signOut(e) {
         confirmButtonText: 'Yes, Log out please'
     })
     .then((result) => {
+        console.log(' ===== masuk SWAL signed out')
         if (result.value) {
             Swal.fire(
             'Google logging out..',
@@ -39,12 +45,11 @@ function signOut(e) {
             'success'
             )
             
-            e.preventDefault()
-
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
             console.log('User signed out.');
             });
+            
             localStorage.removeItem('access_token')
 
             $(".app").hide();
@@ -58,6 +63,7 @@ function signOut(e) {
 }
 
 function loginUser(){
+
     $.ajax({
         url: "http://localhost:3000/users/login",
         type: "POST",
@@ -67,13 +73,17 @@ function loginUser(){
         },
         success: function(data){
             localStorage.setItem("access_token", data.access_token)
+            $(".app").hide()
             showTodo()
+            $("#todolist").show();
+            $('#login-form')[0].reset();
+
         }
     })
     .done(function(){
-        $(".app").hide()
-        showTodo()
+        console.log('>>>>>>>>> done')
     })
+    
 }
 
 function registerUser() {
@@ -85,7 +95,10 @@ function registerUser() {
             password: $("#password-register").val()
         },
         success: function(data){
-            localStorage.setItem("access_token", data.access_token)
+            $(".app").hide();
+            $('#register-form')[0].reset();
+            $("#login").show();
+            // localStorage.setItem("access_token", data.access_token)
         }
     })
 }
@@ -225,6 +238,12 @@ function getATodo(id){ //for url id
             </div>
 
             <button class="btn btn-primary list" id="btn-list-from-findatodo">Go Back</button>
+
+            <div class="text-center">
+                <p>Scan this QR Code to apply it on your mobile device.</p>
+                <!-- <img src="https://api.qrserver.com/v1/create-qr-code/?data=title,description&amp;size=50x50" alt="" title="" /> -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data=${title}, ${description}, status: ${status}&amp;size=200x200" alt="" title="" />
+            </div>
             `
         // $("#findatodo-form").append($temp); //untuk menambah
         $("#findatodo-form").html($temp); // mengubah isi
@@ -284,15 +303,12 @@ function showTodo(){
         $("#table-todo tbody").empty();
         var $temp = ''
         for (let i = 0; i < response.length; i++) {
+            console.log(' >>>>>>> masuk showtodo front end')
             const {id, title, description, status, due_date, UserId} = response[i]
             $temp += `
                 <tr>
+                    
                     <td> ${id} </td>
-                    <td>
-                        <div class="form-check">
-                            <input class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
-                        </div>
-                    </td>
                     <td> ${title} </td>
                     <!--<td> ${description} </td>-->
                     <td> ${status} </td>
@@ -310,6 +326,7 @@ function showTodo(){
         }
         // $("#table-todo tbody").append($temp);
         $("#table-todo tbody").html($temp);
+
         
     })
     

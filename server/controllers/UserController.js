@@ -3,15 +3,14 @@ const bcrypt = require('bcrypt')                             // jwt proced
 const { generateToken } = require('../helpers/jwt')          // jwt proced
 
 const {OAuth2Client} = require('google-auth-library');       //google proced
-const CLIENT_ID = '383035084667-mgj86iu80a39a3cbgekmdlsfosphlhuc.apps.googleusercontent.com'
-const client = new OAuth2Client(CLIENT_ID);                  //google proced
+const client = new OAuth2Client(process.env.CLIENT_ID);      //google proced
 
 class UserController {
 
     static registerUser(req, res){
         let { email, password } = req.body;
         User.create({
-            id, email, password
+            email, password
         })
         .then( user => {
             if (user) {
@@ -23,9 +22,7 @@ class UserController {
             }
         })
         .catch( err => {
-            res.status(500).json({ 
-                message: err.message || 'internal server error'
-            })
+            next(err)
         })
 
     }
@@ -49,29 +46,10 @@ class UserController {
             res.status(201).json({ access_token })
         })
         .catch( err => {
-            res.status(500).json({ 
-                message: err.message || 'internal server error'
-            })
+            next(err)
         })
 
     }
-    
-    //GOOGLE DOCUMENTATION
-    // const {OAuth2Client} = require('google-auth-library');
-    // const client = new OAuth2Client(CLIENT_ID); 
-    // async function verify() {
-    // const ticket = await client.verifyIdToken({
-    //     idToken: token,
-    //     audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
-    //     // Or, if multiple clients access the backend:
-    //     //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-    // });
-    // const payload = ticket.getPayload();
-    // const userid = payload['sub'];
-    // // If request specified a G Suite domain:
-    // //const domain = payload['hd'];
-    // }
-    // verify().catch(console.error);
 
     static googleUser(req, res) {
         const token = req.body.id_token
@@ -79,7 +57,7 @@ class UserController {
 
         client.verifyIdToken({
             idToken: token,
-            audience: CLIENT_ID
+            audience: process.env.CLIENT_ID
         })
         .then(ticket => {
             const payload = ticket.getPayload();

@@ -3,10 +3,7 @@ const { Todo } = require('../models')
 class TodoController {
 
     static addTodo(req, res){
-        console.log('masuk addTodo')
         const idTokenVeryfied = req.userData.id
-        console.log(idTokenVeryfied, 'IdTokenVeryfied')
-        console.log('===========', req.body)
 
         // res.status(200).json(req.body)
 
@@ -25,17 +22,16 @@ class TodoController {
             }
         })
         .catch(err => {
-            console.log(err)
-            res.status(500).json({ message: err.message || 'Unknown - Internal Server Error' })
+            let msg = []
+            for (let i = 0; i<err.errors.length;i++){
+                msg.push(err.errors[i].message)
+            }
+            next({name: "SequelizeValidationError", message : msg})
         })
     }
 
     static showTodo(req, res){
-        console.log('masuk showTodo')
-        // console.log(req.headers)
         const idTokenVeryfied = req.userData.id
-        // console.log(idTokenVeryfied)
-        // console.log(req.body, '<<<<<<<<<A')
 
         Todo.findAll({
             order: ['id'],
@@ -44,19 +40,16 @@ class TodoController {
             }
         })
         .then(response => {
-            // console.log(response)
-
             res.status(200).json( response )
         })
         .catch( err => {
-            res.status(500).json({ message: err.message || 'Unknown - Internal Server Error' })
+            next(err)
         })
     }
 
     static getTodo(req, res){                        // not yet link atoken
         Todo.findByPk(Number(req.params.id))
         .then(response => {
-            console.log('===|===|===', response)
             if(response){
                 res.status(200).json(response)
             }
@@ -65,15 +58,12 @@ class TodoController {
             }
         })
         .catch( err => {
-            res.status(500).json({ message: err.message || 'Unknown - Internal Server Error' })
+            next(err)
         })
     }
 
-    static updateTodo(req, res){                    // 
-        console.log('masuk updateTodo')
-        // console.log('\n\n\n', req ,'\n\n\n')
+    static updateTodo(req, res){                    
         // const idTokenVeryfied = req.userData.id
-        // console.log(idTokenVeryfied)
 
         let todoObj = {
             title: req.body.title,
@@ -88,7 +78,6 @@ class TodoController {
             }
         })
         .then( response => {
-            // console.log(response)
             if (response == 1) {
                 res.status(200).json({ message: "Update selected todo successfully" }) //
                 // res.status(200).json(response) //
@@ -97,11 +86,11 @@ class TodoController {
             }
         })
         .catch(err => {
-            if (!err.message) {
-                res.status(404).json({message: "Update data todo not found"})                 
-            } else{
-                res.status(500).json({ message: err.message || 'Unknown - Internal Server Error' })
+            let msg = []
+            for (let i = 0; i<err.errors.length;i++){
+                msg.push(err.errors[i].message)
             }
+            next({name: "SequelizeValidationError", message : msg})
         })
     }
 
@@ -119,7 +108,7 @@ class TodoController {
             }
         })
         .catch(err => {
-            res.status(500).json({ message: err.message || 'Unknown - Internal Server Error' })
+            next(err)
         })
     }
 

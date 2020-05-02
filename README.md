@@ -4,6 +4,34 @@ This is an application to organize your to do list.
 This app has :
 * RESTful endpoint for Todo List's CRUD operation
 * JSON formatted response
+`environment variables:`
+* file .env values:
+> - PORT=3000
+> - SECRET_KEY=rahasia
+> - CLIENT_ID=383035084667-mgj86iu80a39a3cbgekmdlsfosphlhuc.apps.googleusercontent.com
+
+`link deploy:`
+> -
+
+`fitur tambahan:`
+> - 
+
+`Raka's Fancy Todo Guides:`
+> - Log In - this button automatically guide you to our Fancy Todo table page
+> - Register - this button automatically store your user data to the application
+> - Google Button - this button allows you to signing in using your google account
+> - Add Todo - this button allows you to create a new todo in a form. once it generate, it will automatically comes with todos id AND status of 'belum berhasil'
+> - Log Out (Fancy Todo & Google) - this button allows you to log yourself out from the application. Don't worry, it comes with a confirmation log out Modal.
+> - Mark - used for highlighting selected to do, in certain cases it can be use by the user to 'mark' their todo priorities WHILE opening the app. it resets once a user has logged out.
+> - #(todos id) - tells you the number of selected todos has been created for the whole application
+> - Title - tells the main to do activity
+> - Status - can be used as a confirmation status of a todo when it is done
+> - Due Date - shows the deadline of the each todos
+> - Action 
+-- Show Button: Contains detail information of a 'readonly' todo of the current logged in user. Complete with a longer explanation of the selected todo in the description column
+-- Edit: this button allows you to manipulate the selected todo in a form, excluded: todo's id
+--Delete: this button allows you to terminate selected todo. Don't worry, it comes with a confirmation delete Modal.
+
 
 &nbsp;
 ## RESTful endpoints
@@ -51,7 +79,7 @@ _Response (200)_
 _Response (500 - Bad Request)_
 ```
 {
-    "error": "<returned error message>"
+    "message": "<returned error message>"
 }
 ```
 ---
@@ -139,7 +167,7 @@ _Response (400 - bad request)_
 _Response (500)_
 ```
 {
-  "error": "<returned error message>"
+  "message": "<returned error message>"
 }
 ```
 ---
@@ -173,19 +201,19 @@ _Response(200)_
 _Response(404 - not found)_
 ```
 {
-    "error": "<returned error message>"
+    "message": "<returned error message>"
 }
 ```
 _Response(400 - bad request)_
 ```
 {
-  "error": "<returned error message>"
+  "message": "<returned error message>"
 }
 ```
 _Response (500)_
 ```
 {
-  "error": "<returned error message>"
+  "message": "<returned error message>"
 }
 ```
 ---
@@ -213,12 +241,12 @@ _Response(200)_
 _Response(404 - not found)_
 ```
 {
-    "error": "<returned error message>"
+    "message": "<returned error message>"
 }
 ```
 _Response (500)_
 ```
 {
-  "error": "<returned error message>"
+  "message": "<returned error message>"
 }
 ```
