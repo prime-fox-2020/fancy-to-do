@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name="google-signin-client_id" content="806692303657-obfkul7eseib3k5as720o80857a05lu7.apps.googleusercontent.com">
+        <title>Page Title</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <h1>Todo Web App</h1>
+        
+        <div id="login" class="elements">
+            <h1>Login</h1>
+            <form id="login-form" class="forms">
+                <input id="input-login-email" type="text" placeholder="Email">
+                <input id="input-login-password" type="password" placeholder="Password">
+                <input type="submit" id="register-submit" value="Login">
+            </form>
+        </div>
+        
+        <div id="register" class="elements">
+            <h1>Register</h1>
+            <form id="register-form" class="forms">
+                <input id="input-register-email" type="text" placeholder="Email">
+                <input id="input-register-password" type="password" placeholder="Password">
+                <input type="submit" id="register-submit" value="Register">
+            </form>
+        </div><br>
+        
+        <div id="todos" class="elements">
+            <table class="table table-sm table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+
+        <div id="addTodos" class="elements">
+            <h1>Add New Todo</h1>
+            <form id="Todo-form-add" class="forms">
+                <input id="input-todo-title" type="text" placeholder="Title">
+                <input id="input-todo-desc" type="text" placeholder="Description">
+                <input id="input-todo-due" type="date" placeholder="Due date"><br>
+                <input type="submit" id="todo-submit" value="Add new todo">
+            </form>
+        </div>
+
+        <div id="editTodos" class="elements">
+            <h1>Edit Todo</h1>
+            <form id="Todo-form-edit" class="forms">
+                <input id="input-todo-edit-title" type="text" placeholder="Title">
+                <input id="input-todo-edit-desc" type="text" placeholder="Description">
+                <input id="input-todo-edit-due" type="date" placeholder="Due date"><br><br>
+                <label for="input-todo-edit-status">Status:</label>
+                <select id="input-todo-edit-status">
+                    <option value="" selected disabled>Choose Status</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                </select><br>
+                <input type="submit" id="todo-submit" value="Edit todo">
+            </form>
+            <button class="elements" id="cancel-edit" onclick="cancelEdit()">Cancel</button>
+        </div>
+        
+        <div id="googleSignIn" class="g-signin2 elements" data-onsuccess="onSignIn"></div><br>
+        
+        <a class="elements" id="showLogin" href="#" onclick="showLogin()">Login Now</a>
+        <a class="elements" id="showRegister" href="#" onclick="showRegister()">Register Now</a>
+        <a class="elements" id="signOutButton" href="#" onclick="signOut()">Sign Out</a>
+        
+        <div id="deletePopUp" class="elements">
+            <div class="box">
+                <h2>Are you sure about that?</h2>
+                <a href="#" id="Yes" class="Button" onclick="deleteTodo()">Yea</a>
+                <a href="#"id="No" class="Button" onclick="closeDeleteModal()">Nay</a>
+            </div>
+        </div>
+
+        <div id="errorPopUp" class="elements">
+            <div class="box">
+                <h2>Actions Failed</h2>
+                <a href="#" id="Yes" class="Button" onclick="closeErrorModal()">Oh no</a>
+            </div>
+        </div>
+
+        <div id="reminderPopUp" class="elements">
+            <div class="box">
+                <h2>Reminder has been sent to your email</h2>
+                <a href="#" id="Yes" class="Button" onclick="closeReminderModel()">Nice</a>
+            </div>
+        </div>
+
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src='index.js'></script>
+    </body>
+    </html>
