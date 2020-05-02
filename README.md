@@ -5,9 +5,7 @@ My fancy to do App is an application to manage your task. This app has :
 * RESTful endpoint for Todo's CRUD operation
 * SPA based, Fast and Responsive
 * Google Sign-in
-* 3rd party API send user an email when register completed
-* 3rd party API send user an email when Add new Todo's
-* JSON formatted response
+* 3rd party API (send user an email when register and add new Todo)
 
 # URL
 ```
@@ -27,6 +25,10 @@ Run `live-server --host=localhost` to start the client
 # RESTful endpoints
 <!-- --- -->
 ### POST /users/login
+_Request Header_
+```
+Not needed
+```
 
 _Request Body_
 ```
@@ -38,6 +40,39 @@ _Request Body_
 
 _Response (200)_
 ```
+{
+  "access_token" : "<your account access token>"
+},
+{ 
+  "id" : "<generated id by system>"
+  "email" : "<your email>",
+  "password" : "<your password>"
+}
+```
+_Response (400 - Bad Request / 500 - Internal Server Error)_
+```
+{ "message": "<returned error message>" }
+```
+---
+### POST /users/google-login
+_Request Header_
+```
+Not needed
+```
+
+_Request Body_
+```
+{
+  "email" : "<your google email>",
+  "password" : "<your google password>"
+}
+```
+
+_Response (200)_
+```
+{
+  "access_token" : "<your account access token>"
+},
 { 
   "id" : "<generated id by system>"
   "email" : "<your email>",
@@ -50,6 +85,10 @@ _Response (400 - Bad Request / 500 - Internal Server Error)_
 ```
 ---
 ### POST /users/register
+_Request Header_
+```
+Not needed
+```
 
 _Request Body_
 ```
@@ -79,7 +118,7 @@ _Request Header_
 
 _Request Body_
 ```
-not needed
+Not needed
 ```
 
 _Response (200)_
@@ -112,7 +151,7 @@ _Request Header_
 
 _Request Body_
 ```
-not needed
+Not needed
 ```
 
 _Response (200)_
@@ -216,7 +255,7 @@ Todo's ID
 
 _Response (200)_
 ```
-deleted
+Deleted
 ```
 
 _Response (400 - Bad Request / 401 - Not Authenticated / 403 - Forbidden Access / 404 - Not Found / 500 - Internal Server Error)_
