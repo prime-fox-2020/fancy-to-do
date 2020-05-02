@@ -86,7 +86,7 @@ _Response(401- Unauthorized)_
 _Response (500 - Bad Request)_
 ```
 {
-  "Error": UNKWON_ERROR,
+  "Error": UNKNOWN_ERROR,
   "message": "Error undescribable"
 }
 ```
@@ -144,7 +144,7 @@ _Response(401- Unauthorized)_
 _Response (500)_
 ```
 {
-   "Error": UNKWON_ERROR,
+   "Error": UNKNOWN_ERROR,
   "message": "Error undescribable"
 }
 ```
@@ -204,7 +204,7 @@ _Response(404 - not found)_
 _Response (500)_
 ```
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
@@ -275,7 +275,7 @@ _Response (500)_
 ```
 
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
@@ -333,7 +333,7 @@ _Response(404 - not found)_
 _Response (500)_
 ```
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
@@ -376,7 +376,7 @@ _Response(400- bad request)_
 _Response (500)_
 ```
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
@@ -417,7 +417,7 @@ _Response(400- bad request)_
 _Response (500)_
 ```
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
@@ -449,7 +449,7 @@ Google's Payload
 _Response (500)_
 ```
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
@@ -517,7 +517,7 @@ _Response(200)_
 _Response (500)_
 ```
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
@@ -550,7 +550,7 @@ You will receive a successfully added response/notice that sounds like: `You hav
 _Response (500)_
 ```
 {
-  "Error": "UNKWON_ERROR",
+  "Error": "UNKNOWN_ERROR",
   "message": "Error undescribable"
 }
 ```
