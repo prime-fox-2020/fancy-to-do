@@ -1,14 +1,20 @@
 body {
-  margin: 0 5%;
   font-family: 'Acme', sans-serif;
+  background-image: url(../image/bg3.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section{
+  margin: 0 5% 5% 5%;
 }
 
 .table {
-  color: rgb(90, 66, 226);
+  color: rgb(23, 0, 53);
 }
 
 .top-table{
-  color: black;
+  color: rgb(255, 255, 255);
   background-color: rgb(30, 144, 210);
 }
 

@@ -26,8 +26,7 @@ class UserController {
     .then(data=>{
       res.status(201).json({
         data: data.id,
-        email: data.email,
-        password: data.password
+        email: data.email
       })
     })
     .catch(err=>{
@@ -74,8 +73,7 @@ class UserController {
     })
     .then(user => {
       if(user) {
-        const access_token = generateToken(user)
-        res.status(201).json({access_token})
+        return user
       } else {
         return User.create({
           email: currentEmail,
@@ -83,8 +81,8 @@ class UserController {
         })
       }
     })
-    .then(newUser => {
-      const access_token = generateToken(newUser)
+    .then(user => {
+      const access_token = generateToken(user)
       res.status(201).json({access_token})
     })
     .catch(err => {

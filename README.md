@@ -33,8 +33,7 @@ register your email and password
 ```json
 {
     "id": 1,
-    "email": "user@email.com",
-    "password": "&T*UIUGD&^*%*@U877&^$%^^#*bdlsjfbvmjsgf$*6"
+    "email": "user@email.com"
 }
 ```
 
