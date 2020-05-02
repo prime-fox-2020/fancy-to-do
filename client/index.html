@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta name="google-signin-client_id"
+        content="1035908548664-6h8ieb0vhdspv8c75l6a6dnmcvfkp7gt.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+    <title>FANCY TODO APP</title>
+</head>
+
+<body>
+    <div class="container" id="form">
+        <div id="form_login">
+            <h2 class="text-center">LOGIN</h2>
+            <hr>
+
+            <div id="login_google" class="g-signin2" data-onsuccess="onSignIn"></div>
+            <form>
+                <div class="form-group">
+                    <label id="user">Username</label>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-user"></i></div>
+                        </div>
+                        <input id="email" type="email" class="form-control" placeholder="Input Username...">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fa fa-lock"></i></div>
+                        </div>
+                        <input id="password" type="password" class="form-control" placeholder="Input Password...">
+                    </div>
+                </div>
+
+                <button id="login" type="submit" class="btn btn-outline-primary">LOGIN</button>
+                <button id="register" type="submit" class="btn btn-outline-info">REGISTER</button>
+
+            </form>
+        </div>
+
+        <div id="form_register">
+
+            <h2 class="text-center">REGISTER</h2>
+            <form>
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input name="first_name" id="first_name" type="text" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input name="last_name" id="last_name" type="text" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input name="email" id="email_form" type="text" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input name="password" id="password_form" type="password" class="form-control">
+                </div>
+
+                <button id="submit_register" type="submit" class="btn btn-outline-success">REGISTER</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="home">
+        <nav class="navbar navbar-light bg-light justify-content-between">
+            <form id="logout" class="form-inline">
+                <button style="width: auto;" onclick="signOut()" class="btn btn-outline-danger my-2 my-sm-0"
+                    type="submit">LOGOUT</button on>
+            </form>
+        </nav>
+
+        <h2 class="text-center">FANCY TODO APP</h2>
+        <div id="container">
+            <div class="notcomp">
+                <h3>Not Completed</h3>
+
+
+            </div>
+
+            <div class="comp">
+                <h3>Completed</h3>
+            </div>
+        </div>
+
+        <div id="add_todo">
+            <form>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title"
+                        placeholder="Eat">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description"
+                        placeholder="as much as i can">
+                </div>
+
+                <button id="submit_add_todo" type="submit">ADD</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html> -->
