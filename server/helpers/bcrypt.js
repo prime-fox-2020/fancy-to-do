@@ -5,7 +5,6 @@ function generatePassword(password) {
     let hash = bcrypt.hashSync(password, salt);
     return hash    
 }
-// console.log(generatePassward('123asd'));
 
 module.exports = {
     generatePassword

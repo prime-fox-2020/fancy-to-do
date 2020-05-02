@@ -43,7 +43,7 @@ class FancyToDo {
         ToDo.findByPk(req.params.id)
             .then((data) => {
                 if (data) {
-                    res.status(200).json({msg: `Todo ${data.title} successfully crated`})
+                    res.status(200).json(data)
                 } else {
                     next({ name: 'DATA_NOT_FOUND' })
                 }

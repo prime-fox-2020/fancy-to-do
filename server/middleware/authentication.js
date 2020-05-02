@@ -2,10 +2,10 @@ const { verifyToken } = require('../helpers/jwt');
 const { User } = require('../models');
 
 function authentication(req, res, next) {
-    const { token } = req.headers;
-    console.log('token: ', token);
+    const { akses_token } = req.headers;
+    console.log('akses_token: auth ', akses_token);
     try {
-        let decoded = verifyToken(token)
+        let decoded = verifyToken(akses_token)
         console.log('decoded: ', decoded);
         const { id, email } = decoded;
         User.findByPk(id)
@@ -19,8 +19,8 @@ function authentication(req, res, next) {
             }).catch((err) => {
                 next(err)
             });
-        } catch (err) {
-            next(err)
+    } catch (err) {
+        next(err)
     }
 
 }
