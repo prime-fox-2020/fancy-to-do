@@ -5,12 +5,15 @@ class TodoController {
     static addTodo(req, res){
         console.log('masuk addTodo')
         const idTokenVeryfied = req.userData.id
-        console.log(idTokenVeryfied)
+        console.log(idTokenVeryfied, 'IdTokenVeryfied')
+        console.log('===========', req.body)
+
+        // res.status(200).json(req.body)
 
         Todo.create({
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
+            status: req.body.status || 'belum berhasil',
             due_date: req.body.due_date,
             UserId: idTokenVeryfied                 // linked wit author
         })
@@ -22,18 +25,20 @@ class TodoController {
             }
         })
         .catch(err => {
+            console.log(err)
             res.status(500).json({ message: err.message || 'Unknown - Internal Server Error' })
         })
     }
 
     static showTodo(req, res){
         console.log('masuk showTodo')
-        // console.log(req.header)
+        // console.log(req.headers)
         const idTokenVeryfied = req.userData.id
         // console.log(idTokenVeryfied)
         // console.log(req.body, '<<<<<<<<<A')
 
         Todo.findAll({
+            order: ['id'],
             where: { 
                 UserId: idTokenVeryfied
             }
@@ -51,6 +56,7 @@ class TodoController {
     static getTodo(req, res){                        // not yet link atoken
         Todo.findByPk(Number(req.params.id))
         .then(response => {
+            console.log('===|===|===', response)
             if(response){
                 res.status(200).json(response)
             }
@@ -63,18 +69,18 @@ class TodoController {
         })
     }
 
-    static updateTodo(req, res){                    // not yet link atoken
+    static updateTodo(req, res){                    // 
         console.log('masuk updateTodo')
         // console.log('\n\n\n', req ,'\n\n\n')
-        const idTokenVeryfied = req.userData.id
+        // const idTokenVeryfied = req.userData.id
         // console.log(idTokenVeryfied)
 
         let todoObj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date,
-            UserId: idTokenVeryfied                 // linked wit author
+            due_date: req.body.due_date
+            // UserId: idTokenVeryfied                 // already linked addTodo
         }
         Todo.update(todoObj, {
             where: {
@@ -96,15 +102,6 @@ class TodoController {
             } else{
                 res.status(500).json({ message: err.message || 'Unknown - Internal Server Error' })
             }
-            // let alert = []
-            // for (let i = 0; i < err.errors.length; i++) {
-            //     alert.push(err.errors[i].message)           
-            // }
-            // if (alert.length > 0) {
-            //     res.status(400).json({
-            //         message: alert.join(',')
-            //     })
-            // }
         })
     }
 

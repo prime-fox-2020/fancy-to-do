@@ -1,6 +1,4 @@
 const { Todo } = require('../models')                  // author proced
-// const jwt = require('jsonwebtoken')                    // authen proced
-// const secretKey = 'rahasia'                            // authen proced (took from helper, readable)
 
 const authorization = (req, res, next) => {
     const { id } = req.params
