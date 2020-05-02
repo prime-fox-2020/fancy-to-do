@@ -8,6 +8,7 @@ Create SPA fancy todo, using express, jquery, ajax
 - [POST/ facebookLogin](#postfacebookLogin)
 - [GET/ users](#getusers)
 - [GET/ project](#getproject)
+- [POST/ project](#postproject)
 - [GET/ todos](#gettodos)
 - [GET/ todos/:id](#gettodosid)
 - [POST/ todos](#posttodos)
@@ -288,6 +289,7 @@ get list of project in which currently login user is the member
 
 ## POST/project
 create new project
+
 ### Request Headers
 ```
 {
