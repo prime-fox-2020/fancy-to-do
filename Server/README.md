@@ -5,9 +5,9 @@ Create fancy to do app, using express, jquery, ajax
 * JSON formatted response
 
 ## RESTful endpoints
-### POST /register
+### POST /user/register
 
-> To register
+> Get all toDo-List
 
 _Request Header_
 ```
@@ -52,9 +52,9 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### POST /login
+### POST /user/login
 
-> To Log-In
+> Get all toDo-List
 
 _Request Header_
 ```
