@@ -210,3 +210,41 @@ None
     "errorMessage": "Data not Found"
 }
 ````
+### GET/qr
+_Generate a QR Code for the todo list_
+#### Response(200)
+````
+{
+    "result": {
+        "shorturl": "https://qrd.by/an63hg",
+        "qr": "https://qrd.by/i/an63hg",
+        "url": "0",
+        "title": "",
+        "description": "",
+        "creationdate": "2020-05-02 12:51:46",
+        "image": "",
+        "gps": "",
+        "sms": "0",
+        "notify": "",
+        "medium": "",
+        "folder": "",
+        "location": {
+            "address": "",
+            "lng": "",
+            "lat": ""
+        }
+    }
+}
+````
+#### Response (500)
+````
+{
+    "errorMessage": "Unknown Error"
+}
+````
+#### Response(404)
+````
+{
+    "errorMessage": "Data not Found"
+}
+````
