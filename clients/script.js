@@ -1,4 +1,4 @@
-let url_nya = 'http://localhost:3000'
+let the_url = 'http://localhost:3000'
 
 function getIndonesianDate(value) {
     let year = value.substring(0,4)
@@ -164,7 +164,7 @@ $(document).ready(function() {
         const token = localStorage.getItem('token')
         $.ajax({
             method: 'GET',
-            url: url_nya + '/todos/' + id,
+            url: the_url + '/todos/' + id,
             headers: {
                 token
             }
@@ -237,7 +237,7 @@ $(document).ready(function() {
         const token = localStorage.getItem('token')
         $.ajax({
             method: 'POST',
-            url: url_nya + '/todos',
+            url: the_url + '/todos',
             headers: {
                 token
             },
@@ -261,6 +261,7 @@ $(document).ready(function() {
             getAllTodos()
             $('#dashboard').show()
             $('#add-page').hide() 
+            $('#pesan').text(data.message)
         })
         .fail(err => {
             console.log(err, 'tidak dapat menambahkan todo');
@@ -280,7 +281,7 @@ $(document).ready(function() {
         const token = localStorage.getItem('token')
         $.ajax({
             method: 'PUT',
-            url: url_nya + '/todos/' + todo_id,
+            url: the_url + '/todos/' + todo_id,
             headers: {
                 token
             },
@@ -313,7 +314,7 @@ $(document).ready(function() {
         const token = localStorage.getItem('token')
         $.ajax({
             method: 'GET',
-            url: url_nya + '/todos',
+            url: the_url + '/todos',
             headers: {
                 token
             }
@@ -346,7 +347,7 @@ $(document).ready(function() {
     function login(username, email, password) {
         $.ajax({
             method: 'POST',
-            url: url_nya + '/users/login',
+            url: the_url + '/users/login',
             data: {
                 username: username,
                 email: email,
@@ -383,7 +384,7 @@ $(document).ready(function() {
     function register(nm, usrname, eml, pswd) {
         $.ajax({
             method: 'POST',
-            url: url_nya + '/users/register',
+            url: the_url + '/users/register',
             data: {
                 name: nm, 
                 username: usrname,
@@ -413,7 +414,7 @@ $(document).ready(function() {
         const token = localStorage.getItem('token')
         $.ajax({
             method: 'DELETE',
-            url: url_nya + '/todos/' + todo_id,
+            url: the_url + '/todos/' + todo_id,
             headers: {
                 token
             }
@@ -435,7 +436,7 @@ $(document).ready(function() {
     function showCalendarHolidays() {
         $.ajax({
             method: 'GET',
-            url: url_nya + '/holidays',
+            url: the_url + '/holidays',
             params: {
                 api_key: 'fc24d16705399cb231e56807dfd018bcf351b8e3',
                 country: 'ID',
@@ -472,7 +473,7 @@ $(document).ready(function() {
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;    
     $.ajax({
-        url: `${url_nya}/users/google-login`,
+        url: `${the_url}/users/google-login`,
         method: 'POST',
         headers: {
             google_token: id_token 

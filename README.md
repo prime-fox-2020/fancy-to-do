@@ -5,14 +5,14 @@ Create fancy to do app, using express, jquery, ajax
 My Assets App Server
 My Assets App is an application to manage your assets. This app has :
 
-RESTful endpoint for asset's CRUD operation
+RESTful endpoint for todos's CRUD operation
 JSON formatted response
  
 
 RESTful endpoints
 
-GET /assets
-Get all assets
+GET /todos
+Get all todos
 
 Request Header
 
@@ -52,8 +52,8 @@ Response (400 - Bad Request)
 }
 
 
-POST /assets
-Create new asset
+POST /todos
+Create new todos
 
 Request Header
 
@@ -90,8 +90,8 @@ Response (400 - Bad Request)
 
 
 
-PUT /assets
-Update asset by id
+PUT /todos
+Update todos by id
 
 Request Header
 
@@ -125,8 +125,8 @@ Response (400 - Bad Request)
   "message": "<returned error message>"
 }
 
-DELETE /assets
-delete asset by id
+DELETE /todos
+delete todos by id
 
 Request Header
 
@@ -150,3 +150,209 @@ Response (400 - Bad Request)
   "message": "<returned error message>"
 }
 
+RESTful endpoint for users's CRUD operation
+JSON formatted response
+
+GET /users
+Get all users
+
+Request Header
+
+{
+  "access_token": "<your access token>"
+}
+
+Request Body
+
+not needed
+Response (200)
+
+[
+  {
+    "id": 1,
+    "name": "<asset name>",
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  },
+  {
+    "id": 2,
+    "name": "<asset name>",
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  }
+  
+]
+Response (400 - Bad Request)
+
+{
+  "message": "<returned error message>"
+}
+
+
+POST /users/register
+POST users to register
+
+Request Header
+
+{
+  "access_token": "<your access token>"
+}
+
+Request Body
+
+{
+    "name": "<asset name>",
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+}
+
+Response (200)
+
+[
+  {
+    "id": 1,
+    "name": "<asset name>",
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  },
+  {
+    "id": 2,
+    "name": "<asset name>",
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  }
+  
+]
+Response (400 - Bad Request)
+
+{
+  "message": "<returned error message>"
+}
+
+POST /users/login
+POST users to login
+
+Request Header
+
+{
+  "access_token": "<your access token>"
+}
+
+Request Body
+
+{
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+}
+
+Response (200)
+
+[
+  {
+    "id": 1,
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  },
+  {
+    "id": 2,
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  }
+  
+]
+Response (400 - Bad Request)
+
+{
+  "message": "<returned error message>"
+}
+
+POST /users/google-login
+POST users to google-login
+
+Request Header
+
+{
+  "access_token": "<your access token>",
+  "google_token": "<your access google token>"
+}
+
+Request Body
+
+{
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+}
+
+Response (200)
+
+[
+  {
+    "id": 1,
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  },
+  {
+    "id": 2,
+    "username": "<asset username>",
+    "email": "<asset email>",
+    "password": "<asset password>",
+    "createdAt": "2020-03-20T07:15:12.149Z",
+    "updatedAt": "2020-03-20T07:15:12.149Z",
+  }
+  
+]
+Response (400 - Bad Request)
+
+{
+  "message": "<returned error message>"
+}
+
+
+DELETE /users/:id
+delete users by id
+
+Request Header
+
+{
+  "access_token": "<your access token>"
+}
+
+
+Request Body to delete
+
+not needed
+
+
+Response (201 - deleted)
+
+all assets except the one that has been deleted
+
+Response (400 - Bad Request)
+
+{
+  "message": "<returned error message>"
+}
