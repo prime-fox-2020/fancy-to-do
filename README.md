@@ -4,11 +4,12 @@ This is an application to organize your to do list.
 This app has :
 * RESTful endpoint for Todo List's CRUD operation
 * JSON formatted response
+* Third Party API: http://goqr.me/api/doc/create-qr-code/#param_data
 `environment variables:`
 * file .env values:
-> - PORT=3000
-> - SECRET_KEY=rahasia
-> - CLIENT_ID=383035084667-mgj86iu80a39a3cbgekmdlsfosphlhuc.apps.googleusercontent.com
+> - PORT=
+> - SECRET_KEY=
+> - CLIENT_ID=
 
 `link deploy:`
 > -
