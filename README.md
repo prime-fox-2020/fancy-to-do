@@ -7,7 +7,7 @@ Create fancy to do app, using express, jquery, ajax
 - Request Header
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
+        "access-token" : "your access_token"
     }
 
 - Request Body      
@@ -57,7 +57,7 @@ Create fancy to do app, using express, jquery, ajax
 - Request Headers 
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
+        "access-token" : "your access token"
     }
 - Request Body
 {
@@ -96,7 +96,7 @@ Create fancy to do app, using express, jquery, ajax
 - Request Headers
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
+        "access-token" : "your access token"
     }
 - Request Body
   None
@@ -128,7 +128,7 @@ Create fancy to do app, using express, jquery, ajax
 - Request Headers 
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
+        "access-token" : "your access token"
     }
 
 - Request Body
@@ -160,7 +160,7 @@ Create fancy to do app, using express, jquery, ajax
 - Request Headers 
     {
         "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5pMkBlbWFpbC5jb20iLCJpYXQiOjE1ODgwNjg2MDV9.Q2IbtPapxePTtdbiHCVn7gEJc-KI0es5rov_AvqKdIM"
+        "access-token" : "your access token"
     }
 
 - Request Body
