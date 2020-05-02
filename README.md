@@ -3,12 +3,12 @@ Create fancy to do app, using express, jquery, ajax
 
 ## Endpoints
 ### GET/todos
-> Get all Todo, created by the user logged in 
-- Request Header
-    {
-        "Content-Type": "application/x-www-form-urlencoded"
-        "access-token" : "your access_token"
-    }
+_Get all Todo, created by the user logged in_ 
+#### Request Header
+    >{
+    >   "Content-Type": "application/x-www-form-urlencoded"
+    >   "access-token" : "your access_token"
+    >}
 
 - Request Body      
   None
