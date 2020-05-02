@@ -1,7 +1,7 @@
 const { todo } = require('../models')
 
 class toDoController {
-    static show(req, res) {
+    static show(req, res, next) {
         todo.findAll({
             where: {
                 UserId: req.userDataValid.id
@@ -11,7 +11,7 @@ class toDoController {
                 res.status(200).json(data)
             })
             .catch(err => {
-                res.status(500).json(err)
+                next({name: "Internal Server Error"})
             })
     }
 
@@ -25,7 +25,7 @@ class toDoController {
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                next({name: "Internal Server Error"})
             })
     }
 
@@ -43,7 +43,7 @@ class toDoController {
                 res.status(201).json({ message: "data telah dibuat" })
             }).catch(err => {
                 console.log(err)
-                next(err)
+                next({name: "Internal Server Error"})
             })
 
 
@@ -68,7 +68,7 @@ class toDoController {
                next({name: "SequelizeValidationError"})
             }
         }).catch(err => {
-            next(err)
+            next({name: "Internal Server Error"})
         })
     }
 
@@ -84,7 +84,7 @@ class toDoController {
                 next({name: "DATA_NOT_FOUND" })
             }
         }).catch(err => {
-            res.status(500).json(err)
+            next({name: "Internal Server Error"})
         })
     }
 }

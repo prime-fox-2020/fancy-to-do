@@ -3,7 +3,7 @@ const {generateToken} = require('../helper/jwt')
 const bcrypt = require('bcrypt')
 
 class userController{
-    static register(req, res){
+    static register(req, res, next){
         var objUser = {
             email: req.body.email,
             password: req.body.password
@@ -13,11 +13,11 @@ class userController{
             res.status(201).json(data)
         })
         .catch(err =>{
-            res.status(500).json({msg: err.message || "internal server error"})
+            next({name: "SequelizeValidationError"})
         })
     }
 
-    static login(req, res){
+    static login(req, res, next){
         
         let objLogin = {
             email: req.body.email,
@@ -41,7 +41,7 @@ class userController{
         })
         
         .catch(err =>{
-            res.status(500).json({msg: err.message || "internal server error"})
+            next({name: "Internal Server Error"})
         })
     }
 }
