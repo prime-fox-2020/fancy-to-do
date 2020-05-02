@@ -2,7 +2,6 @@ const axios = require('axios');
 
 class Calender {
     static holidays(req, res, next) {
-        console.log('req: ', req.query); // kenapa req param kosong
         axios({
             method: 'GET',
             url: 'https://calendarific.com/api/v2/holidays',

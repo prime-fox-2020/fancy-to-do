@@ -38,7 +38,9 @@ class UserCont {
                 } else {
                     let akses_token = generateToken(data)
                     console.log('akses_token: ', akses_token);
-                    res.status(200).json({ akses_token })
+                    res.status(200).json({ 
+                        akses_token,
+                        username:  data.username })
                 }
             }).catch((err) => {
                 next({ name: 'EROR_SERVER' })
@@ -46,7 +48,7 @@ class UserCont {
     }
 
     static loginGoogle(req, res, next) {
-        let CLIENT_ID = "403089794061-5mjpk3aso6jjti6ho7rvuqaad96pcfht.apps.googleusercontent.com"
+        let CLIENT_ID = process.env.CLIENT_ID
         let token = req.body.id_token
         let userName = null
         let userEmail = null
@@ -62,7 +64,7 @@ class UserCont {
                 userEmail = payload.email;
                 userName = payload.name
                 // console.log('userEmail: ', userEmail);
-                return User.findAll({
+                return User.findOne({
                     where: {
                         email: userEmail
                     }
@@ -71,15 +73,17 @@ class UserCont {
             .then((data) => {
                 // console.log(data);
                 if (data) {
+                    console.log('data: ', data);
                     let akses_token = generateToken(data)
-                    console.log('akses_token: dari login google', akses_token);
-                    res.status(200).json({ akses_token })
+                    res.status(200).json({ 
+                        akses_token,
+                        username:  data.username })
                     return
                 } else {
                     let newUser = {
                         username: userName,
                         email: userEmail,
-                        password: userEmail
+                        password: process.env.PASSWORD_GOOGLE
                     }
                     // console.log('newUser: ', newUser);
                     return User.create(newUser)

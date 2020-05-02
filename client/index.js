@@ -50,6 +50,7 @@ $(document).ready(() => {
         })
             .done((data) => {
                 localStorage.setItem("akses_token", data.akses_token)
+                localStorage.setItem("username", data.username)
                 $("section").hide()
                 $(".isLogout").hide()
                 $(".isLogin").show()
@@ -59,8 +60,8 @@ $(document).ready(() => {
             })
             .fail(() => {
                 $("#alertLogin").append(
-                    `
-                <div class="alert alert-danger" role="alert">
+                `
+                <div class="alert alert-danger d-flex" role="alert">
                 <strong>Sorry youe email/password wrong</strong>
 				</div>
                 `
@@ -117,7 +118,7 @@ $(document).ready(() => {
     //#endregion 
 
     //#region LOGOUT
-    $("#btnLogout").click(function (e) { 
+    $("#btnLogout").click(function (e) {
         e.preventDefault();
         signOut()
     });
@@ -170,7 +171,7 @@ $(document).ready(() => {
                 $("section").hide();
                 $("#alertTodo").append(
                     `
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger d-flex" role="alert">
                 Todo ${titleTodo} unsuccessfully add to list
 				</div>
                 `
@@ -186,6 +187,67 @@ $(document).ready(() => {
         $("section").hide()
     })
     //#endregion
+
+    //#region NavBar Button
+
+    //Button Home
+    $("#homeBtn").click((e) => {
+        e.preventDefault();
+        $(".isLogin").hide();
+        $(".isLogout").show();
+        $(".isLogout .jumbotron").show();
+        $("section").hide();
+    })
+    //Button Holidays
+    $("#holidaysListBtn").click((e) => {
+        e.preventDefault();
+        $(".isLogin").hide();
+        $(".isLogout").show();
+        $(".isLogout .jumbotron").hide();
+        $("section").hide();
+        $("section#listHolidays").show();
+    });
+
+    $("button#searcHolidaysBtn").click((e) => {
+        e.preventDefault();
+        console.log('clik button search');
+        let country
+        $("select#country").change(() => {
+            country = $(this).children("option:selected").val();
+        });
+        // let country = 'ID'
+        console.log(country);
+        let year = 2020
+        $.ajax({
+            type: "GET",
+            url: FncyTD + "/holidays?country=" + country + "&year=" + year
+        })
+            .done((data) => {
+                console.log('data: ', data.response.holidays);
+                if (localStorage.akses_token) {
+                    $(".isLogin").show()
+                    $(".isLogout").hide()
+                } else {
+                    $(".isLogin").hide()
+                    $(".isLogout").show()
+                }
+                data.response.holidays.forEach(el => {
+                    $("#tableBodyHolidays").append(
+                        `
+                        <tr>
+                        <td>${el.name}</td>
+                        <td>${el.description}</td>
+                        <td>${el.date.iso.slice(0, 10)}</td>
+                        </tr>
+                        `
+                    );
+                });
+            })
+    });
+
+
+    //#endregion
+
 })
 
 function getTodos() {
@@ -199,6 +261,12 @@ function getTodos() {
         .done((data) => {
             todos = data
             console.log('todos: ', todos);
+            $(".isLogin h4#usernameLogin").empty();
+            $(".isLogin h4#usernameLogin").append(
+                `
+                Selamat datang ${ localStorage.getItem("username")}
+                `
+            );
             appendTodos(todos)
         })
         .fail((err) => {
@@ -238,9 +306,23 @@ function deleteTodo(id) {
     })
         .done((data) => {
             $(".list").hide();
+            $("#alertTodo").append(
+                `
+                <div class="alert alert-info d-flex" role="alert">
+                <strong>Data success deleted</strong>
+                </div>
+                `
+                )
             getTodos()
         })
         .fail((err) => {
+            $("#alertTodo").append(
+                `
+                <div class="alert alert-danger d-flex" role="alert">
+                <strong>Data unsuccess deleted</strong>
+                </div>
+                `
+                )
             console.log(err);
         })
 }
@@ -273,9 +355,23 @@ function editStatus(id) {
         })
         .done((data) => {
             $("#tableBody").children().remove()
+            $("#alertTodo").append(
+            `
+            <div class="alert alert-info d-flex" role="alert">
+            <strong>Data success updated</strong>
+            </div>
+            `
+            )
             getTodos()
         })
         .fail(() => {
+            $("#alertTodo").append(
+            `
+            <div class="alert alert-danger d-flex" role="alert">
+            <strong>Data success updated</strong>
+            </div>
+            `
+            )
             console.log(err);
         })
 }
@@ -296,9 +392,11 @@ function onSignIn(googleUser) {
         data: { id_token }
     })
         .done((data) => {
+            $("section").hide();
             $(".isLogout").hide();
             $(".isLogin").show();
             localStorage.setItem("akses_token", data.akses_token)
+            localStorage.setItem("username", data.username)
             getTodos()
         })
         .fail((err) => {
@@ -308,16 +406,12 @@ function onSignIn(googleUser) {
 
 function signOut() {
     //google logout
-    if (!gapi) {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut()
-            .then(() => {
-                console.log('User signed out.');
-            });
-    } else {
-        localStorage.clear()
-    }
-
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut()
+        .then(() => {
+            console.log('User signed out.');
+        });
+    localStorage.clear()
     //user app
     $(".isLogout").show()
     $(".isLogin").hide()
