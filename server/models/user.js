@@ -7,12 +7,6 @@ module.exports = (sequelize, DataTypes) => {
   const Model = Sequelize.Model;
   class User extends Model {}
   User.init({
-    name: {
-      type: DataTypes.STRING,
-      // validate: {
-      //   notEmpty: {msg: "Name must not empty"}
-      // }
-    },
     email:  {
       type: DataTypes.STRING,
       validate: {

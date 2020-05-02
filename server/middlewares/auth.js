@@ -7,9 +7,7 @@ const authentication = (req, res, next) => {
         const decoded = jwt.verify(access_token, process.env.KEY);
         req.userData = decoded;
         next();
-    } catch (err) {
-        res.status(401).json({message: err.message || "User is not authenticate"})
-    }
+    } catch (err) {next({status: 401, code:"AUTHENTICATION_FAIL"});}
 }
 
 const authorization = (req, res, next) => {
@@ -17,15 +15,13 @@ const authorization = (req, res, next) => {
     const userDataId = req.userData.id;
     Todo.findByPk(id)
     .then(todo => {
-        if (!todo) {
-            res.status(404).json({message: "Todo not found"});
-        } else if (todo.UserId !== userDataId) {
-            res.status(403).json({message: "Forbiden access"});
-        } else {
+        if (!todo)
+            next({status: 400, code:"NOT_FOUND"});
+        else if (todo.UserId !== userDataId) 
+            next({status: 403, code:"FORBIDDEN_ACCESS"});
+        else 
             next();
-        }
-    })
-    .catch(err => res.status(500).json({message: err.message || "internal server error"}))
+    }).catch(err =>next({status: 500, code:"INTERNAL_SERVER_ERROR"}))
 }
 
 module.exports = {authentication, authorization}

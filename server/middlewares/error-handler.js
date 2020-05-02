@@ -1,11 +1,16 @@
 module.exports = function(err, req, res, next) {
-    let statusCode = 500;
-    let error_code= "UNKNOWN_ERROR";
-    console.log(err); 
-
-    if(err.name == 'SequelizeValidationError'){
-        status = 400;
-        errorCode = "VALIDATION_ERROR";
+    let status;
+    let code;
+    if(!err.status || !err.code) {
+        console.log(err);
+        status = 500;
+        code = "UNKNOWN_ERROR";
+    } else {
+        if(err.name == 'SequelizeValidationError') {
+            status = 400;
+            code = "VALIDATION_ERROR";
+        }
     }
-    res.status(statusCode).json(error_code);
+
+    res.status(status).json(code);
 }
