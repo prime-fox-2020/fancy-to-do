@@ -64,7 +64,7 @@ $(document).ready(function () {
             let judul = $('#edit-title').val()
             let deskripsi = $('#edit-desc').val()
             let jatuh_tempo = $('#edit-date').val()
-            updateTodo(judul, deskripsi,  jatuh_tempo, id)
+            updateTodo(judul, deskripsi, jatuh_tempo, id)
         })
     })    // Mengambil elemen html dengan class delete-this-todo dengan event click
     $(document).on("click", ".delete-this-todo", function () {
@@ -74,7 +74,7 @@ $(document).ready(function () {
         let id = $(this).attr('data-id')
         console.log('Masuk delete todo');
         deleteTodo(id)
-    })    
+    })
     // Mengambil elemen html dengan id form-registrasi
     $('#register-button').submit(function (event) {
         event.preventDefault();
@@ -84,7 +84,7 @@ $(document).ready(function () {
         $('#register-error').hide()
         register(email, password)
         // ajax untuk user register
-    });    
+    });
     // Mengambil elemen html dengan id form-login
     $('#login-button').submit(function (event) {
         event.preventDefault()
@@ -93,7 +93,7 @@ $(document).ready(function () {
         let pswd = $('#login-pwd').val()
         login(email, pswd)
         $('#user-name').text(`Welcome, ${email}!!`)
-        console.log(email,pswd)
+        console.log(email, pswd)
     })    // Mengambil elemen html dengan id form-add
     $('#add-button').submit(function (event) {
         event.preventDefault()
@@ -121,16 +121,17 @@ $(document).ready(function () {
             }
         })
             .done(data => {
+
                 console.log(data);
                 $("#todo-list").append(`
                     <tr>
                         <td>${data.title}</td>
                         <td>${data.description}</td>
                         <td>${data.status}</td>
-                        <td>${data.due_date.slice(0,10)}</td>
+                        <td>${data.due_date.slice(0, 10)}</td>
                         <td><button class="btn btn-sm btn-primary mx-1 change-this-todo" data-id="${data.id}">DONE THIS!</button>
                         <button class="btn btn-sm btn-info mx-1 edit-this-todo" data-id="${data.id}">EDIT</button>
-                        <button class="delete-this-todo float-right btn btn-danger btn-sm mx-1" data-id="${data[i].id}">DELETE</button></td>                    </tr>
+                        <button class="delete-this-todo float-right btn btn-danger btn-sm mx-1" data-id="${data.id}">DELETE</button></td>                    </tr>
                 `)
                 $('#content').show()
                 $('#form-add').hide()
@@ -160,7 +161,7 @@ $(document).ready(function () {
             }
         })
             .done(data => {
-                // console.log(data.todo);
+                location.reload(true)
                 $('#content').show()
                 $('#form-edit').hide()
             })
@@ -192,7 +193,7 @@ $(document).ready(function () {
                         <td id="description">${data[i].description}</td>
                         <td id="status">${data[i].status}</td>
                         <td id="due-date">${data[i].due_date.slice(0, 10)}</td>
-                        <td> <button class="btn btn-sm btn-primary mx-1 change-this-todo" data-id="${data.id}">DONE THIS!</button>
+                        <td> <button class="btn btn-sm btn-primary mx-1 change-this-todo" data-id="${data[i].id}">DONE THIS!</button>
                         <button class="edit-this-todo  btn btn-info btn-sm mx-1" data-id="${data[i].id}">EDIT</button>
                         <button class="delete-this-todo float-right btn btn-danger btn-sm mx-1" data-id="${data[i].id}">DELETE</button></td>
                     </tr>
@@ -270,6 +271,7 @@ $(document).ready(function () {
             }
         })
             .done(data => {
+                location.reload(true)
                 console.log(data);
                 $("#content").show()
             })
@@ -283,6 +285,7 @@ $(document).ready(function () {
     $('#nav-logout').click(function (event) {
         event.preventDefault()
         localStorage.clear()
+        location.reload(true)
         $('#form-login').show()
         $('#content').hide()
     })
