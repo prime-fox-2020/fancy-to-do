@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const todoRouter = require('../routers/todo')
 const userRouter = require('../routers/user')
+const voiceRouter = require('../routers/voice')
 
 router.get('/', (req, res) => {
     res.json({
@@ -9,5 +10,6 @@ router.get('/', (req, res) => {
 })
 router.use('/todo', todoRouter)
 router.use('/user', userRouter)
+router.use('/voice', voiceRouter)
 
 module.exports = router

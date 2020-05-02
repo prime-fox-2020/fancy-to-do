@@ -2,7 +2,7 @@ const { User } = require('../models')
 const { comparePassword } = require('../helper/bcrypt')
 const { generateToken } = require('../helper/jwt')
 const { OAuth2Client } = require('google-auth-library')
-const CLIENT_ID = "386226409831-epg15tseuckvaqr9o6vb46hv83qabgsh.apps.googleusercontent.com"
+const CLIENT_ID = process.env.CLIENT_ID
 const client = new OAuth2Client(CLIENT_ID)
 
 class UserController{
@@ -54,6 +54,7 @@ class UserController{
     }
 
     static googleSignIn(req,res, next){
+        console.log(CLIENT_ID)
         const { id_token, g_name } = req.body
         let currentEmail
         client.verifyIdToken({
