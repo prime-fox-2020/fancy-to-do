@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-signin-client_id" content="755451054614-2ksvbnctggrqo8d4c1nd7u73krl5vrdt.apps.googleusercontent.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Todo App</title>
+</head>
+<body>
+  <div class="container-fluid pr-5 pt-3 text-right signout-project-menu">
+    <a onclick="goToTodo()" style="margin-right: 25px; color: cornflowerblue;">Todo</a>
+    <a onclick="goToProject()" style="margin-right: 25px; color: cornflowerblue;">Project</a>
+    <a onclick="signOut();" style="color: cornflowerblue;">Sign out</a>
+  </div>
+
+  <div class="container p-5" id="signin-form"> 
+    <h2>Sign in</h2>
+    <form>
+        <div class="form-group">
+          <label for="loginEmail">Email address</label>
+          <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+        </div>
+        <p>Don't have account yet ? <span id="signup"><a href="" class="changeSignUp">Sign up</a></span></p>
+        <p class="alert-signin text-danger"></p>
+        <button type="submit" class="btn btn-primary sign-in-button">Sign in</button>
+    </form>
+    <hr><small>or sign in with</small><hr>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+  </div>
+
+  <div class="container p-5" id="signup-form"> 
+    <h2>Sign up</h2>
+    <form>
+        <div class="form-group">
+          <label for="signUpEmail">Email address</label>
+          <input type="text" class="form-control" id="signUpEmail" aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="signUpPassword">Password</label>
+          <input type="password" class="form-control" id="signUpPassword" placeholder="Password">
+        </div>
+        <p>Already have account ? <span id="signin"><a href="" class="changeSignIn">Sign in</a></span></p>
+        <p class="alert-signup text-danger"></p>
+        <button type="submit" class="btn btn-primary">Sign up</button>
+    </form>
+  </div>
+
+  <div class="container-fluid p-5" id="yourListTodo">
+      <p class="alert-access text-danger"></p>
+      <div class="row">
+        <div class="col-2">
+        </div>
+        <div class="col-4" id="column-todo">
+        </div>
+        <div class="col-4 column-form todo-add">
+          <h2>Add todo :</h2>
+          <form enctype="multipart/form-data" id="formSubmit">
+              <div class="form-group">
+                <label for="todo-name">Todo</label>
+                <input type="text" class="form-control" id="todo-name" aria-describedby="emailHelp" placeholder="Enter todo">
+              </div>
+              <div class="form-group">
+                <label for="todo-description">Description</label>
+                <textarea class="form-control" id="todo-description" rows="3" placeholder="Enter description"></textarea>
+              </div>
+              <div class="form-group">
+                  <label for="todo-description">Due date</label>
+                  <input type="date" class="form-control" id="todo-due_date">
+              </div>
+              <div class="form-group">
+                <label for="img">Select image:</label>
+                <input type="file" id="todo-image" name="img" accept="image/*">
+                <small id="emailHelp" class="form-text text-muted">Choose wisely, you can't change your image todo later.</small>
+              </div>
+              <p class="alert-add text-danger"></p>
+              <button type="submit" class="btn btn-primary">Add todo</button>
+          </form>
+        </div>
+        <div class="col-4 column-form todo-edit">
+          <h2>Edit todo</h2>
+          <form>
+            <div class="form-group">
+              <label for="todo-name">Todo</label>
+              <input type="text" class="form-control" id="todo-name-edit" aria-describedby="emailHelp" placeholder="Enter todo">
+            </div>
+            <div class="form-group">
+              <label for="todo-description">Description</label>
+              <textarea class="form-control" id="todo-description-edit" rows="3" placeholder="Enter description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="todo-due-date">Due date</label>
+                <input type="date" class="form-control" id="todo-due_date-edit">
+            </div>
+            <input type="number" class="form-control" id="todo-id-edit" value="" hidden>
+            <p class="alert-edit text-danger"></p>
+            <div class="container">
+              <button type="submit" class="btn btn-primary">Edit todo</button>
+              <button type="button" class="btn btn-danger" onclick="clearToggleEdit()">Cancel</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-2">
+
+        </div>
+      </div>
+  </div>
+
+  <div class="container-fluid p-5" id= "projectSection">
+    <h2>Project List</h2>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Due date</th>
+        </tr>
+      </thead>
+      <tbody id="projectBodyData">
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-3">
+        <form id="addProject" style="border: 1px solid black; padding: 10px; border-radius: 10px;">
+          <div class="form-group">
+            <label for="">Project</label>
+            <input type="text" class="form-control" id="addProjectName" placeholder="Enter project name">
+          </div>
+          <div class="form-group">
+              <label for="">Due date</label>
+              <input type="date" class="form-control" id="addProjectDate">
+          </div>
+          <p class="alert-project text-danger"></p>
+          <button type="submit" class="btn btn-primary">Add project</button>
+        </form> 
+      </div>
+      <div class="col-6"></div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-5" id="todoProjectSection">
+    <h2 id="todoProjectName" class="mb-3"></h2>
+    <p class="alert-member-ok text-success"></p>
+    <p class="alert-member-no text-danger"></p>
+    <h6>Todo list :</h6>
+    <ul class="list-group" id="todoProjectBody">
+    </ul>
+    <p class="alert-todoproject text-danger"></p>
+    <form id="addTodoProject">
+      <input type="text" placeholder="Todo project" id="todoTitleProject">
+      <input type="number" id="todoProjectId" hidden>
+      <input type="submit" name="" id="">
+    </form><br>
+    <form id="addNewMember">
+      <input type="text" id="inviteEmailMember" placeholder="Enter email">
+      <button type="submit">Add member</button>
+    </form> 
+  </div>
+
+  <script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+  <script src="./script.js"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+</body>
+</html>
+
