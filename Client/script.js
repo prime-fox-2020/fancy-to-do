@@ -103,7 +103,8 @@ function renderTodo() {
     showTodo(res);
     console.log( "success" );
   })
-  .fail(function() {
+  .fail(function(err) {
+    errorHandle(err)
     console.log( "error" );
   })
   .always(function() {
@@ -151,7 +152,8 @@ $('.container').on('submit', 'form.user-login', e => {
   renderTodo();
   console.log( "success" );
   })
-  .fail(function(res) {
+  .fail(function(err) {
+    errorHandle(err)
   console.log( "error:", res );
   })
   .always(function() {
@@ -182,6 +184,7 @@ $('.container').on('submit', 'form.user-register', e => {
     console.log( "success >>", res );
   })
   .fail(function(err) {
+    errorHandle(err)
     console.log( "error >>", err );
   })
   .always(function() {
@@ -243,6 +246,7 @@ $('.todo-add').on('submit', e => {
     console.log( "success >>", res );
   })
   .fail(function(err) {
+    errorHandle(err);
     console.log( "error >>", err );
   })
   .always(function() {
@@ -323,6 +327,7 @@ $('.container').on('click', '[id=edit]', el => {
       console.log('success >>', res);
     })
     .fail(function(err) {
+      errorHandle(err)
       console.log( "error >>", err );
     })
     .always(function() {
@@ -376,6 +381,7 @@ function deleteTodo(id) {
     console.log( "success >>", res );
   })
   .fail(function(err) {
+    errorHandle(err)
     console.log( "error >>", err );
   })
   .always(function() {
@@ -400,6 +406,7 @@ function onSignIn(googleUser) {
     renderTodo();
   })
   .fail(err => {
+    errorHandle(err)
     console.log('error', err);
   })
   .always(() => {
@@ -453,7 +460,34 @@ $('.container').on('click', '[id=showQR]', el => {
     console.log(res);
   })
   .fail(err => {
+    errorHandle(err)
     console.log('ada error ',err);
   })
   
 })
+
+function errorHandle(err) {
+  $('#errorHandle').replaceWith(`
+  <div class="modal fade" id="errorHandle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Error Message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-danger">
+            ${err}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `);
+  $('#errorHandle').modal('show');
+}
