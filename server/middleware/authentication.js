@@ -1,10 +1,12 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const secretKey = 'todos-app';
+const secretKey = process.env.secretKey;
 
 const authentication = (req, res, next) => {
-    const access_token = req.headers.access_token;
+    const { access_token } = req.headers;
+
     if (!access_token) {
-        res.status(404).json({ errorCode: 'ACCESS_DENIED', message: 'Invalid token' });
+        next({ name: 'INVALID_TOKEN'})
     }
     try {
         const decoded = jwt.verify(access_token, secretKey);
@@ -12,7 +14,7 @@ const authentication = (req, res, next) => {
         next();
     }
     catch (err) {
-        res.status(401).json({ errorCode: 'AUTHENTICATION_FAILED', message: err.message || 'User not authenticated' });
+        next(err, { name: 'AUTHENTICATION_FAILED'})
     }
 }
 

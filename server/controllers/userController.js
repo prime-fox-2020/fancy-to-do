@@ -1,10 +1,11 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs')
 const { generateToken } = require('../helpers/generateToken')
 const { User } = require('../models');
 
 class UserController {
     static register(req, res, next) {
-        console.log('masuk ke controller');
+        // console.log('masuk ke controller');
         const { name, email, password } = req.body;
         User.findOne({
             where: { email }
@@ -13,15 +14,17 @@ class UserController {
                 if (data) {
                     next({ name: 'EMAIL_ALREADY_USED' })
                 } else {
-                    return User.create({ name, email, password })
+                    User.create({ name, email, password })
                 }
             })
-            .then(user => {
+            .then(data => {
                 console.log("created");
-                res.status(201).json({ id: user.id, name: user.name, email: user.email, password: user.password })
+                res.status(201).json({ data })
             })
             .catch(err => {
-                next({ name: 'SequelizeValidationError' })
+                if (err) {
+                    next({ name: 'SequelizeValidationError' })
+                }
             })
     }
 
@@ -38,7 +41,7 @@ class UserController {
             })
             .then(user => {
                 const access_token = generateToken(user);
-                res.status(200).json({ access_token });
+                return res.status(200).json({ access_token });
             })
             .catch(err => {
                 next(err);

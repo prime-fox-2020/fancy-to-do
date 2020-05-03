@@ -9,7 +9,7 @@ const errorHandler = (err, req, res, params) => {
         message = 'Data harus lengkap';
     } else if (err.name == 'ERROR_NOT_FOUND') {
         statusCode = 404;
-        errorCode = 'ERROR_NOT_FOUND';
+        errorCode = 'NOT_FOUND';
         message = 'Data tidak ditemukan';
     } else if (err.name == 'INVALID_EMAIL_PASSWORD') {
         statusCode = 400;
@@ -23,10 +23,21 @@ const errorHandler = (err, req, res, params) => {
         statusCode = 404;
         errorCode = 'CITY_NOT_FOUND';
         message = 'City not found';
+    } else if (err.name == 'INVALID_TOKEN') {
+        statusCode = 401;
+        errorCode = 'INVALID_TOKEN';
+        message = 'Invalid Token';
+    } else if (err.name == 'AUTHENTICATION_FAILED') {
+        statusCode = 401;
+        errorCode = 'AUTHENTICATION_FAILED';
+        message = 'Not authenticated';
+    } else if (err.name == "NOT_AUTHORIZATION") {
+        statusCode = 401;
+        errorCode = "NOT_AUTHORIZATION";
+        message = 'Not authorized';
     }
-
     
-    res.status(statusCode).json({ errorCode, message });
+    return res.status(statusCode).json({ errorCode, message });
 }
 
 module.exports = errorHandler;
