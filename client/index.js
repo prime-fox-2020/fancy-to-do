@@ -89,6 +89,7 @@ $(document).ready(function () {
                         </td>
                     </tr>
             `)
+            $(".form").val('')
         }).fail(err => {
             console.log(err)
         })
@@ -159,6 +160,7 @@ $(document).ready(function () {
         $("#todos-page").hide()
         $("#logout-btn").hide()
         $(".todo-tr").remove()
+        $(".form").val('')
     })
 
     function viewTodos() {
