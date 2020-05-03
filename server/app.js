@@ -6,6 +6,12 @@ const routes = require('./routes')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization, access_token")
+    res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS")
+    next()
+})
 app.use(routes)
 
 app.listen(port, () => {
