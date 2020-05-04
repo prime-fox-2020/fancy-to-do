@@ -11,7 +11,7 @@ function authentication (req,res,next){
         req.userData = decoded
         next()
     }
-    catch(err){
+    catch(err){Man
         next(err)
     }
 }

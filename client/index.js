@@ -4,6 +4,7 @@ $(document).ready(function(){
 
     $(document).ready(()=>{
         $('section').hide()
+        
 
         if(!localStorage.access_token){
             $('.errorMsg').empty()
@@ -41,9 +42,6 @@ $(document).ready(function(){
 
         $('#mylist').click(function(){
             myList()
-            $('#page-myTodos').show()
-            $('#page-findAll').hide()
-
         })
 
         $('#logout').click(function(e){
