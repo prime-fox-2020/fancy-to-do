@@ -1,7 +1,7 @@
 const { ToDo } = require('../models');
 
 class FancyToDo {
-    static findAll(req, res) {
+    static findAll(req, res, next) {
         ToDo.findAll({
             order: [['id', 'ASC']],
             where: {
@@ -39,7 +39,7 @@ class FancyToDo {
             });
     }
 
-    static findByPk(req, res) {
+    static findByPk(req, res, next) {
         ToDo.findByPk(req.params.id)
             .then((data) => {
                 if (data) {
@@ -52,7 +52,7 @@ class FancyToDo {
             });
     }
 
-    static update(req, res) {
+    static update(req, res, next) {
         let newData = {
             title: req.body.title,
             description: req.body.description,
@@ -81,7 +81,7 @@ class FancyToDo {
             });
     }
 
-    static delete(req, res) {
+    static delete(req, res, next) {
         ToDo.destroy({
             where: {
                 id: req.params.id

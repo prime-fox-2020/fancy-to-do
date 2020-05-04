@@ -60,7 +60,7 @@ $(document).ready(() => {
             })
             .fail(() => {
                 $("#alertLogin").append(
-                `
+                    `
                 <div class="alert alert-danger d-flex" role="alert">
                 <strong>Sorry youe email/password wrong</strong>
 				</div>
@@ -211,25 +211,21 @@ $(document).ready(() => {
     $("button#searcHolidaysBtn").click((e) => {
         e.preventDefault();
         console.log('clik button search');
-        let country
-        $("select#country").change(() => {
-            country = $(this).children("option:selected").val();
-        });
-        // let country = 'ID'
-        console.log(country);
-        let year = 2020
+        let country = $("#country option:selected").val();
+        let year = $("#year option:selected").val();
         $.ajax({
             type: "GET",
             url: FncyTD + "/holidays?country=" + country + "&year=" + year
         })
             .done((data) => {
                 console.log('data: ', data.response.holidays);
+                $("#tableBodyHolidays").show()
                 if (localStorage.akses_token) {
-                    $(".isLogin").show()
-                    $(".isLogout").hide()
+                    console.log(localStorage.akses_token);
+                    $(".isLogin #btnLogout").show()
                 } else {
-                    $(".isLogin").hide()
-                    $(".isLogout").show()
+                    $(".isLogin #btnLoginForm").show()
+                    $(".isLogin #btnRegisterForm").show()
                 }
                 data.response.holidays.forEach(el => {
                     $("#tableBodyHolidays").append(
@@ -247,6 +243,11 @@ $(document).ready(() => {
 
 
     //#endregion
+
+    $('#selected_value').click(function () {
+        var value = $("#select_option option:selected").val();
+        alert(value)
+    })
 
 })
 
@@ -312,7 +313,7 @@ function deleteTodo(id) {
                 <strong>Data success deleted</strong>
                 </div>
                 `
-                )
+            )
             getTodos()
         })
         .fail((err) => {
@@ -322,7 +323,7 @@ function deleteTodo(id) {
                 <strong>Data unsuccess deleted</strong>
                 </div>
                 `
-                )
+            )
             console.log(err);
         })
 }
@@ -356,7 +357,7 @@ function editStatus(id) {
         .done((data) => {
             $("#tableBody").children().remove()
             $("#alertTodo").append(
-            `
+                `
             <div class="alert alert-info d-flex" role="alert">
             <strong>Data success updated</strong>
             </div>
@@ -366,7 +367,7 @@ function editStatus(id) {
         })
         .fail(() => {
             $("#alertTodo").append(
-            `
+                `
             <div class="alert alert-danger d-flex" role="alert">
             <strong>Data success updated</strong>
             </div>

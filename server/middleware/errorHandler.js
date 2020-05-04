@@ -1,4 +1,4 @@
-module.exports = function (err, req, res, next) {
+module.exports = (err, req, res, next) => {
     let errStatus = null
     let errCode = null
     let errMessage = null
@@ -26,5 +26,5 @@ module.exports = function (err, req, res, next) {
         default:
             break;
     }
-    res.status(errStatus).json({errCode})
+    return res.status(errStatus).json({errCode})
 };
