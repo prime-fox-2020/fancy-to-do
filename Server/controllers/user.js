@@ -13,7 +13,7 @@ class UserController {
         )
         .then(userFound => {
             if (userFound) {
-                res.status(400).json({message : 'email already registered'})
+                res.status(400).json({message : 'Email already registered!'})
             } else {
                 let newUser = {
                     username: req.body.username,

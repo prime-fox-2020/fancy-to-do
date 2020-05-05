@@ -102,7 +102,7 @@ $('#register').submit(function(e){
     }
     
     $.ajax({
-        url: 'http://localhost:3000/users/register',
+        url: 'http://localhost:2000/users/register',
         method: 'POST',
         data: data,
     })
@@ -139,7 +139,7 @@ $('#login').submit(function(e){
     }
 
     $.ajax({
-        url: 'http://localhost:3000/users/login',
+        url: 'http://localhost:2000/users/login',
         method: 'POST',
         data: data
     })
@@ -177,7 +177,7 @@ $('#login').submit(function(e){
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: 'http://localhost:3000/users/google-signin',
+        url: 'http://localhost:2000/users/google-signin',
         method: 'POST',
         data: {
             id_token: id_token
@@ -214,7 +214,7 @@ function showTodos(){
     let token = localStorage.acces_token
     // console.log(token)   
     $.ajax({
-        url: 'http://localhost:3000/todos',
+        url: 'http://localhost:2000/todos',
         method: 'GET',
         headers: {
             "acces_token": token
@@ -266,7 +266,7 @@ $('#add-todo').submit(function(e){
     }
 
     $.ajax({
-        url: 'http://localhost:3000/todos',
+        url: 'http://localhost:2000/todos',
         method: 'POST',
         data: data,
         headers: {
@@ -307,7 +307,7 @@ function editTodo(id){
 
     let token = localStorage.getItem('acces_token')
     $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `http://localhost:2000/todos/${id}`,
         method: 'GET',
         headers: {
             'acces_token': token
@@ -321,8 +321,8 @@ function editTodo(id){
         $('#edit-due_date').empty()
 
         $('#edit-id').append(`<input class="form-control" id="edit-id-val" value="${todo.id}" hidden readonly placeholder="${todo.id}">`)
-        $('#edit-title').append(`<input class="form-control" id="edit-title-val" value="${todo.title}" autofocus placeholder="${todo.title}">`)
-        $('#edit-description').append(`<textarea class="form-control" id="edit-description-val" rows="4" value="${todo.description}" placeholder="${todo.description}"></textarea>`)
+        $('#edit-title').append(`<input class="form-control" id="edit-title-val" value="${todo.title}">`)
+        $('#edit-description').append(`<textarea class="form-control" id="edit-description-val" rows="4">${todo.description}</textarea>`)
         if (todo.status) {  
             $('#edit-status').append(`<select id="edit-status-val" class="form-control" >
                                         <option selected disabled>Choose</option>
@@ -361,7 +361,7 @@ $('#edit-todo').submit(function(e){
     
 
     $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `http://localhost:2000/todos/${id}`,
         method: 'PUT',
         data: data,
         headers: {
@@ -398,7 +398,7 @@ function deleteTodo(id){
     let token = localStorage.acces_token
     // console.log(token)
     $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `http://localhost:2000/todos/${id}`,
         method: 'DELETE',
         headers: {
             'acces_token': token
@@ -426,7 +426,7 @@ function showHolidays(){
     let token = localStorage.acces_token
     // console.log(token)
     $.ajax({
-        url: 'http://localhost:3000/todos/holidays',
+        url: 'http://localhost:2000/todos/holidays',
         method: 'GET',
         headers: {
             "acces_token": token

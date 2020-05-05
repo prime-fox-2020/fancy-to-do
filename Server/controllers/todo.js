@@ -54,7 +54,7 @@ class TodoController{
         }
         Todo.update(newTodo, {where: {id : id}})
         .then(data => {
-            res.status(200).json({message: `data with ${id} updated`})
+            res.status(200).json({message: `Data with title ${req.body.title} updated!`})
         })
         .catch(err => {
             next(err)
