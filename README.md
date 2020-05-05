@@ -285,10 +285,7 @@ _Request Header_
 ```
 
 _Request Body_
-```
-{
-  "country": "<country to get insert into>"
-}
+```not needed
 ```
 
 _Response (200 - OK)_
