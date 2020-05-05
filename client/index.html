@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <h1 class="display-4">What To Do's</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+            featured content or information.</p>
+
+        <div class="container" id="page1">
+            <div class="row">
+                <div class="col-sm">
+                    <form id="form-register">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password">
+                        </div>
+                    </form>
+                    <button class="btn btn-primary" id="register">Register</button>
+                </div>
+                <div class="col-sm-1">
+                    <p class="text-center"><br><br><br><br><br>OR</p>
+                </div>
+                <div class="col-sm" id="form-login">
+                    <br><br>
+                    <form>
+                        <div class="form-group">
+                            <label for="emailLogin">Email address</label>
+                            <input type="email" class="form-control" id="emailLogin" placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordLogin">Password</label>
+                            <input type="text" class="form-control" id="passwordLogin">
+                        </div>
+                    </form>
+                    <button class="btn btn-primary" id="login">Login</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="todo">
+            <p>ToDo</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTabel">
+                </tbody>
+            </table>
+            <button class="btn btn-primary" id="add">Add Todo</button>
+            <button class="btn btn-primary" id="logout">Log Out</button>
+        </div>
+
+        <div class="addTodo">
+            <form id="add-Todo">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" placeholder="ngapain ya">
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" class="form-control" id="due_date">
+                </div>
+            </form>
+            <button class="btn btn-primary" id="cancelAdd">Cancel</button>
+            <button class="btn btn-primary" id="submitAdd">Submit</button>
+        </div>
+
+        <div class="editTodo">
+            <form id="edit-Todo">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="titleedit">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="descriptionedit">
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" class="form-control" id="due_dateedit">
+                </div>
+            </form>
+            <button class="btn btn-primary" id="cancelEdit">Cancel</button>
+            <button class="btn btn-primary" id="submitEdit">Submit</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
