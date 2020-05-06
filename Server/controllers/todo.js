@@ -78,17 +78,14 @@ class TodoController{
         const day = new Date().getDate()
         const month = new Date().getMonth() + 1
         const year = new Date().getFullYear()
-        // console.log(month)
         axios({
             method:"GET",
             url:`https://calendarific.com/api/v2/holidays?&api_key=${process.env.api_key}&country=id&year=${year}`
         }).then(result => {
             const datas = result.data.response.holidays
-            console.log(datas)
             let holidays = []
             datas.forEach(el => {
                 let datetime = el.date.datetime
-                // console.log(datetime)
                 if(datetime.month == month && datetime.day > day){
                     holidays.push({
                         name: el.name,
@@ -97,7 +94,6 @@ class TodoController{
                         country: el.country.name,
                         type: el.type[0]
                     })
-                    // console.log('>>>>>>>>>>>>.')
                 }
 
                 if(datetime.month >= month){
@@ -110,10 +106,8 @@ class TodoController{
                             type: el.type[0]
                         })
                     }
-                    // console.log('.........')
                 }
             })
-            // console.log(holidays)
             res.status(200).json(holidays)
         }).catch(err => {
             next(err)

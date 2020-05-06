@@ -102,12 +102,11 @@ $('#register').submit(function(e){
     }
     
     $.ajax({
-        url: 'http://localhost:2000/users/register',
-        method: 'POST',
+        url: 'http://localhost:3000/register',
+        type: 'POST',
         data: data,
     })
     .done(register => {
-        // console.log(register)
         $('#success').empty()
         $('#error').empty()
         $('#reqgister_username').val('')
@@ -123,7 +122,6 @@ $('#register').submit(function(e){
         $('#success').append(`<div class="alert alert-success" role="alert">${register.username}, you have successfully registered</div>`)
     })
     .fail(err => {
-        console.log(err)
         $('#error').empty()
         $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
     })
@@ -139,46 +137,44 @@ $('#login').submit(function(e){
     }
 
     $.ajax({
-        url: 'http://localhost:2000/users/login',
-        method: 'POST',
+        url: 'http://localhost:3000/login',
+        type: 'POST',
         data: data
     })
-        .done(login => {
-            $('#login_email').val('')
-            $('#login_password').val('')
-            $('#success').empty()
-            $('#error').empty()
+    .done(login => {
+        $('#login_email').val('')
+        $('#login_password').val('')
+        $('#success').empty()
+        $('#error').empty()
 
-            $('#nav-login').hide()
-            $('#nav-register').hide()
-            $('#nav-todos').show()
-            $('#nav-holidays').show()
-            $('#nav-logout').show()
-            $('#field-register').hide()
-            $('#field-login').hide()
-            showTodos()
-            $('#field-todos').show()
-            $('#field-add-todo').hide()
-            $('#field-edit-todo').hide()
-            $('#field-holidays').hide()
-
-            localStorage.setItem('acces_token', login.acces_token)
-
-            $('#success').append(`<div class="alert alert-success" role="alert">You have successfully logged in</div>`)
-        })
-        .fail(err => {
-            $('#error').empty()
-            $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
-        })
-    
+        $('#nav-login').hide()
+        $('#nav-register').hide()
+        $('#nav-todos').show()
+        $('#nav-holidays').show()
+        $('#nav-logout').show()
+        $('#field-register').hide()
+        $('#field-login').hide()
+        $('#field-todos').show()
+        $('#field-add-todo').hide()
+        $('#field-edit-todo').hide()
+        $('#field-holidays').hide()
+        
+        localStorage.setItem('acces_token', login.acces_token)
+        showTodos()
+        console.log('sign in')
+    })
+    .fail(err => {
+        $('#error').empty()
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
+    })
 }) 
 
 
 function onSignIn(googleUser) {
     var id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: 'http://localhost:2000/users/google-signin',
-        method: 'POST',
+        url: 'http://localhost:3000/google-signin',
+        type: 'POST',
         data: {
             id_token: id_token
         }
@@ -193,13 +189,14 @@ function onSignIn(googleUser) {
         $('#nav-logout').show()
         $('#field-register').hide()
         $('#field-login').hide()
-        showTodos()
         $('#field-todos').show()
         $('#field-add-todo').hide()
         $('#field-edit-todo').hide()
         $('#field-holidays').hide()
-
+        
         localStorage.setItem('acces_token', data.acces_token)
+        showTodos()
+        console.log('sign in')
     })
     .fail(err => {
         console.log(err)
@@ -212,16 +209,14 @@ function onSignIn(googleUser) {
 
 function showTodos(){
     let token = localStorage.acces_token
-    // console.log(token)   
     $.ajax({
-        url: 'http://localhost:2000/todos',
-        method: 'GET',
+        url: 'http://localhost:3000/todos',
+        type: 'GET',
         headers: {
             "acces_token": token
         },
     })
     .done(todos => {
-        console.log('response', todos);
         $('#todos').empty()
 
         todos.forEach(el => {
@@ -240,7 +235,30 @@ function showTodos(){
                 <td scope="col">${el.due_date}</td>
                 <td scope="col">
                     <a onclick="editTodo(${el.id})"><button class="btn btn-success" type="submit">Edit</button></a>
-                    <a onclick="deleteTodo(${el.id})"><button class="btn btn-danger" type="submit">Delete</button></a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal${el.id}">
+                        Delete
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal${el.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deleteTodo(${el.id})">Delete</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
         `
@@ -248,17 +266,16 @@ function showTodos(){
         });
     })
     .fail(err => {
-        // console.log(err);
         $('#error').empty()
-        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
+        $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON.message}</div>`)
     })
 }
+
 
 $('#add-todo').submit(function(e){
     e.preventDefault()
 
     let token = localStorage.acces_token
-    // console.log(token)
     let data = {
         title: $('#add-title').val(),
         description: $('#add-description').val(),
@@ -266,15 +283,14 @@ $('#add-todo').submit(function(e){
     }
 
     $.ajax({
-        url: 'http://localhost:2000/todos',
-        method: 'POST',
+        url: 'http://localhost:3000/todos',
+        type: 'POST',
         data: data,
         headers: {
             'acces_token': token
         },
     })
     .done(newTodo => {
-        console.log(newTodo);
         $('#success').empty()
         $('#error').empty()
         $('#add-title').val(''),
@@ -290,7 +306,6 @@ $('#add-todo').submit(function(e){
         $('#success').append(`<div class="alert alert-success" role="alert"> Todo with title ${newTodo.title} has been added </div>`)
     })
     .fail(err => {
-        console.log(err)
         $('#error').empty()
         $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
@@ -307,8 +322,8 @@ function editTodo(id){
 
     let token = localStorage.getItem('acces_token')
     $.ajax({
-        url: `http://localhost:2000/todos/${id}`,
-        method: 'GET',
+        url: `http://localhost:3000/todos/${id}`,
+        type: 'GET',
         headers: {
             'acces_token': token
         },
@@ -361,16 +376,14 @@ $('#edit-todo').submit(function(e){
     
 
     $.ajax({
-        url: `http://localhost:2000/todos/${id}`,
-        method: 'PUT',
+        url: `http://localhost:3000/todos/${id}`,
+        type: 'PUT',
         data: data,
         headers: {
             'acces_token': token
         },
     })
     .done(editTodo => {
-        // console.log( $('#edit-title').val())
-        console.log(editTodo)
         $('#success').empty()
         $('#error').empty()
         $('#edit-id').val('')
@@ -389,17 +402,15 @@ $('#edit-todo').submit(function(e){
     })
     .fail(err => {
         $('#error').empty()
-        // console.log(err)
         $('#error').append(`<div class="alert alert-danger" role="alert">${err.responseJSON}</div>`)
     })
 })
 
 function deleteTodo(id){
     let token = localStorage.acces_token
-    // console.log(token)
     $.ajax({
-        url: `http://localhost:2000/todos/${id}`,
-        method: 'DELETE',
+        url: `http://localhost:3000/todos/${id}`,
+        type: 'DELETE',
         headers: {
             'acces_token': token
         }
@@ -408,13 +419,13 @@ function deleteTodo(id){
         $('#success').empty()
         $('#error').empty()
 
-        showTodos() 
+        showTodos()
         $('#field-add-todo').hide()
         $('#field-todos').show()
         $('#field-edit-todo').hide()
         $('#field-holidays').hide()
+        $('#modal').hide()
 
-        $('#success').append(`<div class="alert alert-success" role="alert">Todo has been deleted</div>`)
     })
     .fail(err => {
         $('#error').empty()
@@ -424,16 +435,14 @@ function deleteTodo(id){
 
 function showHolidays(){
     let token = localStorage.acces_token
-    // console.log(token)
     $.ajax({
-        url: 'http://localhost:2000/todos/holidays',
-        method: 'GET',
+        url: 'http://localhost:3000/todos/holidays',
+        type: 'GET',
         headers: {
             "acces_token": token
         },
     })
     .done(holidays => {
-        console.log('response', holidays);
         $('#holidays').empty()
 
         holidays.forEach(el => {

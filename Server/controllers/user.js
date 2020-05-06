@@ -1,5 +1,5 @@
 const { User } = require('../models')
-const generateToken = require('../helpers/generateToken')
+const generateToken = require('../helpers/jwt').generateToken
 const matchPassword = require('../helpers/matchPassword')
 const {OAuth2Client} = require('google-auth-library');
 const CLIENT_ID = process.env.CLIENT_ID
@@ -65,10 +65,8 @@ class UserController {
         })
         .then(ticket => {
             const payload = ticket.getPayload()
-            console.log(payload)
             currentEmail = payload['email']
             currentUsername = payload['given_name']
-            console.log(currentUsername)
 
             return User.findOne({
                 where: { email: currentEmail }
@@ -76,8 +74,7 @@ class UserController {
         })
         .then(user => {
             if(user){
-                const acces_token = generateToken(user)
-                res.status(200).json({acces_token})
+                return user
             } else {
                 return User.create({
                     username: currentUsername,
@@ -91,7 +88,6 @@ class UserController {
             res.status(200).json({ acces_token })
         })
         .catch(err => {
-            console.log(err)
             next(err)
         })
     }

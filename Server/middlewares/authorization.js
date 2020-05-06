@@ -10,12 +10,10 @@ const authorization = (req, res, next) => {
             if (data.UserId == req.currentUserId) {
                 next()
             } else{
-                // res.status(401).json({message: 'unauthorized'})
-                next({message: 'unauthorized', status: 401})
+                next({message: '401 - Unauthorized.', status: 401})
             }
         } else {
-            // res.status(400).json({message : 'not found'})
-            next({message: `Todo with id ${id} not found`, status: 400})
+            next({message: `Todo with id ${id} not found`, status: 404})
         }
     })
     .catch(err => {

@@ -1,4 +1,4 @@
-const verifyToken = require('../helpers/verifyToken')
+const verifyToken = require('../helpers/jwt').verifyToken
 const { User } = require('../models')
 
 const authentication = (req, res, next) => {
@@ -7,7 +7,6 @@ const authentication = (req, res, next) => {
 
     try {
         let decoded = verifyToken(token)
-        console.log(decoded)
         let { id } = decoded
         User.findByPk(id)
         .then(data => {
@@ -15,14 +14,14 @@ const authentication = (req, res, next) => {
                 req.currentUserId = id
                 next()
             } else {
-                res.status(401).json(err.message)
+                res.status(404).json(err.message)
             }
         })
         .catch(err => {
             res.status(500).json(err.message)
         })
     } catch (err) {
-        res.status(500).json(err.message)
+        res.status(403).json({message: '403 - Forbidden Access is denied.'})
     }
 }
 

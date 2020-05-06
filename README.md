@@ -6,7 +6,7 @@ Fancy To Do is an simple application to manage all that you have to do. This app
 &nbsp;
 
 ## RESTful endpoints
-### POST /users/register
+### POST /register
 
 > Create new user
 
@@ -39,11 +39,11 @@ _Response (201 - Created)_
 _Response (400 - Bad Request)_
 ```
 {
-  "message": "email already registered"
+  "message": "Email already registered!"
 }
 ```
 ---
-### POST /users/login
+### POST /login
 
 > Login user
 
@@ -152,7 +152,7 @@ _Response (201 - Created)_
 _Response (400 - Bad Request)_
 ```
 {
-  "message": "Invalid Input!"
+  "message": "Title is required!/ Description is required!/ Date is required!"
 }
 ```
 ---
@@ -190,7 +190,7 @@ _Response (200 - OK)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Todo is not found!"
 }
 ```
 ---
@@ -231,7 +231,7 @@ _Response (200 - OK)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Title is required!/ Description is required!/ Date is required!"
 }
 ```
 ---
@@ -269,7 +269,7 @@ _Response (200 - OK)_
 _Response (404 - Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Todo is not found"
 }
 ```
 ---
@@ -296,12 +296,46 @@ _Response (200 - OK)_
 [
   {
     "name": "<name holiday>",
-    "date": "<date holiday>"
+    "description": "<description holiday>",
+    "date": "<date holiday>",
+    "country": "<country holiday>",
+    "type": "<type holiday>",
   }
 ]
 ```
 
+&nbsp;
+
+## ERROR
+> Authentication, Authorization and Internal Server
+
 ---
+### FORBIDDEN
+
+> If the request was a legal request, but the server is refusing to respond to it
+
+_Response (403 - Forbidden)_
+```
+{
+  "message": "403 - Forbidden Access is denied."
+}
+```
+
+---
+
+### UNAUTHORIZATED
+
+> If authentication is needed to get requested response.
+
+_Response (401 - Unauthorized)_
+```
+{
+  "message": "401 - Unauthorized."
+}
+```
+
+---
+
 ### SERVER FAILED
 
 > If server failed to respon
@@ -309,6 +343,6 @@ _Response (200 - OK)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error>"
+  "message": "Internal Server Error"
 }
 ```
