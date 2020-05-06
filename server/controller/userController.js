@@ -1,35 +1,15 @@
 const { User } = require('../models')
 const bcrypt = require('bcryptjs')
-const { generateToken } = require('../helper/jwt')
-const axios = require("axios");
 const {OAuth2Client} = require('google-auth-library')
+const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
 dotenv.config()
 
 class Control {
     static register(req, res, next) {
-        axios({
-            "method":"GET",
-            "url":"https://zerobounce1.p.rapidapi.com/v2/validate",
-            "headers":{
-                "content-type":"application/octet-stream",
-                "x-rapidapi-host":"zerobounce1.p.rapidapi.com",
-                "x-rapidapi-key":"6a2493f933msh89af1ce3ec969a8p1631adjsn0163c62e9286"
-            },"params":{
-                "ip_address":"",
-                "email":req.body.email
-            }
-        })
-        .then((response)=>{
-            if (response.data.status == 'valid') {
-                return User.create({
-                    email: req.body.email,
-                    password: req.body.password
-                })  
-            }
-            else {
-                next({name: 'EmailValidationError'})
-            }
+        User.create({
+            email: req.body.email,
+            password: req.body.password
         })
         .then(data => {
             res.status(201).json(data)
@@ -41,7 +21,7 @@ class Control {
 
     static login (req, res, next) {
         const { email, password } = req.body
-        if (!req.body.email && !req.body.password) {
+        if (!req.body.email || !req.body.password) {
             next({name: 'SequelizeValidationError'})
         }
         else {
@@ -55,7 +35,7 @@ class Control {
                     next({name: 'LoginValidationError'})
                 }
                 else{
-                    const access_token = generateToken(data)
+                    const access_token = jwt.sign({id: data.id, email: data.email}, process.env.secretKey)
                     res.status(201).json({ access_token })
                 }
             })
@@ -91,7 +71,7 @@ class Control {
             } 
         })
         .then(data => {
-            const access_token = generateToken (data)
+            const access_token = jwt.sign({id: data.id, email: data.email}, process.env.secretKey)
             res.status(200).json({access_token})
         })
         .catch(err => {

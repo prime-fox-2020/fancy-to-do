@@ -409,5 +409,7 @@ function signOut() {
         console.log('User signed out.');
     });
     localStorage.removeItem('access_token')
+    $('#input-email-login').val('')
+    $('#input-password-login').val('')
     check()
 }

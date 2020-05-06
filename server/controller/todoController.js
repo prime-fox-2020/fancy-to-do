@@ -12,7 +12,7 @@ class Control {
             UserId: req.userData.id
         })
         .then(data => {
-            res.status(201).json(data)
+            res.status(201).json({data})
             const msg = `You have a new todo, ${data.title}. Your due date is ${data.due_date}`
             axios({
                     "method":"POST",

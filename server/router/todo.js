@@ -1,6 +1,6 @@
 const route = require('express').Router()
-const todo = require('../controller/todoControl')
-const authentication = require('../midlewares/Authentication')
+const todo = require('../controller/todoController')
+const {authentication} = require('../midlewares/Authentication')
 const authorization = require('../midlewares/Authorization')
 
 route.use(authentication)

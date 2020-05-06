@@ -77,14 +77,14 @@ _Response (201 - Created)_
 _Response (400 - Bad Request)_
 ```
 {
-    "message": "<Incomplete data or Wrong Input>"
+    "message": "Incomplete data or Wrong Input"
 }
 ```
 
 _Response (401 - Unauthorized)_
 ```
 {
-    "message": "<Email invalid>"
+    "message": "Email invalid"
 }
 ```
 
@@ -95,7 +95,7 @@ _Response (401 - Unauthorized)_
 _Request Header_
 ```
 {
-    "access_token": "<your access token>"
+    "access_token": "your access token"
 }
 ```
 
@@ -106,44 +106,32 @@ not needed
 
 _Response (200)_
 ```
-{
-    "Todo": [
-       
-        {
-            "id": 1,
-            "title": "<asset name>",
-            "description": "<asset description>",
-            "status": true,
-            "due_date": "2021-01-08",
-            "createdAt": "2020-04-27",
-            "updatedAt": "2020-04-27"
-        },
-        {
-            "id": 2,
-            "title": "<asset name>",
-            "description": "<asset description>",
-            "status": true,
-            "due_date": "2020-06-10",
-            "createdAt": "2020-04-27",
-            "updatedAt": "2020-04-27"
-        },
-        {
-            "id": 3,
-            "title": "<asset name>",
-            "description": "<asset description>",
-            "status": true,
-            "due_date": "<asset due date>",
-            "createdAt": "2020-04-27",
-            "updatedAt": "2020-04-27"
-        }
-    ]
-}
+[      
+    {
+        "id": 1,
+        "title": "<asset name>",
+        "description": "<asset description>",
+        "status": true,
+        "due_date": "2021-01-08",
+        "createdAt": "2020-04-27",
+        "updatedAt": "2020-04-27"
+    },
+    {
+        "id": 2,
+        "title": "<asset name>",
+        "description": "<asset description>",
+        "status": true,
+        "due_date": "2020-06-10",
+        "createdAt": "2020-04-27",
+        "updatedAt": "2020-04-27"
+    }
+]
 ```
 
 _Response (500 - Bad Request)_
 ```
 {
-    "message": "<Internal Server Error>"
+    "message": "Internal Server Error"
 }
 ```
 
@@ -185,14 +173,14 @@ _Response (201 - Created)_
 _Response (400 - bad request)_
 ```
 {
-    "error": "<incomplete data or Wrong Input>"
+    "message": "incomplete data or Wrong Input"
 }
 ```
 
 _Response (500 - Internal Server Error)_
 ```
 {
-    "error": "<Internal server error>"
+    "message": "Internal server error"
 }
 ```
 
@@ -216,22 +204,20 @@ not needed
 _Response (200 - Ok)_
 ```
 {
-    "todo": {
-        "id": <asset id>,
-        "title": "<asset name>",
-        "description": "<asset description>",
-        "status": false,
-        "due_date": "<asset due date>",
-        "createdAt": "2020-04-27",
-        "updatedAt": "2020-04-27"
-    }
+    "id": <asset id>,
+    "title": "<asset name>",
+    "description": "<asset description>",
+    "status": false,
+    "due_date": "<asset due date>",
+    "createdAt": "2020-04-27",
+    "updatedAt": "2020-04-27"
 }
 ```
 
 _Response (404 - not found)_
 ```
 {
-    "error" : "<Data not found>"
+    "message" : "Data not found"
 }
 ```
 
@@ -260,14 +246,14 @@ _Response (200 - Ok)_
 _Response (400 - bad request)_
 ```
 {
-    "error": "<Incomplete data or Wrong Input>"
+    "message": "Incomplete data or Wrong Input"
 }
 ```
 
 _Response (404 - not found)_
 ```
 {
-    "error" : "<Data not found>"
+    "message" : "Data not found"
 }
 ```
 
@@ -275,7 +261,7 @@ _Response (404 - not found)_
 _Response (500)_
 ```
 {
-    "error": "<Internal server error>"
+    "message": "Internal server error"
 }
 ```
 
@@ -294,13 +280,13 @@ _Response(200)_
 _Response(404 - not found)_
 ```
 {
-    "error": "<Data not found>"
+    "message": "Data not found"
 }
 ```
 
 _Response (500 - Internal Server Error)_
 ```
 {
-  "error": "<Internal server error>"
+    "message": "Internal server error"
 }
 ```
