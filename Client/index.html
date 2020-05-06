@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="google-signin-client_id" content="594361692911-nnbdl0r0gilmhodjqijahqchvpgqb28t.apps.googleusercontent.com">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Fancy To Do</title>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Fancy To Do</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" id="nav-todos" href="">Todos<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" id="nav-holidays" href="">Holidays</a>
+                </li>
+            </ul>
+            <a class="nav-link" id="nav-register" href="">Register</a>
+            <a class="nav-link" id="nav-login" href="">Login</a>
+            <a class="nav-link" id="nav-logout" href="">Logout</a>
+        </div>
+    </nav>
+
+    <div class="jumbotron">
+        <div class="container">
+
+            <div  id="error" class="alert alert-type-danger" role="alert"></div>
+            <div id="success" class="alert alert-type-success" role="alert"></div>
+
+            <!-- Register -->
+            <div class="the-element">
+                <div id="field-register" class="register">
+                    <div class="d-flex justify-content-around">
+                        <h2>Register</h2>
+                    </div>
+                    <form id="register" method="POST">
+                        <div class="form-group">
+                            <label for="username-register">Username</label>
+                            <input type="text" class="form-control" id="register_username" placeholder="username" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="email-register">Email address</label>
+                            <input type="email" class="form-control" id="register_email" placeholder="email" aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="password-register">Password</label>
+                            <input type="password" class="form-control" id="register_password" placeholder="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                        <br>
+                        <small id="emailHelp" class="form-text text-muted">Or sign in/up with Google Account</small>
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Login -->
+            <div id="field-login" class="login">
+                <div class="d-flex justify-content-around">
+                    <h2>Login</h2>
+                </div>
+                <form id="login" method="POST">
+                    <div class="form-group">
+                        <label for="email-login">Email address</label>
+                        <input type="email" class="form-control" id="login_email" placeholder="email" aria-describedby="emailHelp autofocus">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password-login">Password</label>
+                        <input type="password" class="form-control" id="login_password" placeholder="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <br>
+                    <small id="emailHelp" class="form-text text-muted">Or sign in/up with Google Account</small>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </form>
+            </div>
+
+            <!-- Todos -->
+            <div id="field-todos">
+                <table class="table">
+                    <div class="d-flex justify-content-around">
+                        <h2>List Todos</h2>
+                    </div>
+                    <div class="d-flex justify-content-left">
+                        <button class="btn btn-primary" id="todos-add-todo">Add Todo</button>
+                    </div>
+                    <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="todos">
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ADD TODO -->
+            <div id="field-add-todo">
+                <div class="d-flex justify-content-around">
+                    <h2>Add Todo</h2>
+                </div>
+                <form id="add-todo" action="index.html" method="POST">
+                    <div class="form-group">
+                        <label for="title-todo">Title</label>
+                        <input type="text" class="form-control" id="add-title" placeholder="title" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="description-todo">Description</label>
+                        <textarea type="text" class="form-control" id="add-description" rows="4" placeholder="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="duedate-todo">Due Date</label>
+                        <input type="date" class="form-control" id="add-due_date">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <!-- EDIT TODO -->
+            <div id="field-edit-todo">
+                <div class="d-flex justify-content-around">
+                    <h2>Edit Todo</h2>
+                </div>
+                <form id="edit-todo" method="POST">
+                    <div class="form-group">
+                        <div id="edit-id">
+                        </div>
+                        <label for="title-todo">Title</label>
+                        <div id="edit-title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description-todo">Description</label>
+                        <div id="edit-description">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Status</label>
+                        <div id="edit-status">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="duedate-todo">Due Date</label>
+                        <div id="edit-due_date">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <div id="field-holidays">
+                <table class="table">
+                    <div class="d-flex justify-content-around">
+                        <h2>List Holidays</h2>
+                    </div>
+
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Type</th>
+                    </tr>
+                    </thead>
+                    <tbody id="holidays">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    
+    <script src="main.js"></script>
+</body>
+</html>
