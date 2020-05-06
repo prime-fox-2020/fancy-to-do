@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
-
+const {User} = require('../models')
+const {verify} = require('../helpers/jwt')
 
 const authentication = (req, res, next) => {
     const { access_token } = req.headers
@@ -8,9 +8,21 @@ const authentication = (req, res, next) => {
         next({ name: 'TokenNotFound' })
     }
     try{
-        const decoded = jwt.verify(access_token, process.env.JWT_SECRET_KEY)
+        let decoded = verify(access_token)
         req.userData = decoded
-        next()
+        let {id} = decoded
+        User.findByPk(id)
+        .then(data => {
+            if (data) {
+                req.currentUserId = id
+                next()
+            } else {
+                res.status(401).json(err.message)
+            }
+        })
+        .catch(err => {
+            res.status(500).json(err.message)
+        })
     }
     catch(err){
         next(err)

@@ -24,7 +24,7 @@ Run `live-server --host=localhost` to start the client
 ```
 # RESTful endpoints
 <!-- --- -->
-### POST /users/login
+### POST /login
 _Request Header_
 ```
 Not needed
@@ -40,21 +40,18 @@ _Request Body_
 
 _Response (200)_
 ```
-{
-  "access_token" : "<your account access token>"
-},
-{ 
-  "id" : "<generated id by system>"
-  "email" : "<your email>",
-  "password" : "<your password>"
-}
+{ "access_token" : "<your account access token>" }
 ```
-_Response (400 - Bad Request / 500 - Internal Server Error)_
+_Response (400)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Invalid Email / Password" }
+```
+_Response (500)_
+```
+{ "message": "Internal Server Error" }
 ```
 ---
-### POST /users/google-login
+### POST /google-login
 _Request Header_
 ```
 Not needed
@@ -70,21 +67,14 @@ _Request Body_
 
 _Response (200)_
 ```
-{
-  "access_token" : "<your account access token>"
-},
-{ 
-  "id" : "<generated id by system>"
-  "email" : "<your email>",
-  "password" : "<your password>"
-}
+{ "access_token" : "<your account access token>" }
 ```
-_Response (400 - Bad Request / 500 - Internal Server Error)_
+_Response (500)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Internal Server Error" }
 ```
 ---
-### POST /users/register
+### POST /register
 _Request Header_
 ```
 Not needed
@@ -102,9 +92,13 @@ _Response (200)_
 ```
 { access_token : <your account access token> }
 ```
-_Response (400 - Bad Request / 500 - Internal Server Error)_
+_Response (400)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Email has been registered" }
+```
+_Response (500)_
+```
+{ "message": "Internal Server Error" }
 ```
 ---
 ### GET /todos
@@ -131,9 +125,17 @@ _Response (200)_
   "due_date": "<todos due_date>"
 }
 ```
-_Response (400 - Bad Request / 401 - Not Authenticated / 500 - Internal Server Error)_
+_Response (400)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Invalid Token" }
+```
+_Response (401)_
+```
+{ "message": "User Not Authenticated" }
+```
+_Response (500)_
+```
+{ "message": "Internal Server Error" }
 ```
 ---
 ### GET /todos/:id
@@ -165,9 +167,21 @@ _Response (200)_
 }
 ```
 
-_Response (400 - Bad Request / 401 - Not Authenticated / 403 - Forbidden Access / 404 - Not Found / 500 - Internal Server Error)_
+_Response (400)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Invalid Token" }
+```
+_Response (401)_
+```
+{ "message": "User Not Authenticated" }
+```
+_Response (403)_
+```
+{ "message": "Forbidden Access" }
+```
+_Response (500)_
+```
+{ "message": "Internal Server Error" }
 ```
 ---
 ### POST /todos
@@ -188,7 +202,6 @@ _Request Body_
   "due_date": "<due_date to get insert into>"
 }
 ```
-
 _Response (201 - Created)_
 ```
 {
@@ -199,10 +212,23 @@ _Response (201 - Created)_
   "due_date": "<posted due_date>"
 }
 ```
-_Response (400 - Bad Request / 401 - Not Authenticated / 500 - Internal Server Error)_
+_Response (400)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Invalid Token" }
 ```
+_Response (401)_
+```
+{ "message": "User Not Authenticated" }
+```
+_Response (403)_
+```
+{ "message": "Forbidden Access" }
+```
+_Response (500)_
+```
+{ "message": "Internal Server Error" }
+```
+---
 ### PUT /todos/:id
 
 > Update todos with specific id
@@ -233,10 +259,21 @@ _Response (200)_
   "due_date": "<todos updated due_date>"
 }
 ```
-
-_Response (400 - Bad Request / 401 - Not Authenticated / 403 - Forbidden Access / 404 - Not Found / 500 - Internal Server Error)_
+_Response (400)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Invalid Token" }
+```
+_Response (401)_
+```
+{ "message": "User Not Authenticated" }
+```
+_Response (403)_
+```
+{ "message": "Forbidden Access" }
+```
+_Response (500)_
+```
+{ "message": "Internal Server Error" }
 ```
 ---
 ### DELETE /todos/:id
@@ -257,9 +294,20 @@ _Response (200)_
 ```
 Deleted
 ```
-
-_Response (400 - Bad Request / 401 - Not Authenticated / 403 - Forbidden Access / 404 - Not Found / 500 - Internal Server Error)_
+_Response (400)_
 ```
-{ "message": "<returned error message>" }
+{ "message": "Invalid Id" }
+```
+_Response (401)_
+```
+{ "message": "User Not Authenticated" }
+```
+_Response (403)_
+```
+{ "message": "Forbidden Access" }
+```
+_Response (500)_
+```
+{ "message": "Internal Server Error" }
 ```
 ---

@@ -95,7 +95,11 @@
           <input type="text" id="description" class="form-control mb-2" placeholder="Description">
         </div>
         <div class="col-md-6">
-          <input type="text" id="status" class="form-control mb-2" placeholder="Status">
+          <select class='form-control' id="status">
+            <option value="active">Active</option>
+            <option value="deactive">Deactive</option>
+          </select>
+          <!-- <input type="text" id="status" class="form-control mb-2" placeholder="Status"> -->
         </div>
         <div class="col-md-6">
           <input type="date" id="due_date" class="form-control mb-2" placeholder="Due date">
@@ -120,7 +124,10 @@
           <input type="text" id="edit-description" class="form-control mb-2" placeholder="Description">
         </div>
         <div class="col-md-6">
-          <input type="text" id="edit-status" class="form-control mb-2" placeholder="Status">
+          <select class='form-control' id="select-status">
+            <option value="active">Active</option>
+            <option value="deactive">Deactive</option>
+          </select>
         </div>
         <div class="col-md-6">
           <input type="text" id="edit-due_date" class="form-control mb-2" placeholder="Due date">
@@ -156,7 +163,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Confirmation</h5>
+          <h5 cla>ss="modal-title">Confirmation</h5>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
@@ -190,6 +197,24 @@
     </div>
   </div>
 
+
+  <!-- Modal Poster -->
+
+  <div id="posterModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title">Confirmation</h5> -->
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div id="poster-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>

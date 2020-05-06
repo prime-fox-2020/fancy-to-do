@@ -2,7 +2,6 @@ const { User } = require('../models')
 const bcrypt = require('bcrypt')
 const {generateToken} = require('../helpers/jwt')
 const axios = require('axios')
-// const googleVerification = require('../helpers/googleOauthApi.js');
 const { OAuth2Client } = require('google-auth-library')
 
 class UserController {

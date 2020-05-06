@@ -174,6 +174,7 @@ function getTodos() {
         }
     })
     .done(function(response) {
+      console.log(response);
       $('#get-todo tbody').empty(); 
   	  for (let i = 0; i < response.length; i++) {
         let dudet = ''
@@ -189,7 +190,8 @@ function getTodos() {
           <td>${response[i].status}</td>
           <td>${dudet}</td>
           <td><button type="submit" class="btn btn-primary mb-2" onclick="editForm(${response[i].id})">Edit</button>
-          <button type="submit" class="btn btn-danger mb-2" role="button" onclick="confirmDelete(${response[i].id})">Delete</button></td>
+          <button type="submit" class="btn btn-danger mb-2" role="button" onclick="confirmDelete(${response[i].id})">Delete</button>
+          </td>
           </tr>`;
   		$('#get-todo tbody').append($new_row);
         }
@@ -261,7 +263,7 @@ function editForm(value){
     $('#edit-id').val(response.id);
     $('#edit-title').val(response.title);
     $('#edit-description').val(response.description);
-    $('#edit-status').val(response.status);
+    $('#select-status').val(response.status);
     $('#edit-due_date').val(response.due_date);
   })
   .fail(err => {
@@ -366,4 +368,24 @@ function logout() {
     auth2.signOut().then(function() {
     console.log('User signed out.');
     });
+}
+
+
+function showPoster(title){
+  $.get(`https://www.omdbapi.com/?s=${title}&apikey=e0860024`,function(rawdata){
+    let rawstring = JSON.stringify(rawdata)
+    let data = JSON.parse(rawstring)
+    let title = data.Search[0].Title
+    let year = data.Search[0].Year
+    let poster = data.Search[0].Poster
+    console.log(data);
+    $('#poster-body').empty().append(`
+    <h1 style="text-align:center">${title}</h1><br>
+    <h3 style="text-align:center">${year}</h3><br>
+    <p style="text-align:center"><img src=${poster}/></p>
+    `)
+    $('#posterModal').modal('show')
+  })
+
+
 }
