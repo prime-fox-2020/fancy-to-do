@@ -5,7 +5,7 @@ class TodoController {
   static findAll(req, res, next) {
     const dataId = req.userData.id
     Todo.findAll({
-      where: {UserId: dataId}
+      where: {UserId: dataId}, order:[['id','ASC']]
     })
     .then(data => {
       res.status(200).json(data)

@@ -1,5 +1,5 @@
 const User = require('../models').User
-const generateToken = require('../helpers/jwt')
+const {generateToken} = require('../helpers/jwt')
 const { comparePassword } = require('../helpers/bcrypt')
 
 const {OAuth2Client} = require('google-auth-library');
@@ -74,8 +74,7 @@ class UserController {
     })
     .then(user => {
       if(user) {
-        const access_token = generateToken(user)
-        res.status(201).json({access_token})
+        return user
       } else {
         return User.create({
           email: currentEmail,

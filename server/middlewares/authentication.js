@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken')
-const secretKey = process.env.SECRET_KEY
+const { verifyToken } = require('../helpers/jwt')
 
 const authentication = (req, res, next) => {
   const {access_token} = req.headers
@@ -9,8 +8,9 @@ const authentication = (req, res, next) => {
   }
 
   try{
-    const decoded = jwt.verify(access_token, secretKey)
+    const decoded = verifyToken(access_token)
     req.userData = decoded
+    // cek user dalam db
     next()
   } catch(err) {
     next(err)

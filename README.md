@@ -39,14 +39,14 @@ _Response (200)_
 _Response (400 - Validation Error)_
 ```
 {
-  "message": "<validation_error_message>"
+  "message": "Wrong Email format || Password is required"
 }
 ```
 
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -86,7 +86,7 @@ _Response (400 - Validation Error)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -135,7 +135,7 @@ _Response (200)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -180,21 +180,21 @@ _Response (200)_
 _Response (403 - Forbidden Access)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Forbidden Access"
 }
 ```
 
 _Response (404 - Error Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Error Not Found"
 }
 ```
 
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -237,7 +237,7 @@ _Response (201 - Created)_
 _Response (400 - Validation Error)_
 ```
 {
-  "validation error": "<returned validation error>"
+  "message": "Title is required || Description is required || Status is required || Wrong Date Format"
 }
 ```
 
@@ -245,7 +245,7 @@ _Response (400 - Validation Error)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -293,14 +293,14 @@ _Response (200)_
 _Response (400 - Validation Error)_
 ```
 {
-  "validation error": "<returned validation error>"
+  "message": "message": "Title is required || Description is required || Status is required || Wrong Date Format"
 }
 ```
 
 _Response (404 - Error Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Error Not Found"
 }
 ```
 
@@ -308,7 +308,7 @@ _Response (404 - Error Not Found)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -337,14 +337,14 @@ not needed
 
 _Response (200)_
 ```
-Successfully delete
+Successfully deleted
 ```
 
 
 _Response (404 - Error Not Found)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Error Not Found"
 }
 ```
 
@@ -352,7 +352,7 @@ _Response (404 - Error Not Found)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 ---
@@ -383,7 +383,7 @@ _Response (200)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
 
@@ -426,6 +426,6 @@ _Response (200)_
 _Response (500 - Internal Server Error)_
 ```
 {
-  "message": "<returned error message>"
+  "message": "Internal Server Error"
 }
 ```
