@@ -58,10 +58,10 @@ table, th, td {
   
   tr:nth-child(odd) { background-color: #c0c0c0; }
   
-
+/* 
 
   p {
     font-size: 3rem;
     line-height: 3;
   }
-  
+   */

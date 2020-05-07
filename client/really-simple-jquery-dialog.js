@@ -148,7 +148,6 @@
 
 	$.fn.simpleAdd = function(options) {
 		if (typeof options === 'undefined') options = {};
-		console.log(options)
 
         var defaultOptions = {
 			username: options.username,

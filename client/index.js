@@ -4,23 +4,29 @@ $(document).ready(function(){
 
     $(document).ready(()=>{
         $('section').hide()
-        
+        $('#page-login').hide()
+        $('#page-clock').hide()
 
         if(!localStorage.access_token){
             $('.errorMsg').empty()
+            $('#page-registrasi').hide()
             $('#page-google-sign').show()
             $('#page-login').show()
-            $('#login').show()
             $('#login-status').text("belum login")
-            $('#logout').hide()
+            $('#logout').hide() 
+            $('#my-info').hide()
           } else {
             $('#login-status').text("sudah login")
+            $('#page-registrasi').hide()
+            $('#page-google-sign').hide()
+            $('page-login').hide() 
             $('#logout').show()
             $('#page-clock').show()
             $('#page-todos').show()
             $('#page-findAll').show()
             $('#page-vue').show()
-            $('#page-google-sign').hide()
+           
+            $('#registrasi').hide()
             findAllTodos()
             thisData()
             getQuotes()
@@ -28,8 +34,11 @@ $(document).ready(function(){
 
         $('#credential').submit(function(e){
             e.preventDefault()
+            console.log('ini udah di submit')
             log_in()
             getQuotes()
+            $('#registrasi').hide()
+            $('#page-clock').show()
         })
 
         $('#search-box').submit(function(e){
@@ -45,11 +54,17 @@ $(document).ready(function(){
         })
 
         $('#logout').click(function(e){
+            console.log('logout')
             e.preventDefault()
-            signOut()
             localStorage.clear();
-
-            
+            signOut()
+            $('.errorMsg').empty()
+            $('#page-google-sign').show()
+            $('#page-login').show()
+            $('#login').show()
+            $('#login-status').text("belum login")
+            $('#logout').hide()
+            $('section').hide()
         })
 
         $('#adding').click(function(){
@@ -62,8 +77,34 @@ $(document).ready(function(){
 
         })
         
+        $('#registrasi').on('click',function(e){
+            e.preventDefault()
+            $('#page-registrasi').show()
+            $('#page-login').hide()
+            $('#registrasi').hide()
+            $('#page-google-sign').hide()
+        })
 
+        $('#back-to-login').on('click',function(e){
+            e.preventDefault()
+            $('#page-registrasi').hide()
+            $('#page-login').show()
+            $('#registrasi').show()
+            $('#page-google-sign').show()
+        })
+
+        $('credentialregistrasi').submit(function(e){
+            e.preventDefault()
+            console.log('test')
+            registrasi()
+        })
     })
+
+    function registrasi(){
+        console.log('asd register')
+    }
+
+
 
 
     function log_in(){
@@ -119,7 +160,6 @@ $(document).ready(function(){
             headers: { access_token: localStorage.getItem('access_token')}
         })
         .done(function(res){
-            console.log(res)
             const elFindById = $('#by-id')
             let dataFindById = `
             <tr>
@@ -182,7 +222,6 @@ $(document).ready(function(){
             headers: { access_token: localStorage.getItem('access_token')}
         })
         .done(function(res){
-            console.log(res)
             const elFindAll = $('#findAll')
             let dataFindAll = `
             <tr>
@@ -299,6 +338,7 @@ $(document).ready(function(){
         $('#delete-confirmation').simpleConfirm({
             message : `${$(this).attr('data-id')}`,
             success : function(answer){
+                console.log(answer)
                 $.ajax({
                     type: 'DELETE',
                     url: 'http://localhost:3000/todos/'
@@ -307,6 +347,7 @@ $(document).ready(function(){
                     headers : { access_token: localStorage.getItem('access_token')}
                 })
                 .done(function(res){
+                    $(".simple-dialog-content").remove()
                     findAllTodos()
                 })
                 .fail(function(err){
@@ -339,6 +380,7 @@ $(document).ready(function(){
                     data : result
                 })
                 .done(function(res){
+                    $(".simple-dialog-content").remove()
                     findAllTodos()
                     $('#page-popUp').hide()
                 })
@@ -362,7 +404,6 @@ $(document).ready(function(){
             headers: { access_token: localStorage.getItem('access_token')},
         })
         .done(function(res){
-           
             addButton(res)
         })
         .fail(function(err){
@@ -411,6 +452,7 @@ $(document).ready(function(){
                 data : result
             })
             .done(function(res){
+                $(".simple-dialog-content").remove()
                 findAllTodos()
             })
             .fail(function(err){

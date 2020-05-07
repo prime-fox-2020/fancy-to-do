@@ -20,15 +20,16 @@
             <title>Home</title>
         </head>
 
-    
 
     <body>
         <p1 id = 'login-status'> loginstatus </p1>
         <button id = 'logout'> Logout</button>
+    
         <div id = 'my-info'>
             <p1 id = my-info-table></p1>
         </div>
-        <section id = 'page-clock'>
+        
+        <div id = 'page-clock'>
             <div id="clock_hou" class="clock_container">
                 <div class="lbl">Jakarta GMT + 7 </div>
                 <div class="clockHolder">
@@ -38,21 +39,54 @@
                 <img class="clock" src="./images/1FACE.png" /> </div>
                 <div class="digital"> <span class="hr"></span><span class="minute"></span> <span class="period"></span> </div>
             </div>
-        </section>
+        </div>
         <br>
 
-        <section id = 'page-login'>
+        <div id = 'page-login'>
             <div class = 'page-login'>
                 <h1>Halaman Login</h1>
                 <form id = credential >
                 <label for =''> Username </label>
                 <input type = 'text' id = 'username'>
+                <br>
                 <label for =''> Password </label>
                 <input type = 'password' id = 'password'>
                 <input type = 'submit'>
                 </form>
             </div>
-        </section>
+            <br>
+        </div>
+
+        
+        <button id = 'registrasi'> registrasi</button>
+
+        <div id= 'page-registrasi'>
+            <div>
+                <h1>Halaman Registrasi</h1>
+                <form id = 'credentialregistrasi' >
+                    <label for = ''> First Name </label>
+                    <input type = 'text' id = 'fn-registrasi'>
+                    <br>
+                    <label for = ''> Last Name </label>
+                    <input type = 'text' id = 'ln-registrasi'>
+                    <br>
+                    <label for = ''> Email </label>
+                    <input type = 'text' id = 'email-registrasi'>
+                    <br>
+                    <label for =''> Username </label>
+                    <input type = 'text' id = 'username-registrasi'>
+                    <br>
+                    <label for =''> Password </label>
+                    <input type = 'text' id = 'password-registrasi'>
+
+                <input type = 'submit'>
+                </form>
+            </div>
+            <div>
+                <br>
+               <button id='back-to-login'>kembali ke login</button>
+            </div>
+        </div>
 
 
         <section id = page-vue>
@@ -60,6 +94,7 @@
             </div>
     
         </section>
+    
 
         <section id = 'page-todos'>
             <div class = 'page-todos'>
@@ -99,16 +134,9 @@
             </div>
         </section>
 
-        <section id = page-popUp >
-            <div id = 'delete-confirmation'>  </div>
-
-            <div id = 'edit-pop-up'> </div>
-
-            <div id = 'adding-pop-up'></div>
-        </section>
-
-        <br>
-        <section id = page-google-sign>
+        
+        <div id = page-google-sign>
+            <br>
         <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
         <script	
         src="https://code.jquery.com/jquery-3.5.0.min.js" 
@@ -129,7 +157,7 @@
                     });
                 }
         </script>
-        </section>
+        </div>
 
 
         <script			  
@@ -145,14 +173,12 @@
     </body>
 
 
+        <section id = page-popUp >
+            <div id = 'delete-confirmation'>  </div>
 
+            <div id = 'edit-pop-up'> </div>
 
-
-
-
-
-
-
-
+            <div id = 'adding-pop-up'></div>
+        </section>
 
 </html>
