@@ -29,14 +29,12 @@ class Controller{
         body.password = body.password
 
     let status = true
-    User.findAll({})
+    User.findOne({where:{username : username}})
         .then(data=>{
-            for(var i = 0 ; i < data.length ; i ++){
-                if(data[i].username == body.username){
-                    status=false
-                }else if (data[i].email == body.email){
-                    status=false
-                }
+            if(!data){
+                status = true
+            }else{
+                status = false
             }
             if (status == false){
                 throw ({name:'registered',msg: 'email / username used'})
@@ -69,6 +67,7 @@ class Controller{
             return data
         })
         .then(data=>{
+            console.log(data)
             const secretKey= "KeyBoardWarrior"
             const access_token = jwt.sign({
                 id : data.id, 

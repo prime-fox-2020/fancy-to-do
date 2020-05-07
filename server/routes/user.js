@@ -12,9 +12,6 @@ route.get('/info',user.getInfo)
 
 
 
-sanjaya
-
-
 
 
 

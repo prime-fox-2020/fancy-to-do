@@ -17,9 +17,7 @@ function authentication (req,res,next){
 }
 
 function authorization (req,res,next){
-    const access_token = req.headers.access_token
-    const decoded = jwt.verify(access_token,secretKey)
-    const usernameCheck = decoded.username.toLowerCase().slice(0,5)
+    const usernameCheck = req.userData.username.toLowerCase().slice(0,5)
     try{
         if(usernameCheck!=='admin'){
             res.status(501).json('un - authorized only for admin')
