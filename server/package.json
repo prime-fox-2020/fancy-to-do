@@ -1,0 +1,35 @@
+{
+  "name": "fancy-to-do",
+  "version": "1.0.0",
+  "description": "Create fancy to do app, using express, jquery, ajax",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "set NODE_ENV=development&&nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/susilo-hartomo/fancy-to-do.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/susilo-hartomo/fancy-to-do/issues"
+  },
+  "homepage": "https://github.com/susilo-hartomo/fancy-to-do#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "google-auth-library": "^6.0.0",
+    "googleapis": "^39.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.0.3",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

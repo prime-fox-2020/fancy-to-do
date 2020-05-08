@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Title</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="google-signin-client_id"
+		content="403089794061-5mjpk3aso6jjti6ho7rvuqaad96pcfht.apps.googleusercontent.com">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<!-- Ajax Jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Font Style -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+	<!-- navbar -->
+	<nav id="navbar" class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: #0a324e">
+		<div class="container">
+			<a class="navbar-brand" href="#">FncyTD</a>
+			<div class="collapse navbar-collapse">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+						<a id="homeBtn" class="nav-link">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="holidaysListBtn">Holidays</a>
+					</li>
+				</ul>
+				<div class="isLogout">
+					<button id="btnLoginForm" class="btn btn-info my-2 my-sm-0 m-2">Login</button>
+					<button id="btnRegisterForm" class="btn btn-outline-info my-2 my-sm-0">Register</button>
+				</div>
+				<div class="isLogin">
+					<button id="btnLogout" class="btn btn-outline-info my-2 my-sm-0">Logout</button>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- isLogout -->
+	<div class="isLogout">
+		<!-- jumbotron -->
+		<div class="jumbotron jumbotron-fluid mt-4" style="height: max-content;">
+			<div class="container">
+				<div id="alertLogin"></div>
+				<h1>Welcome </h1>
+				<h1 class="display-3">Fancy Todo App</h1>
+				<p class="lead">Creat your todo list</p>
+				<hr class="my-2">
+				<p>More info</p>
+				<p class="lead">
+					<a class="btn btn-lg text-white" style="background-color: #0a324e">Contact Us</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Form Login -->
+	<section class="loginForm mt-md-5">
+		<div class="row justify-content-center">
+			<div class="col-8 col-md-4 card p-3 mt-2">
+				<h5>Welcome</h5>
+				<h2 id="titleForm" style="font-family: Poppins;">Fancy To Do App</h2>
+				<p><small class="text-secondary"> Login now to create to do list</small></p>
+				<hr class="mt-0">
+				<form class="mt-2">
+					<div class="form-group">
+						<label for="">Email</label>
+						<input type="email" class="form-control" id="inputEmailLogin" aria-describedby="emailHelpId"
+							placeholder="example@mail">
+					</div>
+					<div class="form-group">
+						<label for="">Password</label>
+						<input type="password" class="form-control" id="inputPasswordLogin" placeholder="*****"
+							autocomplete="current-email">
+					</div>
+					<div class="mt-3">
+						<button id="btnLogin" type="submit" class="btn btn-primary">Login</button>
+						<button id="btnLoginClose" type="button" class="btn btn-outline-secondary">Close</button>
+					</div>
+				</form>
+				<br>
+				<hr>
+				<div class="align-content-center">
+					<p>Sign in with</p>
+					<div id="my-signin2" class="g-signin2" data-onsuccess="onSignIn" onclick="onSingIn()">Google</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Form Register -->
+	<section class="registerForm" style="margin-top: 80px;">
+		<div class="row justify-content-center">
+			<div class="col-8 col-md-4 card p-3 mt-2">
+				<h2 id="titleForm" style="font-family: Poppins;">Create Account</h2>
+				<p><small class="text-secondary">Insert your biodata</small></p>
+				<hr class="mt-0">
+				<div class="alertRegister"></div>
+				<form class="mt-2">
+					<div class="form-group" id="username">
+						<label for="inputName" class="col-sm-1-12 col-form-label">Username</label>
+						<div class="col-sm-1-12">
+							<input type="text" class="form-control" id="inputNameReg" placeholder="Jhon Doe">
+						</div>
+					</div>
+					<div class="form-group" id="email">
+						<label for="">Email</label>
+						<input type="email" class="form-control" id="inputEmailReg" aria-describedby="emailHelpId"
+							placeholder="example@mail">
+					</div>
+					<div class="form-group" id="password">
+						<label for="">Password</label>
+						<input type="password" class="form-control" id="inputPasswordReg" placeholder="*****"
+							autocomplete="current-username">
+					</div>
+					<div class="mt-3">
+						<button id="btnRegister" class="btn btn-primary">Register Now</button>
+						<button id="btnCancelRegsiter" class="btn btn-outline-secondary">Cancel</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+
+	<!-- Todos List -->
+	<div class="isLogin mt-5 list">
+		<div class="container">
+			<div class="d-inline m-3">
+				<h4 id="usernameLogin"></h4>
+				<div class="display-2">List Todos</div>
+				<button name="" id="btnAddTodoForm" class="btn btn-primary m-3 float-right">Add Todo</button>
+			</div>
+			<div id="alertTodo"></div>
+			<table class="table table-striped table-invers">
+				<thead class="thead-inverse">
+					<tr>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Stasus</th>
+						<th>Due Date</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody">
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Form add Todo -->
+	<section class="addTodoForm" style="margin-top: 80px;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="row justify-content-center my-4">
+					<div class="col-10 card p-3">
+						<h2 style="font-family: Poppins;">Add To Do</h2>
+						<p><small class="text-secondary"> Create your to do</small></p>
+						<hr class="mt-0">
+						<form class="mt-2">
+							<div class="form-group">
+								<label for="inputName" class="col-sm-1-12 col-form-label">Title</label>
+								<input type="text" class="form-control" id="inputTitle" placeholder="Belajar Coding"
+									autofocus>
+							</div>
+							<div class="form-group">
+								<label for="">Description</label>
+								<input type="email" class="form-control" id="inputDescription"
+									placeholder="Belajar Front end dengan Jquey">
+							</div>
+							<div class="form-check form-check-inline">
+								<div class="form-group">
+									<label for="">Status</label>
+									<div id="status">
+										<label class="form-check-label mr-3">
+											<input class="form-check-input" type="radio" name="inputStatus"
+												value="progress">
+											On
+											Progress
+										</label>
+										<label class="form-check-label">
+											<input class="form-check-input" type="radio" name="inputStatus"
+												value="done"> Done
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="">Due date</label>
+								<input type="date" id="inputDueDate" class="form-control">
+							</div>
+							<div class="mt-3">
+								<button id="btnAddTodo" class="btn btn-primary" data-dismiss="modal">Create
+									Todo</button>
+								<button id="btnCancelAddTodo" class="btn btn-outline-secondary"
+									data-dismiss="modal">Cancel</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Hollidays List -->
+	<section id="listHolidays" class="isLogout mt-5">
+		<div class="container">
+			<div class="d-inline m-3">
+				<div class="display-2">List Holidays</div>
+				<div class="row mt-3">
+					<div class="col-2 ">
+						<div class="form-group">
+							<label for="">Country</label>
+							<select id="country" class="form-control form-control-sm">
+								<option value="ID" name="country">Indonesia</option>
+								<option value="US" name="country">America</option>
+								<option value=""></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-2 ">
+						<div class="form-group">
+							<label for="">Year</label>
+							<select class="form-control form-control-sm" id="year">
+								<option>2019</option>
+								<option>2020</option>
+								<option>2021</option>
+								<option>2022</option>
+								<option>2023</option>
+								<option>2024</option>
+								<option>2025</option>
+							</select>
+						</div>
+					</div>
+					<div class="d-flex align-items-end m-3">
+						<button id="searcHolidaysBtn" class="btn btn-primary"
+							style="height: min-content;">Search</button>
+					</div>
+				</div>
+			</div>
+			<table class="table table-striped table-invers">
+				<thead class="thead-inverse">
+					<tr>
+						<div class="col-2">
+							<th >Name</th>
+						</div>
+						<div class="col-6">
+							<th >Description</th>
+						</div>
+						<div class="col-2">
+							<th >Date</th>
+						</div>
+					</tr>
+				</thead>
+				<tbody id="tableBodyHolidays">
+				</tbody>
+			</table>
+		</div>
+	</section>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.0.js"
+		integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+	<!-- load jquery -->
+	<script src="index.js"></script>
+	<!-- google api -->
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+</body>
+
+</html>
