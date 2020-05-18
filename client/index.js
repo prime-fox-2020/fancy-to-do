@@ -172,7 +172,7 @@ function createTodo(e){
             </tr>
             `)
             $("#addTodo").hide()
-            location.reload(true)
+            fetchTodo()
     })
     .fail(function(err){
         console.log(err.responseJSON)
@@ -217,7 +217,7 @@ function fetchTodo(){
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="deleteTodo(${element.id})">Understood</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteTodo(${element.id})">Understood</button>
                     </div>
                     </div>
                 </div>
@@ -255,7 +255,7 @@ function deleteTodo(id){
         }
     })
     .done(function(response){
-        location.reload(true)
+        fetchTodo()
         console.log(response,'delete')
     })
     .fail(function(err){
@@ -280,7 +280,7 @@ function editTodo(id){
         $("#status-edit").val(response.status)
         $("#duedate-edit").val(response.due_date)
         $("#addTodo").hide()
-        $("#dashboardPage").hide()
+        $("#dashboardPage").show()
         console.log(response,'edit')
     })
     .fail(function(err){
@@ -311,7 +311,7 @@ function change(e){
     })
     .done(function(response){
         $("#editTodo").hide()
-        location.reload(true)
+        fetchTodo()
         console.log(response)
         
     })
