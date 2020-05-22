@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         isDate: {
           args: true,
           msg: "Tanggal tidak valid!!! contoh yang benar (1999-01-01)"
+        },
+        isAfter: {
+          args: String(new Date()),
+          msg: `Minimal tanggal setelah hari ini`
         }
       }
     },
