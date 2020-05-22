@@ -16,22 +16,30 @@ class UserController {
     }
 
     static register(req, res, next) {
-        let queryBody = req.body
-        let userObj = {
-            "name": queryBody.name,
-            "username": queryBody.username,
-            "email": queryBody.email,
-            "password": queryBody.password
-        }
-        User.create(userObj)
+        let queryBody = req.body;
+        let newUserEmail = queryBody.email;
+        User.findOne({where: {"email": newUserEmail}})
         .then(data => {
-            res.status(200).json(data)
+            if (data) {
+                throw {
+                    msg: `Maaf user dengan email ${data.email} sudah ada`,
+                    code: 500
+                }
+            } else if (!data) {
+                let userObj = {
+                    "name": queryBody.name,
+                    "username": queryBody.username,
+                    "email": queryBody.email,
+                    "password": queryBody.password
+                }
+                return User.create(userObj)
+            }
+        })
+        .then(dataNewUser => {
+            res.status(200).json(dataNewUser)
         })
         .catch(err => {
             next(err)
-            // res.status(500).json({
-            //     errors : err
-            // })
         })
     }
 

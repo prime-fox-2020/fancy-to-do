@@ -129,7 +129,6 @@ $(document).ready(function() {
     
     $('#login-nav').click(function(event) {
         event.preventDefault()
-        console.log('login di nav bar ter click');
         $('#login-page').show()
         $('#register-page').hide()
         $('#dashboard').hide()
@@ -190,8 +189,13 @@ $(document).ready(function() {
             $('#login-page').show() 
         })
         .fail(err => {
-            $('#register-error').show() 
-            $('#register-error').text(err.responseJSON.msg) 
+            $('#register-error').show()
+            if (err.responseJSON.msg) {
+                $('#register-error').text(err.responseJSON.msg) 
+            } else if (err.responseJSON.err) {
+                $('#register-error').text(err.responseJSON.err) 
+            }
+            
         })
         .always(function() {
             $('#name-register').val()
@@ -293,19 +297,22 @@ $(document).ready(function() {
                     </tr>`)
             getAllTodos()
             $('#dashboard').show()
-            $('#add-page').hide() 
-            $('#pesan').text(data.message)
-        })
-        .fail(err => {
-            console.log(err, 'tidak dapat menambahkan todo');
-            $('#add-error').text(err.responseJSON.msg)
-            
-        })
-        .always(function() {
+            $('#add-page').hide()
             $('#title-add').val('')
             $('#description-add').val('')
             $('#status-add').val('')
-            $('#due-date-add').val('')
+            $('#due-date-add').val('') 
+            $('#pesan').text(`Sukses menambahkan data dengan title: ${data.title}`)
+        })
+        .fail(err => {
+            $('#add-error').show()
+            $('#add-error').text(err.responseJSON.msg)
+        })
+        .always(function() {
+            $('#title-add').val()
+            $('#description-add').val()
+            $('#status-add').val()
+            $('#due-date-add').val()
         })
     }
 
@@ -362,7 +369,6 @@ $(document).ready(function() {
             $('#due-date-edit').val(data.due_date)
         })
         .fail(err => {
-            console.log(err, `tidak dapat mencari todo dengan id ${id}`);
             $('#edit-error').text(err.responseJSON.msg)
             
         })
@@ -404,7 +410,6 @@ $(document).ready(function() {
             getAllTodos()
         })
         .fail(err => {
-            console.log(err, 'tidak dapat meng edit todo');
             $('#edit-error').text(err.responseJSON.msg)            
         })
         .always(function() {
@@ -433,12 +438,12 @@ $(document).ready(function() {
             }
         })
         .done(data => {
+            $('#pesan').show()
             $('#pesan').text(data.message)
             getAllTodos()
             $("#dashboard").show()
         })
         .fail(err => {
-            console.log(err, 'tidak dapat mendelete todo');
             $('#edit-error').text(err.responseJSON.msg)
             
         })
@@ -448,7 +453,6 @@ $(document).ready(function() {
 
     $('#holidays-button').click(function(event) {
         event.preventDefault(event)
-        console.log('masuk holidays calendar');
         showCalendarHolidays()
     })
 
@@ -464,7 +468,6 @@ $(document).ready(function() {
         })
         .done(data => { 
             data = data.response.response.holidays
-            // console.log(data);            
             $('#holidays-list').empty()
             for (let i in data) {
                 $("#holidays-list").append(`
@@ -483,7 +486,7 @@ $(document).ready(function() {
             
         })
         .always(function() {
-            console.log('Memproses data calendar');
+            // console.log('Memproses data calendar');
         })
     }
 });

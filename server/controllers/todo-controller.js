@@ -5,14 +5,14 @@ class TodoController {
         let userId = req.userDataId        
         Todo.findAll({where: {"UserId": userId}, order: [["id", "DESC"]] })
         .then(data => {
-            // if (userId) {
-            res.status(200).json(data)
-            // } else {
-            //     throw {
-            //         msg: "Tolong login dulu",
-            //         code: 401
-            //     }
-            // }
+            if (userId) {
+                res.status(200).json(data)
+            } else {
+                throw {
+                    msg: "Tolong login dulu",
+                    code: 401
+                }
+            }
         })
         .catch(err => {
             next(err)
@@ -29,7 +29,7 @@ class TodoController {
             UserId: userId
         }        
         Todo.create(todoObj)
-        .then(data => {
+        .then(data => {            
             res.status(200).json(data)
         })
         .catch(err => {
@@ -61,7 +61,7 @@ class TodoController {
         Todo.update(updatedTodo, {where: {id: id}})
         .then(data => {
             res.status(201).json({
-                message: "data sukses di update",
+                message: `Sukses edit Todo dengan title: ${req.body.title}`,
                 todo: updatedTodo
             })
         })
@@ -75,7 +75,7 @@ class TodoController {
         Todo.destroy({where: {id : id}})
         .then(data => {
             if (data == 1) {
-                res.status(200).json({message: "data sukses di delete"})
+                res.status(200).json({message: "Sukses menghapus todo"})
             } else {
                 res.status(404).json({message: "data tidak ada"})
             }
