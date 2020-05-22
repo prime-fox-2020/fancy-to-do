@@ -9,7 +9,7 @@ class CalendarController {
                 'year': 2020
             }
         })
-        .then(response => {
+        .then(response => {            
             res.status(200).json({
                 response: response.data})
         })

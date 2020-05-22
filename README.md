@@ -356,3 +356,40 @@ Response (400 - Bad Request)
 {
   "message": "<returned error message>"
 }
+
+
+GET /holidays
+Get all 3rd party holidays calendar
+
+Request Header
+
+{
+  "access_token": "<your access token>", 
+}
+
+Request Params 
+
+{
+  'api_key': '<your api key>',
+  'country': '<country id>',
+  'year': <year in number>
+}
+
+Request Body
+
+not needed
+Response (200)
+
+[
+  {
+    "name": "<asset name of holidays>",
+    "description": "<asset holidays description>",
+    "country": "<asset country name>",
+    "date": "<asset date of holiday>",
+  }
+]
+Response (400 - Bad Request)
+
+{
+  "message": "<returned error message>"
+}
