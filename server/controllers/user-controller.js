@@ -88,19 +88,17 @@ class UserController {
     }
 
     static googleLogin(req, res, next) {
-        let google_token = req.headers.google_token;
-        console.log(google_token);
-        
+        let google_token = req.headers.google_token;        
         let email = null
         let newUser = false;
         googleVerification(google_token)
         .then(payload => {
             email = payload.email;
-            // console.log(email);
+            console.log(email);
             return User.findOne({where: {email}})
         })
         .then(user => {
-            // console.log(user);
+            console.log(user);
             if (user) {
                 return user;
             } else if (!user) {

@@ -4,9 +4,7 @@ const {generatePassword} = require('../helpers/bcrypt')
 module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
-
   class User extends Model {}
-
   User.init({
     name: {
       type: DataTypes.STRING,

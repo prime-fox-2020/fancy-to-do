@@ -42,7 +42,7 @@
             <input type="password" name="password" id="password-register"><br><br>
             <p>
                 <label>
-                    <input type="checkbox" class="filled-in" onclick="myFunction()"/>
+                    <input type="checkbox" class="filled-in" onclick="myRegisterFunction()"/>
                     <span>Show Password</span>
                 </label>
             </p>
@@ -68,20 +68,20 @@
             <input type="password" name="password" id="password-login"><br><br>
             <p>
                 <label>
-                    <input type="checkbox" class="filled-in" onclick="myFunction()"/>
+                    <input type="checkbox" class="filled-in" onclick="myLoginFunction()"/>
                     <span>Show Password</span>
                 </label>
             </p>
     
             <button class="btn waves-effect waves-light" type="submit" value="login">Login</button>
             <button id="cancel-login-form" class="btn waves-effect waves-light"><a style="color: white;" href="">Cancel</a></button><br><br>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div class="g-signin2" data-onsuccess="onSignIn" onclick="reloadPage();"></div>
         </form>
     </div>
 
     <!-- Halaman Todo List sesuai dengan yang sedang login -->
     <div class="container" id="dashboard">
-        <h4 id="welcome">Hai <span id="username"></span>, Welcome to your todo list</h4><br>
+        <h4 id="welcome">Hai <span id="user_name"></span>, Welcome to your todo list</h4><br>
         <button id="add-todos-button" class="waves-effect waves-light btn"><a href="" style="color: white;">Add new todo</a></button>
         <p id="pesan" style="color: rgb(4, 0, 255);"></p>
         <table class="centered">

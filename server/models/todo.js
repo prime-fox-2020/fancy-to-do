@@ -3,10 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Sequelize = sequelize.Sequelize
   const Model = Sequelize.Model
   
-  class Todo extends Model {
-
-  }
-
+  class Todo extends Model {}
   Todo.init({
     title: {
       type: DataTypes.STRING,

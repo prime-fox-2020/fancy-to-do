@@ -5,14 +5,14 @@ class TodoController {
         let userId = req.userDataId        
         Todo.findAll({where: {"UserId": userId}, order: [["id", "DESC"]] })
         .then(data => {
-            if (userId) {
-                res.status(200).json(data)
-            } else {
-                throw {
-                    msg: "Tolong login dulu",
-                    code: 401
-                }
-            }
+            // if (userId) {
+            res.status(200).json(data)
+            // } else {
+            //     throw {
+            //         msg: "Tolong login dulu",
+            //         code: 401
+            //     }
+            // }
         })
         .catch(err => {
             next(err)

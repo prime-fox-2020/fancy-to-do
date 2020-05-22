@@ -32,7 +32,7 @@ function errorHandler (err, req, res, next) {
                 }) 
             } else if (err.errors[i].message == "Status tidak boleh kosong") {
                 res.status(400).json({
-                    msg: "Status tidak boleh kosong"
+                    msg: "Status tidak boleh kosong" // DISINI 
                 }) 
             } else if (err.errors[i].message == "Due date tidak boleh kosong") {
                 res.status(400).json({
@@ -48,11 +48,7 @@ function errorHandler (err, req, res, next) {
         res.status(err.code || 500).json({
           err: err.msg
         })
-    } 
-    
-    
-    
-    
+    }    
 }
 
 module.exports = errorHandler
