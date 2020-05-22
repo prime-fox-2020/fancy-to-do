@@ -1,8 +1,0 @@
-------------------------- FANCY TODO --------------------------------
-
-Yang harus dibenahi dari aplikasi Fancy Todo ini adalah.
-
-1. Oauth login error jika user sudah ada di database.
-2. due_date validasi tidak boleh lampau tidak ada.
-3. Validasi email duplicate tidak ada.
-
