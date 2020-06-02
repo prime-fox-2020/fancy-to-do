@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="651998954163-8m75afa5ha2lt11pqu6j11uk2e53i8lg.apps.googleusercontent.com">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>fancy todo app</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper brown darken-1">
+            <ul>
+                <li id="todos-nav"><a style="text-decoration: none;">Todos</a></li>
+                <li id="register-nav"><a style="text-decoration: none;">Registrasi</a></li>
+                <li id="login-nav"><a style="text-decoration: none;">Login</a></li>
+                <li id="logout"><a style="text-decoration: none;" href="">Log-out</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Fancy Todo App</h1>
+    </div>
+    <!-- Halaman Registrasi -->
+    <div class="container" id="register-page">
+        <!-- Register form -->
+        <form id="form-register" action="" method="">
+            <h4>Registrasi</h4>
+            <p id="register-error" style="color: red;"></p>
+            <label>Nama:</labe><br>
+            <input type="text" name="name" id="name-register"><br><br>
+    
+            <label>Username:</labe><br>
+            <input type="text" name="username" id="username-register"><br><br>
+            
+            <label>Email:</labe><br>
+            <input type="text" name="email" id="email-register"><br><br>
+    
+            <label>Password:</labe><br>
+            <input type="password" name="password" id="password-register"><br><br>
+            <p>
+                <label>
+                    <input type="checkbox" class="filled-in" onclick="myRegisterFunction()"/>
+                    <span>Show Password</span>
+                </label>
+            </p>
+    
+            <button class="btn waves-effect waves-light" type="submit" value="register">Daftar</button>
+            <button id="cancel-register-form" class="btn waves-effect waves-light"><a style="color: white;" href="">Cancel</a></button>
+        </form>
+    </div>
+    
+    <!-- Halaman Login -->
+    <div class="container" id="login-page">
+        <!-- Login form -->
+        <form id="form-login" action="" method="">
+            <h4>Login</h4>
+            <p id="login-error" style="color: red;"></p>
+            <label>Username:</labe><br>
+            <input type="text" name="username" id="username-login"><br><br>
+            
+            <label>Email:</labe><br>
+            <input type="text" name="email" id="email-login"><br><br>
+    
+            <label>Password:</labe><br>
+            <input type="password" name="password" id="password-login"><br><br>
+            <p>
+                <label>
+                    <input type="checkbox" class="filled-in" onclick="myLoginFunction()"/>
+                    <span>Show Password</span>
+                </label>
+            </p>
+    
+            <button class="btn waves-effect waves-light" type="submit" value="login">Login</button>
+            <button id="cancel-login-form" class="btn waves-effect waves-light"><a style="color: white;" href="">Cancel</a></button><br><br>
+            <div class="g-signin2" data-onsuccess="onSignIn" onclick="reloadPage();"></div>
+        </form>
+    </div>
+
+    <!-- Halaman Todo List sesuai dengan yang sedang login -->
+    <div class="container" id="dashboard">
+        <h4 id="welcome">Hai <span id="user_name"></span>, Welcome to your todo list</h4><br>
+        <button id="add-todos-button" class="waves-effect waves-light btn"><a href="" style="color: white;">Add new todo</a></button>
+        <p id="pesan" style="color: rgb(4, 0, 255);"></p>
+        <table class="centered">
+            <thead>
+                <tr>
+                    <th>TODO</th>
+                    <th>DESCRIPTION</th>
+                    <th>STATUS</th>
+                    <th>DUE DATE</th>
+                    <th colspan="2">ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody id="todo-list">
+            </tbody>
+
+        </table>
+
+        <button class="btn waves-effect waves-light" id="holidays-button"><a style="color: white;" href="">Indonesia holidays Calendar</a></button>
+    </div>
+
+    <!-- Halaman Calendar Holidays -->
+    <div class="container" id="calendar-page">
+        <h4 id="welcome">Indonesia Holidays Calendar</h4>
+        <table class="centered">
+            <thead>
+                <tr>
+                    <th>NAME</th>
+                    <th>DESCRIPTION</th>
+                    <th>DATE</th>
+                </tr>
+            </thead>
+            <tbody id="holidays-list">
+            </tbody>
+        </table>
+        <button id="back-to-dashboard" class="btn waves-effect waves-light"><a href="" style="text-decoration: none; color: white;">Back to todo list</a></button>
+    </div>
+
+    <!-- Halaman Add new Todos -->
+    <div class="container" id="add-page">
+        <!-- Login form -->
+        <form id="form-add" action="" method="">
+            <h4>Add New Todo</h4>
+            <p id="add-error" style="color: red;"></p>
+            <label>Title:</labe><br>
+            <input type="text" name="title" id="title-add"><br><br>
+            
+            <label>Description:</labe><br>
+            <input type="text" name="description" id="description-add"><br><br>
+    
+            <label>Status:</labe><br>
+            <input type="text" name="status" id="status-add"><br><br>
+
+            <label>Due Date:</labe><br>
+            <input type="date" name="due_date" id="due-date-add"><br><br>
+    
+            <button class="btn waves-effect waves-light" type="submit" value="login">Add</button>
+            <button id="cancel-add-form" class="btn waves-effect waves-light"><a href="" style="color: white;">Cancel</a></button>
+        </form>
+    </div>
+
+    <!-- Halaman Edit Todos -->
+    <div class="container" id="edit-page">
+        <!-- Login form -->
+        <form id="form-edit" action="" method="">
+            <h4>Edit Todo</h4>
+            <p id="edit-error" style="color: red;"></p>
+            <label>Title:</labe><br>
+            <input type="text" name="title" id="title-edit"><br><br>
+            
+            <label>Description:</labe><br>
+            <input type="text" name="description" id="description-edit"><br><br>
+    
+            <label>Status:</labe><br>
+            <input type="text" name="status" id="status-edit"><br><br>
+
+            <label>Due Date:</labe><br>
+            <input type="date" name="due_date" id="due-date-edit"><br><br>
+    
+            <button class="btn waves-effect waves-light" type="submit" value="edit">Edit</button>
+            <button id="cancel-edit-form" class="btn waves-effect waves-light"><a style="color: white;" href="">Cancel</a></button>
+        </form>
+    </div>
+
+    <footer class="page-footer brown darken-1">
+        <div class="footer-copyright">
+            <div class="container">
+                <p>© 2020 Fancy Todo Apps, hacktiv8, Agustinus Adam Wijaya</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Goodle Sign-in API -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
