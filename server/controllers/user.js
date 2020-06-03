@@ -33,9 +33,23 @@ class UserController {
     
     static register(req,res){
         let form = req.body
-        User.create({
-            email : form.email,
-            password : form.password,
+        User.findOne({
+            where : {
+                email : form.email
+            }
+        }).then(user=>{
+            if(user){
+                throw {
+                    status : 400,
+                    message : 'Email already used!' 
+                }
+            }else{
+
+                return User.create({
+                    email : form.email,
+                    password : form.password,
+                })
+            }
         })
         .then(user => {
             res.status(201).json(user)
@@ -47,6 +61,42 @@ class UserController {
         })
     }
     
+    static googleSign(req,res){
+        const {OAuth2Client} = require('google-auth-library');
+        const CLIENT_ID = '869274600158-aodgh1d327al48qs247c3tsm1o2l5abp.apps.googleusercontent.com'
+        const client = new OAuth2Client(CLIENT_ID);
+        let EMAIL = null
+        client.verifyIdToken({
+            idToken : req.body.id_token,
+            audience : CLIENT_ID
+        }).then(ticket => {
+            const payload = ticket.getPayload()
+            EMAIL = payload.email
+            return User.findOne({
+                where: {
+                    email : EMAIL
+                }
+            })
+        }).then(user=>{
+            if(user){
+                const access_token = tokenGenerator(user)
+                res.status(200).json({access_token})
+                
+            }else{
+                return User.create({
+                    email : EMAIL,
+                    password : '123'
+                })
+            }
+        }).then(user=>{
+            console.log(user)
+            const access_token = tokenGenerator(user)
+            res.status(200).json({access_token})
+
+        }).catch(err => {
+            console.log(err)
+        })
+    }
 }
 
 

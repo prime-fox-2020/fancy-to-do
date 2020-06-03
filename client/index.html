@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="869274600158-aodgh1d327al48qs247c3tsm1o2l5abp.apps.googleusercontent.com">
     <title>Fancy To Do</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <!-- CSS -->
@@ -69,7 +70,9 @@
                         </form>
                         <span class="badge badge-danger" id="login-error"></span>
                     </div>
-                    <div class="card-footer"></div>
+                    <div class="card-footer">
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </div>
 
                 </div>
                 <div id="form-register" class="card my-3">
@@ -172,7 +175,7 @@
 
         </div>
     </div>
-
+    
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
@@ -181,7 +184,20 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+        <!-- Google  -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+
     <script src="index.js"></script>
+    <script>
+//         function onSignIn(googleUser) {
+//   var profile = googleUser.getBasicProfile();
+//   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+//   console.log('Name: ' + profile.getName());
+//   console.log('Image URL: ' + profile.getImageUrl());
+//   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+// }
+
+    </script>
 </body>
 
 </html>

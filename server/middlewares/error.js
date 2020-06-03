@@ -1,15 +1,17 @@
 module.exports = (err, req, res, next) => {
-    let statusCode = 500
-    let errorMsg = err.name || "Unknown error"
+    let status = err.status || 500
+    let errorMsg = err.errorMsg || "Unknown error"
+    let message = err.message || "Internal Server Error" 
 
     if (err.name == "SequelizeValidationError") {
-        statusCode = 400
+        status = 400
         errorMsg = "Validation_Error"
-        message = "Data must complete!"
+        message = err.message || "Data must complete!"
+        
     } else if (err.name == "Not_Found") {
-        statusCode = 404
+        status = 404
         errorMsg = "Not_Found"
-        message = "Todo not found!"
+        message = "Data not found!"
     }
-    res.status(statusCode).json(errorMsg)
+    res.status(status).json({errorMsg, message})
 }

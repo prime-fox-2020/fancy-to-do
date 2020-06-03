@@ -1,118 +1,133 @@
-const { Todo } = require('../models')
+const { Todo, User } = require('../models')
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey('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')
 
 class ToDoController {
-    static allList(req,res){
+    static allList(req, res) {
         //Menerima dr middleware
         Todo.findAll()
-        .then(todo => {
-            res.status(200).json(todo)
-        })
-        .catch(err => {
-            next(err)
-        })
+            .then(todo => {
+                res.status(200).json(todo)
+            })
+            .catch(err => {
+                next(err)
+            })
     }
-    static list(req,res){
+    static list(req, res) {
         //Menerima dr middleware
         const getId = req.userData.id
         Todo.findAll({
-            where : {
-                UserId : getId
+            include: [
+                User
+            ],
+            where: {
+                UserId: getId
             }
         })
-        .then(todo => {
-            res.status(200).json(todo)
-        })
-        .catch(err => {
-            next(err)
-        })
-    }
-    static find(req,res,next){
-        let getId = req.params.id
-        
-        Todo.findOne({
-            where : {
-                id : getId
-            }
-        })
-        .then(todo => {
-            if(!todo ){
-                next({
-                    name : "Not_Found"
-                })
-            }else{
+            .then(todo => {
                 res.status(200).json(todo)
+            })
+            .catch(err => {
+                nx(err)
+            })
+    }
+    static find(req, res, next) {
+        let getId = req.params.id
+
+        Todo.findOne({
+            where: {
+                id: getId
             }
         })
-        .catch(err => {
-            next(err)
-            res.status(500).json(err)
-        })
+            .then(todo => {
+                if (!todo) {
+                    next({
+                        name: "Not_Found"
+                    })
+                } else {
+                    res.status(200).json(todo)
+                }
+            })
+            .catch(err => {
+                next(err)
+                res.status(500).json(err)
+            })
     }
-    static addTodo(req,res,next){
+    static addTodo(req, res, next) {
         let form = req.body
         let userId = req.userData.id
-        
+
         Todo.create({
-            title : form.title,
-            description : form.description,
-            status : form.status,
-            due_date : form.due_date,
-            UserId : userId
+            title: form.title,
+            description: form.description,
+            status: form.status,
+            due_date: form.due_date,
+            UserId: userId
         })
-        .then(todo => {
-            res.status(201).json(todo)
-        })
-        .catch(err => {
-            next(err)
-        })
+            .then(todo => {
+                // let mailMessage = {
+                //     to : 'vincentguizot@yahoo.com',
+                //     from : 'vincentguizot@yahoo.com',
+                //     subject : todo.title,
+                //     text : todo.description,
+                //     html : '<strong> [] </strong>'
+                // }
+
+                // sgMail.send(mailMessage)
+                
+                res.status(201).json(todo)
+            })
+            .catch(err => {
+                next(err)
+            })
     }
-    static updateTodo(req,res,next){
+    static updateTodo(req, res, next) {
         let getId = req.params.id
         let form = req.body
         Todo.update({
-            title : form.title,
-            description : form.description,
-            status : form.status,
-            due_date : form.due_date
-        },{
-            where : {
-                id : getId
+            title: form.title,
+            description: form.description,
+            status: form.status,
+            due_date: form.due_date
+        }, {
+            where: {
+                id: getId
             }
         })
-        .then(todo => {
-             if(!todo ){
-                next({
-                    name : "Not_Found"
-                })
-            }else{
-                res.status(200).json(todo)
-            }
-            res.status(201).json(todo)
-        })
-        .catch(err => {
-            next(err)
-        })
+            .then(todo => {
+                if (!todo) {
+                    next({
+                        name: "Not_Found"
+                    })
+                } else {
+                    res.status(200).json(todo)
+                }
+                res.status(201).json(todo)
+            })
+            .catch(err => {
+                next(err)
+            })
     }
-    static deleteTodo(req,res,next){
-        let getId =  req.params.id
+    static deleteTodo(req, res, next) {
+        let getId = req.params.id
         Todo.destroy({
-            where : {
-                id : getId
+            where: {
+                id: getId
             }
         })
-        .then(todo =>{
-             if(!todo ){
-                next({
-                    name : "Not_Found"
-                })
-            }else{
+            .then(todo => {
+                if (!todo) {
+                    next({
+                        name: "Not_Found"
+                    })
+                } else {
+                    res.status(200).json(todo)
+                }
                 res.status(200).json(todo)
-            }
-            res.status(200).json(todo)   
-        })
-        .catch(err =>{
-            next(err)
-        })
+            })
+            .catch(err => {
+                next(err)
+            })
     }
 }
 
@@ -130,5 +145,5 @@ module.exports = ToDoController
  * 403 : Forbidden
  * 404 : Not Found
  * 500 : Internal Server Error
- * 
+ *
  */
