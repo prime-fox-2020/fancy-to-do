@@ -1,7 +1,6 @@
 const ToDoRoute = require('express').Router()
 const ToDoController = require('../controllers/todos')
 
-
 const { authentication, authorization } = require('../middlewares/auth')
 
 // ToDoRoute.get('/all',  ToDoController.allList)
