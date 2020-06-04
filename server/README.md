@@ -127,7 +127,7 @@ _Response(400- bad request)_
 ```
 {
     "Error" :  VALIDATION_ERROR
-    "message": "Name required,Description required,Status required,Due date required, Status has to be true or false"
+    "message": "Name required,Description required,Status required,Due date required, Status has to be true or false", "This email is already taken try another, You date has already passed"
 }
 ```
 
