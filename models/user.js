@@ -28,16 +28,6 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: {
           msg: `Please enter the correct email address`
         }
-        // isUnique: function(value, next) {
-        //   User.findAll({
-        //     where: { email: value }
-        //   }).done((data) => {
-        //     if (data){
-        //       throw { messages: [`Email is already in use. Please use another email`], statusCode: 400 }
-        //     }
-        //     next()
-        //   })
-        // }
       }
     },
     password: {

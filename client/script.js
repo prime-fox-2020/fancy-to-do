@@ -121,7 +121,7 @@ function showDashboard () {
                     <td>
                         <a class="btn btn-sm btn-info" data-toggle="modal" data-target="#modal_getTrivia" onclick="getTrivia(${el.id})"><i class="fas fa-info-circle"></i></i></a>
                         <a class="btn btn-sm btn-info" href="" onclick="edit(event, ${el.id})" style="color: black"><i class="far fa-edit"></i></a>
-                        <a class="btn btn-sm btn-warning" href="" onclick=deleteTodo(${el.id})><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-sm btn-warning" href="" onclick="deleteTodo(event, ${el.id})"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
             `)
@@ -232,7 +232,8 @@ function cancelEdit (event) {
 }
 
 // delete process
-function deleteTodo (id) {
+function deleteTodo (event, id) {
+    event.preventDefault()
     $.ajax({
         method: 'DELETE',
         url: base_url + '/todos/' + id,
