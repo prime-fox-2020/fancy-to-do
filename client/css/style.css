@@ -1,0 +1,11 @@
+div.main {
+    padding: 0;
+}
+.header {
+    background-color: #ef5b25;
+    color: white;
+}
+.navbar.bg-light {
+    border: 0;
+    border-bottom: 3px solid #ef5b25;
+}

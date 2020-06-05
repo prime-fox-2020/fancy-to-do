@@ -1,0 +1,37 @@
+{
+  "name": "fancy-to-do",
+  "version": "1.0.0",
+  "description": "Create fancy to do app, using express, jquery, ajax",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CenZo128/fancy-to-do.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CenZo128/fancy-to-do/issues"
+  },
+  "homepage": "https://github.com/CenZo128/fancy-to-do#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^7.1.1",
+    "bcrypt": "^4.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "google-auth-library": "^6.0.0",
+    "googleapis": "^49.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "node-mailjet": "^3.3.1",
+    "nodemailer": "^6.4.8",
+    "pg": "^8.0.3",
+    "sequelize": "^5.21.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
