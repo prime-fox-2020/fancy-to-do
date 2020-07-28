@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="19697038873-v705k9jorulu7h5ucid0uchac6fost2g.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./public/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Paaji+2:wght@500&family=Courgette&family=Fugaz+One&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- navbar -->
+    <div id="navbar">
+      <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <a class="navbar-brand logo">Todo App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navLogIn">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <button class="btn btn-success btn-sm hide-button" id="goto-todo-list">Todo List</button>
+          <button class="btn btn-success btn-sm hide-button" id="goto-calendar">Holidays Info</button>
+          <button id="logout" class="btn btn-success btn-sm my-2 my-sm-0 hide-button" type="submit">Log Out</button>
+
+        </div>
+      </nav>
+    </div>
+    <!-- end of navbar -->
+
+    <!-- login page -->
+    <div id="login" class="element">
+      <form class="form-login">
+        <h2>Login</h2>
+        <div id="messageLogin" class="alert alert-danger" role="alert">
+          <p id="errLogin"></p>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <label>Email address</label>
+            <input id="inputEmail" name="email" type="text" class="form-control" placeholder="Email">
+          </div>
+          <div class="col-md-5">
+            <label>Password</label>
+            <input id="inputPassword" name="password" type="password" class="form-control" placeholder="Password">
+          </div>
+        </div>
+        <div class="col-md-3 button">
+          
+          <button type="submit" class="btn btn-primary btn-sm shadow" >Login</button>
+          or
+          <button class="btn btn-success btn-sm shadow" id="goto-register-btn">Register</button><br>
+          <p>Login With Google Account</p>
+          <div id="google-btn" class="g-signin2" data-onsuccess="onSignIn"></div>
+        </div>
+      </form>
+    </div>
+    <!-- end of login page -->
+
+    <!-- register page -->
+    <div id="register" class="element">
+      <form class="form-register">
+        <h2>Register</h2>
+        <div id="messageRegist" class="alert alert-danger" role="alert">
+          <p id="errRegist"></p>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <label>Email address</label>
+            <input id="registEmail" name="email" type="text" class="form-control" placeholder="Email">
+          </div>
+          <div class="col-md-5">
+            <label>Password</label>
+            <input id="registPassword" name="password" type="password" class="form-control" placeholder="Password">
+          </div>
+        </div>
+        <div class="col-md-3 button" >
+          <button type="submit" class="btn btn-primary btn-sm" id="register-btn">Register</button>
+          <button class="btn btn-danger btn-sm" id="cancel-register-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+    <!-- end of register page -->
+
+    <!-- todo list page -->
+    <div id="todo-list" class="element">
+      <h2>Todo List</h2>
+      <button class="btn btn-warning btn-sm shadow" id="add-todo-btn">Add Todo</button>
+      <table class="table table-striped" id="table-todo">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- end of todo list page -->
+
+    <!-- edit todo page -->
+    <div id="edit-todo" class="element">
+      <h2>Edit Todo</h2>
+      <div id="editMsg" class="alert alert-danger" role="alert">
+        <p id="errEditMsg"></p>
+      </div>
+      <form class="form-edit-todo">
+        <div class="form-group">
+          <label for="edit-title">Title</label>
+          <input type="text" class="form-control" id="edit-title" name="edit-title" aria-describedby="emailHelp" placeholder="Title">
+        </div>
+        <div class="form-group">
+          <label for="edit-description">Description</label>
+          <input type="text" class="form-control" id="edit-description" placeholder="Description">
+        </div>
+        <div class="form-group">
+          <label for="edit-status">Status</label>
+          <input type="text" class="form-control" id="edit-status" placeholder="status">
+        </div>
+        <div class="form-group">
+          <label for="edit-due_date">Due Date</label>
+          <input type="date" class="form-control" id="edit-due_date" placeholder="Due_date">
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm shadow">Submit</button>
+        <button class="btn btn-danger btn-sm shadow" id="cancel-edit-btn">Cancel</button>
+      </form>
+    </div>
+    <!-- end of edit todo page -->
+
+    <!-- add todo page -->
+    <div id="add-todo" class="element">
+      <h2>Add Todo</h2>
+      <div id="msgAdd" class="alert alert-danger" role="alert">
+        <p id="errAddMsg"></p>
+      </div>
+      <form class="form-add-todo">
+        <div class="form-group">
+          <label for="add-title">Title</label>
+          <input type="text" class="form-control" id="add-title" name="title" placeholder="Enter Todo Title">
+        </div>
+        <div class="form-group">
+          <label for="add-description">Description</label>
+          <input type="text" class="form-control" id="add-description" name="description" placeholder="Todo Description">
+        </div>
+        <div class="form-group">
+          <label for="add-status">Status</label>
+          <input type="text" class="form-control" id="add-status" name="status" placeholder="Status">
+        </div>
+        <div class="form-group">
+          <label for="add-due_date">Due Date</label>
+          <input type="date" class="form-control" id="add-due_date" name="due_date" placeholder="Due Date">
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm shadow">Submit</button>
+        <button class="btn btn-danger btn-sm shadow" id="cancel-add-btn">Cancel</button>
+      </form>
+    </div>
+    <!-- end of add todo page -->
+
+    <!-- 3rd Party API page -->
+    <div id="calendar" class="element">
+      <h2>Holiday List</h2>
+
+      <table class="table table-striped" id="table-calendar">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- end of 3rd Party API page -->
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2"></script>
+  </body>
+</html>
