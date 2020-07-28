@@ -1,0 +1,19 @@
+{
+  "name": "fancy-to-do",
+  "version": "1.0.0",
+  "description": "Create fancy to do app, using express, jquery, ajax",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rezarr-dev/fancy-to-do.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rezarr-dev/fancy-to-do/issues"
+  },
+  "homepage": "https://github.com/rezarr-dev/fancy-to-do#readme"
+}
