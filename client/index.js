@@ -1,0 +1,481 @@
+
+$(document).ready(function(){
+    getQuotes()
+
+    $(document).ready(()=>{
+        $('section').hide()
+        $('#page-login').hide()
+        $('#page-clock').hide()
+
+        if(!localStorage.access_token){
+            $('.errorMsg').empty()
+            $('#page-registrasi').hide()
+            $('#page-google-sign').show()
+            $('#page-login').show()
+            $('#login-status').text("belum login")
+            $('#logout').hide() 
+            $('#my-info').hide()
+          } else {
+            $('#login-status').text("sudah login")
+            $('#page-registrasi').hide()
+            $('#page-google-sign').hide()
+            $('page-login').hide() 
+            $('#logout').show()
+            $('#page-clock').show()
+            $('#page-todos').show()
+            $('#page-findAll').show()
+            $('#page-vue').show()
+           
+            $('#registrasi').hide()
+            findAllTodos()
+            thisData()
+            getQuotes()
+          }
+
+        $('#credential').submit(function(e){
+            e.preventDefault()
+            console.log('ini udah di submit')
+            log_in()
+            getQuotes()
+            $('#registrasi').hide()
+            $('#page-clock').show()
+        })
+
+        $('#search-box').submit(function(e){
+            e.preventDefault()
+            const search = $('#search-id').val()
+            search_by_id(search)
+            $('#page-search').show()
+            $('#page-findAll').hide()
+        })
+
+        $('#mylist').click(function(){
+            myList()
+        })
+
+        $('#logout').click(function(e){
+            console.log('logout')
+            e.preventDefault()
+            localStorage.clear();
+            signOut()
+            $('.errorMsg').empty()
+            $('#page-google-sign').show()
+            $('#page-login').show()
+            $('#login').show()
+            $('#login-status').text("belum login")
+            $('#logout').hide()
+            $('section').hide()
+        })
+
+        $('#adding').click(function(){
+            addData()
+            $('#page-popUp').show()
+        })
+
+        $('body').on('click','.edit-data',function(req){
+            $('#page-popUp').show()
+
+        })
+        
+        $('#registrasi').on('click',function(e){
+            e.preventDefault()
+            $('#page-registrasi').show()
+            $('#page-login').hide()
+            $('#registrasi').hide()
+            $('#page-google-sign').hide()
+        })
+
+        $('#back-to-login').on('click',function(e){
+            e.preventDefault()
+            $('#page-registrasi').hide()
+            $('#page-login').show()
+            $('#registrasi').show()
+            $('#page-google-sign').show()
+        })
+
+        $('credentialregistrasi').submit(function(e){
+            e.preventDefault()
+            console.log('test')
+            registrasi()
+        })
+    })
+
+    function registrasi(){
+        console.log('asd register')
+    }
+
+
+
+
+    function log_in(){
+        const username = $('#username').val()
+        const password = $('#password').val()
+
+        $.ajax({
+            type: 'POST',
+            url : 'http://localhost:3000/users/login',
+            data : { username : username , password : password}
+        })
+        .done(function(res){
+            localStorage.setItem("access_token", res.access_token);
+            $('#page-login').hide()
+            $('#login-status').text("sudah login")
+            $('#logout').show()
+            $('#page-todos').show()
+            $('#page-findAll').show()
+            $('#page-vue').show()
+            $('#page-google-sign').hide()
+            findAllTodos()
+            thisData()
+        })
+        .fail(function(err){
+            console.log(err)
+        })
+        .always(function(){
+            
+        })
+    }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+          $('.errorMsg').empty()
+            $('#page-google-sign').show()
+            $('#page-login').show()
+            $('#login').show()
+            $('#login-status').text("belum login")
+            $('#logout').hide()
+            $('section').hide() 
+          
+        });
+      }
+
+
+
+    function search_by_id(search){
+        $.ajax({
+            type: 'GET',
+            url : 'http://localhost:3000/todos'+'/'+search,
+            headers: { access_token: localStorage.getItem('access_token')}
+        })
+        .done(function(res){
+            const elFindById = $('#by-id')
+            let dataFindById = `
+            <tr>
+            <th> ID </th>
+            <th> Username </th>
+            <th> Title </th>
+            <th> Description </th>
+            <th> Status </th>
+            <th> Due date </th>
+            <th> Edit </th>
+            <th> Delete </th>
+            <tr>
+            
+            `;
+
+            res.forEach((el)=>{
+                dataFindById +=  `<tr>
+                            <td>${el.id}</td>
+                            <td>${el.username}</td>
+                            <td>${el.title}</td>
+                            <td>${el.description}</td>
+                            <td>${el.status}</td>
+                            <td>${el.due_date}</td>
+                            <td>
+                            <button class = 'edit-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Edit</button></td>
+                            <td>
+                            <button class = 'delete-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Delete</button></td>
+                        <tr>`
+            })
+            elFindById.html(dataFindById)
+            
+        })
+        .fail(function(err){
+            console.log(err)
+        })
+        .always(function(){
+
+        })
+    }
+
+    
+    function findAllTodos(){
+        $.ajax({
+            type: 'GET',
+            url : 'http://localhost:3000/todos',
+            headers: { access_token: localStorage.getItem('access_token')}
+        })
+        .done(function(res){
+            const elFindAll = $('#findAll')
+            let dataFindAll = `
+            <tr>
+            <th> ID </th>
+            <th> Username </th>
+            <th> Title </th>
+            <th> Description </th>
+            <th> Status </th>
+            <th> Due date </th>
+            <th> Edit </th>
+            <th> Delete </th>
+            <tr>
+            `;
+
+            res.forEach((el)=>{
+            dataFindAll +=  `<tr>
+                            <td>${el.id}</td>
+                            <td>${el.username}</td>
+                            <td>${el.title}</td>
+                            <td>${el.description}</td>
+                            <td>${el.status}</td>
+                            <td>${el.due_date}</td>
+                            <td>
+                            <button class = 'edit-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Edit</button></td>
+                            <td>
+                            <button class = 'delete-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Delete</button></td>
+                        <tr>`
+            })
+            elFindAll.html(dataFindAll)
+        })
+        .fail(function(err){
+            console.log(err)
+        })
+        .always(function(){
+
+        })
+    }   
+ 
+
+    function myList(){
+        $.ajax({
+            type: 'GET',
+            url : 'http://localhost:3000/todos/mytodos',
+            headers: { access_token: localStorage.getItem('access_token')},
+        })
+        .done(function(res){
+            const elMyTodos = $('#mytodos')
+            let myTodos = `
+            <tr>
+            <th> ID </th>
+            <th> Username </th>
+            <th> Title </th>
+            <th> Description </th>
+            <th> Status </th>
+            <th> Due date </th>
+            <th> Edit </th>
+            <th> Delete </th>
+            <tr>
+            `;
+            res.forEach((el)=>{
+            myTodos +=  `<tr>
+                            <td>${el.id}</td>
+                            <td>${el.username}</td>
+                            <td>${el.title}</td>
+                            <td>${el.description}</td>
+                            <td>${el.status}</td>
+                            <td>${el.due_date}</td>
+                            <td>
+                            <button class = 'edit-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Edit</button></td>
+                            <td>${el.id}
+                            <button class = 'delete-data' 
+                                data-id = '${el.id}'
+                                data-username = '${el.username}'
+                                data-title = '${el.title}'
+                                data-desc = '${el.description}'
+                                data-status = '${el.status}'
+                                data-due-date = '${el.due_date}'
+                                >Delete</button></td>
+                        <tr>`
+            })
+            elMyTodos.html(myTodos)
+        })
+        .fail(function(err){
+            console.log(err)
+        })
+        .always(function(){
+
+        }) 
+    }
+    
+    $('body').on('click','.delete-data',function(req){
+        $('#page-popUp').show()
+        $('#delete-confirmation').simpleConfirm({
+            message : `${$(this).attr('data-id')}`,
+            success : function(answer){
+                console.log(answer)
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'http://localhost:3000/todos/'
+                    +`${answer.id}`
+                    ,
+                    headers : { access_token: localStorage.getItem('access_token')}
+                })
+                .done(function(res){
+                    $(".simple-dialog-content").remove()
+                    findAllTodos()
+                })
+                .fail(function(err){
+                    console.log(err)
+                })
+                .always(function(){
+
+                })
+                    }
+                })
+            })
+
+
+    $('body').on('click','.edit-data',function(req){
+        $('#page-popUp').show()
+        $('#edit-pop-up').simplePrompt({
+            id:`${$(this).attr('data-id')}`,
+            username:`${$(this).attr('data-username')}`,
+            title : `${$(this).attr('data-title')}`,
+            description : `${$(this).attr('data-desc')}`,
+            status : `${$(this).attr('data-status')}`,
+            due_date : `${$(this).attr('data-due-date')}`,
+            success : function(result){
+                $.ajax({
+                    type: 'PUT',
+                    url: 'http://localhost:3000/todos/'
+                    +`${result.id}`
+                    ,
+                    headers : { access_token: localStorage.getItem('access_token')},
+                    data : result
+                })
+                .done(function(res){
+                    $(".simple-dialog-content").remove()
+                    findAllTodos()
+                    $('#page-popUp').hide()
+                })
+                .fail(function(err){
+                    console.log(err)
+                    
+                })
+                .always(function(){
+                    
+                })
+            }
+        })
+        
+  
+    })
+
+    function addData(){
+        $.ajax({
+            type: 'GET',
+            url : 'http://localhost:3000/users/info',
+            headers: { access_token: localStorage.getItem('access_token')},
+        })
+        .done(function(res){
+            addButton(res)
+        })
+        .fail(function(err){
+            console.log(err)
+                    
+        })
+        .always(function(){
+            
+        })
+
+    }
+
+    function thisData(){
+        $.ajax({
+            type: 'GET',
+            url : 'http://localhost:3000/users/info',
+            headers: { access_token: localStorage.getItem('access_token')},
+        })
+        .done(function(res){
+            let elMyInfo = $('#my-info')
+            elMyInfo.text(`sebagai ${res.username}`)
+        })
+        .fail(function(err){
+            console.log(err)
+        })
+        .always(function(){
+            
+        })
+
+    }
+
+    function addButton(info){
+    $('#adding-pop-up').simpleAdd({
+        id:``,
+        username:`${info.username}`,
+        title : ``,
+        description : ``,
+        status : ``,
+        due_date : ``,
+        success : function(result){
+            console.log(result)
+            $.ajax({
+                type: 'POST',
+                    url: 'http://localhost:3000/todos/'                    ,
+                headers : { access_token: localStorage.getItem('access_token')},
+                data : result
+            })
+            .done(function(res){
+                $(".simple-dialog-content").remove()
+                findAllTodos()
+            })
+            .fail(function(err){
+                console.log(err)
+            })
+            .always(function(){
+                
+            })
+        }
+    })
+    }
+    
+
+    function getQuotes(){
+    $.get( "http://ron-swanson-quotes.herokuapp.com/v2/quotes", function( data, textStatus, jqxhr ) {
+        let app_vue = $('#app-vue')
+        app_vue.text(data); // Data returned
+    });
+
+
+    
+    }
+
+
+
+})
