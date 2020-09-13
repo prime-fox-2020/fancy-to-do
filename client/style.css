@@ -1,0 +1,158 @@
+body{
+background-color: skyblue;
+}
+
+#form-login{
+    width: 500px;
+    background: rgba(0,0,0,0.8);
+    margin: 200px auto;
+    padding: 50px 0;
+    color:#fff;
+    box-shadow: 0 0 20px 2px rgba(0,0,0,0.5);
+}
+
+#form-register{
+    width: 500px;
+    background: rgba(0,0,0,0.8);
+    margin: 200px auto;
+    padding: 50px 0;
+    color:#fff;
+    box-shadow: 0 0 20px 2px rgba(0,0,0,0.5);
+}
+
+#h2-login {
+    text-align: center;
+    margin-bottom: 40px; 
+}
+
+#h2-register {
+    text-align: center;
+    margin-bottom: 40px; 
+}
+
+.form-login-email,.form-login-password{
+    margin: 31px auto;
+    width:80%;
+    border-bottom: 1px solid #fff;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.form-register-email,.form-register-password{
+    margin: 31px auto;
+    width:80%;
+    border-bottom: 1px solid #fff;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+#input-email-login,#input-password-login{
+    width: 90%;
+    border:none;
+    outline:none;
+    background: transparent;
+    color:#fff;
+}
+
+#input-email,#input-password{
+    width: 90%;
+    border:none;
+    outline:none;
+    background: transparent;
+    color:#fff;
+}
+
+::placeholder{
+    color: #ccc;
+      
+}
+
+
+#registerbutton {
+    margin: 40px auto 20px;
+    width: 80%;
+    display: block;
+    outline: none;
+    padding: 10px 0;
+    border: 1px solid #fff;
+    cursor: pointer;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+
+}
+
+#loginbutton {
+    margin: 40px auto 20px;
+    width: 80%;
+    display: block;
+    outline: none;
+    padding: 10px 0;
+    border: 1px solid #fff;
+    cursor: pointer;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+
+}
+
+#addTodo,#editTodo{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 0 20px;
+}
+
+.contact-form{
+    display: flex;
+    max-width: 550px;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.8);
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+
+#input-add,#input-edit{
+    display: flex;
+    flex-direction: column;
+    margin-right: 4%;
+    width: 100%;
+}
+
+#input-add .input,#input-edit .input{
+    margin: 10px 0;
+    background: transparent;
+    border: 0px;
+    border-bottom: 2px solid #c5ecfd;
+    padding: 10px;
+    color: #c5ecfd;
+    width: 100%;
+  }
+
+::-webkit-input-placeholder {
+/* Chrome/Opera/Safari */
+color: #c5ecfd;
+}
+
+#addbutton,#editbutton {
+    background: #39b7dd;
+    text-align: center;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+
+@media screen and (max-width: 600px){
+    .contact-form{
+      flex-direction: column;
+    }
+    #input-add,#input-edit{
+      width: 100%;
+    }
+}
